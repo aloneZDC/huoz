@@ -1,0 +1,150 @@
+{include file="../app/admin/view/public/left.html" /}
+<link href="__PUBLIC__/static/admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+window._deel = {
+    req_member_details_url: "{:U('member/member_details')}",
+}
+$(function () {
+    $('#datePicker').date_input();
+    $('#datePicker2').date_input();
+});
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">机器人统计</span></div>
+    </div>
+
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:url('')}" method="get" id="form">
+                        <table class="search-tab">
+                            <tr>
+                                <th width="70">日期:</th>
+                                <td>
+                                    <input type="text" id="datePicker" name="starttime" class="date_picker" value="{$starttime}" placeholder="点击选择日期"/>
+                                    <input type="text" name="endtime" id="datePicker2" value="{$endtime}" class="date_picker" placeholder="点击选择日期"/>
+                                </td>
+                                <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                                <td>
+                                    <input type="hidden" name="daochu" id="dao" value="">
+                                    <input class="btn btn-primary btn2" id="daochu" value="导出数据" type="button">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-wrap">
+        <ul class="list-menu">
+            <li>买单机器人用户ID：{if $buyUserId gt 0}<a href="javascript:member_details({$buyUserId});" class="shenhe_button">{$buyUserId}</a>{/if}&nbsp;&nbsp;&nbsp;&nbsp;买单机器人账户余额：{$buyMoney} {$currency_trade}<br>卖单机器人用户ID：{if $sellUserId gt 0}<a href="javascript:member_details({$sellUserId});" class="shenhe_button">{$sellUserId}</a>{/if}&nbsp;&nbsp;&nbsp;&nbsp;卖单机器人账户余额：{$sellMoney} {$currency}</li>
+        </ul>
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>日期</th>
+                        <th>买单挂单数量</th>
+                        <th>买单挂单成交数量</th>
+                        <th>卖单挂单数量</th>
+                        <th>卖单挂单成交数量</th>
+                        <th>买单成交数量</th>
+                        <th title="与非卖单机器人成交">买单外部成交数量</th>
+                        <th>买单成交金额</th>
+                        <th title="与非卖单机器人成交">买单外部成交金额</th>
+                        <th>卖单成交数量</th>
+                        <th title="与非买单机器人成交">卖单外部成交数量</th>
+                        <th>卖单成交金额</th>
+                        <th title="与非买单机器人成交">卖单外部成交金额</th>
+                    </tr>
+                    {volist name="list" id="vo" empty="$empty"}
+                        <tr>
+                            <td>{$vo.date}</td>
+                            <td>{$vo.buy_order_total} {$currency}</td>
+                            <td>{$vo.buy_trade_total} {$currency}</td>
+                            <td>{$vo.sell_order_total} {$currency}</td>
+                            <td>{$vo.sell_trade_total} {$currency}</td>
+                            <td>{$vo.buy_num_total} {$currency}</td>
+                            <td>{$vo.buy_num_total2} {$currency}</td>
+                            <td>{$vo.buy_money_total} {$currency_trade}</td>
+                            <td>{$vo.buy_money_total2} {$currency_trade}</td>
+                            <td>{$vo.sell_num_total} {$currency}</td>
+                            <td>{$vo.sell_num_total2} {$currency}</td>
+                            <td>{$vo.sell_money_total} {$currency_trade}</td>
+                            <td>{$vo.sell_money_total2} {$currency_trade}</td>
+                        </tr>
+                    {/volist}
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+<script>
+$("#daochu").click(function () {
+    $("#dao").val("1");
+    $("#form").submit();
+})
+$('.layer-open').click(function(){
+    var title = $(this).attr('data-title');
+    var url = $(this).attr('data-url');
+    if(!url) return;
+
+    //弹出即全屏
+    var index = layer.open({
+        type: 2,
+        title:title,
+        content: url,
+        area: ['820px', '495px'],
+        maxmin: true,
+        scrollbar: false, //屏蔽浏览器滚动条
+    });
+    layer.full(index);
+});
+
+function disband(id) {
+    var conf=confirm("确认解散房间？确认解散后所有用户都将推出房间，已上桌用户将退还上桌费用。");
+    if(conf==true){
+        $.post("{:U('disband')}",{"room_id":id},function (d) {
+                if(d.code==10000){
+                    layer.alert(d.message, {icon: 1});
+                    setTimeout(function () {
+                        window.parent.location.reload();
+                        parent.layer.close(mylay);
+                    },2000);
+                }else {
+                    layer.alert(d.message, {icon: 5});
+                }
+        },"json");
+    }
+}
+
+function lottery(id) {
+    var conf=confirm("确认给房间开奖？确认后房间将进行开奖，并发放所有用户奖励。");
+    if(conf==true){
+        $.post("{:U('lottery')}",{"room_id":id},function (d) {
+            if(d.code==10000){
+                layer.alert(d.message, {icon: 1});
+                setTimeout(function () {
+                    window.parent.location.reload();
+                    parent.layer.close(mylay);
+                },2000);
+            }else {
+                layer.alert(d.message, {icon: 5});
+            }
+        },"json");
+    }
+}
+</script>
+</body>
+
+</html>

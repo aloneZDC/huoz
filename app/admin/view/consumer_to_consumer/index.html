@@ -1,0 +1,78 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">币交易参数管理</span></div>
+    </div>
+    <div class="search-wrap">
+
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+                <a href="{:U('ConsumerToConsumer/addCoin')}"><i class="icon-font"></i>新增积分</a>
+            </div>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>积分名</th>
+                    <th>最小交易量</th>
+                    <th>最大交易量</th>
+                    <th>买入价格</th>
+                    <th>卖出价格</th>
+                    <th>奖励积分</th>
+                    <th>操作</th>
+                </tr>
+                <volist name='coin_config' id='vo'>
+                    <tr>
+                        <td>{$vo['currency_mark']}</td>
+                        <td>{$vo['min_volume']}</td>
+                        <td>{$vo['max_volume']}</td>
+                        <td>{$vo['buy_price']}</td>
+                        <td>{$vo['sell_price']}</td>
+                        <td>
+                            <if condition="$vo.award_status eq 1 and $vo.award_currency_id gt 0">
+                                {$vo.award_currency_id|getCurrencynameByCurrency=###}
+                                <else/>
+                                无
+                            </if>
+                        </td>
+                        <td>
+                            <a class="link-update" href="{:U('ConsumerToConsumer/addCoin',array('id'=>$vo['id']))}">修改|</a>
+                            <a href="javascript:void(0)" class="link-del" onclick="del({$vo.id})">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+<script type="text/javascript">
+    function del(id) {
+        var msg = "您确定要删除吗？";
+        if (confirm(msg) == true) {
+            $.post('{:U("ConsumerToConsumer/delCoin")}', {id: id}, function (data) {
+                if (data.code == 1) {
+                    //alert(data.msg);
+                    window.location.href = '{:U("ConsumerToConsumer/index")}';
+                } else {
+                    alert(data.msg);
+                }
+            }, 'json');
+        } else {
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

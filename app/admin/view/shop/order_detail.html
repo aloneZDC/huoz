@@ -1,0 +1,152 @@
+
+
+<div class="layui-tab layui-tab-brief" lay-filter="user">
+    <ul class="layui-tab-title" lay-filter="user_tabs"
+        style="position: fixed; width: 100%;top: 0px; left: 20px; z-index: 999;background: #ffffff">
+
+    </ul>
+    <div class="layui-tab-content" style="margin-top: 60px; margin-left: 20px;">
+        <div class="layui-tab-item layui-show">
+            <div>
+                <h2>订单信息</h2>
+                <hr class="layui-bg-gray">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150">
+                        <col width="200">
+                        <col width="160">
+                        <col width="160">
+                        <col width="100">
+                        <col width="120">
+                        <col width="130">
+                        <col width="120">
+                        <col width="200">
+                        <col width="200">
+                        <col width="200">
+                        <col width="200">
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>用户ID/昵称</th>
+                        <th>订单编号</th>
+                        <th>市场价 (总计)</th>
+                        <th>首选币种付款数量</th>
+                        <th>组合币种付款数量</th>
+<!--                        <th>放大后数量/币种</th>-->
+                        <th>订单状态</th>
+<!--                        <th>释放状态</th>-->
+<!--                        <th>剩余释放数量</th>-->
+<!--                        <th>已释放数量</th>-->
+                        <th>收货人信息</th>
+                        <th>发货信息</th>
+                        <th>下单时间</th>
+                        <th>确认收货时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{$mo['gmo_user_id']}/{$mo['nick']}</td>
+                        <td>{$mo['gmo_code']}</td>
+                        <td>{:floattostr($mo['gmo_market_price'])} {$mo['currency']['currency_name']}</td>
+                        <td>{:floattostr($mo['gmo_payment_number'])} {$mo['currency']['currency_name']}</td>
+                        <td>{:floattostr($mo['gmo_other_payment_number'])} {$mo['otherCurrency']['currency_name']}</td>
+
+                        <td>
+                            {switch name="$mo['gmo_status']"}
+                            {case value="1"}已付款{/case}
+                            {case value="2"}待付款{/case}
+                            {case value="3"}已发货{/case}
+                            {case value="4"}已确认收货{/case}
+                            {/switch}</td>
+                        <!--<td>
+                            {switch name="$mo['gmo_release_status']"}
+                            {case value="1"}正在释放{/case}
+                            {case value="2"}待释放{/case}
+                            {case value="3"}释放结束{/case}
+                            {/switch}
+                        </td>-->
+                        <!--<td>
+                            {:floattostr($mo['gmo_last_num'])}
+                        </td>
+                        <td>{:floattostr($mo['gmo_release_num'])}</td>-->
+                        <td>{$mo['gmo_receive_name']}，{$mo['gmo_mobile']}，{$mo['gmo_address']}</td>
+                        <td>
+                            {if $mo['gmo_express_name']}
+                            {$mo['gmo_express_name']}，{$mo['gmo_express_code']}
+                            {else/}
+                            暂无
+                            {/if}
+                        </td>
+                        <td>
+                            {:date("Y-m-d H:i:s", $mo['gmo_add_time'])}
+                        </td>
+                        <td>
+                            {if $mo['gmo_sure_time']}
+                            {:date("Y-m-d H:i:s", $mo['gmo_sure_time'])}
+                            {/if}
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 50px;">
+                <h2>订单商品</h2>
+                <hr class="layui-bg-gray">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150">
+                        <col width="200">
+                        <col width="200">
+                        <col width="200">
+                        <col width="200">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>商品标题</th>
+                        <th>商品图片</th>
+                        <th>数量</th>
+                        <th>市场价</th>
+                        <th>商品首选币种单价</th>
+                        <th>商品首选币种总价</th>
+                        <th>商品组合币种单价</th>
+                        <th>商品组合币种总价</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="ol" id="v"}
+                    <tr>
+                        <td>{$v['go_title']}</td>
+                        <td><img src="{$v['img']}"></td>
+                        <td>{$v['go_num']}</td>
+                        <td>{:floatval($v['go_market_price'])}</td>
+                        <td>{:floatval($v['go_price'])}</td>
+                        <td>{:floatval($v['go_total_price'])}</td>
+                        <td>{:floatval($v['go_other_price'])}</td>
+                        <td>{:floatval($v['go_other_total_price'])}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    layui.use(['form', 'global', 'index'], () => {
+
+    });
+    layui.use(['element', 'flow', 'table'], () => {
+        let element = layui.element;
+        let layid = "{$Think.get.layid}";
+        element.tabChange("user", layid);
+    });
+
+
+</script>
+

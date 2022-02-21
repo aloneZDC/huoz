@@ -1,0 +1,65 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">首页</a> <a href="javascript:;">财务管理</a> <a><cite>用户余额</cite></a>
+    </span>
+
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row" >
+        <form class=" layui-col-md12 we-search">
+            搜索数据：
+            <div class="layui-inline">
+                <label></label>
+                <input class="layui-input" placeholder="请输入用户ID" name="member_id" value="{$Think.get.member_id}" />
+            </div>
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+    <form class="layui-form" >
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>用户ID</th>
+                <th>用户名称</th>
+                <th>购物券剩余</th>
+                <th>可用积分剩余</th>
+                <th>分享积分剩余</th>
+                <th>今日消费金额(含运费)</th>
+                <th>累计消费总额(含运费)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name='list' id='vo'}
+            <tr>
+                <td>{$vo.member_id}</td>
+                <td>{$vo.ename}</td>
+                <td>{$vo.first_num | number_format=2}</td>
+                <td>{$vo.second_num | number_format=2}</td>
+                <td>{$vo.share_integral | number_format=2}</td>
+                <td>{$vo.today_pers_num | number_format=2}</td>
+                <td>{$vo.pers_total | number_format=2}</td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'global', 'index']);
+</script>
+{include file="layout/footer"}

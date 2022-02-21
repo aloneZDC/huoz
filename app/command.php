@@ -1,0 +1,70 @@
+<?php
+// +----------------------------------------------------------------------
+// | ThinkPHP [ WE CAN DO IT JUST THINK ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2006-2016 http://thinkphp.cn All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: yunwuxin <448901948@qq.com>
+// +----------------------------------------------------------------------
+
+return [
+	'\app\cli\controller\MyTest',
+    //'\app\cli\controller\Email',
+    '\app\cli\controller\Wallet',
+    '\app\cli\controller\Recharge',
+    '\app\cli\controller\BounsTask',
+    '\app\cli\controller\BounsDynamicTask',
+    '\app\cli\controller\BounsTaskStart',
+    '\app\cli\controller\MoneyInterestCli',
+    '\app\cli\controller\AwardRelease',
+    '\app\cli\controller\TakeCoin',
+    '\app\cli\controller\MemberLevelTask',
+    '\app\cli\controller\Statistics',
+    '\app\cli\controller\OrdersOtcTask',
+    '\app\cli\controller\GacRelease',
+    '\app\cli\controller\GacRewardRelease',
+    '\app\cli\controller\GacInternalRelease',
+    '\app\cli\controller\GacBalanceRelease',
+    '\app\cli\controller\Kline',
+    '\app\cli\controller\CurrencyPrice',
+    '\app\cli\controller\TransferToFinancialRelease',
+    '\app\cli\controller\CurrencyInternationalQuotation',
+    '\app\cli\controller\UsersVotesAwardTask',
+    '\app\cli\controller\StoresFinancialLogRelease',
+    '\app\cli\controller\CurrencyRiseTask',
+    '\app\cli\controller\ContractZhituiTask',
+    '\app\cli\controller\ContractLockFree',
+    '\app\cli\controller\HongbaoNodeAward',
+    '\app\cli\controller\FlopChildNum',
+    '\app\cli\controller\DCPriceLine',
+    '\app\cli\controller\AirTeamIncomeLevel',
+    '\app\cli\controller\AirLevelDiffReward',
+    '\app\cli\controller\AirJackpotReward',
+    '\app\cli\controller\AirReleaseDNC',
+    '\app\cli\controller\JumpRanking',
+    '\app\cli\controller\TradeRelease',
+    '\app\cli\controller\SpacePlanRelease',
+    '\app\cli\controller\OrdersRebot',
+    '\app\cli\controller\CurrencyNodeLockRecommand',
+    '\app\cli\controller\CurrencyUserChange',
+    '\app\cli\controller\BflMiningRelease',
+//    '\app\cli\controller\GroupMiningReward',
+    '\app\cli\controller\SystemUserCheck',
+    '\app\cli\controller\BbfReleaseTask',
+    '\app\cli\controller\FilMiningReleaseTask',
+    '\app\cli\controller\FeelMiningReleaseTask',
+    '\app\cli\controller\Kline1',
+    '\app\cli\controller\Kline2',
+    '\app\cli\controller\CommonMiningReleaseTask',
+    '\app\cli\controller\WarrantTask',
+    '\app\cli\controller\FgasTask',
+    //'\app\cli\controller\AloneMiningTask',
+    '\app\cli\controller\RocketTask',
+    '\app\cli\controller\CommonMiningTask',
+    '\app\cli\controller\RocketLevel',
+    '\app\cli\controller\XinglHandle',
+    '\app\cli\controller\ArkTask',
+    '\app\cli\controller\YunMining',
+];

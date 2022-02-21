@@ -1,0 +1,209 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/otc/order_info.css">
+<div id="main">
+    <div class="main_box">
+		<div class="issue">
+			<div class="issue_head">
+				<div class="issue_title">{:lang('lan_advertising_details')}</div>  
+				<div class="fill_change">
+					<p class="fill_change_right">{if condition="$orders_info.type eq 'buy'"}{:lang('lan_buyes')}{else /}{:lang('lan_cash_out')}{/if}{$orders_info.currency_name}</p>
+              	</div>
+            </div>  	
+          	<div class="issue_middle">
+				<div class="issue_middle_left">
+					<div class="issue_middle_left_one">
+						<span>{:lang('lan_ad_numbers')}:</span> 
+						<span>{$orders_info.orders_id}</span>
+					</div>
+					<div class="issue_middle_left_one">
+						<span>{:lang('lan_ad_type')}:</span> 
+						<span> {if condition="$orders_info.type eq 'buy'"}{:lang('lan_buyes')}{else /}{:lang('lan_selles')}{/if}</span>
+					</div>
+					<div class="issue_middle_left_one">
+						<span>{:lang('lan_number')}:</span> 
+						<span>{$orders_info.num} {$orders_info.currency_name}</span>
+					</div>
+ 					<div class="issue_middle_left_one">
+						<span>{:lang('lan_order_limit')}:</span> 
+						<span>{$orders_info.min_money}-{$orders_info.max_money} CNY</span>
+					</div>
+					<div class="issue_middle_left_one">
+						<span>{:lang('lan_Unit_Price')}:</span> 
+						<span>{$orders_info.price} CNY</span>
+					</div>
+					<div class="issue_middle_left_one">
+						<span>{if condition="$orders_info.type eq 'buy'"}{:lang('lan_actual_deduction1')}: {else/} {:lang('lan_actual_deduction')}:{/if}</span>
+						<span>{$orders_info.all_num} {$orders_info.currency_name}</span>
+					</div>
+					<div class="issue_middle_left_one">
+						<span>{:lang('lan_publish_time')}:</span> 
+						<span>{$orders_info.add_time}</span>
+					</div>
+					<!--新增-->
+					<div class="issue_middle_left_one">
+						<span>{if condition="$orders_info.type eq 'buy'"}{:lang('lan_redeemed_quantity1')}: {else/} {:lang('lan_redeemed_quantity')}:{/if}</span>
+						<span>{$orders_info.trade_num}</span>
+					</div>
+					<div class="issue_middle_left_one">
+						<span>{if condition="$orders_info.type eq 'buy'"}{:lang('lan_redeemed_amount1')}:{else/} {:lang('lan_redeemed_amount')}:{/if}</span>
+						<span>{$orders_info.trade_money}</span>
+					</div>
+					<div class="issue_middle_left_one">
+						<span>{:lang('lan_remaining_quantity')}:</span> 
+						<span>{$orders_info.avail}</span>
+					</div>
+					<div class="issue_middle_left_one">
+						<span>{:lang('lan_remaining_amount')}:</span> 
+						<span>{$orders_info.avail_money}</span>
+					</div>
+				</div>
+				<div class="issue_middle_right_two">
+					{if condition="$orders_info.status lt 2"}
+						{:lang('lan_in_transaction')}
+					{elseif condition="$orders_info.status eq 2" /}
+						<span style="color: #E96E44;">{:lang('lan_trade_otc_status3')}</span>
+					{elseif condition="$orders_info.status eq 3" /}
+						<span style="color: #2599E9;">{:lang('lan_rescinded')}</span>
+					{/if}
+				</div>
+				<div class="issue_detail_line"></div>
+				<div class="issue_detail_one">
+					<span>{:lang('lan_Mode_payment_management1')}</span>
+					{volist name='orders_info.money_type' id='vo'}
+                        <div class="issue_detail_one_left">
+                            {if condition="$vo.bankname eq 'alipay'"}
+                                <img src="__PUBLIC__/static/home/images/otc_alipay.png" alt="">
+                                <span class="receivables_type">{:lang('lan_alipay')}</span>
+                            {elseif condition="$vo.bankname eq 'wechat'" /}
+                                <img src="__PUBLIC__/static/home/images/otc_WeChat.png" alt="">
+                                <span class="receivables_type">{:lang('lan_WeChat')}</span>
+                            {elseif condition="$vo.bankname eq 'bank'" /}
+                                <img src="__PUBLIC__/static/home/images/otc_wallet.png" alt="">
+                                <span class="receivables_type">{:lang('lan_bank_card')}</span>
+                            {/if}
+                            
+                            <span>{$vo.truename}</span>
+                            <span>{$vo.cardnum}</span>
+                            {notempty name="vo.img"}
+                                <span><img src="{$vo.img}" class="detail_one_left_ewm" ></span>
+                            {/notempty}
+                        </div>
+                    {/volist}
+				</div>
+				<div class="issue_detail_two">
+					{if condition="$orders_info.status lt 2"}
+						<input type="button" name="" data-id="{$orders_info.orders_id}" data-url="{:url('OrdersOtc/cancel')}" value="{:lang('lan_undo_ads')}" class="detail_revoke"/>
+					{/if}
+				</div>
+				<div class="issue_detail_linees"></div>
+				<div class="issue_detail_change">
+					<div class="detail_change_tab">
+						<a href="{:url('',['orders_id'=>$orders_info['orders_id']])}"><span {if condition="$complete eq 0"}class="activeTb"{/if} >{:lang('lan_new_message')}</span>
+						<a href="{:url('',['orders_id'=>$orders_info['orders_id'],'complete'=>1])}"><span {if condition="$complete eq 1"}class="activeTb"{/if}>{:lang('lan_trade_otc_status3')}</span></a>
+					</div>
+				</div>
+				<div class="detail_change_list">
+					<div class="change_list_head">
+						<span>{:lang('lan_ad_numbers')}</span>
+						<span>{:lang('lan_ad_type')}</span>
+						<span>{:lang('lan_number_ofs')}</span>
+						<span>{:lang('lan_creation_time')}</span>
+						<span>{:lang('lan_state')}</span>
+					</div>
+					<div class="detail_change_list_line"></div>
+					<div class="detail_change_box detail_change_box0" style="display: block;">
+						{empty name='list'}
+							<div class="change_list_contont">
+								<span>{:lang('lan_safe_temporarily_no_data')}</span>
+							</div>
+						{else /}
+							{volist name="list" id="vo"}
+								<a href="{:url('TradeOtc/trade_info',['trade_id'=>$vo['trade_id']])}">
+									<div class="change_list_cont">
+										<span class="list_cont_o">{$vo.only_number}</span>
+										<span>{if condition="$vo.type eq 'buy'"}{:lang('lan_buyes')}{else /}{:lang('lan_selles')}{/if}</span>
+										<span>{$vo.num} {$vo.currency_name}</span>
+										<span>{$vo.add_time}</span>
+										<span>
+											{if condition="$vo.status eq 1"}
+												<b style="color: #0ea44a;">{$vo.status_txt}</b>
+											{else /}
+												{$vo.status_txt}
+											{/if}
+										</span>
+									</div>
+								</a>
+							{/volist}
+						{/empty}
+					</div>
+					
+				</div>
+	        	<div class="page">
+		            {$pages}
+		       	</div>
+	       <div class="clear"></div>
+		</div>
+			<div class="detail_message">
+				<p class="detail_message_title">{:lang('lan_attention')}</p>
+				<div class="detail_message_m">
+					{if condition="$orders_info.type  eq  'buy'"}
+						<p>{:lang('lan_cancellation_advertising_reached')}</p>
+					{else/}
+						<p>1. {:lang('lan_Undo_switch_status')};</p>
+						<p>2. {:lang('lan_since_cancel_advertising')}{$cancel_fee}{:lang('lan_handling_fee')};</p>
+						<p>3. {:lang('lan_advertisement_system_fee')};</p>
+						<p>4. {:lang('lan_after_advertisement_revoked_outstanding')};</p>
+						<p>5. {:lang('lan_are_sure_undo')}</p>
+					{/if}
+
+				</div>
+				<div class="detail_message_line"></div>
+				<div class="detail_message_change">
+					<span>{:lang('lan_cancel')}</span>
+					<input type="button" value="{:lang('lan_determine')}" class="mes_change_int" data-id="{$orders_info['orders_id']}"/>
+				</div>
+			</div>
+			<div class="detail_zh"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".detail_change_tab span").click(function(){
+		var tabIndex = $(this).index();
+		$(".detail_change_box").hide();
+		$(this).addClass('activeTb').siblings().removeClass('activeTb');
+		$(".detail_change_box" + tabIndex).show();
+	});
+	
+	
+	
+	// 撤销广告按钮点击事件  
+	$(".detail_revoke").click(function(){
+		$(".detail_message").show();
+		$(".detail_zh").show();
+	})
+	
+	// 弹出框取消按钮
+	$(".detail_message_change span:nth-child(1)").click(function(){
+		$(".detail_message").hide();
+		$(".detail_zh").hide();
+	});
+	
+	// 确定取消广告
+	$(".mes_change_int").click(function(){
+		var	data_id = {
+			orders_id:$(this).attr("data-id")
+		};
+		$.ajax({
+			type:"POST",
+			url:"{:url('OrdersOtc/cancel')}",
+			data:data_id,
+			success: function (d) {
+				layer.msg(d.message);
+                if (d.code == 10000) {
+                	setTimeout("window.location.reload()", 1000);
+                	$(".issue_middle_right_two").html("{:lang('lan_rescinded')}");
+                }
+             }
+		});
+	})
+</script>

@@ -1,0 +1,86 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">系统设置</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Config/updateCofig')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>网站财务设置</h1>
+                </div>
+                <div class="result-content">
+                    <table width="" class="insert-tab">
+                        <tbody>
+                            <tr>
+                                <td width="200px">入金方式设置</td>
+                                <td width="300px"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>入金方式</td>
+                                <td>比例</td>
+                                <td>开启状态</td>
+                            </tr>
+                            <tr>
+                                <td>瑞波金 +瑞波币</td>
+                                <td>
+                                    瑞波金：<input style="width:100px;margin:0 5px;" type="text" id="" value="{$config.boss_plan_buy_xrpj}" size="85" name="boss_plan_buy_xrpj" class="common-text" />%
+                                </td>
+                                <td>
+                                    <input type="checkbox" class="checkbox"  value="1" <if condition="$config.boss_plan_buy_xrpj_status eq 1">checked</if> />开启
+                                    <input type="hidden" name="boss_plan_buy_xrpj_status" value="{$config.boss_plan_buy_xrpj_status}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>瑞波钻 +瑞波币</td>
+                                <td>
+                                    瑞波钻：<input style="width:100px;margin-right: 5px;" type="text" id="" value="{$config.boss_plan_buy_xrpz}" size="85" name="boss_plan_buy_xrpz" class="common-text" />%
+                                </td>
+                                <td>
+                                    <input type="checkbox" class="checkbox" value="1" <if condition="$config.boss_plan_buy_xrpz_status eq 1">checked</if> />开启
+                                    <input type="hidden" name="boss_plan_buy_xrpz_status" value="{$config.boss_plan_buy_xrpz_status}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>瑞波币</td>
+                                <td>
+                                    瑞波币：<input style="width:100px;margin-right: 5px;" type="text" id="" value="100" size="85" class="common-text" disabled />%
+                                </td>
+                                <td>
+                                    <input type="checkbox" class="checkbox"  value="1" <if condition="$config.boss_plan_buy_xrp_status eq 1">checked</if> />开启
+                                    <input type="hidden" name="boss_plan_buy_xrp_status" value="{$config.boss_plan_buy_xrp_status}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                    <input type="button" value="返回" onclick="history.go(-1)" class="btn btn6">
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+<script>
+$('.checkbox').click(function(){
+    if ($(this).prop("checked")) {
+        $(this).siblings("input").val("1");
+        console.log($(this).siblings("input"))
+    } else {
+        $(this).siblings("input").val("0");
+        console.log($(this).siblings("input"))
+    }
+});
+</script>
+</body>
+</html>

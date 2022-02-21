@@ -1,0 +1,154 @@
+#content{
+    background: #F3F5F7;
+    margin: 30px auto;
+    margin-bottom: 40px;
+    width: 1200px;
+}
+#content>h2{
+    height: 60px;
+    line-height: 60px;
+    color: #333333;
+    padding-left: 20px;
+    font-size: 20px;
+    background: white;
+    margin-bottom: 40px;
+}
+.layui-tab-card>.layui-tab-title{
+    background: #E8EDF2;
+    border: none;
+}
+.layui-tab-card>.layui-tab-title>li{
+    font-size: 16px;
+    padding: 0px 25px;
+
+}
+.layui-tab-card>.layui-tab-title>li>a{
+
+}
+.layui-tab-card>.layui-tab-title .layui-this{
+    border-top: 2px solid #066B98;
+}
+.layui-tab-content{
+    background: white;
+    padding: 0 0 50px 0;
+    min-height: 400px;
+}
+.my_assets_header,.my_xrp{
+    display: flex;
+    padding: 40px 0 40px 20px;
+}
+.my_assets_header>img,.my_xrp>img{
+    width: 48px;
+    height: 48px;;
+}
+.my_assets_header>span , .my_xrp>span{
+    display: inline-block;
+    height: 48px;
+    line-height: 48px;
+}
+.my_assets_header_num , .my_xrp_assets{
+    padding: 0 60px 0 20px;
+}
+.my_assets_header_check{
+    padding: 2px 5px 0 0 ;
+    color: #666666;
+}
+.my_assets_header_hide{
+    color: #666;
+}
+.layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row]{
+    border:none !important;
+    padding-left:20px !important;
+}
+.layui-table td,.layui-table th{
+    min-height: 36px;
+    line-height: 36px;
+}
+.layui-table thead tr{
+    background: #fff;
+    border-bottom:1px solid #EEEEEE;
+}
+.freeze{
+   line-height: 100%;
+   position: relative;
+}
+.freeze>i{
+    font-size: 20px;
+    position: relative;
+    top: 3px;
+}
+.currency{
+    position: relative;
+}
+.currency i{
+    font-size: 26px;
+    color: #E78F41;
+    cursor: pointer;
+    position: relative;
+    top: 3px;
+}
+.operation{
+   
+}
+.operation>p{
+    text-align: right;
+    float: left;
+    width: 33%;
+}
+.operation>p>a{
+    color: #84b4de;
+    cursor: pointer;
+}
+.currency span{
+    position: absolute;
+    height: auto;
+    line-height: 30px;
+    background: #767676;
+    color: #fff;
+    padding: 10px 10px;
+    left: 100px;
+    top: 0px; 
+    width: auto; 
+    white-space: nowrap;
+    display: none;
+}
+.operation_box{
+    position: absolute;
+    right: 0;
+    z-index: 9;
+    background: #eee;
+    padding: 10px 20px;
+    width: 100px;
+}
+.operation_box p{
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    color:#BDBDBD !important;
+}
+.operation_box p a{
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    color: #3284CA !important;
+    cursor: pointer;
+}
+.layui-tab-card{
+    border: none;
+    box-shadow:none;
+}
+.my_xrp_operation{
+    padding-left: 88px;
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+}
+.my_xrp_operation>li{
+   float: left;
+   width: 20%;
+   height: 40px;
+   line-height: 40px;
+   padding-bottom: 20px;
+}
+.my_xrp_operation>li>a{
+    color: #3284ca !important;
+}

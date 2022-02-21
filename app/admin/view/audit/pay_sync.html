@@ -1,0 +1,168 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<script src="__PUBLIC__/js/laydate/laydate.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<style>
+    .pay-mb {
+        margin: 17px 20px 10px;
+        padding-top: 12px;
+        display: block;
+        border-top: 1px dashed #ccc;
+    }
+
+    .pay-title {
+        width: 65px;
+        display: inline-block;
+    }
+
+    .pay-list {
+        display: inline-block;
+    }
+
+    .pay-list label + label {
+        margin-left: 16px;
+    }
+
+    .pay-list label {
+        cursor: pointer;
+    }
+
+    .pay-button {
+        margin-left: 20px;
+        margin-top: 7px;
+        margin-bottom: 5px;
+    }
+
+    .result-tab tr:first-child th {
+        font-size: 12px;
+    }
+
+    .optioncardWrapper td:first-child {
+        text-align: center;
+    }
+
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 20px 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $('#datePicker').date_input();
+        $('#datePicker2').date_input();
+    });
+
+    function showDiv(id) {
+        document.getElementById('popDiv').style.display = 'block';
+        document.getElementById('popIframe').style.display = 'block';
+        document.getElementById('bg').style.display = 'block';
+    }
+
+    function closeDiv() {
+        document.getElementById('popDiv').style.display = 'none';
+        document.getElementById('bg').style.display = 'none';
+        document.getElementById('popIframe').style.display = 'none';
+
+    }
+</script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">批量付款同步</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <ul class="list-menu">
+                <li><a href="{:U('Audit/payment')}"
+                       class="btn <?php if(ACTION_NAME == 'payment' && empty($_GET['do'])){ ?>active<?php } ?>">待付款</a>
+                </li>
+                <li><a href="{:U('Audit/payment?do=ed')}"
+                       class="btn <?php if(ACTION_NAME == 'payment' && !empty($_GET['do']) && $_GET['do'] == 'ed'){ ?>active<?php } ?>">已付款</a>
+                </li>
+                <li><a href="{:U('Audit/pay_sync')}"
+                       class="btn <?php if(ACTION_NAME == 'pay_sync'){ ?>active<?php } ?>">付款同步</a></li>
+            </ul>
+            <div class="pay-mb">
+                <span class="pay-title">付款平台:</span>
+                <div class="pay-list">
+                    <label for="moneymoremore"><input type="radio" name="pay_type" value="moneymoremore"
+                                                      id="moneymoremore"
+                        <php>if(empty($pay_type) || $pay_type == 'moneymoremore'){echo "checked";}</php>
+                        > 钱多多</label>
+                    <label for="sss" style="display: none;"><input type="radio" name="pay_type" value="sss" id="sss"
+                        <php>if(!empty($pay_type) && $pay_type == 'sss'){echo "checked";}</php>
+                        > sss</label>
+                </div>
+            </div>
+            <button class="btn btn-success btn-sm pay-button" data-toggle="sync">同步付款状态</button>
+        </div>
+    </div>
+
+    <div class="result-wrap">
+        <div class="result-content">
+
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    $(function () {
+
+        //保存备注
+        $('button[data-toggle="sync"]').click(function () {
+            var _pay_list = $('.pay-list label'),
+                _pay_type = _pay_list.find('input[type="radio"][name="pay_type"]'),
+                _pay_val = _pay_list.find('input[type="radio"][name="pay_type"]:checked').val(),
+                data = {};
+
+            if (!_pay_type.is(':checked') || !$.trim(_pay_val).length > 0) {
+                layer.alert("请选择付款平台", {'icon': 5});
+                return false;
+            }
+
+            data = {
+                pay_type: _pay_val
+            };
+
+            layer.alert("工程师开发中！！！", {"icon": 5});
+            return false;
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                url: "{:U(ACTION_NAME)}",
+                success: function (callback) {
+                    if (callback.Code == 1) {
+                        layer.alert("所有已付款订单同步完成！", {"icon": 6});
+                    } else {
+                        layer.alert(callback.Msg, {"icon": 5});
+                    }
+                },
+                error: function (e) {
+                    layer.alert("同步失败，请求出错！", {"icon": 5});
+                }
+            });
+        });
+    });
+</script>

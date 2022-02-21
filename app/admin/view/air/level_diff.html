@@ -1,0 +1,71 @@
+<div class="result-wrap " style="border-bottom:0;">
+    <div class="result-content"  style="margin-top: 20px;">
+        <form class="layui-form" >
+            <table class="layui-table" id="memberList">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>入金表ID</th>
+                    <th>奖励用户ID</th>
+                    <th>入金用户ID</th>
+                    <th>奖励时等级</th>
+                    <td>奖励数量</td>
+                    <th>奖励比例</th>
+                    <th>添加时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="v"}
+                <tr>
+                    <td>{$v.id}</td>
+                    <td>{$v.income_id}</td>
+                    <td>
+                        <a href="javascript:void(0);" onclick="member_details({$v.reward_user_id})">
+                            {if condition="$v.rewardUser.phone"}
+                            {$v.rewardUser.phone}
+                            {else /}
+                            {$v.rewardUser.email}
+                            {/if}
+                            ({$v.reward_user_id})
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="javascript:void(0);" onclick="member_details({$v.income_user_id})">
+                            {if condition="$v.incomeUser.phone"}
+                            {$v.incomeUser.phone}
+                            {else /}
+                            {$v.incomeUser.email}
+                            {/if}
+                            ({$v.income_user_id})
+                        </a>
+                    </td>
+
+                    <td>
+                        {$v.level.name}
+                    </td>
+
+                    <td>{:floattostr($v.number)} {$v.currency.currency_name}</td>
+                    <td>{:floattostr($v.radio)} %</td>
+                    <td>
+                        {:date('Y-m-d H:i:s', $v['add_time'])}
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </form>
+        <div class="weadmin-block">
+            <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+        </div>
+        <div class="page">
+            <div>
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>

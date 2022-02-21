@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>汇总</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/iconfont/demo.css">
+    <script type="text/javascript" src="__PUBLIC__/static/admin/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/js/layer/layer.js"></script>
+    <style>
+        .user_profile {
+            padding: 10px;
+        }
+
+        .user_profile .nav {
+            z-index: 999;
+            background-color: #fff;
+        }
+
+        .user_profile .profile_content {
+            z-index: 1;
+        }
+
+        .user_profile .profile_content > div {
+            margin: 20px auto auto;
+            display: none;
+        }
+
+        .select_currency {
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            color: #333;
+            background-color: #ebebeb;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: #c6e0b4;
+        }
+    </style>
+    <script>
+    </script>
+</head>
+<body>
+<div class="user_profile">
+    <div class="profile_content">
+        <div class="row eth" style="display: inherit;">
+            <div class="col-md-8" style="padding-left: 0;padding-right: 0;">
+                <div class="panel panel-default">
+                    <div class="panel-heading"></div>
+                    <form class="form-horizontal" id="form" style="margin-top: 20px;padding: 0 20px;">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">提币名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" disabled="disabled"
+                                       value="{$data.currency_name}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">用户接收地址</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" disabled="disabled" value="{$data.to_url}">
+                            </div>
+                        </div>
+
+                        {if $data.currency_id == 8 or $data.currency_id == 38}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">地址标签</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" disabled="disabled" value="{$data.tag}">
+                            </div>
+                        </div>
+                        {/if}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">数量</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" disabled="disabled" value="{$data.actual}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <img src="{:url('qrcode_img')}?to_url={$data.to_url}&currency_type={$data.currency_type}&money={$data.actual}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">数据格式化</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="10">
+币种名称：{$data.currency_name} &#10;
+接收地址：{$data.to_url} &#10;
+{if $data.currency_id == 8 or $data.currency_id == 38}
+地址标签：{$data.tag} &#10;
+{/if}
+数量：{$data.actual} &#10;
+                                </textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var mylay = parent.layer.getFrameIndex(window.name);
+
+
+    });
+</script>
+</body>
+</html>

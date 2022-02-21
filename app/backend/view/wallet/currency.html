@@ -1,0 +1,210 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+				<a href="javascript:;">首页</a> <a href="javascript:;">钱包管理</a>
+				<a href="javascript:;"> <cite>币种管理</cite></a>
+			</span>
+    <a class="layui-btn layui-btn-sm" style="margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);"
+       title="刷新">
+        <i class="layui-icon layui-icon-refresh"></i>
+        <!-- <i class="layui-icon" style="line-height:30px">&#x1002;</i> -->
+    </a>
+</div>
+
+<div class="weadmin-body">
+   <!-- <div class="layui-row">
+        <form class="layui-form layui-col-md12 we-search" method="GET" action="summaryList.html">
+            搜索数据：
+            <div class="layui-inline">
+                <label for="user_id"></label>
+                <input class="layui-input" placeholder="请输入用户ID" name="user_id" id="user_id" value="{$Think.get.user_id}" />
+            </div>
+
+            <div class="layui-inline">
+                <label for="user_nickname"></label>
+                <input class="layui-input" placeholder="请输入昵称" name="user_nickname" id="user_nickname" value="{$Think.get.user_nickname}" />
+            </div>
+
+
+
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>-->
+    <div class="weadmin-block">
+        <!-- <button class="layui-btn layui-btn-danger" onclick="delAll()">
+             <i class="layui-icon layui-icon-delete"></i>批量删除
+         </button>
+         <button class="layui-btn" onclick="WeAdminShow('添加用户','./add.html',600,400)">
+             <i class="layui-icon layui-icon-add-circle-fine"></i>添加
+         </button>-->
+        <span class="fr" style="line-height:40px">共有数据：{$count} 条</span>
+    </div>
+    <form class="layui-form">
+    <table class="layui-table" id="memberList">
+        <thead>
+        <tr>
+            <!--<th>
+                <div class="layui-unselect header layui-form-checkbox" lay-skin="primary">
+                    <i class="layui-icon">&#xe605;</i>
+                </div>
+            </th>-->
+            <th>ID</th>
+            <th>币种名称</th>
+<!--            <th>币种标识</th>-->
+            <th>logo</th>
+            <th>是否上线</th>
+<!--            <th>汇总地址</th>-->
+<!--            <th>提币地址</th>-->
+            <th>最小提币数</th>
+            <th>最大提币数</th>
+            <th>充币开关</th>
+            <th>提币开关</th>
+            <th>兑换开关</th>
+            <th>建议手续费</th>
+            <th>最大手续费</th>
+            <th>最小手续费</th>
+            <th>是否默认显示</th>
+            <th>币的默认价格(¥)</th>
+            <th>价格获取类型</th>
+            <th>是否需要标签</th>
+<!--            <th>合约地址</th>-->
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+        <tr data-id="{$v->currency_id}">
+            <td>{$v->currency_id}</td>
+            <td>{$v->currency_name}</td>
+            <td>
+                <img width="30" src="{$v->currency_logo}" alt="logo" />
+            </td>
+            <td class="td-status">
+                <label for="currency_is_line"></label>
+                <input type="checkbox" id="currency_is_line" lay-skin="switch" lay-text="上线|下线" value="1" data-id="{$v->currency_id}" lay-filter="currency_is_line"  {if condition="$v.currency_is_line eq 1"}checked=""{/if} />
+            </td>
+            <!--<td>{$v->currency_summary_address}</td>
+            <td>{$v->currency_take_address}</td>-->
+            <td>{$v->currency_min_take}</td>
+            <td>{$v->currency_max_take}</td>
+            <td class="td-status">
+                <label for="currency_recharge_switch"></label>
+                <input type="checkbox" id="currency_recharge_switch" lay-skin="switch" lay-text="开启|关闭" value="1" data-id="{$v->currency_id}" lay-filter="currency_recharge_switch"  {if condition="$v.currency_recharge_switch eq 1"}checked=""{/if} />
+            </td>
+            <td class="td-status">
+                <label for="currency_take_switch"></label>
+                <input type="checkbox" id="currency_take_switch" lay-skin="switch" lay-text="开启|关闭" value="1" data-id="{$v->currency_id}" lay-filter="currency_take_switch"  {if condition="$v.currency_take_switch eq 1"}checked=""{/if} />
+            </td>
+            <td class="td-status">
+                <label for="currency_convert_switch"></label>
+                <input type="checkbox" id="currency_convert_switch" lay-skin="switch" lay-text="开启|关闭" value="1" data-id="{$v->currency_id}" lay-filter="currency_convert_switch"  {if condition="$v.currency_convert_switch eq 1"}checked=""{/if} />
+            </td>
+            <td>{$v->currency_suggest_fee}</td>
+            <td>{$v->currency_take_fee_max}</td>
+            <td>{$v->currency_take_fee_min}</td>
+
+            <td class="td-status">
+                <label for="currency_default_display"></label>
+                <input type="checkbox" id="currency_default_display" lay-skin="switch" lay-text="显示|隐藏" value="1" data-id="{$v->currency_id}" lay-filter="currency_default_display"  {if condition="$v.currency_default_display eq 1"}checked=""{/if} />
+            </td>
+            <td>{$v->currency_default_price}</td>
+            <td>
+                {switch name="$v->currency_price_type"}
+                {case value="1"}币种默认{/case}
+                {case value="2"}火币网接口{/case}
+                {case value="3"}和某个币价格一样{/case}
+                {/switch}
+            </td>
+            <td>
+                {if $v['is_tag'] == 1}
+                需要
+                {else/}
+                不需要
+                {/if}
+            </td>
+<!--            <td>{$v->currency_contract_address}</td>-->
+            <td>
+                <a title="编辑" onclick="edit({$v->currency_id})" href="javascript:;">
+                    <i class="layui-icon">&#xe642;</i>
+                </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a title="简介" onclick="introduce({$v->currency_id})" href="javascript:;">
+                    简介
+                </a>
+            </td>
+        </tr>
+        {/volist}
+
+        </tbody>
+    </table>
+    </form>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    layui.use(['form','global'], () => {
+        let form = layui.form;
+        form.on("switch(currency_recharge_switch)", data => {
+            updateCurrencySwitch(data.elem, "currency_recharge_switch");
+        });
+
+        form.on("switch(currency_is_line)", data => {
+            updateCurrencySwitch(data.elem, "currency_is_line");
+        });
+
+        form.on("switch(currency_take_switch)", data => {
+            updateCurrencySwitch(data.elem, "currency_take_switch");
+        });
+
+        form.on("switch(currency_convert_switch)", data => {
+            updateCurrencySwitch(data.elem, "currency_convert_switch");
+        });
+
+        form.on("switch(currency_default_display)", data => {
+            updateCurrencySwitch(data.elem, "currency_default_display");
+        });
+    });
+
+    function updateCurrencySwitch(elem, type = null) {
+        let id = elem.dataset.id;
+        let value = elem.checked === true ? 1 : 2;
+        $.post("{:url('updateCurrencySwitch')}?param=wallet", {id, value, type}, data => {
+            return layer.msg(data.message);
+        });
+    }
+
+
+
+    function edit(id)
+    {
+        parent.layer.open({
+            type: 2,
+            title: "编辑币种",
+            area: ['90%', '90%'],
+            fixed: true, //不固定
+            maxmin: true,
+            shade: 0,
+            content: '{:url("wallet/editCurrency")}?param=wallet&id='+id
+        });
+    }
+
+    function introduce(id)
+    {
+        parent.layer.open({
+            type: 2,
+            title: "编辑币种简介",
+            area: ['90%', '90%'],
+            fixed: true, //不固定
+            maxmin: true,
+            shade: 0,
+            content: '{:url("wallet/introduce")}?param=wallet&currency_id='+id
+        });
+    }
+</script>
+{include file="layout/footer"}

@@ -1,0 +1,119 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+				<a href="javascript:;">首页</a> <a href="javascript:;">会员管理</a>
+				<a href="javascript:;"> <cite>会员列表</cite></a>
+			</span>
+    <a class="layui-btn layui-btn-sm" style="margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);"
+       title="刷新">
+        <i class="layui-icon layui-icon-refresh"></i>
+        <!-- <i class="layui-icon" style="line-height:30px">&#x1002;</i> -->
+    </a>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 we-search" method="GET" action="summaryList.html">
+            搜索数据：
+            <div class="layui-inline">
+                <label for="user_id"></label>
+                <input class="layui-input" placeholder="请输入用户ID" name="user_id" id="user_id" value="{$Think.get.user_id}" />
+            </div>
+
+            <div class="layui-inline">
+                <label for="user_nickname"></label>
+                <input class="layui-input" placeholder="请输入昵称" name="user_nickname" id="user_nickname" value="{$Think.get.user_nickname}" />
+            </div>
+
+            <div class="layui-inline">
+                <label for="currency_id">币种: </label>
+                <select style="display: inline; width: 100px;" class="layui-select" name="currency_id" id="currency_id">
+                    <option value="">全部</option>
+                    {volist name="currencys" id="currency"}
+                    <option {if $Think.get.currency_id == $currency->currency_id}selected{/if} value="{$currency->currency_id}">{$currency->currency_name}</option>
+                    {/volist}
+                </select>
+            </div>
+
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+    <div class="weadmin-block">
+        <!-- <button class="layui-btn layui-btn-danger" onclick="delAll()">
+             <i class="layui-icon layui-icon-delete"></i>批量删除
+         </button>
+         <button class="layui-btn" onclick="WeAdminShow('添加用户','./add.html',600,400)">
+             <i class="layui-icon layui-icon-add-circle-fine"></i>添加
+         </button>-->
+        <span class="fr" style="line-height:40px">共有数据：{$count} 条</span>
+    </div>
+    <table class="layui-table" id="memberList">
+        <thead>
+        <tr>
+            <!--<th>
+                <div class="layui-unselect header layui-form-checkbox" lay-skin="primary">
+                    <i class="layui-icon">&#xe605;</i>
+                </div>
+            </th>-->
+            <th>ID</th>
+            <th>邮箱</th>
+            <th>用户ID</th>
+            <th>昵称</th>
+            <th>数量</th>
+            <th>积分</th>
+            <th>地址</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+        <tr data-id="{$v->us_id}">
+            <td>{$v->us_id}</td>
+            <td>{$v->user->user_email}</td>
+            <td>{$v->user->user_id}</td>
+            <td>{$v->user->user_nickname}</td>
+            <td>{$v->us_num}</td>
+            <td>{$v->currency->currency_name}</td>
+            <td>{$v->user->getAddress($v->currency->currency_bt_id)->wa_address}</td>
+
+            <td>
+                <a onclick="openSummary(this, {$v->us_id})" href="javascript:void(0);" title="汇总" style="margin-right: 10px;">
+                    <i class="layui-icon layui-icon-auz"></i>
+                </a>
+                <a title="不汇总" onclick="" href="javascript:void(0);" >
+                    <i class="layui-icon layui-icon-close-fill" style="font-size: 18px;"></i>
+                </a>
+
+            </td>
+        </tr>
+        {/volist}
+
+        </tbody>
+    </table>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+
+{include file="layout/footer"}
+<script type="text/javascript">
+    function openSummary(e, us_id) {
+        layer.open({
+            type: 2,
+            title: "汇总",
+            content: "{:url('wallet/summary')}?us_id=" + us_id,
+            area: ['500px', '500px'],
+            shade: 0, //不显示遮罩
+            // maxmin: true,
+            // scrollbar: true, //屏蔽浏览器滚动条
+            cancel: function () {
+                location.reload();
+            }
+        });
+    }
+</script>

@@ -1,0 +1,140 @@
+{if condition="!$Think.get.layui"}
+{include file="../app/admin/view/public/left.html" /}
+{else /}
+<style>
+    .main-wrap {
+        margin-left: 10px;
+    }
+</style>
+{/if}
+
+
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">等级奖励详情</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            {if condition="!$Think.get.layui"}
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="ename" placeholder="请输入用户名" autocomplete="off" class="layui-input" value="{$Think.get.ename}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="user_phone" placeholder="请输入用户账户" autocomplete="off" class="layui-input" value="{$Think.get.user_phone}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="third_id" placeholder="矿机ID" autocomplete="off" class="layui-input" value="{$Think.get.third_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="release_id" placeholder="释放ID" autocomplete="off" class="layui-input" value="{$Think.get.release_id}" />
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+            {/if}
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户</th>
+                        <th>数量</th>
+                        <td>奖励时间</td>
+                        <td>来源用户</td>
+                        <td>涡轮ID</td>
+                        <td>今日释放数量</td>
+                        <td>奖励比例</td>
+                        <td>添加时间</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>{$v.id}</td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.member_id})">
+                                {if condition="$v.users.phone"}
+                                {$v.users.phone}
+                                {else /}
+                                {$v.users.email}
+                                {/if}
+                                ({$v.member_id}) - {$v.users.ename}
+                            </a>
+                        </td>
+                        <td>
+                            {$v.num} {$v.currency.currency_name}
+                        </td>
+                        <td>
+                            {:date('Y-m-d',$v['award_time'])}
+                        </td>
+                        <td>
+                            {if condition="$v.thirdmember.phone"}
+                            {$v.thirdmember.phone}
+                            {else /}
+                            {$v.thirdmember.email}
+                            {/if}
+                            ({$v.third_member_id}) - {$v.thirdmember.ename}
+                        </td>
+                        <td>{$v.third_id}</td>
+                        <td>{$v.third_num} {$v.currency.currency_name}</td>
+                        <td>{$v.third_percent} %</td>
+                        <td>
+                            {:date('Y-m-d H:i:s',$v['add_time'])}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+            <div>
+                3代总量：{$sum}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.orders_cancel').click(function () {
+            var url = $(this).data('url');
+            var that = $(this);
+            globals.ajax(url,{},function (res) {
+                if(res.code==10000){
+                    layer.msg(res.message);
+                    location.reload();
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

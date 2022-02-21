@@ -1,0 +1,347 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/otc/publish_ad.css">
+
+	</head>
+	<body>
+		<div class="issue">
+			<div class="issue_head">
+				<div class="issue_title">{:lang('lan_issues_sell_advertisement')}</div>  
+				<div class="issue_img"><img  src="{$currency.currency_logo}"/></div>
+			</div>
+		
+			
+			<!--发布广告-->
+			<div class="issue_middlees" style="display: block;">
+				<div class="issue_middle_cont">
+					<div class="middle_cont_left">
+						<div class="middle_cont_left_on">
+							<span class="issue_left_name">{:lang('lan_currency')}:</span>
+							<span class="issue_left_val ssue_val_o ssue_currency">{$currency.currency_name}</span>
+						</div>
+						<div class="middle_cont_left_on">
+							<span class="issue_left_name">{:lang('lan_limites')}:</span>
+							<span class="issue_left_val ssue_val_t">51203.21</span>
+						</div>
+						<div class="middle_cont_left_on">
+							<span class="issue_left_name">{:lang('lan_number_of_releases')}:</span>
+							<span class="issue_left_val ssue_val_th">36210</span>
+						</div>
+						<div class="middle_cont_left_on">
+							<span class="issue_left_name">{:lang('lan_transactions')}:</span>
+							<span class="issue_left_val ssue_val_f">800</span> CNY
+						</div>
+						<div class="middle_cont_left_on">
+							<span class="issue_left_name">{:lang('lan_maximum_turnover')}:</span>
+							<span class="issue_left_val ssue_val_fi">800</span> CNY
+						</div>
+						<div class="middle_cont_left_on">
+							<span class="issue_left_name">{:lang('lan_minimum_turnover')}:</span>
+							<span class="issue_left_val ssue_val_si">10</span> CNY
+						</div>
+						<div class="middle_cont_left_on">
+							<span class="issue_left_name">{:lang('lan_handling_fee_rate')}:</span>
+							<span class="issue_left_val ssue_val_se">0.1</span>%
+						</div>
+						<div class="middle_cont_left_on">
+							<span class="issue_left_name">{:lang('lan_handling_fee')}:</span>
+							<span class="issue_left_val ssue_val_ei">0.00264561</span> <span class="ssue_currency">{$currency.currency_name}</span>
+						</div>
+						<div class="middle_cont_left_on">
+							<span class="issue_left_name">{:lang('lan_fee_deduction_method')}:</span>
+							<span class="issue_left_val issue_left_val_change">{:lang('lan_immediate_deduction_fee')}</span>
+						</div>
+						<div class="middle_cont_left_on">
+							<span class="issue_left_name issue_left_name_change">{:lang('lan_actual_quantity_paid')}:</span>
+							<span class="issue_left_val ssue_val_ni">0.015031510</span> <span class="ssue_currency">{$currency.currency_name}</span>
+						</div>
+					</div>
+					<div class="middle_cont_right">
+						<div class="middle_cont_right_title">{:lang('lan_establishment_payment_method')}</div>
+						<input class="middle_cont_right_input" type="button" value="{:lang('lan_add_payment_method')}">
+						<!--绑定支付方式-->
+						<div class="middle_cont_right_y">
+							{notempty name='banklist.alipay'}
+								<div class="issue_right_tw">
+									<img src="__PUBLIC__/static/home/images/zfb.png"/>
+									<div class="issue_label_all">
+										<span class="issue_label_name">{:lang('lan_alipay')}</span>
+										<span class="issue_label_num">{$banklist.alipay.cardnum}</span>
+									</div>
+									<div class="issue_label_cg">
+										<input class="issue_cg_switch" data-id="{$banklist.alipay.id}" data-type='alipay' type="checkbox" checked />
+									</div>
+								</div>
+							{/notempty}
+	
+							{notempty name='banklist.wechat'}
+								<div class="issue_right_tw">
+									<img src="__PUBLIC__/static/home/images/wx_fs.png"/>
+									<div class="issue_label_all">
+										<span class="issue_label_name">{:lang('lan_WeChat')}</span>
+										<span class="issue_label_num">{$banklist.wechat.cardnum}</span>
+									</div>
+									<div class="issue_label_cg">
+										<input class="issue_cg_switch" data-id="{$banklist.wechat.id}" data-type='wechat'  type="checkbox" checked/>
+									</div>
+								</div>
+							{/notempty}
+							
+							{notempty name='banklist.bank'}
+								<div class="issue_right_tw">
+									<img src="__PUBLIC__/static/home/images/yhk.png"/>
+									<div class="issue_label_all">
+										<span class="issue_label_name">{:lang('lan_bank_card')}</span>
+										<span class="issue_label_num">{$banklist.bank.cardnum}</span>
+									</div>
+									<div class="issue_label_cg">
+										<input class="issue_cg_switch" data-id="{$banklist.bank.id}" data-type='bank'  type="checkbox" checked/>
+									</div>
+								</div>
+							{/notempty}
+						</div>
+						<!--未绑定支付方式-->
+						{empty name='banklist'}
+							<a href="{:url('Bank/index')}?type=1">
+								<div class="middle_cont_right_wf">
+									<div class="cont_right_wf_head">
+										<span>{:lang('lan_unbound_payment_method')}？</span>
+										<span>{:lang('lan_add_payment_method')}</span>
+									</div>
+									<p class="middle_cont_right_j">+</p>
+								</div>
+							</a>
+						{/empty}
+					</div>
+				</div>
+				<div class="issue_footer">
+					<div class="issue_footer_bottom">
+						<input type="button" value="{:lang('lan_issues_advertisement')}" class="issue_footer_button sub_button" />
+						<span><a class="issue_footer_close issue_footer_close_two">{:lang('lan_cancel')}</a></span>
+					</div>
+				</div>
+				<div class="cover_cont">
+					<p class="cover_cont_title">{:lang('lan_attention')}</p>
+					<div class="cover_cont_main">
+						<p>1. {:lang('lan_after_publishing_system')}<span class="cover_cont_main_num">0.002745</span><span class="ssue_currency">{$currency.currency_name}</span>;</p>
+						<p>2. {:lang('lan_since_cancel_advertising')}{$currency['currency_otc_cancel_fee']}%{:lang('lan_handling_fee')};</p>
+						<p>3. {:lang('lan_advertisement_system_fee')};</p>
+						<p>4. {:lang('lan_after_advertisement_revoked_outstanding')}.</p>
+					</div>
+					<div class="cover_cont_line"></div>
+					<div class="cover_cont_footer">
+						<span><a class="issue_footer_close issue_footer_close_th">{:lang('lan_cancel')}</a></span>
+						<input type="button" name="" value="{:lang('lan_have_been_informed')}" class="cover_footer_button" id="showcover_cont2"/>
+					</div>
+				</div>
+			
+			</div>
+			
+
+				<!--安全密码弹框开始-->
+				<div class="cover_cont2">
+					<div class="cover_title">
+						<h2>{:lang('lan_safety_certificate')}</h2>
+						<span><img class="cover_close" src="__PUBLIC__/static/home/images/close_03.png" /></span>
+					</div>
+				
+					<div class="input_code">
+
+						<p>{:lang("lan_safe_Tradepassword")}</p>
+						<div class="layui-form-item">
+							<input type="password" name="pwd" class="cover_cont_int1 layui-input placeholder_color" placeholder="{:lang('lan_reg_transaction_password2')}" maxlength="6" oninput="value=value.replace(/[^\d]/g,'')"/>
+						</div>
+                        <p>{:lang('lan_img_code')}</p>
+						<div class="layui-form-item" style="position: relative;">
+							<input type="text" name="img_code" id="img_code" class="cover_cont_int1 layui-input placeholder_color" placeholder="{:lang('lan_input_img_code')}" maxlength="6" />
+							<img id="img_captch" style="position: absolute;right: 0;top: 0;" onclick="$('#img_captch').attr('src','{:url(\'index/captcha\')}?v=' + Math.random())" src="{:url('index/captcha')}" alt="">
+						</div>
+						<p>{:lang('lan_change_Mobile_erification')}</p>
+						<div class="layui-form-item">
+								<div class="layui-input-block phoneYZ">
+								  <input type="text" name="phonecode"  autocomplete="off"   class="layui-input placeholder_color" placeholder="{:lang('lan_fill_ver_code')}"> 
+								  <button id="getcode"> {:lang('lan_get_code')}</button>
+								  <button id="countdown">{:lang('lan_Countdown')}120S</button>
+								</div>
+						</div>
+					</div>
+					<div class="cover_cont_footer">
+						<input type="button" value="{:lang('lan_change_Confirm')}" class="cover_footer_button" id="submit_button"/>
+					</div>
+				</div>
+				<!--放安全密码弹框结束-->
+		</div>	
+		<div class="cover"></div>
+	</body>
+	<script type="text/javascript">
+		// 获取cooke
+		getCookie("data_otc");
+		var data_otc = $.parseJSON(getCookie("data_otc"));
+		var data_type = data_otc.type;
+		console.log(data_type);
+        $(".ssue_val_t").html(data_otc.price);
+    	$(".ssue_val_th").html(data_otc.num);
+		$(".ssue_val_f").html(data_otc.money);
+		$(".ssue_val_fi").html(data_otc.max_money);
+		$(".ssue_val_si").html(data_otc.min_money);
+		$(".ssue_val_se").html(data_otc.fee);
+		$(".ssue_val_ei").html(data_otc.fee_num);
+		$(".ssue_val_ni").html(data_otc.all_num);
+		$(".ssue_currency").html(data_otc.currency_name);
+		if(data_type == "sell"){
+			$(".issue_left_val_change").html("{:lang('lan_immediate_deduction_fee')}");
+			
+		}else if(data_type == "buy"){
+			$(".issue_title").html("{:lang('lan_issues_purchase_advertisement')}");
+			$(".issue_left_val_change").html("{:lang('lan_deduction_after_settlement')}");
+			$(".cover_cont_main").html("{:lang('lan_posting_advertisement_purchase')}").css("padding","60px 30px");
+			$(".issue_left_name_change").html("{:lang('lan_actual_purchase_quantity')}:");
+		}
+		
+		// 去添加收款方式页
+		$(".middle_cont_right_input").click(function(){
+			window.location.href = "{:url('Bank/index')}?type=1";
+//			window.open("{:url('Bank/index')}");
+		})
+		
+		// 提示注意信息
+		$(".cover_cont_footer .issue_footer_close_th").click(function(){
+			$(".cover_cont").hide();
+			$(".cover").hide();
+		});
+		
+		
+		// 取消按钮跳转第二步
+		$(".issue_footer_close_two").click(function(){
+			window.location.href = "{:url('TradeOtc/publish_ad')}/currency_id/"+data_otc.currency_id+"/currency_type/"+data_type;
+		})
+		
+		// 获取开关数据
+		function getBank() {
+			var data = {};
+			$('.issue_cg_switch').each(function(){
+				if($(this).prop("checked")) {
+					var type = $(this).attr('data-type');
+					data[type] = $(this).attr('data-id');
+				}
+			});
+			return data;
+		}
+		
+		// 点击提交数据			
+		$(".sub_button").click(function(){
+			var bank = getBank();
+			if(JSON.stringify(bank) === "{}") {
+				layer.msg("{:lang('lan_please_select_payment_method')}");
+				return false;
+			}
+			$(".cover_cont_main_num").html(data_otc.all_num);
+			$(".cover_cont").show();
+			$(".cover").show();
+		});
+		
+		$("#submit_button").click(function(){
+			if(istrue2()){
+				var bank = getBank();
+				var sellAPI = (data_type == "sell") ? "{:url('TradeOtc/sell_num')}" :"{:url('TradeOtc/buy_num')}"
+                var dataes = {
+					price: $(".ssue_val_t").html(),
+					num: $(".ssue_val_th").html(),
+					currency_id: data_otc.currency_id,
+					min_money: $(".ssue_val_si").html(),     
+					max_money: $(".ssue_val_fi").html(),
+					order_message: data_otc.order_text,
+					bank: typeof(bank.bank) == undefined ? 0 : bank.bank,
+					alipay: typeof(bank.alipay) == undefined ? 0 : bank.alipay,
+					wechat: typeof(bank.wechat) == undefined ? 0 : bank.wechat,
+					type:data_type,
+					pwd:$(".cover_cont_int1").val(),
+					phone_code : $('[name="phonecode"]').val(),
+				};
+                 $.post(sellAPI, dataes,
+                    function(d) {
+						if(d.code == 10000){
+							// 成功之后删除cookie
+                        	// delCookie("data_otc");
+							layer.msg(d.message);
+							setInterval(function(){
+								window.location.href = "{:url('OrdersOtc/orders_info')}?orders_id="+d.result.orders_id;
+							},2000)
+                           
+						}else{
+							layer.msg(d.message);
+						}
+                });
+			}
+			
+		});
+	$("#showcover_cont2").click(function(){
+		$(".cover_cont").hide();
+		$(".cover_cont2").show();
+	})
+
+	$(".cover_close").click(function(){
+		$(".cover_cont2").hide();
+		$(".cover").hide();
+	})
+	//倒计时
+	function countdown(){
+		var time  = 120;
+		timer = setInterval(function(){
+			if(time>0){
+					time--;
+					$("#countdown").show();
+					$("#getcode").hide();
+					$("#countdown").html("{:lang('lan_Countdown')}"+time +"S")
+			}else{
+					clearInterval(timer);
+					$("#countdown").hide();  
+					$("#getcode").show();
+					
+			}
+		},1000)
+	}
+	//获取验证码
+	function sendPhone(validate){
+		$.ajax({
+				"url": "{:url('Sms/auto_send')}",
+				"type": "POST",
+				"data": {
+						"type":"sell_num",
+						"validate":$('#img_code').val(),
+				},
+				success: function (data) {
+				    if(data.code == 10000){
+				        	countdown();
+				    }
+				    layer.msg(data.message)
+				}
+		});
+	}
+	function istrue(){
+            if( $('[name="pwd"]').val() ==""){
+                    layer.msg("{:lang('lan_reg_transaction_password2')}");
+                    return false;
+            }   
+            return true;
+        }
+
+	function istrue2(){
+		if( $('[name="pwd"]').val() ==""){
+				layer.msg("{:lang('lan_reg_transaction_password2')}");
+				return false;
+		}   
+	    if( $('[name="phonecode"]').val() ==""){
+	            layer.msg("{:lang('lan_fill_ver_code')}");
+	            return false;
+	    } 
+		return true;
+	}
+	//获取验证码滑动验证
+	$("#getcode").click(function(){
+        if( istrue()){
+                sendPhone()
+        }
+	});
+
+
+	</script>
+

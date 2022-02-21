@@ -1,0 +1,489 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<?php if(ACTION_NAME == 'payment' && !empty($_GET['do']) && $_GET['do'] == 'ed'){ ?>
+<script src="__PUBLIC__/js/laydate/laydate.js"></script>
+<?php } ?>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<style>
+    .pay-mb {
+        margin: 17px 20px 10px;
+        padding-top: 12px;
+        display: block;
+        border-top: 1px dashed #ccc;
+    }
+
+    .pay-title {
+        width: 65px;
+        display: inline-block;
+    }
+
+    .pay-list {
+        display: inline-block;
+    }
+
+    .pay-list label + label {
+        margin-left: 16px;
+    }
+
+    .pay-list label {
+        cursor: pointer;
+    }
+
+    .pay-button {
+        margin-left: 20px;
+        margin-top: 7px;
+        margin-bottom: 5px;
+    }
+
+    .result-tab tr:first-child th {
+        font-size: 12px;
+    }
+
+    .optioncardWrapper td:first-child {
+        text-align: center;
+    }
+
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 20px 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $('#datePicker').date_input();
+        $('#datePicker2').date_input();
+    });
+
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">批量付款管理</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <ul class="list-menu">
+                <li><a href="{:U('Audit/payment')}"
+                       class="btn <?php if(ACTION_NAME == 'payment' && empty($_GET['do'])){ ?>active<?php } ?>">待付款</a>
+                </li>
+                <li><a href="{:U('Audit/payment?do=ed')}"
+                       class="btn <?php if(ACTION_NAME == 'payment' && !empty($_GET['do']) && $_GET['do'] == 'ed'){ ?>active<?php } ?>">已付款</a>
+                </li>
+                <li><a href="{:U('Audit/pay_sync')}"
+                       class="btn <?php if(ACTION_NAME == 'pay_sync'){ ?>active<?php } ?>">付款同步</a></li>
+            </ul>
+            <form action="{:U('Audit/payment')}<?php if(!empty($_GET['do']) && $_GET['do'] == 'ed'){ ?>?do=ed<?php } ?>"
+                  method="post">
+                <table class="search-tab">
+                    <tr>
+                        <th width="70">提现人:</th>
+                        <td><input class="common-text" placeholder="提现人" name="keyname" value="{$inquire}" id="keyname"
+                                   type="text"></td>
+                        <th width="70">会员ID:</th>
+                        <td><input class="common-text" placeholder="会员ID" name="keyid" value="{$keyid}" type="text">
+                        </td>
+                        <th width="70">会员账号:</th>
+                        <td><input class="common-text" placeholder="会员账号" name="keynum" value="{$email}" type="text">
+                        </td>
+                        <th width="70">记录编号:</th>
+                        <td><input class="common-text" placeholder="记录编号" name="order_id" value="{$order_id}"
+                                   type="text"></td>
+                        <th width="70">订单编号:</th>
+                        <td><input class="common-text" placeholder="订单编号" name="order_num" value="{$order_num}"
+                                   type="text"></td>
+
+                        <?php if(ACTION_NAME == 'payment' && !empty($_GET['do']) && $_GET['do'] == 'ed'){ ?>
+                        <th width="70">日期选择:</th>
+                        <td><input class="common-text laydate-icon" placeholder="请选择日期" id="laydate" name="date"
+                                   value="{$date}" type="text" style="cursor: pointer;"></td>
+                        <th width="70">状态选择:</th>
+                        <td>
+                            <select name="state" id="state">
+                                <option>请选择</option>
+                                <option value="1"
+                                <?php if(!empty($state) && $state == 1){echo "selected";} ?>>付款成功</option>
+                                <option value="2"
+                                <?php if(!empty($state) && $state == 2){echo "selected";} ?>>付款失败</option>
+                            </select>
+                        </td>
+                        <?php } ?>
+
+                        <td><input class="btn btn-primary btn2" name="sub" value="查 询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+            <?php if(ACTION_NAME == 'payment' && empty($_GET['do'])){ ?>
+            <div class="pay-mb">
+                <span class="pay-title">付款平台:</span>
+                <div class="pay-list">
+                    <label for="chinagpay"><input type="radio" name="pay_type" value="chinagpay" data-name="爱农代付"
+                                                  id="chinagpay"
+                        <php>if(empty($pay_type) || $pay_type == 'chinagpay'){echo "checked";}</php>
+                        > 爱农代付</label>
+                    <label for="moneymoremore"><input type="radio" name="pay_type" value="moneymoremore" data-name="钱多多"
+                                                      id="moneymoremore"
+                        <php>if($pay_type == 'moneymoremore'){echo "checked";}</php>
+                        > 钱多多</label>
+                    <label for="allinpay" style="display: none;"><input type="radio" name="pay_type" value="allinpay" id="allinpay" data-name="通联支付"
+                        <php>if($pay_type == 'allinpay'){echo "checked";}</php>
+                        > 通联支付</label>
+                </div>
+            </div>
+            <button class="btn btn-success btn-sm pay-button" data-toggle="do_pay">批量付款</button>
+            <?php } ?>
+        </div>
+    </div>
+
+    <div class="result-wrap">
+        <div class="result-content">
+            <?php if(!empty($count_money)){ ?>
+            <p style="margin: 5px auto 15px;padding-bottom: 10px;border-bottom: 1px dashed #ccc;">
+                {$date} 总共付款 <b>{$count_money['all_money']}</b> 元。 包括：未操作付款共计 <b>{$count_money['a_money']}</b> 元，已完成付款共计
+                <b>{$count_money['b_money']}</b> 元，付款失败共计 <b>{$count_money['c_money']}</b> 元。
+            </p>
+            <?php } ?>
+            <table class="result-tab" width="100%">
+                <tr>
+                    <?php if(empty($_GET['do'])){ ?>
+                    <th width="4%" style="text-align: center;">全选 <input id="checkAll" type="checkbox"/></th>
+                    <?php } ?>
+                    <th width="4%">ID</th>
+                    <th width="4%">提现人</th>
+                    <th width="5%">会员ID</th>
+                    <th width="5%">银行</th>
+                    <th width="10%">银行账号</th>
+                    <th width="6%">银行开户地</th>
+                    <th width="6%">支行</th>
+                    <th width="7%">提现金额</th>
+                    <th width="7%">手续费（{$config.fee}%）</th>
+                    <th width="6%">实际金额</th>
+                    <th width="9%">订单号</th>
+                    <th width="8%">提交时间</th>
+                    <?php if(!empty($_GET['do']) && $_GET['do'] == 'ed'){ ?>
+                    <th width="8%">付款时间</th>
+                    <?php } ?>
+                    <th width="4%">处理状态</th>
+                    <?php if(!empty($_GET['do']) && $_GET['do'] == 'ed'){ ?>
+                    <th width="4%">第三方订单号</th>
+                    <th width="4%">支付方式</th>
+                    <th width="4%">付款状态</th>
+                    <th width="4%">备注</th>
+                    <th width="4%">手工处理</th>
+                    <?php } ?>
+                </tr>
+                <volist name='info' id='vo'>
+                    <tr class="optioncardWrapper" data-id="{$vo.withdraw_id}">
+                        <?php if(empty($_GET['do'])){ ?>
+                        <td><input name="subBox" type="checkbox" value="{$vo.withdraw_id}"/></td>
+                        <?php } ?>
+                        <td class="withdraw_id">{$vo.withdraw_id}</td>
+                        <td><?php if(!empty($vo['username'])){echo $vo['username'];}else{echo $vo['cardname'];} ?></td>
+                        <td><a href="javascript:member_details({$vo.uid});" class="shenhe_button">{$vo.uid}</a></td>
+                        <td>{$vo.bankname}</td>
+                        <td>{$vo.cardnum}</td>
+                        <td>{$vo.aarea_name}&nbsp;&nbsp;{$vo.barea_name}</td>
+                        <td>{$vo.account_inname}</td>
+                        <td>{$vo.all_money}</td>
+                        <td>{$vo.withdraw_fee}</td>
+                        <td class="money">{$vo.money}</td>
+                        <td>{$vo.order_num}</td>
+                        <td>{$vo.add_time|date='Y-m-d H:i:s',###}</td>
+                        <?php if(!empty($_GET['do']) && $_GET['do'] == 'ed'){ ?>
+                        <td>{$vo.pay_time|date='Y-m-d H:i:s',###}</td>
+                        <?php } ?>
+                        <td>
+                            <eq name="vo.status" value="1">未通过
+                                <else/>
+                                <eq name="vo.status" value="2">审核通过
+                                    <else/>
+                                    <eq name="vo.status" value="4">付款成功
+                                        <else/>
+                                        <eq name="vo.status" value="-1">付款失败
+                                            <else/>
+                                            <eq name="vo.status" value="0">已撤销
+                                                <else/>
+                                                审核中
+                                            </eq>
+                                        </eq>
+                                    </eq>
+                                </eq>
+                            </eq>
+                        </td>
+
+                        <?php if(!empty($_GET['do']) && $_GET['do'] == 'ed'){ ?>
+
+                        <td>{$vo.pay_order_id|default="无"}</td>
+
+                        <td>
+                            <eq name="vo.pay_type" value="chinagpay">爱农代付
+                            <else/>
+                            <eq name="vo.pay_type" value="moneymoremore">钱多多
+                            <else/>
+                                <eq name="vo.pay_type" value="allinpay">通联支付</eq>
+                            </eq>
+                            </eq>
+                        </td>
+
+                        <td>
+                            <eq name="vo.pay_statue" value="0">处理中
+                                <else/>
+                                <eq name="vo.pay_statue" value="1">付款成功
+                                    <else/>
+                                    <eq name="vo.pay_statue" value="2">付款失败</eq>
+                                </eq>
+                        </td>
+                        <td>
+                            <?php if($vo['pay_statue'] == 2){ ?>
+                            <textarea name="pay_remark" cols="30" rows="3">{$vo.pay_remark}</textarea>
+                            <button class="btn btn-info btn-sm" data-toggle="save_pay_remark">保 存</button>
+                            <?php }else{ ?>
+                            --
+                            <?php } ?>
+                        </td>
+                        <td>
+                            <?php if($vo['pay_statue'] == 2){ ?>
+                            <?php if($vo['pay_action'] == 1){ ?>
+                            <button class="btn btn-success btn-sm" data-toggle="save_pay_action">完 成</button>
+                            <?php }else{ ?>
+                            已完成
+                            <?php } ?>
+                            <?php }else{ ?>
+                            --
+                            <?php } ?>
+                        </td>
+                        <?php } ?>
+                    </tr>
+                </volist>
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    <?php  if (ACTION_NAME == 'payment' && !empty($_GET['do']) && $_GET['do'] == 'ed') { ?>
+        !function () {
+            //laydate.skin('molv');
+            laydate({
+                elem: '#laydate'
+            });
+        }();
+    <?php } ?>
+
+    $(function () {
+
+        //全选和反选
+        $("#checkAll").click(function () {
+            $('input[name="subBox"]').attr("checked", this.checked);
+        });
+
+        var $subBox = $("input[name='subBox']");
+        $subBox.click(function () {
+            $("#checkAll").attr("checked", $subBox.length == $("input[name='subBox']:checked").length ? true : false);
+        });
+
+        //禁止批量付款按钮重复提交
+        var submit_lock = true;
+
+        //批量付款
+        $('button[data-toggle="do_pay"]').click(function () {
+            if (!submit_lock) {
+                return false;
+            }
+            submit_lock = false;
+
+            var _pay_list = $('.pay-list label'),
+                _pay_type = _pay_list.find('input[type="radio"][name="pay_type"]'),
+                _pay_val = _pay_list.find('input[type="radio"][name="pay_type"]:checked').val(),
+                _pay_name = _pay_list.find('input[type="radio"][name="pay_type"]:checked').attr("data-name"),
+                _subbox_el = $('input[name="subBox"]'),
+                _check_list = [], //勾选的申请列表
+                _withdraw_id = "", //付款提交的ID集合
+                _money = 0, //实际付款合集
+                _num = 0, //一共有多少笔
+                _ggg = " / ";
+
+            if (!_pay_type.is(':checked') || !$.trim(_pay_val).length > 0) {
+                layer.alert("请选择付款平台", {'icon': 5});
+                submit_lock = true;
+                return false;
+            }
+
+            _subbox_el.each(function (index, el) {
+                if ($(el).is(":checked")) {
+                    var parents = $(el).parents('tr');
+                    _check_list.push($(el).val());
+
+                    _num += 1;
+                    _money += parseFloat(parents.find(".money").text());
+                    _withdraw_id += parents.find(".withdraw_id").text() + _ggg;
+                }
+            });
+
+//            if($.trim(_pay_val) === 'chinagpay'){
+//                layer.alert("开发中```", {'icon': 5});
+//                submit_lock = true;
+//                return false;
+//            }
+
+            _withdraw_id = _withdraw_id.substring(0, (_withdraw_id.length - _ggg.length));
+
+            if (!_check_list.length > 0) {
+                layer.alert("请选择要付款的订单", {'icon': 5});
+                submit_lock = true;
+                return false;
+            }
+
+            _sub_msg = "本次提交订单：" + _num + " 笔；<br>合计RMB：<b>" + _money.toFixed(2) + "</b> 元；<br>申请ID分别为：" + _withdraw_id + "<br>";
+
+            layer.confirm(_sub_msg + "<br>确认使用 <b>" + _pay_name + "</b> 批量付款吗？", {
+                area: ['650px', '400px'],
+                icon: 3,
+                title: '付款确认'
+            }, function (index) {
+                layer.msg('付款提交中，请稍等···', {
+                    icon: 16
+                    , shade: 0.3
+                    , time: 0
+                    , scrollbar: false
+                });
+
+                var _pay = new pay(_pay_val);
+                if ($.trim(_pay_val) === 'chinagpay') {
+                    var _count = _check_list.length;
+                    $.each(_check_list, function (key, val) {
+                        if (parseInt(key + 1) < parseInt(_count)) {
+                            _pay.ajaxPay([val], false);
+                        } else {
+                            _pay.ajaxPay([val]);
+                        }
+                    });
+                } else {
+                    _pay.ajaxPay(_check_list);
+                }
+            });
+            submit_lock = true;
+            return false;
+        });
+
+        /**
+         * 代付ajax方法
+         * @param pay_val
+         */
+        function pay(pay_val) {
+            var _ = this;
+
+            _.ajaxPay = function (check_list, success) {
+                success = (typeof success === 'undefined') ? true : false;
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    data: {list: check_list, type: pay_val},
+                    url: "{:U('pay')}",
+                    success: function (callback) {
+                        if (callback.Code === 1) {
+                            if (success === true) {
+                                layer.alert(callback.Msg, {"icon": 6});
+                                setInterval(function () {
+                                    window.location.href = window.location.href;
+                                }, 1500);
+                            }
+                        } else {
+                            layer.alert(callback.Msg, {"icon": 5});
+                        }
+                    },
+                    error: function (e) {
+                        layer.alert("付款失败，请求出错！", {"icon": 5});
+                    }
+                });
+            }
+        }
+
+        //保存备注
+        $('button[data-toggle="save_pay_remark"]').click(function () {
+            var _this = $(this),
+                data = {
+                    id: _this.parents('tr').attr('data-id'),
+                    text: _this.parent().find('textarea').val()
+                };
+
+            if (!$.trim(data.text).length > 0) {
+                layer.alert("备注不能为空！", {"icon": 5});
+                return false;
+            }
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                url: "{:U('save_pay_remark')}",
+                success: function (callback) {
+                    if (callback.Code == 1) {
+                        layer.alert("保存成功！", {"icon": 6});
+                    } else {
+                        layer.alert(callback.Msg, {"icon": 5});
+                    }
+                },
+                error: function (e) {
+                    layer.alert("保存失败，请求出错！", {"icon": 5});
+                }
+            });
+        });
+
+        //确认手工充值
+        $('button[data-toggle="save_pay_action"]').click(function () {
+            var _this = $(this),
+                data = {
+                    id: _this.parents('tr').attr('data-id')
+                };
+
+            layer.confirm("确定这么做吗？", {icon: 3, title: '手工付款确认'}, function (index) {
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    data: data,
+                    url: "{:U('save_pay_action')}",
+                    success: function (callback) {
+                        if (callback.Code == 1) {
+                            layer.alert("修改成功！", {"icon": 6});
+                            setInterval(function () {
+                                window.location.href = window.location.href;
+                            }, 1500);
+                        } else {
+                            layer.alert(callback.Msg, {"icon": 5});
+                        }
+                    },
+                    error: function (e) {
+                        layer.alert("修改失败，请求出错！", {"icon": 5});
+                    }
+                });
+            });
+        });
+    });
+</script>

@@ -1,0 +1,74 @@
+ul{ list-style:none;}
+li{ list-style:none;}
+#main{ width:100%;padding-top:20px;padding-bottom: 20px;}
+.main_box{ width:1200px; margin:0 auto;margin-bottom:20px;}
+li h3{font-size:22px; color:#555;}
+.left{ float:left;}
+.clearfix{
+	display: block;
+    overflow: hidden;
+    zoom: 1;
+    margin-bottom: 0px;
+    background: #fff;
+}
+.ybc_list{width:100%;}
+.ybcoin{ line-height:40px;width:100%;padding-left: 30px;}
+
+
+#main .yangwu_zhanghaozhongxin_rightTitle{
+	border-bottom: 1px solid #CCC;
+	font-size: 22px;
+    color: black;
+    height: 60px;
+    line-height: 60px;
+    padding-left: 20px;
+}
+.table_head{
+	padding: 46px 33px 20px 20px;
+	display: flex;
+	border-bottom: 1px solid #CCC;
+}
+.table_head li,.table_body li div{
+	flex: 1;
+	text-align: center;
+	font-size: 14px;
+	color: #666;
+}
+.table_head li:first-of-type,.table_body li div:first-of-type{
+	text-align: left;
+}
+.table_head li:last-of-type,.table_body li div:last-of-type{
+	text-align: right;
+}
+.table_body{
+	max-height: 650px;
+	overflow: auto;
+}
+.table_body li{
+	margin-top: 24px;
+	padding: 0px 33px 20px 20px;
+	display: flex; 
+}
+.no_data{
+	text-align: center;
+	font-size: 14px;
+	color: #333;
+	padding: 20px 0 20px 0;
+}
+.table_body .table_body_on{
+		color: #4173C8;
+		
+}
+.table_body_on span{
+		cursor: pointer;
+}
+a {
+    cursor: pointer;
+    text-decoration: none!important;
+    background: transparent;
+}
+.page{
+	padding-bottom: 30px;
+}
+.clear{zoom:1}
+.clear:after{display:block;content:"";clear:both}

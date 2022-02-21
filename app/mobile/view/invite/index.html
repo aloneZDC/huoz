@@ -1,0 +1,96 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+	<title>{:lang('lan_invite')}</title>
+	<link rel="stylesheet" href="__PUBLIC__/static/moblie/css/common/reset.css">
+	<link rel="stylesheet" href="__PUBLIC__/static/moblie/css/common/iconfont.css">
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_1261108_pmiioscihoq.css" />
+	<link rel="stylesheet" href="__PUBLIC__/static/moblie/css/invite/index.css">
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/layer/layer.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/utensil.js"></script>
+	<script src="__PUBLIC__/static/moblie/js/common/html2canvas.min.js"></script>
+</head>
+<body>
+	<script>
+		htmlFontSize();
+	</script>
+	
+	<div class="content">
+		<header class="header">
+			<span class="left_btn iconfont icon-fanhui1 back btn"></span>
+		</header>
+		<img class="title" src="__PUBLIC__/static/moblie/asset/logo.png" >
+		<img class="title_line" src="__PUBLIC__/static/moblie/asset/guang1.png" >
+		<p class="i_font">{:lang('lan_invite_offer_code')}</p>
+		<img class="title_lines" src="__PUBLIC__/static/moblie/asset/guang2.png" >
+		<p class="qr_code">{$member['invit_code']}</p>
+<!--		<div class="i_code">{$id}</div>-->
+		<p class="description">{:lang('lan_invite_join_xrp')}</p>
+		<p class="description description_one">{:lang('lan_invite_free_security')}</p>
+		<div class="qr_font">
+			<p class="font">{:lang('lan_invite_join')}&nbsp;&nbsp;&nbsp;{:lang('lan_invite_scan')}</p>
+		</div>
+		<div class="qr_box">
+			<img src="{:url('Invite/qrcode',['invit_code'=>$member['invit_code'],'size'=>5],false,true)}" >
+			<div></div>
+		</div>
+	</div>
+	<div class="shade"></div>
+	<div class="round-loading-wrap">
+	    <div class="round-loading"></div>
+	    <div class="round-loading round-loading-1"></div>
+	</div>
+</body>
+<script>
+	$(".btn").on("touchstart",function(){
+		$(this).css("background","#CCC");
+	});
+	$(".btn").on("touchend",function(){
+		$(this).css("background","#066B98");
+	});
+	var client = getCookie('odrplatform');//客户端
+	$(".back").on("click",function(){
+		if(client == 'android'){
+	  		apps.goback();
+	  	}else if(client == 'ios'){
+	  		 window.webkit.messageHandlers.iosAction.postMessage("goback");
+	  	}else{
+	  		history.go(-1);
+	  	}
+	});
+	$(".save_btn").on("click",function(){
+		if(client == 'android'){
+			// $(".shade").css("display","block");
+			// $(".round-loading-wrap").css("display","block");
+			layer.msg("圖片正在保存中，請耐心等候",{time:3*1000});
+			var copyDom = $(".content");
+			var width = copyDom.offsetWidth;//dom宽
+			var height = copyDom.offsetHeight;//dom高
+			var scale = 2;//放大倍数
+			if($(".qr_box img").height()>90){
+				html2canvas(copyDom[0], {
+				    dpi: window.devicePixelRatio*2,
+				    scale:scale,
+				    width:width,
+				    heigth:height,
+				    logging:false,
+				}).then(function (canvas) {
+				    var url = canvas.toDataURL();
+				    url = String(url);
+					apps.download(url);
+				});
+			}
+		}else if(client == 'ios'){
+			 window.webkit.messageHandlers.iosAction.postMessage("download");
+		}
+	});
+	function cancelLoading(){
+		$(".shade").css("display","none");
+		$(".round-loading-wrap").css("display","none");
+	}
+</script>
+</html>

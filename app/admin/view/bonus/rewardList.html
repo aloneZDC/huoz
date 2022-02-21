@@ -1,0 +1,67 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">邀请奖励列表</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('Bonus/rewardList')}" method="post">
+                <table class="search-tab">
+                    <tr>
+                        <!--   <td width="70">会员账号:</td>
+                          <td><input class="common-text" placeholder="关键字" name="email" type="text"></td>
+                            <td width="70">会员姓名:</td>
+                          <td><input class="common-text" placeholder="关键字" name="name" type="text"></td>
+                          <td width="70">会员电话:</td>
+                          <td><input class="common-text" placeholder="关键字" name="phone" type="text"></td>-->
+                        <td width="70">会员ID:</td>
+                        <td><input class="common-text" placeholder="ID" name="member_id" type="text"></td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>受益ID</th>
+                    <th>受益用户</th>
+                    <th>被邀用户</th>
+                    <th>邀请金额</th>
+                    <th>邀请积分类型</th>
+                    <th>邀请时间</th>
+                    <th>层级</th>
+                    <th>类型</th>
+                </tr>
+                <volist name='list' id='vo'>
+                    <tr>
+                        <td>{$vo['member_id']}</td>
+                        <td>{$vo['member_id']|getMemberNameByMemberid =###}</td>
+                        <td>{$vo['member_id_one']|getMemberNameByMemberid =###}</td>
+                        <td>{$vo['num_award']|default=0}</td>
+                        <td>{$vo.currency_id|getCurrencynameByCurrency=###}</td>
+                        <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                        <td>{$vo.tier}</td>
+                        <td>
+                            <if condition="$vo.tier eq 0">注册奖励<else/>邀请奖励</if>
+                        </td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

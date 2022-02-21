@@ -1,0 +1,166 @@
+<include file="App/Admin/View/Public/left.html"/>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/plugins/prettify.js"></script>
+
+<link type="text/css" href="/Public/Admin/css/jquery-ui-1.8.17.custom.css" rel="stylesheet"/>
+<link type="text/css" href="/Public/Admin/css/jquery-ui-timepicker-addon.css" rel="stylesheet"/>
+<script type="text/javascript" src="/Public/Admin/js/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="/Public/Admin/js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="/Public/Admin/js/jquery-ui-timepicker-zh-CN.js"></script>
+<script>
+    (function ($) {
+        // 汉化 Datepicker
+        $.datepicker.regional['zh-CN'] =
+            {
+                clearText: '清除', clearStatus: '清除已选日期',
+                closeText: '关闭', closeStatus: '不改变当前选择',
+                prevText: '<上月', prevStatus: '显示上月',
+                nextText: '下月>', nextStatus: '显示下月',
+                currentText: '今天', currentStatus: '显示本月',
+                monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+                    '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                monthNamesShort: ['一', '二', '三', '四', '五', '六',
+                    '七', '八', '九', '十', '十一', '十二'],
+                monthStatus: '选择月份', yearStatus: '选择年份',
+                weekHeader: '周', weekStatus: '年内周次',
+                dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+                dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+                dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+                dayStatus: '设置 DD 为一周起始', dateStatus: '选择 m月 d日, DD',
+                dateFormat: 'yy-mm-dd', firstDay: 1,
+                initStatus: '请选择日期', isRTL: false
+            };
+        $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+
+        //汉化 Timepicker
+        $.timepicker.regional['zh-CN'] = {
+            timeOnlyTitle: '选择时间',
+            timeText: '时间',
+            hourText: '小时',
+            minuteText: '分钟',
+            secondText: '秒钟',
+            millisecText: '微秒',
+            timezoneText: '时区',
+            currentText: '现在时间',
+            closeText: '关闭',
+            timeFormat: 'hh:mm',
+            amNames: ['AM', 'A'],
+            pmNames: ['PM', 'P'],
+            ampm: false
+        };
+        $.timepicker.setDefaults($.timepicker.regional['zh-CN']);
+    })(jQuery);
+</script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">一元抢购</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Shopping/shopping')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>商品详细信息</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>商品分类：</th>
+                            <td><select name="cat_id">
+                                <option value="0">请选择</option>
+                                <volist name="catId" id="vc">
+                                    <option value="{$vc.cat_id}">{$vc.cat_name}</option>
+                                </volist>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>商品名称：</th>
+                            <td><input type="text" size="85" name="goods_name" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th>本店售价：</th>
+                            <td>随活动同步更新</td>
+                        </tr>
+                        <tr>
+                            <th>商品关键字：</th>
+                            <td><input type="text" size="85" name="keywords" class="common-text"><i class="require-red">放在商品页的关键字中，为搜索</i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>上传图片：</th>
+                            <td><input type="file" name="Filedata" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>一元购商品：</th>
+                            <td>否：<input type="radio" name="oneopen" value="0" checked="checked"/>
+                                是：<input type="radio" name="oneopen" value="1"/>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>产品期数：</th>
+                            <td><input type="text" size="35" name="qishu" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>活动时间：</th>
+                            <td>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <i class="fa fa-calendar"></i></span>
+                                        <input type="text" name="acttime" class="ui_timepicker" id="aaaaa1"
+                                               placeholder="选择日期时间" value="{$list.add_time|date='Y-m-d H:i:s',###}"/>
+                                    </div>
+                                </div>
+                                <i class="require-red">活动的时间，揭晓倒计时</i></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>商品详细介绍：</th>
+                            <td><textarea id="content3" name="goods_desc" cols="30" style="width:800px;height:350px;"
+                                          rows="10"></textarea></td>
+                        </tr>
+                        <script type="text/javascript">
+                            $(function () {
+                                $("#aaaaa1").datetimepicker({
+                                    //showOn: "button",
+                                    //buttonImage: "./css/images/icon_calendar.gif",
+                                    //buttonImageOnly: true,
+                                    showSecond: true,
+                                    timeFormat: 'hh:mm:ss',
+                                    stepHour: 1,
+                                    stepMinute: 1,
+                                    stepSecond: 1
+                                })
+                            })
+                        </script>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('Shopping/index')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    KindEditor.ready(function (K) {
+        window.editor1 = K.create('#content3',{
+            uploadJson : '{:U("Art/oss_file_upload")}',
+            fileManagerJson : '{:U("Art/oss_file_upload")}',
+        });
+    });
+</script>

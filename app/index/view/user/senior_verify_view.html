@@ -1,0 +1,73 @@
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/user/senior_verify.css" />
+<style>
+    .file_box.front, .file_box.back, .file_box.handheld {
+        background-image: none;
+    }
+
+    .file_preview {
+        /*width: 280px !important;
+        height: 160px !important;*/
+    }
+
+    .file_preview a, .file_preview a img {
+        display: block;
+        width: 100%;
+    }
+    .file_box .file_preview {
+        /*background-size: 280px 160px;*/
+    }
+</style>
+<div id="main" style="overflow: hidden;">
+    <div class="main_box" style="overflow: hidden;">
+<div class="section doc_section" style="background: #fff;width: 1200px;margin:50px auto">
+    <div class="doc_main_wrap" style="overflow: hidden;">
+        <div class="mod mod_setting" style="border: none;">
+            <div class="mod_hd" style="margin-left: 0;">
+                {:lang('lan_user_authenticated')}
+            </div>
+            <div class="mod_come_back">
+            	<span>{:lang('lan_user_name')}：{$info.name}</span>
+            	<span>{:lang('lan_identification_number')}：{$info.idcard}</span>
+            </div>
+            <div class="mod_bd p_all_30 real_auth_c" style="padding-bottom: 0;width: 600px;float: left;">
+                <div class="bind_validator">
+                    <div class="groups">
+                        <div class="col_1 align_right">{:lang('lan_modify_Facade_documents')}</div>
+                        <div class="col_2">
+                            <div class="file_box front  clear_fix">
+                                <div class="file_preview  m_r_30" id="auth_1">
+                                    <a href="{$info['pic1']}" target="_blank"><img src="{$info['pic1']}" alt="" style="display:block;" id="auth_1_show"></a>
+                                    <b class="mark">{:lang('lan_modify_Positive')}</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="groups">
+                        <div class="col_1 align_right">{:lang('lan_user_Back_picture')}</div>
+                        <div class="col_2">
+                            <div class="file_box back clear_fix" id="auth_2">
+                                <div class="file_preview m_r_30">
+                                    <a href="{$info['pic2']}" target="_blank"><img src="{$info['pic2']}" alt="" style="display:block;" id="auth_2_show"></a>
+                                    <b class="mark">{:lang('lan_user_Back_side')}</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="groups">
+                        <div class="col_1 align_right">{:lang('lan_modify_Handheld_certificate')}</div>
+                        <div class="col_2">
+                            <div class="file_box handheld clear_fix">
+                                <div class="file_preview m_r_30" id="auth_3">
+                                    <a href="{$info['pic3']}" target="_blank"><img src="{$info['pic3']}" alt="" style="display: block;" id="auth_3_show"></a>
+                                    <b class="mark">{:lang('lan_modify_Handheld_certificate')}</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+</div>
+    </div>
+</div>

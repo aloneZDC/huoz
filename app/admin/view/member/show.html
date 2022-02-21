@@ -1,0 +1,62 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">查看个人账户</span></div>
+    </div>
+    <div class="result-wrap">
+        <table class="result-tab" width="100%">
+            <tr>
+                <th>ID</th>
+                <th>会员姓名</th>
+                <th>会员邮箱</th>
+                <th>会员电话</th>
+            </tr>
+            <tr>
+                <td>{$member_info['member_id']}</td>
+                <td>{$member_info['name']}</td>
+                <td>{$member_info['email']}</td>
+                <td>{$member_info['phone']}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>积分类型名称</th>
+                    <th>总量</th>
+                    <th>持有数量</th>
+                    <th>冻结数量</th>
+                    <th>锁仓数量</th>
+                    <th>互转数量</th>
+                </tr>
+                {volist name='info' id='vo'}
+                    <tr>
+                        <td>{$vo['currency_name']}</td>
+                        <td>{$vo['num'] + $vo['forzen_num'] + $vo['lock_num']+$vo['exchange_num']|number_format='6','.',''}</td>
+                        <td>{$vo['num']}</td>
+                        <td>{$vo['forzen_num']}</td>
+                        <td>{$vo['lock_num']}</td>
+                        <td>{$vo['exchange_num']}</td>
+                    </tr>
+                {/volist}
+
+            </table>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div style="margin: 0 auto; text-align:center; "><br/>
+        <input type="button" value="返回" onclick="history.go(-1)" class="btn btn6">
+    </div>
+    <!--/main-->
+</div>
+</body>
+</html>

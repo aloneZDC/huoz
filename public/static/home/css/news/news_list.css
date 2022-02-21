@@ -1,0 +1,122 @@
+.Art_wrap_bgColor{
+	min-height: 75%;
+	width: 100%;
+	background: #eaedf4;
+	overflow: hidden;
+}
+.clearfloat{
+	zoom: 1;
+}
+.yangwuWrapper{
+	width: 1200px;
+	margin: 0 auto;
+}
+.yangwuWrapper_art{
+	padding-top: 40px;
+    padding-bottom: 60px;
+    overflow: hidden;
+}
+.Art_title{
+	width: 1200px;
+	height: 100px;
+	line-height: 100px;
+	text-indent: 20px;
+	background: #fff;
+	color: #333333;
+	font-size: 24px;
+	font-weight: bolder;
+	margin-bottom: 15px;
+}
+.Art_title_nav{
+	display: flex;
+	padding-left: 10px;
+}
+.Art_title_nav>a{
+	display: flex;
+	color: #666666;
+	margin-left: 30px;
+}
+.Art_title_nav a div{
+	height: 60px;
+	line-height: 80px;
+	font-size: 16px;
+}
+.Art_left_paging_active{
+	border-bottom: 3px solid #3284CA;
+	color: #3284CA;
+	background: white;
+}
+.Art_right_details{
+	width: 1200px;
+    padding-top: 40px;
+    /* border: 1px solid #e7e7e7; */
+    background: white;
+    /* box-shadow: 1px 1px 10px 1px #e7e7e7; */
+}
+.Art_left_paging, .Art_right_details{
+	float: left;
+}
+.Art_right_details ul li{
+	width: 510px;
+	padding: 0 45px;
+	float: left;
+}
+.Art_right_details ul li{
+	margin-bottom: 40px;
+}
+.Art_square{
+	width: 14px;
+	height: 14px;
+	background: #1168ca;
+	transform: rotate(45deg);
+	position: relative;
+	left: -7px;
+}
+.Art_right_details ul li a{
+	display: block;
+	color: black;
+	padding: 0 20px;
+	font-size: 14px;
+	border-left: 1px dashed #BFBFBF;
+	height: 81px;
+	/* border-bottom: 1px solid #e7e7e7*/
+}
+.Art_list_fontone{
+	font-size: 15px;
+	font-weight: bolder;
+	color: #333333;
+	height: 28px;
+	line-height: 28px;
+	width: 300px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.Art_list_fonttwo{
+	font-size: 13px;
+	color: #666666;
+	height: 26px;
+	line-height: 26px;
+	width: 500px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.Art_list_fontthree{
+	font-size: 11px;
+	color: #999;
+	height: 26px;
+	line-height: 26px;
+}
+.Art_right_details ul li a:hover{
+	color: #3076cc!important;
+}
+.Art_right_details ul li a:hover .Art_list_fontone{
+	color: #3076cc!important;
+}
+.Art_right_details ul li a:hover .Art_list_fonttwo{
+	color: #3076cc!important;
+}
+.Art_right_details ul li a:hover .Art_list_fontthree{
+	color: #3076cc!important;
+}

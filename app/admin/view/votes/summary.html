@@ -1,0 +1,78 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<script>
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">投票汇总</span></div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>日期</th>
+                    <th>奖励比例</th>
+                    <th>总支付数量</th>
+                    <th>支付积分数量</th>
+                    <th>支付豆数量</th>
+                    <th>总奖励数量</th>
+                    <th>奖励积分数量</th>
+                    <th>游戏仓IO券释放数量</th>
+                    <th>结算完毕时间</th>
+                </tr>
+                {volist name='list' id='vo'}
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.today}</td>
+                    <td>
+                        {if condition="$vo.pay_score_num gt 0"}
+                            {:keepPoint( ($vo['award_score_num']+$vo['game_lock_release']) / $vo.pay_score_num * 100,2)}
+                        {else /}
+                            0
+                        {/if}%
+                    </td>
+                    <td>{$vo.pay_num}</td>
+                    <td>{$vo.pay_score_num}</td>
+                    <td>{$vo.pay_io_num}</td>
+                    <td>{$vo.award_num}</td>
+                    <td>{$vo.award_score_num}</td>
+                    <td>{$vo.game_lock_release}</td>
+                    <td>{:date('Y-m-d H:i:s',$vo['add_time'])}</td>
+                </tr>
+                {/volist}
+
+            </table>
+            <div class="page">
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['layer','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.change_child_level').click(function () {
+            var value = $(this).data('value');
+            var id =  $(this).data('id');
+            var that = $(this);
+            globals.ajax('{:url("change_child_level")}',{id:id,value:value},function (res) {
+                if(res.code==10000){
+                    layer.msg(res.message);
+                    location.reload();
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

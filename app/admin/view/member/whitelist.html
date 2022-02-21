@@ -1,0 +1,93 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+
+<script type="text/javascript">
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list">
+            <i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span class="crumb-name">注册白名单管理</span>
+        </div>
+    </div>
+
+    <div class="result-wrap">
+
+
+        <div style="float: left; width: 30%; margin-right: 20px;">
+            <div class="config-title">
+
+                <h1>
+                    <i class="icon-font">&#xe00a;</i>添加注册白名单
+                </h1>
+            </div>
+            <form action="{:url('Member/whitelist')}" method="post" id="myform" name="myform">
+                <div class="config-items">
+                    <div class="result-content">
+                        <table width="100%" class="insert-tab">
+                            <tbody>
+                            <tr>
+                                <th style="width: 35%;"><i class="require-red">*</i>邮箱/手机号：</th>
+                                <td><input name="account" id="account" type="text" style="width: 200px;"></td>
+                            </tr>
+                            <td><input type="submit" value="提交" class="btn btn-primary btn6 mr10"></td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div style="float: left; width: 100%;">
+            <div class="config-title">
+                <h1>
+                    <i class="icon-font">&#xe00a;</i>注册白名单列表
+                </h1>
+            </div>
+            <form action="{:url('Member/whitelist')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <td width="70">邮箱/手机号:</td>
+                        <td><input class="common-text" placeholder="邮箱/手机号" name="account" value="{$account}" type="text"></td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>邮箱/手机号</th>
+                    <th>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                {volist name='list' id='vo'}
+                    <tr>
+                        <td>{$vo['id']}</td>
+                        <td>{$vo['account']}</td>
+                        <td>{$vo['add_time']|date='Y-m-d H:i:s',###}</td>
+                        <td>
+                            <a class="link-update" href="{:url('del_whitelist', ['id'=>$vo['id']])}" onclick="return confirm('确认删除吗？')">删除</a>
+                        </td>
+                    </tr>
+                {/volist}
+            </table>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<!--/main-->
+</div>
+</body>
+</html>

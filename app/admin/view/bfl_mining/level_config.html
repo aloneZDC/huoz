@@ -1,0 +1,77 @@
+{if condition="!$Think.get.layui"}
+{include file="../app/admin/view/public/left.html" /}
+{else /}
+<style>
+    .main-wrap {
+        margin-left: 10px;
+    }
+</style>
+{/if}
+
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">币种列表</span></div>
+    </div>
+    <div class="result-wrap">
+        <a href="javascript:;" class="layui-open layui-btn" data-url="{:url('level_config_add',['currency_id'=>$currency_id])}?" data-width="500px">添加</a>
+    </div>
+    <div class="result-wrap ">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>币种</th>
+                        <th>最低数量</th>
+                        <th>最高数量</th>
+                        <th>日挖矿百分比</th>
+                        <th>1代奖励比例</th>
+                        <th>2代奖励比例</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>{$v.currency.currency_name}</td>
+                        <td>{$v.min_num}</td>
+                        <td>{$v.max_num}</td>
+                        <td>{$v.percent} %</td>
+                        <td>{$v.pid_percent1} %</td>
+                        <td>{$v.pid_percent2} %</td>
+                        <td>
+                            <a href="javascript:;" class="delete layui-btn" data-url="{:url('level_config_delete',['id'=>$v['id']])}" >删除</a>
+                            <a href="javascript:;" class="layui-open layui-btn" data-url="{:url('level_config_edit',['id'=>$v['id']])}" >编辑</a>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.delete').click(function () {
+            var url = $(this).data('url');
+            var that = $(this);
+            globals.ajax(url,{},function (res) {
+                if(res.code==10000){
+                    layer.msg(res.message);
+                    location.reload();
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        });
+    });
+</script>
+</div>
+</body>
+</html>

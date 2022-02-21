@@ -1,0 +1,532 @@
+{include file="layout/header"}
+<style>
+    .layui-form-label {
+        width: 130px;
+    }
+</style>
+<div class="weadmin-body">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label for="currency_name" class="layui-form-label">
+                <span class="we-red">*</span>币种名称
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_name" name="currency_name" lay-verify="required" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_name}"/>
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                （币的名称一般都是英文字母）
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_mark" class="layui-form-label">
+                <span class="we-red">*</span>币种标识
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_mark" name="currency_mark" lay-verify="required" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_mark}"/>
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_bt_id" class="layui-form-label">
+                <span class="we-red">*</span>链类型
+            </label>
+            <div class="layui-input-block">
+                <select id="currency_bt_id" name="currency_bt_id" lay-verify="required">
+                    {volist name="types" id="type"}
+                    <option value="{$type->bt_id}" {if $type->bt_id ==
+                        $currency->currency_bt_id}selected{/if}>{$type->bt_name}
+                    </option>
+                    {/volist}
+                </select>
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="currency_is_line" class="layui-form-label">
+                <span class="we-red">*</span>是否上线
+            </label>
+            <div class="layui-input-block" id="currency_is_line">
+                <input type="radio" name="currency_is_line" value="1" title="上线" {if $currency->currency_is_line ==
+                1}checked{/if} />
+                <input type="radio" name="currency_is_line" value="2" title="下线" {if $currency->currency_is_line ==
+                2}checked{/if} />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_sort" class="layui-form-label">
+                排序
+            </label>
+            <div class="layui-input-block">
+                <input type="number" id="currency_sort" name="currency_sort" lay-verify="" autocomplete=""
+                       class="layui-input" value="{$currency->currency_sort}">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                （从小到大）
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="currency_recharge_url" class="layui-form-label">
+                充币服务器url
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_recharge_url" name="currency_recharge_url" lay-verify=""
+                       autocomplete="off" class="layui-input" value="{$currency->currency_recharge_url}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_recharge_prot" class="layui-form-label">
+                充币服务器端口
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_recharge_prot" name="currency_recharge_prot" lay-verify=""
+                       autocomplete="off" class="layui-input" value="{$currency->currency_recharge_prot}"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="currency_recharge_rpcuser" class="layui-form-label">
+                <span class="we-red"></span>充币服务器rpc帐号
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_recharge_rpcuser" name="currency_recharge_rpcuser" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_recharge_rpcuser}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_recharge_rpcpwd" class="layui-form-label">
+                <span class="we-red"></span>充币服务器rpc密码
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_recharge_rpcpwd" name="currency_recharge_rpcpwd" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_recharge_rpcpwd}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_recharge_unite_pwd" class="layui-form-label">
+                <span class="we-red"></span>充币服务器统一密码
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_recharge_unite_pwd" name="currency_recharge_unite_pwd"
+                       autocomplete="off" class="layui-input" value="{$currency->currency_recharge_unite_pwd}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_summary_address" class="layui-form-label">
+                <span class="we-red"></span>汇总地址
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_summary_address" name="currency_summary_address" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_summary_address}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_summary_fee_address" class="layui-form-label">
+                <span class="we-red"></span>汇总手续费地址
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_summary_fee_address" name="currency_summary_fee_address"
+                       autocomplete="off" class="layui-input" value="{$currency->currency_summary_fee_address}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_summary_fee_pwd" class="layui-form-label">
+                <span class="we-red"></span>汇总手续费地址密码
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_summary_fee_pwd" name="currency_summary_fee_pwd" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_summary_fee_pwd}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_take_address" class="layui-form-label">
+                <span class="we-red"></span>提币地址
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_take_address" name="currency_take_address" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_take_address}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_take_url" class="layui-form-label">
+                <span class="we-red"></span>提币服务器url
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_take_url" name="currency_take_url" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_take_url}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_take_prot" class="layui-form-label">
+                <span class="we-red"></span>提币服务器端口
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_take_prot" name="currency_take_prot" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_take_prot}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_take_rpcuser" class="layui-form-label">
+                <span class="we-red"></span>提币服务器rpc帐号
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_take_rpcuser" name="currency_take_rpcuser" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_take_rpcuser}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_take_rpcpwd" class="layui-form-label">
+                <span class="we-red"></span>提币服务器rpc密码
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_take_rpcpwd" name="currency_take_rpcpwd" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_take_rpcpwd}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="currency_take_pwd" class="layui-form-label">
+                <span class="we-red"></span>提币密码
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_take_pwd" name="currency_take_pwd" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_take_pwd}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_min_take" class="layui-form-label">
+                <span class="we-red"></span>最小提币数
+            </label>
+            <div class="layui-input-block">
+                <input type="number" id="currency_min_take" name="currency_min_take" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_min_take}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_max_take" class="layui-form-label">
+                <span class="we-red"></span>最大提币数
+            </label>
+            <div class="layui-input-block">
+                <input type="number" id="currency_max_take" name="currency_max_take" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_max_take}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_recharge_switch" class="layui-form-label">
+                <span class="we-red"></span>充币开关
+            </label>
+            <div class="layui-input-block" id="currency_recharge_switch">
+                <input type="radio" name="currency_recharge_switch" value="1" title="开启" {if $currency->currency_recharge_switch
+                ==
+                1}checked{/if} />
+                <input type="radio" name="currency_recharge_switch" value="2" title="关闭" {if $currency->currency_recharge_switch
+                ==
+                2}checked{/if} />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_take_switch" class="layui-form-label">
+                <span class="we-red"></span>提币开关
+            </label>
+            <div class="layui-input-block" id="currency_take_switch">
+                <input type="radio" name="currency_take_switch" value="1" title="开启" {if $currency->currency_take_switch
+                ==
+                1}checked{/if} />
+                <input type="radio" name="currency_take_switch" value="2" title="关闭" {if $currency->currency_take_switch
+                ==
+                2}checked{/if} />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_release_switch" class="layui-form-label">
+                <span class="we-red"></span>释放开关
+            </label>
+            <div class="layui-input-block" id="currency_release_switch">
+                <input type="radio" name="currency_release_switch" value="1" title="开启" {if $currency->currency_release_switch
+                ==
+                1}checked{/if} />
+                <input type="radio" name="currency_release_switch" value="2" title="关闭" {if $currency->currency_release_switch
+                ==
+                2}checked{/if} />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_default_display" class="layui-form-label">
+                <span class="we-red"></span>是否默认显示
+            </label>
+            <div class="layui-input-block" id="currency_default_display">
+                <input type="radio" name="currency_default_display" value="1" title="显示" {if $currency->currency_default_display
+                ==
+                1}checked{/if} />
+                <input type="radio" name="currency_default_display" value="2" title="隐藏" {if $currency->currency_default_display
+                ==
+                2}checked{/if} />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="is_tag" class="layui-form-label">
+                <span class="we-red"></span>是否需要标签
+            </label>
+            <div class="layui-input-block" id="is_tag">
+                <input type="radio" name="is_tag" value="1" title="需要" {if $currency->is_tag
+                ==
+                1}checked{/if} />
+                <input type="radio" name="is_tag" value="2" title="不需要" {if $currency->is_tag
+                ==
+                2}checked{/if} />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_fee_currency_id" class="layui-form-label">
+                <span class="we-red"></span>手续费币种
+            </label>
+            <div class="layui-input-block">
+                <select id="currency_fee_currency_id" name="currency_fee_currency_id" lay-verify="">
+                    {volist name="currencys" id="v"}
+                    <option value="{$v->currency_id}" {if $v->currency_id ==
+                        $currency->currency_fee_currency_id}selected{/if}>{$v->currency_name}
+                    </option>
+                    {/volist}
+                </select>
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_take_fee_type" class="layui-form-label">
+                <span class="we-red"></span>提币手续费类型
+            </label>
+            <div class="layui-input-block">
+                <select id="currency_take_fee_type" lay-filter="currency_take_fee_type" name="currency_take_fee_type">
+                    <option value="1" {if $currency->currency_take_fee_type == 1}selected{/if}>百分比</option>
+                    <option value="2" {if $currency->currency_take_fee_type == 2}selected{/if}>固定值</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_take_fee" class="layui-form-label">
+                <span class="we-red"></span>提币手续费
+            </label>
+            <div class="layui-input-block">
+                <input type="number" id="currency_take_fee" name="currency_take_fee" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_take_fee}"/>
+            </div>
+        </div>
+        <!-- <div class="layui-form-item">
+            <label for="currency_suggest_fee" class="layui-form-label">
+                <span class="we-red"></span>建议手续费
+            </label>
+            <div class="layui-input-block">
+                <input type="number" id="currency_suggest_fee" name="currency_suggest_fee" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_suggest_fee}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_take_fee_max" class="layui-form-label">
+                <span class="we-red"></span>最大手续费
+            </label>
+            <div class="layui-input-block">
+                <input type="number" id="currency_take_fee_max" name="currency_take_fee_max" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_take_fee_max}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_take_fee_min" class="layui-form-label">
+                <span class="we-red"></span>最小手续费
+            </label>
+            <div class="layui-input-block">
+                <input type="number" id="currency_take_fee_min" name="currency_take_fee_min" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_take_fee_min}">
+            </div>
+        </div>-->
+
+        <div class="layui-form-item">
+            <label for="currency_default_price" class="layui-form-label">
+                <span class="we-red"></span>币的默认价格
+            </label>
+            <div class="layui-input-block">
+                <input type="number" id="currency_default_price" name="currency_default_price" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_default_price}">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                (单位: 人民币)
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_price_type" class="layui-form-label">
+                <span class="we-red"></span>价格获取类型
+            </label>
+            <div class="layui-input-block">
+                <select id="currency_price_type" lay-filter="currency_price_type" name="currency_price_type"
+                        lay-verify="">
+                    <option value="1" {if $currency->currency_price_type == 1}selected{/if}>币种默认</option>
+                    <option value="2" {if $currency->currency_price_type == 2}selected{/if}>火币网接口</option>
+                    <option value="3" {if $currency->currency_price_type == 3}selected{/if}>和某个币价格一样</option>
+                </select>
+            </div>
+            <div class="layui-form-mid" id="currency_price_currency_id_block" style="padding: 0 !important;">
+                <label for="currency_price_currency_id"></label>
+                <select id="currency_price_currency_id" name="currency_fee_currency_id" lay-verify="">
+                    {volist name="currencys" id="v"}
+                    <option value="{$v->currency_id}" {if $v->currency_id ==
+                        $currency->currency_price_currency_id}selected{/if}>{$v->currency_name}
+                    </option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_contract_address" class="layui-form-label">
+                <span class="we-red"></span>合约地址
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_contract_address" name="currency_contract_address" autocomplete="off"
+                       class="layui-input" value="{$currency->currency_contract_address}">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                (币种为代币的时填写)
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currencyr_echarge_address" class="layui-form-label">
+                <span class="we-red"></span>充币地址
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currencyr_echarge_address" name="currencyr_echarge_address" autocomplete="off"
+                       class="layui-input" value="{$currency->currencyr_echarge_address}">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                (需要标签币种填写)
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+            </label>
+            <button class="layui-btn" lay-filter="add" lay-submit="">确定</button>
+            <input type="hidden" name="currency_id" id="currency_id" value="{$currency->currency_id}"/>
+        </div>
+
+
+    </form>
+</div>
+{include file="layout/footer"}
+
+<script type="text/javascript">
+    layui.use(['form', 'jquery', 'admin', 'layer'], function () {
+        var form = layui.form,
+            $ = layui.jquery,
+            admin = layui.admin,
+            layer = layui.layer;
+
+
+        form.on('select(currency_price_type)', function (data) {
+            if (Number(data.value) === 3) {
+                $('#currency_price_currency_id_block').show();
+            } else {
+                $('#currency_price_currency_id_block').hide();
+            }
+        });
+
+        //自定义验证规则
+        form.verify({
+            /* nikename: function (value) {
+                 if (value.length < 5) {
+                     return '昵称至少得5个字符啊';
+                 }
+             }*/
+        });
+        //页面初始化加载
+        $(function () {
+            setTimeout(function () {
+                frameVal();
+            }, 100);
+        });
+
+        function frameVal() {
+            var dataId = $('input[name="dataId"]').val();
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layui.jquery("#memberList tr").each(function () {
+                if ($(this).attr('data-id') == dataId) {
+                    console.log($(this));
+                    var tdArr = $(this).children('td');
+                    var username = tdArr.eq(2).text(); //姓名
+                    var sex = tdArr.eq(3).text(); //性别
+                    var phone = tdArr.eq(4).text(); //电话
+                    var email = tdArr.eq(5).text(); //邮箱
+                    var address = tdArr.eq(6).text(); //地址
+
+                    $('input[name="username"]').val(username);
+                    console.log("sex:" + sex);
+                    $('input[name="sex"][value="' + sex + '"]').attr("checked", true);
+                    $('input[name="phone"]').val(phone);
+                    $('input[name="email"]').val(email);
+                    $('input[name="address"]').val(address);
+                    form.render();
+                }
+            });
+        }
+
+        //监听提交
+        form.on('submit(add)', function (data) {
+            $.post("{:url('wallet/updateCurrency')}?param=wallet", data.field, function (data) {
+                if (Number(data.code) === 10000) {
+                    layer.alert(data.message, {
+                        icon: 6
+                    }, function () {
+                        // 获得frame索引
+                        let index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        window.parent.location.reload();
+                    });
+                } else {
+                    layer.alert(data.message, {
+                        icon: 5
+                    });
+                }
+            });
+            return false;
+        });
+
+    });
+    $(function () {
+        let flag = "{$currency->currency_price_type}";
+        if (Number(flag) !== 3) {
+            $('#currency_price_currency_id_block').hide();
+        }
+    });
+</script>

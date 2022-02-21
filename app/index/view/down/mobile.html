@@ -1,0 +1,153 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>移动端下载中心</title>
+	<style>
+		.content{
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			overflow: auto;
+		}
+		.bg{
+			width: 100%;
+			height: 321px;
+			position: relative;
+			background-image: url(__PUBLIC__/static/home/images/down_center.jpg);
+			background-position: center center;
+		}
+		.image{
+			display: block;
+			width: 75.6%;
+			position: absolute;
+			bottom: 0;
+			margin: 0 auto;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+		.qr_box{
+			width: 100%;
+			padding-top: 35px;
+			padding-bottom: 5rem;
+		}
+		.qr_box img{
+			display: block;
+			margin: 0 auto;
+			width: 49.2%;
+		}
+		.qr_box p{
+			margin: 0;
+			padding: 0;
+			margin-top: 16px;
+			text-align: center;
+			font-size: 16px;
+			color: #666666;
+		}
+		.qr_box a{
+			color: #4288FF;
+			text-decoration: none;
+		}
+		.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
+    line-height: 44px;
+    background: #066B98;
+    z-index: 9999;
+}
+.header .left_btn{
+    color: #FFFFFF;
+    font-size: 20px;
+    width: 10%;
+    text-align: center;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    z-index: 9;
+  
+}
+.header .title{
+    position: relative;
+    z-index: 8;
+    color: #FFF;
+    text-align: center;
+    font-size: 18px;
+}
+.header .right_btn{
+    color: #FFFFFF;
+    font-size: 16px;
+    text-align: center;
+    display: inline-block;
+    position: absolute;
+    right: 1rem;
+    top: 0;
+    z-index: 9;
+  
+}
+	</style>
+	<link rel="stylesheet" href="__PUBLIC__/static/moblie/css/common/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/static/moblie/css/meeting/attend_list.css">
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/utensil.js?v=20190227"></script>
+	<script>
+		var browser={ 
+			versions:function(){
+				var u = navigator.userAgent, app = navigator.appVersion;
+				return {
+					trident: u.indexOf('Trident') > -1,
+					presto: u.indexOf('Presto') > -1,
+					webKit: u.indexOf('AppleWebKit') > -1,
+					gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,
+					mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+					ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+					android: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1,
+					iPhone: u.indexOf('iPhone') > -1 ,
+					iPad: u.indexOf('iPad') > -1,
+					webApp: u.indexOf('Safari') == -1,
+					weixin: u.indexOf('MicroMessenger') > -1,
+					qq: u.match(/\sQQ/i) == " qq"
+				};
+			}(),
+			language:(navigator.browserLanguage || navigator.language).toLowerCase() 
+		}
+		if(browser.versions.mobile||browser.versions.android||browser.versions.ios){
+		}else{
+			location.href = "/index/down/index";
+		}
+
+		 
+	</script>
+</head>
+<body>
+	<script>
+		   htmlFontSize();	
+	</script>
+	<header class="header">
+			<span class="left_btn iconfont icon-fanhui" id="back"></span>
+			<div class="title">{:lang('lan_header_download')}</div>
+	</header>
+	<div class="content">
+		<div class="bg">
+			<img src="__PUBLIC__/static/home/images/down_center1.png"  class="image" >
+		</div>
+		<div class="qr_box">
+			<img src="{$qr_code.value}" alt="瑞波钻交易所下载二维码">
+			<p>Android&IOS<a href="http://d.bcbcom.top/q1">{:lang('lan_header_download')}</a></p>
+		</div>
+	</div>
+	<script>
+		var back = document.getElementById("back");
+		back.onclick=function(){
+			location.href = "{:url('index/index')}";
+			
+		}
+	</script>
+</body>
+</html>

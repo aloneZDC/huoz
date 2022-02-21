@@ -1,0 +1,56 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">汇总记录</span></div>
+    </div>
+
+
+    <div class="result-wrap ">
+        总入金(包含云攒金)：{$income_total} 总分享奖：{$recommand_income_all} 总云梯奖：{$air_income_all} 总波比：{$precent_all}
+        云攒金总入金：{$air_income_total}
+    </div>
+    <div class="result-wrap ">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>总入金(包含云攒金)</th>
+                        <th>分享奖</th>
+                        <th>云梯奖</th>
+                        <th>波比</th>
+                        <th>云攒金入金</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name='list' id='vo'}
+                    <tr>
+                        <td>{$vo.today}</td>
+                        <td>{$vo.income_total}</td>
+                        <td>{$vo.recommand_income}</td>
+                        <td>{$vo.air_income}</td>
+                        <td>{$vo.percent}</td>
+                        <td>{$vo.air_income_total}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

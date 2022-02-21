@@ -1,0 +1,71 @@
+{if condition="!$Think.get.layui"}
+    {include file="../app/admin/view/public/left.html" /}
+{else /}
+    <style>
+        .main-wrap {
+            margin-left: 10px;
+        }
+    </style>
+{/if}
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">投票俱乐部等级设置</span></div>
+    </div>
+
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>等级</th>
+                    <th>团队票数</th>
+                    <th>级差比例</th>
+                    <th>到积分比例</th>
+                </tr>
+                {volist name='list' id='vo'}
+                <tr>
+                    <td>
+                        <input type="text" style="width: 200px;line-height: 25px;padding: 5px;" value="{$vo.uvs_desc}">
+                        <a href="javascript:;" class="modify" data-field="uvs_desc" data-id="{$vo.uvs_id}">修改</a>
+                    </td>
+                    <td>
+                        <input type="text" style="width: 200px;line-height: 25px;padding: 5px;" value="{$vo.uvs_value}">
+                        <a href="javascript:;" class="modify" data-field="uvs_value" data-id="{$vo.uvs_id}">修改</a>
+                    </td>
+                    <td>
+                        <input type="text" style="width: 200px;line-height: 25px;padding: 5px;" value="{$vo.uvs_percent}">%
+                        <a href="javascript:;" class="modify" data-field="uvs_percent" data-id="{$vo.uvs_id}">修改</a>
+                    </td>
+                    <td>
+                        <input type="text" style="width: 200px;line-height: 25px;padding: 5px;" value="{$vo.uvs_available_percent}">%
+                        <a href="javascript:;" class="modify" data-field="uvs_available_percent" data-id="{$vo.uvs_id}">修改</a>
+                    </td>
+                </tr>
+                {/volist}
+
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['layer','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.modify').click(function () {
+            var field = $(this).data('field');
+            var id =  $(this).data('id');
+            var value = $(this).parent().find('input',0).val();
+            globals.ajax('{:url("votes_config_update")}',{id:id,field:field,value:value},function (res) {
+                if(res.code==10000){
+                    layer.msg(res.message);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+{include file="../app/admin/view/public/left.html" /}
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/plugins/prettify.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/uploadPreview.js"></script>
+
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">Home</a><span class="crumb-step">&gt;</span><a
+                class="crumb-name" href="{:url('Sender/emailConfig')}">List</a><span
+                class="crumb-step">&gt;</span><span>Add config</span></div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form action="" method="post" id="myform" name="myform">
+                <table class="insert-tab" width="100%">
+                    <tbody>
+
+                    <tr>
+                        <th><label for="es_ip"><i class="require-red">*</i>IP：</label></th>
+                        <td><input class="common-text required" required id="es_ip" name="es_ip" value=""
+                                   type="text" placeholder="请输入IP"></td>
+                    </tr>
+
+                    <tr>
+                        <th><label for="es_port"><i class="require-red">*</i>端口：</label></th>
+                        <td><input class="common-text required" required id="es_port" name="es_port" value=""
+                                   type="text" placeholder="请输入PORT"></td>
+                    </tr>
+
+                    <tr>
+                        <th><label for="es_user"><i class="require-red">*</i>用户：</label></th>
+                        <td><input class="common-text required" required id="es_user" name="es_user" value=""
+                                   type="text" placeholder="请输入用户名"></td>
+                    </tr>
+
+                    <tr>
+                        <th><label for="es_pwd"><i class="require-red">*</i>密码：</label></th>
+                        <td><input class="common-text required" required id="es_pwd" name="es_pwd" value=""
+                                   type="text" placeholder="请输入密码"></td>
+                    </tr>
+
+                    <tr>
+                        <th>状态: </th>
+                        <td>
+                            <label><input type="radio" name="es_status" value="1" checked="checked"/> 启用</label>
+                            <label><input type="radio" name="es_status" value="0"/> 禁用</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><label for="es_wait"><i class="require-red">*</i>频率限制：</label></th>
+                        <td><input class="common-text required" id="es_wait" name="es_wait" size="100" value=""
+                                   type="number" placeholder="请输入频率限制（秒）"></td>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <td><input class="btn btn-primary btn6 mr10" value="提交" type="submit">
+                            <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<!--/main-->
+
+</div>
+</body></html>
+

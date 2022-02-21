@@ -1,0 +1,15 @@
+.content{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.tab_box{
+	display: flex;
+}
+.tab_box>div{
+	flex: 1;
+	text-align: center;
+	
+}

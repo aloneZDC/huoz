@@ -1,0 +1,117 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<script>
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">投票俱乐部管理</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('index')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <td><input class="common-text" placeholder="用户ID" name="user_id" value="{$Think.get.user_id}"
+                                   id="user_id" type="text"></td>
+                        <td><input class="common-text" placeholder="账户" name="user_phone" value="{$Think.get.user_phone}"
+                                   id="user_phone" type="text"></td>
+                        <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>用户ID</th>
+                    <th>用户账户</th>
+                    <th>用户昵称</th>
+                    <th>上级ID</th>
+                    <th>当前等级</th>
+                    <th>总票数</th>
+                    <th>总入金</th>
+                    <th>总收益</th>
+                    <th>团队业绩</th>
+                    <th>加入时间</th>
+                    <th>操作</th>
+                </tr>
+                {volist name='list' id='vo'}
+                <tr>
+                    <td>
+                        <a href="javascript:void(0);" onclick="member_details({$vo.user_id})">{$vo.user_id}</a>
+                    </td>
+                    <td>
+                        {empty name='vo.users.phone'}
+                            {$vo.users.email}
+                        {else /}
+                            {$vo.users.phone}
+                        {/empty}
+                    </td>
+                    <td>{$vo.users.nick}</td>
+                    <td>{$vo.pid}</td>
+                    <td>
+                        <a href="javascript:;" class="layui-open" data-width="500px" data-height="350px" data-url="{:url('votes_level_update',['user_id'=>$vo['user_id']])}" data-title="{$vo.user_id}修改等级">{$vo.level}</a>
+                    </td>
+                    <td>{$vo.votes}</td>
+                    <td>
+                        {if condition="$vo.num gt 0 "}
+                            <a href="javascript:;" class="layui-open" data-url="{:url('votes_pay',['user_id'=>$vo['user_id']])}" data-title="{$vo.user_id}入金记录">{$vo.num}</a>
+                        {else /}
+                            {$vo.num}
+                        {/if}
+                    </td>
+                    <td>
+                        {if condition="$vo.num gt 0 "}
+                            <a href="javascript:;" class="layui-open" data-url="{:url('votes_award',['user_id'=>$vo['user_id']])}" data-title="{$vo.user_id}收益记录">{$vo.award_num}</a>
+                        {else /}
+                            {$vo.award_num}
+                        {/if}
+                    </td>
+                    <td>{$vo.team_num}</td>
+                    <td>{:date('Y-m-d H:i:s',$vo['add_time'])}</td>
+                    <th>
+                        {if condition="$vo.change_child_level_open eq 1"}
+                            <a href="javascript:;" class="layui-btn layui-btn-xs change_child_level" data-id="{$vo.user_id}" data-value="2">取消授权修改下级等级</a>
+                        {elseif condition="$vo.change_child_level_open eq 2"}
+                            <a href="javascript:;" class="layui-btn layui-btn-xs change_child_level" data-id="{$vo.user_id}" data-value="1">授权修改下级等级</a>
+                        {/if}
+                    </th>
+                </tr>
+                {/volist}
+
+            </table>
+            <div class="page">
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['layer','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.change_child_level').click(function () {
+            var value = $(this).data('value');
+            var id =  $(this).data('id');
+            var that = $(this);
+            globals.ajax('{:url("change_child_level")}',{id:id,value:value},function (res) {
+                if(res.code==10000){
+                    layer.msg(res.message);
+                    location.reload();
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

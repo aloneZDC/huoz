@@ -1,0 +1,122 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list">
+            <i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span class="crumb-name">静态分红配置</span>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('BossPlan/updateConfig')}" method="post" id="myform" name="myform">
+            <input type="hidden" name="key" value="param">
+			
+            <div class="config-items">
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>基础分红：</th>
+                            <td><input type="text" value="{$config_values['base_bouns']}" size="85" name="base_bouns" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>增加分红：</th>
+                            <td>
+                                直推1人 <input type="text" value="{$config_values['add_bouns'][1]}" size="85" name="add_bouns_1" class="common-text"><br>
+                                直推2人 <input type="text" value="{$config_values['add_bouns'][2]}" size="85" name="add_bouns_2" class="common-text"><br>
+                                直推3人 <input type="text" value="{$config_values['add_bouns'][3]}" size="85" name="add_bouns_3" class="common-text"><br>
+                                直推4人 <input type="text" value="{$config_values['add_bouns'][4]}" size="85" name="add_bouns_4" class="common-text"><br>
+                                直推5人 <input type="text" value="{$config_values['add_bouns'][5]}" size="85" name="add_bouns_5" class="common-text"><br>
+                                直推6人 <input type="text" value="{$config_values['add_bouns'][6]}" size="85" name="add_bouns_6" class="common-text"><br>
+                                直推7人 <input type="text" value="{$config_values['add_bouns'][7]}" size="85" name="add_bouns_7" class="common-text"><br>
+                                直推8人 <input type="text" value="{$config_values['add_bouns'][8]}" size="85" name="add_bouns_8" class="common-text"><br>
+                                直推9人 <input type="text" value="{$config_values['add_bouns'][9]}" size="85" name="add_bouns_9" class="common-text"><br>
+                                直推10人及以上 <input type="text" value="{$config_values['add_bouns'][10]}" size="85" name="add_bouns_10" class="common-text">
+                            </td>
+                        </tr>
+						<tr>
+                            <th><i class="require-red">*</i>一级分红：</th>
+                            <td><input type="text" value="{$config_values['one_bouns']}" size="85" name="one_bouns" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>幸运分红：</th>
+                            <td><input type="text" value="{$config_values['lucky_bouns']}" size="85" name="lucky_bouns" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>幸运分红层次：</th>
+                            <td><input type="text" value="{$config_values['lucky_level']}" size="85" name="lucky_level" class="common-text"></td>
+                        </tr>
+                        
+                        <tr>
+                            <th><i class="require-red">*</i>停止分红：</th>
+                            <td>
+                                停止静1分红  <input type="text" value="{$config_values['stop_bouns']['no_invit']}" size="85" name="stop_bouns_no_invit" class="common-text">动静分红总和达到本金的倍数<br>
+                                停止静123分红 <input type="text" value="{$config_values['stop_bouns']['invit']}" size="85" name="stop_bouns_invit" class="common-text">动静分红总和达到本金的倍数<br>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td style="color: #F00;">
+                                V2.0模式 静态奖励配置
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>V2.0开启日期：</th>
+                            <td><input type="text" value="{$config_values['v2_open_date']}" size="85" name="v2_open_date" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>基础分红：</th>
+                            <td><input type="text" value="{$config_values['base_bouns_v2']}" size="85" name="base_bouns_v2" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>停止分红：</th>
+                            <td>
+                                停止静1分红  <input type="text" value="{$config_values['stop_bouns']['no_invit_v2']}" size="85" name="stop_bouns_no_invit_v2" class="common-text">动静分红总和达到本金的倍数<br>
+                                停止幸运赠送分红 <input type="text" value="{$config_values['stop_bouns']['invit_v2']}" size="85" name="stop_bouns_invit_v2" class="common-text">动静分红总和达到本金的倍数<br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>幸运分红比例：</th>
+                            <td><input type="text" value="{$config_values['lucky_bouns_v2']}" size="85" name="lucky_bouns_v2" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td style="color: #F00;">
+                                V2.0模式 静态奖励配置结束
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" id="submit" value="修改" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('BossPlan/updateConfigList')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td><i class="require-red">请勿随意修改参数</i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+$("#submit").click(function () {
+    var r=confirm("确定要修改参数吗?");
+    if(r==true){
+       return true;
+    }
+    return false;
+})
+</script>

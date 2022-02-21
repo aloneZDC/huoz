@@ -1,0 +1,93 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script>
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<style>
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 0 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span
+                class="crumb-name">邮件系统</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="result-title">
+            <div class="result-list">
+                <a href="{:url('Sender/addEmailConfig')}"><i class="icon-font"></i>Add config</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-content">
+
+        <table class="result-tab" width="100%">
+            <tr>
+                <th>ID</th>
+                <th>IP</th>
+                <th>PORT</th>
+                <th>USER</th>
+                <th>PASSWORD</th>
+                <th>STATUS</th>
+                <th>TOOLS</th>
+            </tr>
+            {volist name='list' id='vo'}
+            <tr data-id="{$vo['es_id']}">
+                <td>{$vo.es_id}</td>
+                <td>{$vo.es_ip}</td>
+                <td>{$vo.es_port}</td>
+                <td>{$vo.es_user}</td>
+                <td>{$vo.es_pwd}</td>
+                <td>
+                    {if $vo.es_status eq 1}
+                    Enabled
+                    {else/}
+
+                    {/if}
+                </td>
+                <td>
+                    <a class="link-update" href="{:url('Sender/editEmailConfig', "id=$vo[es_id]")}">Edit</a>
+
+                    <a class="link-del" href="{:url('Sender/deleteEmailConfig', array('id'=>$vo['es_id']))}"
+                       onclick="return confirm('确认删除吗？')">Delete</a>
+
+                </td>
+            </tr>
+            {/volist}
+        </table>
+        <div style="font-size: 18px;">total: {$total}</div>
+        <div class="page">
+            <div>
+                {$page}
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

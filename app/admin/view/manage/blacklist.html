@@ -1,0 +1,152 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">黑名单管理</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('Manage/blacklist')}" method="post">
+                <table class="search-tab">
+                    <tr>
+                        <th width="70">用户ID:</th>
+                        <td><input class="common-text" placeholder="输入用户ID" name="uid" value="{$uid}" type="text"></td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+                <select name="_type" id="_type" style="margin-right: 10px;">
+                    <option value="1">提现</option>
+                </select>
+                <label for="_uid">
+                    <input type="text" name="_uid" id="_uid" placeholder="输入新增的用户UID">
+                </label>
+                <span style="margin: auto 10px;width: 40px;max-width: 80px;display: inline-block;"
+                      id="_username"></span>
+                <a href="javascript:;" onclick="return addBlacklist(this);"><i class="icon-font"></i>新增黑名单</a>
+            </div>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>用户ID</th>
+                    <th>用户名称</th>
+                    <th>类型</th>
+                    <th>状态</th>
+                    <th>是否启用</th>
+                </tr>
+                <volist name='list' id='vo'>
+                    <tr data-id="{$vo['id']}">
+                        <td>{$vo['id']}</td>
+                        <td><input type="text" name="_e_uid" value="{$vo['uid']}"></td>
+                        <td>{$vo['username']}</td>
+                        <td>
+                            <select name="_e_type" id="_e_type">
+                                <option value="1"
+                                <php>if($vo['type'] == 1){echo "selected";}</php>
+                                >提现</option>
+                                <option value="2"
+                                <php>if($vo['type'] == 2){echo "selected";}</php>
+                                >交易记录</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="_e_active" id="_e_active">
+                                <option value="1"
+                                <php>if($vo['active'] == 1){echo "selected";}</php>
+                                >启用</option>
+                                <option value="0"
+                                <php>if($vo['active'] == 0){echo "selected";}</php>
+                                >不启用</option>
+                            </select>
+                        </td>
+                        <td>
+                            <a class="link-update" href="javascript:;" style="margin-right: 10px;">保存</a>
+                            <a class="link-del" href="{:U('Manage/saveBlacklist', ['id'=>$vo['id'], 'ac' => 'del'])}"
+                               onclick="return confirm('确认删除吗？')">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    
+
+    /**
+     * 添加黑名单
+     * @returns {boolean}
+     */
+    function addBlacklist() {
+        var _input = $('label[for="_uid"] input[name="_uid"]'),
+            _val = _input.val(),
+            _type = $('select[name="_type"]').val(),
+            data = {
+                uid: _val,
+                type: parseInt(_type)
+            };
+
+        if (!$.trim(_input.val()).length > 0) {
+            layer.alert("请输入用户UID！", {'icon': 5});
+            return false;
+        }
+
+        return ajaxDo(data);
+    }
+
+    $(".link-update").on('click', function () {
+        var _el = $(this).parents('tr'),
+            data = {
+                id: _el.attr("data-id"),
+                uid: _el.find("input[name='_e_uid']").val(),
+                type: _el.find('select[name="_e_type"]').val(),
+                active: _el.find('select[name="_e_active"]').val()
+            };
+
+        return ajaxDo(data);
+    });
+
+    function ajaxDo(data) {
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            data: data,
+            url: "{:U('manage/saveBlacklist')}",
+            success: function (callback) {
+                if (callback.Code == 1) {
+                    $("#_username").html(callback.Msg);
+                    layer.alert("操作成功！", {'icon': 6});
+                    setInterval(function () {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    layer.alert(callback.Msg, {'icon': 5});
+                }
+            },
+            error: function (e) {
+                layer.alert("添加失败，请求错误！", {'icon': 5});
+            }
+        });
+        return false;
+    }
+</script>

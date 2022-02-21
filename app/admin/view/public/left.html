@@ -1,0 +1,563 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>网站后台管理</title>
+    <style>
+        .iconfont {
+            padding-right: 5px;
+        }
+
+        .fsize {
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="topbar-wrap white">
+    <div class="topbar-inner clearfix">
+        <div class="topbar-logo-wrap clearfix">
+            <h1 class="topbar-logo none"><a href="{:url('Index/index')}" class="navbar-brand">后台管理</a></h1>
+            <ul class="navbar-list clearfix">
+                <li><a class="on" href="{:url('Index/index')}">首页</a></li>
+                <li><a href="{:url('/')}" target="_blank">网站首页</a></li>
+
+                <!--                  <li><a href="{:url('Index/infoStatistics2')}" target="_blank">全站数据统计与风控</a></li>-->
+            </ul>
+        </div>
+        <div class="top-info-wrap">
+            <ul class="top-info-list clearfix">
+                <li><a href="{:url('Manage/index')}">管理员</a></li>
+                <li><a href="{:url('Manage/pwdUpdate')}">修改密码</a></li>
+                <li><a href="{:url('Login/loginout')}">退出</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container clearfix">
+    <div class="sidebar-wrap">
+        <div class="sidebar-title">
+            <h1>菜单</h1>
+        </div>
+        <div class="sidebar-content">
+            <ul class="sidebar-list">
+                {notempty name='sys_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe614;</i><span class="fsize">系统管理</span></a>
+                    <ul class="sub-menu">
+
+                        {volist name='sys_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='bank_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe635;</i><span class="fsize">银行管理</span></a>
+                    <ul class="sub-menu">
+                        {volist name='bank_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='common_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe635;</i><span class="fsize">常用操作</span></a>
+                    <ul class="sub-menu">
+                        {volist name='common_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='user_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe64d;</i><span class="fsize">会员管理</span></a>
+                    <ul class="sub-menu">
+
+                        {volist name='user_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+
+                {notempty name='bonus_nav'}
+                <li>
+                    <a href="javascript:;"><i class="icon-font">&#xe018;</i><span class="fsize">分红管理</span></a>
+                    <ul class="sub-menu">
+
+                        {volist name='bonus_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="icon-font">&#xe017;</i>{$vo.nav_name}</a></li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='zhongchou_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe650;</i><span class="fsize">众筹管理</span></a>
+                    <ul class="sub-menu">
+
+                        {volist name='zhongchou_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='finance_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe6c8;</i><span class="fsize">财务管理</span></a>
+                    <ul class="sub-menu">
+
+                        {volist name='finance_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='trade_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">交易管理</span></a>
+                    <ul class="sub-menu">
+                        {volist name='trade_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='da_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe623;</i><span class="fsize">数据分析</span></a>
+                    <ul class="sub-menu">
+                        {volist name='da_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='wallet_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">钱包积分类型管理</span></a>
+                    <ul class="sub-menu" id="walletNav">
+                        {volist name='wallet_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='admin_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe64d;</i><span class="fsize">后台管理</span></a>
+                    <ul class="sub-menu">
+                        {volist name='admin_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='oneyuan_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe613;</i><span class="fsize">信息管理</span></a>
+                    <ul class="sub-menu">
+                        {volist name='info_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='oneyuan_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe613;</i><span class="fsize">一元抢购</span></a>
+                    <ul class="sub-menu">
+                        {volist name='oneyuan_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+                {notempty name='data_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe613;</i><span class="fsize">数据导出</span></a>
+                    <ul class="sub-menu">
+                        {volist name='data_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+                {notempty name='shop_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe613;</i><span class="fsize">商品管理</span></a>
+                    <ul class="sub-menu">
+                        {volist name='shop_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+                {notempty name='warrant_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe613;</i><span class="fsize">资产包</span></a>
+                    <ul class="sub-menu">
+                        {volist name='warrant_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+                {notempty name='c2c_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe73e;</i><span class="fsize">C2C管理</span></a>
+                    <ul class="sub-menu">
+                        {volist name='c2c_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+
+
+                {notempty name='otc_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">OTC管理</span></a>
+                    <ul class="sub-menu">
+                        {volist name='otc_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+                {notempty name='interest_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">持币生息管理</span></a>
+                    <ul class="sub-menu">
+                        {volist name='interest_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+                {notempty name='baobiao_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">报表明细</span></a>
+                    <ul class="sub-menu">
+                        {volist name='baobiao_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='information_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">资讯管理</span></a>
+                    <ul class="sub-menu">
+                        {volist name='information_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='boss_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">老板计划管理</span></a>
+                    <ul class="sub-menu">
+                        {volist name='boss_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='votes_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">投票俱乐部</span></a>
+                    <ul class="sub-menu">
+                        {volist name='votes_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='game_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">游戏管理</span></a>
+                    <ul class="sub-menu" id="gameNav">
+                        {volist name='game_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='io_shop_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">IO商城</span></a>
+                    <ul class="sub-menu">
+                        {volist name='io_shop_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='offline_shop_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">线下商城</span></a>
+                    <ul class="sub-menu">
+                        {volist name='offline_shop_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='currency_area_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">专区</span></a>
+                    <ul class="sub-menu">
+                        {volist name='currency_area_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='hongbao_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">红包</span></a>
+                    <ul class="sub-menu">
+                        {volist name='hongbao_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='flop_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">方舟</span></a>
+                    <ul class="sub-menu">
+                        {volist name='flop_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='loan_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">贷款</span></a>
+                    <ul class="sub-menu">
+                        {volist name='loan_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='contract_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">合约</span></a>
+                    <ul class="sub-menu">
+                        {volist name='contract_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='air_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">云梯</span></a>
+                    <ul class="sub-menu">
+                        {volist name='air_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a></li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='sender_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">短信邮件任务管理</span></a>
+                    <ul class="sub-menu">
+                        {volist name='sender_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                        {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='jump_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">矿池</span></a>
+                    <ul class="sub-menu">
+                        {volist name='jump_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                            {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='node_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">节点</span></a>
+                    <ul class="sub-menu">
+                        {volist name='node_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                            {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='transfer_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">互转</span></a>
+                    <ul class="sub-menu">
+                        {volist name='transfer_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                            {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='mining_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">质押挖矿</span></a>
+                    <ul class="sub-menu">
+                        {volist name='mining_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                            {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='group_mining_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">拼团挖矿</span></a>
+                    <ul class="sub-menu">
+                        {volist name='group_mining_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                            {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='abf_trade_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">ABF币币交易</span></a>
+                    <ul class="sub-menu">
+                        {volist name='abf_trade_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                            {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='filmining_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">涡轮增压</span></a>
+                    <ul class="sub-menu">
+                        {volist name='filmining_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                            {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+
+                {notempty name='commonmining_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">传统矿机</span></a>
+                    <ul class="sub-menu">
+                        {volist name='commonmining_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                            {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+                {notempty name='chiamining_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">chia存储</span></a>
+                    <ul class="sub-menu">
+                        {volist name='chiamining_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                            {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+                {notempty name='alonemining_nav'}
+                <li>
+                    <a href="javascript:;"><i class="iconfont">&#xe631;</i><span class="fsize">IPFS存储</span></a>
+                    <ul class="sub-menu">
+                        {volist name='alonemining_nav' id='vo'}
+                        <li><a href="{$vo.nav_url}"><i class="iconfont">{$vo.nav_e}</i>&nbsp;{$vo.nav_name}</a>
+                            {/volist}
+                    </ul>
+                </li>
+                {/notempty}
+            </ul>
+        </div>
+    </div>
+    <script>
+        window._deel = {
+            req_member_details_url: "{:url('member/member_details')}",
+        }
+        $(".sidebar-list li").children("a").on("click", function () {
+            $(this).next(".sub-menu").toggle();
+        });
+        $(".sub-menu a").each(function(){
+            var _win_location = window.location.href;
+            var _a_href = $(this).attr("href");
+            if(_win_location.indexOf(_a_href) != -1){
+                $(this).parent().parent().show();
+                $(".sub-menu li").removeClass("on");
+                $(this).parent().addClass("on");
+                console.log(_a_href);
+            }
+        });
+    </script>

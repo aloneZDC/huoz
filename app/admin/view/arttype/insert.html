@@ -1,0 +1,93 @@
+{include file="../app/admin/view/public/left.html" /}
+<script>
+    function checkForm() {
+        var name = document.getElementById('name').value;
+        var sort = document.getElementById('sort').value;
+        if (name != "") {
+            if (!isNaN(sort)) {
+                document.getElementById('myform').submit();
+            } else {
+                alert("排序请输入数字");
+            }
+        } else {
+            alert('请填写分类名称');
+        }
+    }
+</script>
+
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><a
+                class="crumb-name" href="{:url('Arttype/index')}">文章分类管理</a><span class="crumb-step">&gt;</span><span>新增文章分类</span>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form action="{:url('Arttype/insert')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <table class="insert-tab" width="100%">
+                    <tbody>
+                    <tr>
+                        <th width="120">分类类型：</th>
+                        <td>
+                            <select name="tp" id="tp" class="required">
+                                <option value="">默认增加一级分类</option>
+                                {volist name="cat" id="vo"}
+                                    <option value="{$vo.id}"> {$vo.name}</option>
+                                    {volist name="vo.children" id="voo"}
+                                        <option value="{$voo.id}">--{$voo.name}</option>
+                                        {volist name="voo.childrens" id="vooo"}
+                                            <option value="{$vooo.id}">----{$vooo.name}</option>
+                                        {/volist}
+                                    {/volist}
+                                {/volist}
+                            </select>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>分类名称：</th>
+                        <td><input class="common-text required" id="name" name="name" size="50" value="" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>英文名称：</th>
+                        <td><input class="common-text required" id="name_en" name="name_en" size="50" value="" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>繁体名称：</th>
+                        <td><input class="common-text required" id="name_tc" name="name_tc" size="50" value="" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>关键字：</th>
+                        <td><input class="common-text required" id="keywords" name="keywords" size="50" value=""
+                                   type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>排序(输入数字)：</th>
+                        <td><input class="common-text required" id="sort" name="sort" size="50" value="" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>是否帮助中心(输入数字)：</th>
+                        <td><input class="common-text required" id="is_help" name="is_help" size="50" value="0" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td><input class="btn btn-primary btn6 mr10" value="提交" type="button" onclick="checkForm()">
+                            <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<!--/main-->
+
+</div>
+</body></html>

@@ -1,0 +1,290 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+<script>
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<style>
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 0 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">老板列表</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('boss/bossPlan')}" method="get" style="padding: 0 15px;">
+                <table class="search-tab">
+                    <tr>
+                        <th  width="60px">账户:</th>
+                        <td><input class="common-text" placeholder="手机号码/Email" name="phone" value="{$where['phone']}" id="" type="text"></td>
+                        <th  width="60px">用户ID:</th>
+                        <td><input class="common-text" placeholder="用户ID" name="member_id" value="{$where['member_id']}" id="" type="text"></td>
+                        <th  width="70px">用户上级ID:</th>
+                        <td><input class="common-text" placeholder="用户上级ID" name="pid" value="{$where['pid']}" id="" type="text"></td>
+                        <th  width="60px">总票数:</th>
+                        <td><input class="common-text" placeholder="总票数" name="votes" value="{$where['votes']}" id="" type="text"></td>
+                        <th  width="60px">等级:</th>
+                        <td>
+                            <select name="level" id="">
+                                <option value="" >全部</option>
+                                <option value="0" <if condition="$where['level'] eq 0 and is_numeric($where['level'])"> selected="selected" </if>>LV0</option>
+                                <option value="1" <if condition="$where['level'] eq 1"> selected="selected" </if>>LV1</option>
+                                <option value="2" <if condition="$where['level'] eq 2"> selected="selected" </if>>LV2</option>
+                                <option value="3" <if condition="$where['level'] eq 3"> selected="selected" </if>>LV3</option>
+                                <option value="4" <if condition="$where['level'] eq 4"> selected="selected" </if>>LV4</option>
+                                <option value="5" <if condition="$where['level'] eq 5"> selected="selected" </if>>LV5</option>
+                                <option value="6" <if condition="$where['level'] eq 6"> selected="selected" </if>>LV6</option>
+                            </select>
+                        </td>
+                        <th width="70px">状态:</th>
+                        <td>
+                            <select name="status" id="">
+                                <option value="">全部</option>
+                                <option value="1" <if condition="$where['status'] eq 1"> selected="selected" </if>>待审核</option>
+                                <option value="3" <if condition="$where['status'] eq 3"> selected="selected" </if>>通过</option>
+                            </select>
+                        </td>
+
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="12">当前人数:{$total_arr['people_num']}  &nbsp;&nbsp;&nbsp;&nbsp;
+                            当前总入金量:{$total_arr['num']} &nbsp;&nbsp;&nbsp;&nbsp;
+                            当前总瑞波钻:{$total_arr['xrpz_num']} &nbsp;&nbsp;&nbsp;&nbsp;
+                            当前总瑞波金:{$total_arr['xrpj_num']} &nbsp;&nbsp;&nbsp;&nbsp;
+                            当前总团队总资产:{$total_arr['total_team_num']} &nbsp;&nbsp;&nbsp;&nbsp;
+                            当前总创新区瑞波钻:{$total_arr['xrpz_new_num']}
+                        </td>
+
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+     
+    <div class="result-wrap">
+        <div class="result-content" style="overflow: scroll;">
+            <table class="result-tab" width="2200px">
+                <tr>
+                    <th>用户ID</th>
+                    <th>用户账号</th>
+                    <!--<th>用户邮箱号</th>-->
+                    <th>用户的父级ID</th>
+                    <!--<th>后台添加</th>-->
+                    <th>总票数</th>
+                    <th>等级</th>
+                    <th>推荐人数</th>
+                    <th>入金量</th>
+                    <th>瑞波钻</th>
+                    <th>冻结瑞波钻</th>
+                    <th>瑞波金</th>
+                    <th>冻结瑞波金</th>
+                    <th>团队总资产</th>
+                    <th>创新区瑞波钻</th>
+                    <th>审核状态</th>
+                    <th>锁定状态</th>
+
+                    <th>下级培养人数</th>
+                    <th>上次升级时间</th>
+                    <th>待审核时间</th>
+                    <th>审核确认时间</th>
+                    <th>操作</th>
+
+                </tr>
+                <volist name='list' id='vo'>
+                    <tr data-id="{$vo['member_id']}">
+                        <td ><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo['member_id']}</a></td>
+                        <td >{$vo['phone']}{$vo['is_admin']}</td>
+                        <!--<td >{$vo['email']}</td>-->
+                        <td><a href="javascript:member_details({$vo.pid});" class="shenhe_button">{$vo['pid']}</a></td>
+                        <!--<td>{$vo['is_admin']}</td>-->
+                        <td >{$vo['votes']}</td>
+                        <td>{$vo['level']}</td>
+                        <td >{$vo['push_num']}</td>
+                        <td >{$vo['num']}</td>
+                        <td >{$vo['xrpz_num']}</td>
+                        <td>{$vo['xrpz_forzen']}</td>
+                        <td >{$vo['xrpj_num']}</td>
+                        <td >{$vo['xrpj_forzen']}</td>
+                        <td >{$vo['total_team_num']}</td>
+                        <td>{$vo['xrpz_new_num']}</td>
+                        <td>{$vo['status']}</td>
+                        <td>{$vo['lock_status']}</td>
+
+                        <td>{$vo['next_leve_num']}</td>
+                        <td >{$vo['upgrade_time']}</td>
+                        <td >{$vo['create_time']}</td>
+                        <td>{$vo['activate_time']}</td>
+                        <td>
+                            <button class="btn review" data-type="{$vo['lock_state']}">设置锁定</button>
+                        </td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+
+    $(function () {
+    	
+      //全选和反选
+        $("#checkAll").click(function () {
+            $('input[name="subBox"]').attr("checked", this.checked);
+        });
+
+        var $subBox = $("input[name='subBox']");
+        $subBox.click(function () {
+            $("#checkAll").attr("checked", $subBox.length == $("input[name='subBox']:checked").length ? true : false);
+        });
+        
+        
+
+    	
+        $("button.review").on('click', function () {
+            var _ = $(this),
+                _id = _.parents('tr').attr('data-id'),
+                _type = _.attr('data-type'),
+                data = {
+                    id: _id,
+                    type: _type
+                },
+                text = data.type ==2 ? "锁定" : "取消锁定";
+
+            layer.confirm("确定" + text + "吗？", {btn: ['是的','取消']}, function () {
+                var loading = layer.msg('服务器君正在用力加载中，请稍等···', {
+                    icon: 16
+                    , shade: 0.3
+                    , time: 0
+                    , scrollbar: false
+                });
+
+                $.ajax({
+                    data: data,
+                    type: 'post',
+                    dataType: 'json',
+                    url: "{:U('boss/user_lock')}",
+                    success: function (callback) {
+                        if(callback.Code == 1){
+                            layer.alert(callback.Msg, {icon: 5});
+                            setTimeout(function () {
+                                window.location.href = window.location.href;
+                                window.parent.location.reload();
+                                parent.layer.close(mylay);
+                            },3000);
+                            layer.close(loading);
+                        }else{
+                            layer.alert(callback.Msg, {icon: 5});
+                            layer.close(loading);
+                        }
+                    },
+                    error: function (e) {
+                        layer.alert("请求失败", {icon: 5});
+                        layer.close(loading);
+                    }
+                });
+            }, function () {
+                layer.close();
+            });
+        });
+    });
+    
+    /**
+     * 批量审核
+     */
+   //禁止按钮重复提交
+     var submit_lock = true;
+
+    function review(type) {
+
+        if (!submit_lock) {
+            return false;
+        }
+        submit_lock = false;
+
+        var _subbox_el = $('input[name="subBox"]'),
+            _check_list = [], //勾选的申请列表
+            data = {}; //模板条件
+
+        _subbox_el.each(function (index, el) {
+            if ($(el).is(":checked")) {
+                _check_list.push($(el).val());
+            }
+        });
+
+        if (!_check_list.length > 0) {
+            layer.alert("请选择要审核", {'icon': 5});
+            submit_lock = true;
+            return false;
+        }
+        //console.info(_check_list);
+
+        
+        layer.confirm("确认批量审核吗？", {icon: 3, title: '批量审核确认'}, function (index) {
+            layer.msg('提交审核中，请稍等···', {
+                icon: 16
+                , shade: 0.3
+                , time: 0
+                , scrollbar: false
+            });
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: {list: _check_list,type:type},
+                url: "{:U('review')}",
+                success: function (callback) {
+                    if (callback.Code == 1) {
+                        layer.alert(callback.Msg, {"icon": 6});
+                    } else {
+                        layer.alert(callback.Msg, {"icon": 5});
+                    }
+                    setInterval(function () {
+                        window.location.href = window.location.href;
+                    }, 1500);
+
+                    submit_lock = true;
+                },
+                error: function (e) {
+                    layer.alert("审核失败，请求出错！", {"icon": 5});
+
+                    submit_lock = true;
+                }
+            });
+        });
+
+        submit_lock = true;
+        return false;
+    }
+</script>

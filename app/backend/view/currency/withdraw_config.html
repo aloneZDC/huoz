@@ -1,0 +1,71 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">财务管理</a> <a href="javascript:;">提现配置</a> <a><cite>添加配置</cite></a>
+    </span>
+    <span class="fr">
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <p>赠与收益提现时间配置</p>
+    <form class="layui-form form" action="" method='POST'>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="a0">周日：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="checkboxid[]" value="0" lay-skin="primary" id="a0" {if(in_array(0, $info.data))} checked {/if}>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="a1">周一：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="checkboxid[]" value="1" lay-skin="primary" id="a1" {if(in_array(1, $info.data))} checked {/if}>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="a2">周二：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="checkboxid[]" value="2" lay-skin="primary" id="a2" {if(in_array(2, $info.data))} checked {/if}>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="a3">周三：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="checkboxid[]" value="3" lay-skin="primary" id="a3" {if(in_array(3, $info.data))} checked {/if}>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="a4">周四：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="checkboxid[]" value="4" lay-skin="primary" id="a4" {if(in_array(4, $info.data))} checked {/if}>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="a5">周五：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="checkboxid[]" value="5" lay-skin="primary" id="a5" {if(in_array(5, $info.data))} checked {/if}>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="a6">周六：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="checkboxid[]" value="6" lay-skin="primary" id="a6" {if(in_array(6, $info.data))} checked {/if}>
+            </div>
+        </div>
+        <br/>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit" type="button" lay-submit lay-filter="submit" data-url="{:url('')}" >立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<style>
+
+</style>
+<script>
+    layui.use(['form','add'], function() {});
+</script>
+
+{include file="layout/footer"}

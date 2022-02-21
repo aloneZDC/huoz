@@ -1,0 +1,134 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">挂单列表</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="ename" placeholder="请输入用户名" autocomplete="off" class="layui-input" value="{$Think.get.ename}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="user_phone" placeholder="请输入用户账户" autocomplete="off" class="layui-input" value="{$Think.get.user_phone}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="currency_id">
+                        <option value="">币种</option>
+                        {volist name="currency_list" id="vo"}
+                            <option value="{$vo.release_currency_id}" {if condition="$Think.get.currency_id eq $vo['release_currency_id']"}selected{/if} >{$vo.release_currency_name}</option>
+                        {/volist}
+                    </select>
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="pledge_status">
+                        <option value="">质押状态</option>
+                        <option value="0" {if condition="$Think.get.pledge_status == 0 && $Think.get.status !='' "}selected{/if} >质押中</option>
+                        <option value="1" {if condition="$Think.get.pledge_status eq 1"}selected{/if}>已解除</option>
+                    </select>
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户</th>
+                        <th>币种</th>
+                        <th>锁仓数量</th>
+                        <th>锁仓剩余</th>
+                        <th>质押数量</th>
+                        <td>质押状态</td>
+                        <td>支付数量</td>
+                        <td>其他支付数量</td>
+                        <td>添加时间</td>
+                        <td>状态</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>{$v.id}</td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.member_id})">
+                                {if condition="$v.users.phone"}
+                                {$v.users.phone}
+                                {else /}
+                                {$v.users.email}
+                                {/if}
+                                ({$v.member_id}) - {$v.users.ename}
+                            </a>
+                        </td>
+                        <td>
+                            {$v.releasecurrency.currency_name}
+                        </td>
+                        <td>
+                            {$v.lock_currency_num} {$v.lockcurrency.currency_name}
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('release')}?third_id={$v.id}" data-title="{$v.id}释放记录">{$v.lock_currency_avail} {$v.lockcurrency.currency_name}</a>
+                        </td>
+                        <td>
+                            {$v.pledge_currency_num} {$v.pledgecurrency.currency_name}
+                        </td>
+                        <td>
+                            {if condition="$v.pledge_status eq 0"}
+                            质押中
+                            {elseif condition="$v.status eq 1" /}
+                            已解除
+                            {/if}
+                        </td>
+                        <td>
+                            {$v.pay_currency_num} {$v.paycurrency.currency_name}
+                        </td>
+                        <td>
+                            {if condition="$v.pay_other_currency_num gt 0"}
+                                {$v.pay_other_currency_num}
+                                {$v.payothercurrency.currency_name}
+                            {/if}
+                        </td>
+                        <td>
+                            {:date('Y-m-d H:i:s',$v['add_time'])}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'],function () {
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/otc/index.css">
+<script src="__PUBLIC__/static/home/js/otc/index.js"></script>
+<div id="nav">
+    <div class="buyandseller_box">
+        <div class="otc_buy">
+            <p>{:lang('lan_buyes')}</p>
+            <ul>
+                {volist name='currencys' id="vo"}
+                <li>
+                    <a href="{:url('',['currency_id'=>$vo['currency_id'],'currency_type'=>'sell'])}" {if condition="$currency_type eq 'sell' && $vo.currency_id eq $currency_id"}class="active_a"{/if} > {$vo.currency_name} </a>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+        <div class="otc_sell">
+            <p>{:lang('lan_selles')}</p>
+            <ul>
+                {volist name='currencys' id="vo"}
+                <li>
+                    <a href="{:url('',['currency_id'=>$vo['currency_id'],'currency_type'=>'buy'])}" {if condition="$currency_type eq 'buy' && $vo.currency_id eq $currency_id"}class="active_a"{/if} > {$vo.currency_name} </a>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+
+    <p class="otc_placeAndAd"
+        {if condition="$member_status.login_status eq 0"}
+            onclick="nologin()"
+        {elseif condition="$member_status.member_name_status eq 0" /}
+            onclick="noRealname()"
+        {elseif condition="$member_status.member_nick_status eq 0" /}
+            onclick="nonike()"
+        {else /}
+            onclick="to_publish()"
+        {/if}>{:lang('lan_issues_advertisement')}</p>
+    <!-- 搜索框 -->
+    <div class="otc_searchwrap">
+            <span>{:lang('lan_Amount_money')}</span>
+            <span>{:lang('lan_all_payment_methods')}</span>
+            <span class="otc_cheak"></span>
+	</div>
+	<div class="otc_search hide">
+		<form class="layui-form" action="">
+            <div class="layui-form-item">
+              <label class="layui-form-label">{:lang('lan_Mode_payment_management1')}</label>
+              <div class="layui-input-block">
+                <select name="money_type" lay-filter="aihao">
+                  <!-- <option value=""></option> -->
+                  <option value="all"  selected="">{:lang('lan_whole')}</option>
+                  <option value="alipay">{:lang('lan_alipay')}</option>
+                  <option value="wechat">{:lang('lan_WeChat')}</option>
+                  <option value="bank">{:lang('lan_bank_card')}</option>
+                </select>
+              </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">{:lang('lan_Amount_money')}</label>
+                <div class="layui-input-block">
+                  <input type="text" name="price" id="price" autocomplete="off" placeholder="{:lang('lan_Please_enterthe_transaction_amount')}" onkeyup="clearNoNum(this)" class="layui-input placeholder_color" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-input-block search">
+                <p class="searchbtn">{:lang('lan_search_for')}</p>
+                <button type="reset" class="layui-btn layui-btn-primary searchcancel">{:lang('lan_cancel')}</button>
+              </div>
+            </div>
+    </form>
+	</div>
+</div>
+<!-- 列表 -->
+<div id="otc_tradelistwrap">
+        <div class="otc_listheader">
+            <span>{:lang('lan_Merchant')}({:lang('lan_Latest_volume')} | {:lang('lan_Turnover_rate')} ) </span>
+            <span>{:lang('lan_number_ofs')}</span>
+            <span>{:lang('lan_Limit')}</span>
+            <span>{:lang('lan_Unit_Price')}</span>
+            <span>{:lang('lan_Mode_payment_management1')}</span>
+            <span>{:lang('lan_operation')}</span>
+        </div>
+        <ul id="otc_trade_list">
+            {notempty name='list'}
+                {volist name="list" id="vo" empty="$empty" key="k"}
+                    <li  class="otc_listdetails" data_member_id="{$vo.member_id}">
+                        <div class="otc_nameabbreviations">
+                            <span>
+                                {:msubstr($vo['name'],0,1)}<i></i>
+                            </span>
+                        </div>
+
+                        <div class="otc_datadetails">
+                            <span>{$vo.name}({$vo.trade_allnum} | {$vo.evaluate_num}%)</span>
+                            <span>{$vo.avail} {$vo.currency_name}</span>
+                            <span>{$vo.min_money}-{$vo.max_money} CNY</span>
+                            <span>{$vo.price} CNY</span>
+                            <span class="otc_pay_way">
+                                {if condition="in_array('bank',$vo['money_type'])"}<i class="otc_bank"></i>{/if}
+                                {if condition="in_array('wechat',$vo['money_type'])"}<i class="otc_wechat"></i>{/if}
+                                {if condition="in_array('alipay',$vo['money_type'])"}<i class="otc_alipay"></i>{/if}
+                            </span>
+
+                            <span data-type="{$vo.type}" data-id="{$vo.orders_id}" class="buy_btn" 
+                                {if condition="$member_status.login_status eq 0"}
+                                    onclick="nologin()"
+                                {elseif condition="$member_status.member_name_status eq 0" /}
+                                    onclick="noRealname()"
+                                {elseif condition="$member_status.member_nick_status eq 0" /}
+                                    onclick="nonike()"
+                                {else /}
+                                    {php}
+                                    if($vo['type']=='sell') {
+                                        $bank = true;
+                                    } else {
+                                        $bank = false;
+                                        foreach($vo['money_type'] as $type){
+                                            if(in_array($type,$my_bank)) {
+                                                $bank = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    {/php}
+                                    {if condition="$bank"}
+                                        onclick="show_ordertk({$key})"                    
+                                    {else /}
+                                        onclick="noBudget({$key})"
+                                    {/if}
+                                {/if}
+
+                            >
+                                {if condition="$currency_type eq 'buy'"} {:lang('lan_selles')} {else/} {:lang('lan_buyes')} {/if}{$vo.currency_name}
+                            </span>
+                        </div>
+                    </li>
+                {/volist}
+            {else /}
+                <div class="isempty">{:lang('lan_No_data')}</div>
+            {/notempty}
+        </ul>
+        <div class="page">{$pages}</div>
+        <div class="otc_ordertk">
+            <div style="position:relative">
+                <span class="abbreviations">
+                    <span></span><i></i>
+                </span>
+                <div class="sellerinfo">
+                    <p>
+                        <span class="info1"></span>
+                        <span class="info2"></span>
+                    </p>
+                    <P>
+                        <span class="info3"></span>
+                        <span class="info4"></span>
+                    </P>
+                    <P class="pay_way">
+                            <span class="otc_bank otc_bank1">{:lang('lan_bank_card')}</span>
+                            <span class="otc_wechat otc_wechat1">{:lang('lan_WeChat')}</span>
+                            <span class="otc_alipay otc_alipay1">{:lang('lan_alipay')}</span>
+                    </P>
+                </div>
+                    <div class="tradeinfo">
+                        <div class="trade_box">
+                            <div class="trade_l">
+                                <input  class="trade_sum"/>
+                                <div>
+                                    <span>CNY</span>
+                                    <span class="allcny">{:lang('lan_whole')}</span>
+                                </div>
+                                <p style="display:none">CNY</p>
+                            </div>
+                            <i></i>
+                            <div class="trade_r">
+                                <input  class="trade_num"/>
+                                <div>
+                                    <span class="currency_name"></span>
+                                    <span class="allcurrency">{:lang('lan_whole')}</span>
+                                </div>
+                            </div>
+                            <div class="trade_password">
+                                <input type="text" placeholder="{:lang('lan_reg_transaction_password2')}" class="lock_num_intes" style="display: none;"/>
+                                <input type="text" autocomplete="off" placeholder="{:lang('lan_reg_transaction_password2')}" id="trade_pwd" class="lock_num_intes lock_num_intes_zw" onfocus="this.type='password'" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+                                <p style="display:none">{:lang('lan_reg_transaction_password2')}</p>
+                            </div>
+                        </div>
+                        <div class="receivables_box" style="margin-top: 36px;">
+                            
+                        </div>
+                        <div class="trade_btn">
+                            <p>133131313</p>
+                            <button class="cancel">{:lang('lan_cancel')}</button>
+						    <button class="determine">{:lang('lan_Orderx')}</button>
+                        </div>
+                    </div>
+            </div>
+            <div class="seller_remark">
+                    <p>{:lang('lan_Merchant_note')}:</p>
+                <p class="order_message"></p>
+            </div>
+        </div>
+    </div>
+    <!-- 遮罩层 -->
+    <div class="shade"></div>
+    <!--设置昵称-->
+    <div class="vo_all">
+        <p class="vo_all_close"><span class="vo_all_close_x">x</span></p>
+        <div class="vo_all_cont">
+            <p>{:lang('lan_set_nickname')}</p>
+            <div class="vo_all_cont_ins">
+                <span>{:lang('lan_nickname')}</span>
+                <input type="text" class="vo_all_cont_ni" minlength="4" maxlength="30" placeholder="{:lang('lan_please_enter_nickname')}" autocomplete="off"/>
+            </div>
+        </div>
+        <div class="vo_all_button">
+            <input type="button" value="{:lang('lan_cancel')}" class="vo_all_button_o"/>
+            <input type="button" value="{:lang('lan_determine')}" class="vo_all_button_t"/>
+        </div>
+    </div>
+    <div class="vo_all_zh"></div>
+    <script>
+        var list_fields = '{:json_encode($list)}';
+        var result = list_fields.replace(/\n/g,"<br />");
+            result = result.replace(/\r/g,"<br />");
+            result = JSON.parse(result);
+        var search_url = "{:url('',['currency_id'=>$currency_id,'currency_type'=>$currency_type])}";//搜索使用的URL
+        var money_type = "all";//搜索框选中的值
+        var price = "";//搜索框输入的价格
+        var loginURL = "{:url('Login/index')}";//登录界面url
+        var setRealNameURL = "{:url('User/senior_verify')}";//设置实名认证
+        var setNickAPI = "{:url('User/modifynick')}";//设置昵称api
+        var Temporarily_ogin = "请先登錄";
+        var setRealName = "请进行实名认证";
+        var min_money;//金额最小数
+        var max_money;//金额最带数
+        var max_num;//币的最大个数
+        var unit_price;//单价
+        var inputval_l;
+        var inputval_r;    
+        var orders_id;//订单Id 
+        var transaction_type = "{$currency_type}"; //交易类型
+        var buyAPI = '{:url("TradeOtc/buy")}'; //买的接口
+        var sellAPI = '{:url("TradeOtc/sell")}' ;// 出售的接口
+        var trade_infoURL= '{:url("TradeOtc/trade_info")}';//交易订单信息
+        var LoginURL = '{:url("Login/index")}' ;
+        var publish_adURL = '{:url("TradeOtc/publish_ad")}' ;
+        var langreminder = "{:lang('lan_please_select_payment_method')}";
+
+
+        function to_publish(){
+             //验证银商
+            $.ajax({
+                "url": "{:url('OrdersOtc/agent_check')}",
+                "type": "POST",
+                "data": {},
+                success: function (data) {
+                    console.log(data)
+                    if(data.code == 10000){
+                         location.href = publish_adURL;
+                    }else{
+                        layer.alert(data.message);
+                    }
+                }
+            });
+        }
+        // 未登录
+        function  nologin() {
+            layer.msg(Temporarily_ogin);//请先登录
+            setTimeout(function(){
+                window.location.href = loginURL;
+            },1000);
+        }
+        //设置实名
+        function  noRealname() {
+            layer.msg("{:lang('lan_user_authentication_first')}");
+            setTimeout(function(){
+                window.location.href = setRealNameURL;
+            },1000);
+        }
+        //设置昵称
+        function  nonike() {
+            layer.msg("{:lang('lan_nickname_first')}");
+            setTimeout(function(){
+                $(".vo_all").show();
+                $(".vo_all_zh").show();
+                Current_refresh =true;
+            },1000);
+        }
+
+         //设置收支
+        function  noBudget(index) {
+            var content = "";
+            console.log(result[index])
+            $.each(result[index].money_type,function(i,v){
+                if(v == "wechat"){
+                    content += "{:lang('lan_WeChat')}、"
+                }else if(v == "alipay"){
+                    content += "{:lang('lan_alipay')}、"
+                }else if(v == "bank") {
+                    content += "{:lang('lan_bank_card')}、"
+                }
+                
+            })
+            var data_type= content.slice(0,(content.length-1));
+            var data_content = "{:lang('lan_buyers_only_sell_support')}"+data_type+"{:lang('lan_to_pay_need_activate')}";
+            layer.open({
+                content: data_content,
+                title: "{:lang('lan_modify_tips')}"
+                ,btn: ["{:lang('lan_Add_to')}", "{:lang('lan_cancel')}"]
+                ,yes: function(index, layero){
+                    window.location.href = "{:url('Bank/index',['currency_id'=>$currency_id,'currency_type'=>$currency_type])}?type=2";
+                }
+                ,btn2: function(index, layero){
+                    //按钮【按钮二】的回调
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+                ,cancel: function(){ 
+                    //右上角关闭回调
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+        }
+        
+        //阻止操作按钮默认事件
+        $("#otc_trade_list").on("click",".buy_btn",function(e){
+            stopPropagations(e)
+        })
+        function show_ordertk(index){
+            $(".receivables_box").html("");
+                var obj = {
+                    orders_id:$(".buy_btn").eq(index).attr("data-id"),
+                }
+                $.ajax({
+                    type:"POST",
+                    url:"{:url('OrdersOtc/updateavail')}",
+                    data:obj,
+                    beforeSend:function(){
+                        layer.load(1, {
+                            shade: [0.3, '#000'] //0.1透明度的白色背景
+                        });
+                    },
+                    success:function(data){
+                        console.log(data);
+                        if(data.code == 10000){
+                            $(".shade").show();
+                            $(".otc_ordertk").slideToggle();
+                            if (result[index].money_type.indexOf("bank") == -1) {
+                                $(".otc_bank1").hide();
+                            }else{
+                                $(".otc_bank1").show();
+                            }
+                            if (result[index].money_type.indexOf("alipay") == -1) {
+                                $(".otc_alipay1").hide();
+                            }else{
+                                $(".otc_alipay1").show();
+                            }
+                            if (result[index].money_type.indexOf("wechat") == -1) {
+                                $(".otc_wechat1").hide();
+                            }else{
+                                $(".otc_wechat1").show();
+                            }
+                            if(transaction_type == "sell"){
+                                $(".trade_password").hide();
+                            }
+                            if($(".buy_btn").eq(index).attr("data-type") == "buy"){
+                                var list = data.result.bank_list;
+                                var html = "";
+                                for(let i=0;i<list.length;i++){
+                                    html += `<div class="receivables">
+                                                <span class="checkbox">
+                                                    <input type="radio" data-attr="${list[i].bankname}:${list[i].id}" name="cheack_type" value="1">
+                                                </span>`;
+                                    if(list[i].bankname == "alipay"){
+                                        html += `<span class="receivables_icon">
+                                                    <img src="__PUBLIC__/static/home/images/otc_alipay.png" alt="">
+                                                </span>
+                                                <span class="receivables_type">{:lang('lan_alipay')}</span>`;
+                                    }else if(list[i].bankname == "wechat"){
+                                        html += `<span class="receivables_icon">
+                                                    <img src="__PUBLIC__/static/home/images/otc_WeChat.png" alt="">
+                                                </span>
+                                                <span class="receivables_type">{:lang('lan_WeChat')}</span>`;
+                                    }else if(list[i].bankname == "bank"){
+                                        html += `<span class="receivables_icon">
+                                                            <img src="__PUBLIC__/static/home/images/otc_wallet.png" alt="">
+                                                        </span>
+                                                        <!-- <span class="receivables_type">{:lang('lan_bank_card')}</span> -->
+                                                        <span>${list[i].bname}</span>
+                                                        <span>${list[i].inname}</span>`;
+                                    }
+                                    html += `<span class="user_phone">${list[i].cardnum}</span>
+                                                ${list[i].bankname == "bank"?"":`<span class="qr_code">
+                                                        <img src="${list[i].img}" >
+                                                        <span><img src="${list[i].img}" alt="" width="100%" height="100%"></span>
+                                                    </span>`}
+                                            </div>`
+                                }
+                                $(".receivables_box").html(html);
+                            }
+                            $(".abbreviations>span").html(result[index].name.slice(0,1)); //名字简写
+                            $(".info1").html(result[index].trade_allnum + " | " + result[index].evaluate_num + "%");
+                            $(".info2").html(result[index].price + " CNY");
+                            $(".info3").html("{:lang('lan_number_ofs')}" + result[index].avail + "  " + result[index].currency_name);
+                            $(".info4").html(result[index].min_money + "--" + result[index].max_money + "  CNY");
+                            $(".trade_l p").html("{:lang('lan_Minimum_order_amount')}" + result[index].min_money + "CNY");
+                            $(".trade_r .currency_name").html(result[index].currency_name);
+                            $(".seller_remark .order_message").html(result[index].order_message);
+                            $(".trade_btn p").html("{:lang('lan_The_buyer_s_payment_time_limit_is')}" + result[index].limit_time + "{:lang('lan_K_Minute')}");
+                            unit_price = Number(result[index].price);//单价
+                            min_money =Number( result[index].min_money);//金额最小数
+                            max_money=Number(result[index].max_money);//金额最大数
+                            max_num=Number(result[index].max_num);//币的最大个数
+                            orders_id = result[index].orders_id;
+                        }else{
+                            layer.msg(data.message);
+                        }
+                    },
+                    complete:function(){
+                        layer.closeAll("loading");
+                    }
+                });
+        }
+        //判断输入框值大小 提示
+        function judgementofsize(){
+            if($(".trade_sum").val()<=min_money){
+                $(".trade_l p").html("{:lang('lan_Minimum_order_amount')}" + min_money + "CNY");
+                $(".trade_l p").show();
+            }else if($(".trade_sum").val()>=max_money){
+                max_val()
+                $(".trade_l p").html("{:lang('lan_Maximum_order_amount')}" + max_money + "CNY");
+                $(".trade_l p").show();
+            }else{
+                $(".trade_l p").hide();
+            }
+        }
+
+        //点击全部
+        function max_val(){
+            inputval_l = max_money;
+            inputval_r = max_num;
+            $(".trade_sum").val(inputval_l);
+            $(".trade_num").val(inputval_r)
+        }
+
+        // 重置参数值 表单值
+        function resetval (){
+            $(".trade_sum").val("");
+            $(".trade_num").val("");
+            $("#trade_pwd").val("");
+            inputval_l = 0;
+            inputval_r = 0;
+        }
+        	// 跳转至个人主页
+	$("#otc_trade_list").on("click","li",function(){
+		 location.href = '{:url("OrdersOtc/user",["currency_type"=>$currency_type])}' + "?member_id=" + $(this).attr("data_member_id") ;
+	})
+    </script>

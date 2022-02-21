@@ -1,0 +1,102 @@
+<style>
+    .main-wrap {
+        margin-left: 10px;
+    }
+</style>
+
+<div class="main-wrap">
+    <div>待提币列表</div>
+    <div class="result-wrap " style="border-bottom:0;">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>转出地址</th>
+                        <th>转入地址</th>
+                        <th>数量</th>
+                        <th>hash</th>
+                        <th>时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="wait_list" id="v"}
+                    <tr>
+                        <td>{$v.from_address}</td>
+                        <td>{$v.to_address}</td>
+                        <td>{$v.money}</td>
+                        <td>{$v.txhash}</td>
+                        <td>{:date('Y-m-d H:i:s',$v['starttime'])}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <div>服务器提币申请列表</div>
+    <div class="result-wrap " style="border-bottom:0;">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList1">
+                    <thead>
+                    <tr>
+                        <th>转出地址</th>
+                        <th>转入地址</th>
+                        <th>数量</th>
+                        <th>hash</th>
+                        <th>时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="pull_list" id="v"}
+                    <tr>
+                        <td>{$v.afrom}</td>
+                        <td>{$v.ato}</td>
+                        <td>{$v.amount}</td>
+                        <td>{$v.tx}</td>
+                        <td>{:date('Y-m-d H:i:s',$v['push_time'])}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+
+
+    <div>服务器提币反馈列表</div>
+    <div class="result-wrap " style="border-bottom:0;">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList2">
+                    <thead>
+                    <tr>
+                        <th>转出地址</th>
+                        <th>转入地址</th>
+                        <th>数量</th>
+                        <th>hash</th>
+                        <th>时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="push_list" id="v"}
+                    <tr>
+                        <td>{$v.afrom}</td>
+                        <td>{$v.ato}</td>
+                        <td>{$v.amount}</td>
+                        <td>{$v.tx}</td>
+                        <td>{:date('Y-m-d H:i:s',$v['add_time'])}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        layui.use(['form','global']);
+    </script>
+</div>

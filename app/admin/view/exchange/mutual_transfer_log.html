@@ -1,0 +1,83 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+<script>
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">汇总</span></div>
+    </div>
+
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <th  width="80px">转出用户ID:</th>
+                        <td><input class="common-text" placeholder="转出用户ID" name="member_id" value="" id="" type="text"></td>
+                        <th  width="60px">账号:</th>
+                        <td><input class="common-text" placeholder="手机号码/Email" name="phone" value="" id="" type="text"></td>
+                        <th  width="80px">转入用户ID:</th>
+                        <td><input class="common-text" placeholder="转出用户ID" name="to_member_id" value="" id="" type="text"></td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                        
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <div class="result-wrap">
+        <div class="result-title">
+            <div class="result-list">
+            </div>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr style="line-height:35px;">
+                    <th width="5%">ID</th>
+                    <th width="10%">转出会员ID</th>
+                    <th width="10%">转出会员账户</th>
+                    <th width="10%">转出会员姓名</th>
+                    <th width="10%">转入会员ID</th>
+                    <th width="10%">转入会员账户</th>
+                    <th width="10%">转入会员姓名</th>
+                    <th width="10%">数量</th>
+                    <th width="10%">添加時間</th>
+                    <th width="5%">锁仓比例</th>
+                </tr>
+                <volist name='list' id='vo'>
+                    <tr style="line-height:27px;">
+                        <td>{$vo.mt_id}</td>
+                        <td><a href="javascript:member_details({$vo.from_member_id});">{$vo['from_member_id']}</a></td>
+                        <td><notempty name="vo.phone">{$vo.phone}<else />{$vo.email}</notempty></td>
+                        <td>{$vo.name}</td>
+                        <td><a href="javascript:member_details({$vo.to_member_id});">{$vo['to_member_id']}</a></td>
+                        <td><notempty name="vo.to_phone">{$vo.to_phone}<else />{$vo.to_email}</notempty></td>
+                        <td>{$vo.to_name}</td>
+                        <td>{$vo.money}</td>
+                        <td>{:date('Y-m-d H:i:s',$vo['time'])}</td>
+                        <td>{$vo.lock_rate}%</td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
+<script>
+    $(".sub-menu[key=11]").show();
+    $(".sub-menu[key=11]").children("li").eq(4).addClass("on");
+</script>

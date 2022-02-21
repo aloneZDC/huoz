@@ -1,0 +1,83 @@
+<include file="App/Home/View/Public/header.html"/>
+<!-- <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/hb_index.css"> -->
+<style>.news-nav{min-height: 0px;} .news-nav li a span p {height:24px;overflow: hidden;}.news-nav{height:500px;}.news-nav ul{height:430px;}</style>
+<!-- 该样式取自zcpc -->
+<div class="mobile-style-wrapper" id="mobieSupernatant">
+	<div class="mobile-style clearfix">
+		<div class="mobile-style-text"><a href="./../Mobile/">您正在使用移动设备访问合约数字商品交易中心，点击使用触屏版</a></div>
+		<div class="mobile-style-img" id="mobieAction"><a><img src="/Public/Mobile/images/mobile_icon_close.png" width="80%"/></a></div>
+	</div>
+</div>
+<!-- 该样式自zcpc -->
+<div  class="news" style="height: 1020px;border: 1px solid rgba(0,0,0,0.2);
+box-shadow: 2px 2px 12px 3px rgba(0,0,0,0.2);
+margin:30px auto;">
+    <div class="news057jh1" style="height: 1020px;">
+        <div class="news-nav">
+            <ul>
+                <li><a href="{:U('Art/index')}"><h2>乡野传奇<br/><span>XIANGYECHUANQI CURRENCY</span></h2></a></li>
+                <li><div class="news-i2"><img src="/Public/Home/images/Z5RK5.jpg" width="300px"></div></li>
+                <volist name="info147" id="vo">
+                <li><a href="{:U('Art/details',array('id'=>$vo['article_id']))}"><span ><p>{$vo.title}</p></span></a></li>
+                </volist>
+            </ul>
+            <li><a href="{:U('Art/index')}"><p class="new-cohng14">了解更多详情<img  src="/Public/Home/images/liaojiekuan0.png" /></p></a></li>
+        </div>
+        <div class="news-nav">
+            <ul>
+                <li><a href="{:U('Art/index')}"><h2>买易送<br/><span>MAIYISONG CURRENCY</span></h2></a></li>
+                <li><div class="news-i2"><img src="/Public/Home/images/B029GBD77.jpg" width="300px"></div></li>
+
+                <volist name="info148" id="vo">
+                    <li><a href="{:U('Art/details',array('id'=>$vo['article_id']))}"><span ><p>{$vo.title}</p></span></a></li>
+                </volist>
+            </ul>
+            <li><a href="{:U('Art/index',array('id'=>'148'))}"><p class="new-cohng14">了解更多详情<img  src="/Public/Home/images/liaojiekuan0.png"/></p></a></li>
+        </div>
+        <div class="news-nav">
+            <ul>
+                <li><a href="{:U('Art/index')}"><h2>跨界通<br/><span>KUAJIETONG CURRENCY</span></h2></a></li>
+                <li><div class="news-i2"><img src="/Public/Home/images/ENHPW144.jpg" width="300px"></div></li>
+                <volist name="info149" id="vo">
+                <li><a href="{:U('Art/details',array('id'=>$vo['article_id']))}"><span ><p>{$vo.title}</p></span></a></li>
+                </volist>
+            </ul>
+            <li><a href="{:U('Art/index',array('id'=>'149'))}"><p class="new-cohng14">了解更多详情<img  src="/Public/Home/images/liaojiekuan0.png"/></p></a></li>
+        </div>
+        <div class="news-nav">
+            <ul>
+                <li><a href="{:U('Art/index')}"><h2>天瑞积分<br/><span>HONGQUAN CURRENCY</span></h2></a></li>
+                <li><div class="news-i2"><img src="/Public/Home/images/Z5RK5.jpg" width="300px"></div></li>
+                <volist name="info150" id="vo">
+                <li><a href="{:U('Art/details',array('id'=>$vo['article_id']))}"><span ><p>{$vo.title}</p></span></a></li>
+                </volist>
+            </ul>
+            <li><a href="{:U('Art/index',array('id'=>'150'))}"><p class="new-cohng14">了解更多详情<img  src="/Public/Home/images/liaojiekuan0.png"/></p></a></li>
+        </div>
+        <div class="news-nav">
+            <ul>
+                <li><a href="{:U('Art/index')}"><h2>分享加<br/><span>FENXIANGJIA CURRENCY</span></h2></a></li>
+                <li><div class="news-i2"><img src="/Public/Home/images/B029GBD77.jpg" width="300px"></div></li>
+                <volist name="info151" id="vo">
+                    <li>
+                    <a href="{:U('Art/details',array('id'=>$vo['article_id']))}"><span ><p>{$vo.title}</p></span></a>
+                    </li>
+                </volist>
+            </ul>
+             <li><a href="{:U('Art/index',array('id'=>'151'))}"><p class="new-cohng14">了解更多详情<img  src="/Public/Home/images/liaojiekuan0.png" style="size:auto;" /></p></a></li>
+        </div>
+        <div class="news-nav">
+            <ul>
+                <li><a href="{:U('Art/index')}"><h2>万莱积分<br/><span>WANLAI CURRENCY</span></h2></a></li>
+                <li><div class="news-i2"><img src="/Public/Home/images/ENHPW144.jpg" width="300px"></div></li>
+                <volist name="info152" id="vo">
+                    <li>
+                    <a href="{:U('Art/details',array('id'=>$vo['article_id']))}"><span> <p> {$vo.title}</p></span></a>
+                    </li>
+                </volist>
+            </ul>
+             <li><a href="{:U('Art/index',array('id'=>'152'))}"><p class="new-cohng14">了解更多详情<img  src="/Public/Home/images/liaojiekuan0.png" /></p></a></li>
+        </div>
+    </div>
+</div>
+<include file="App/Home/View/Public/footer.html"/>

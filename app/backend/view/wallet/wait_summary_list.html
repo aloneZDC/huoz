@@ -1,0 +1,128 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+				<a href="javascript:;">首页</a> <a href="javascript:;">钱包管理</a>
+				<a href="javascript:;"> <cite>待确认汇总列表</cite></a>
+			</span>
+    <a class="layui-btn layui-btn-sm" style="margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);"
+       title="刷新">
+        <i class="layui-icon layui-icon-refresh"></i>
+    </a>
+</div>
+
+<div class="weadmin-body">
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>汇总地址</legend>
+        <div class="layui-field-box">
+            {volist name="currencyAll" id="v"}
+            {if $v.currency_summary_address}
+            <p style="margin-top: 5px;">
+                {$v.currency_name} 汇总地址:
+                <a href="{:coinUrl($v.currency_summary_address, $v.currency_bt_id, 1)}"
+                   style="color: #428bca;outline:0;" target="_blank">{$v.currency_summary_address}</a>
+            </p>
+            {/if}
+            {/volist}
+        </div>
+    </fieldset>
+    <table class="layui-table" id="memberList" lay-filter="table-list">
+        <thead>
+        <tr>
+            <th lay-data="{align:'center',field:'id', width:50}">ID</th>
+            <th lay-data="{align:'center',field:'currency', width:100}">币种</th>
+            <th lay-data="{align:'center',field:'number', width:160}">数量</th>
+            <th lay-data="{align:'center',field:'user_id', width:100}">用户ID</th>
+            <th lay-data="{align:'center',field:'user_email', width:200}">邮箱</th>
+            <th lay-data="{align:'center',field:'hash', width:350}">交易编号</th>
+            <th lay-data="{align:'center',field:'to_address', width:330}">汇总总地址</th>
+            <th lay-data="{align:'center',field:'from_address', width:330}">转账地址</th>
+            <th lay-data="{align:'center',field:'start_time', width:250}">开始时间</th>
+            <th lay-data="{align:'center',fixed: 'right',field:'tool', width:150}">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+        <tr data-id="{$v.ws_id}">
+            <td>{$v.ws_id}</td>
+            <td>{$v.currency.currency_name}</td>
+            <td>{:floattostr($v.ws_money)}</td>
+            <td>
+                <a href="javascript:void(0);" onclick="window.openUser({$v.user.user_id})">{$v.user.user_id}</a>
+            </td>
+            <td>{$v.user.user_email}</td>
+            <td><a href="{:coinUrl($v.ws_txhash, $v.currency.currency_bt_id)}" target="_blank">{$v.ws_txhash}</a></td>
+            <td><a href="{:coinUrl($v.ws_to_address, $v.currency.currency_bt_id, 1)}" target="_blank">{$v->ws_to_address}</a>
+            </td>
+            <td><a href="{:coinUrl($v.ws_from_address, $v.currency.currency_bt_id, 1)}" target="_blank">{$v->ws_from_address}</a>
+            </td>
+            <td>{:date('Y-m-d H:i', $v.ws_starttime)}</td>
+            <td class="td-manage">
+                <button onclick="pass('{$v.ws_id}')" type="button" class="layui-btn layui-btn-normal layui-btn-sm"
+                        title="汇总成功">
+                    <i class="layui-icon layui-icon-ok"></i>
+                </button>
+
+                <button onclick="fail('{$v.ws_id}')" type="button" class="layui-btn layui-btn-danger layui-btn-sm"
+                        title="汇总失败">
+                    <i class="layui-icon layui-icon-close"></i>
+                </button>
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <span class="fr" style="line-height:40px">共有数据：{$count} 条</span>
+
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use(['form', 'global', 'index'], () => {
+
+    });
+
+    function pass(id) {
+        let lay_id = layer.confirm("是否汇总成功? 请多查询几次确认后再操作!", {
+            btn: ["确认", "取消"]
+        }, () => {
+            layer.close(lay_id);
+            layer.open({
+                type: 2,
+                title: "汇总成功",
+                content: "{:url('successSummary')}?param=waitsummarylist&id=" + id,
+                area: ['500px', '500px'],
+                cancel: () => {
+                    layer.closeAll()
+                }
+            });
+        }, () => {
+            layer.msg("已取消!");
+        });
+    }
+
+    function fail(id) {
+        layer.confirm("是否汇总失败? 请多查询几次确认后再操作!", {
+            btn: ["确认", "取消"]
+        }, () => {
+            return $.post("{:url('updateSummaryStatus')}?param=waitsummarylist", {id, status: 3}, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, () => {
+                        window.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                });
+            });
+        }, () => {
+            layer.msg("已取消!");
+        });
+    }
+</script>
+{include file="layout/footer"}

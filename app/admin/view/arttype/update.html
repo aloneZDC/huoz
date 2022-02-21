@@ -1,0 +1,91 @@
+{include file="../app/admin/view/public/left.html" /}
+<script>
+    function checkForm() {
+        var name = document.getElementById('name').value;
+        var sort = document.getElementById('sort').value;
+        if (name != "") {
+            if (!isNaN(sort)) {
+                document.getElementById('myform').submit();
+            } else {
+                alert("排序请输入数字");
+            }
+        } else {
+            alert('请填写分类名称');
+        }
+    }
+</script>
+
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><a
+                class="crumb-name" href="{:url('Arttype/index')}">文章分类管理</a><span class="crumb-step">&gt;</span><span>修改文章分类</span>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form action="{:url('Arttype/update')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <table class="insert-tab" width="100%">
+                    <tbody>
+                    <input type="hidden" name="id" value="{$id}">
+
+                    <tr id="sty">
+
+                        <th width="120">分类类型：</th>
+                        <td>
+                            <select name="tp" id="tp" class="required">
+                                <option value="0">默认顶级分类</option>
+                                {volist name="cat" id="vo"}
+                                    <option value="{$vo.id}"
+                                    {eq name="info.id" value="$vo['id']"}selected="selected"{/eq}
+                                    > {$vo.name}</option>
+                                {/volist}
+                            </select>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>分类名称：</th>
+                        <td><input class="common-text required" id="name" name="name" size="50" value="{$info.name}"
+                                   type="text"></td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>英文名称：</th>
+                        <td><input class="common-text required" id="name_en" name="name_en" size="50" value="{$info.name_en}"
+                                   type="text"></td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>繁体名称：</th>
+                        <td><input class="common-text required" id="name_tc" name="name_tc" size="50" value="{$info.name_tc}"
+                                   type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>关键字：</th>
+                        <td><input class="common-text required" id="keywords" name="keywords" size="50"
+                                   value="{$info.keywords}" type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>排序(输入数字)：</th>
+                        <td><input class="common-text required" id="sort" name="sort" size="50" value="{$info.sort}"
+                                   type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>是否帮助中心(输入数字)：</th>
+                        <td><input class="common-text required" id="is_help" name="is_help" size="50" type="text" value="{$info.is_help}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td><input class="btn btn-primary btn6 mr10" value="提交" type="button" onclick="checkForm()">
+                            <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<!--/main-->
+
+</div>
+</body></html>

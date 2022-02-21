@@ -1,0 +1,166 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+				<a href="javascript:;">首页</a> <a href="javascript:;">钱包管理</a>
+				<a href="javascript:;"> <cite>提币待确认列表</cite></a>
+			</span>
+    <a class="layui-btn layui-btn-sm" style="margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);"
+       title="刷新">
+        <i class="layui-icon layui-icon-refresh"></i>
+    </a>
+</div>
+
+<div class="weadmin-body">
+<!--    <div style="display: inline-block; width: 200px;">-->
+<!--        <label for="captcha"></label>-->
+<!--        <input type="text" name="captcha" id="captcha" placeholder="请输入验证码" class="layui-input layui-inline"/>-->
+<!--    </div>-->
+<!--    <img src="{:url('Open/captcha')}" alt="验证码" id="captcha_img"-->
+<!--         onclick="$('#captcha_img').attr('src', '{:url(\'Open/captcha\')}?t=' + Math.random())"/>-->
+    <table class="layui-table" id="memberList" lay-filter="table-list">
+        <thead>
+        <tr>
+            <th lay-data="{field:'id', width:80}">ID</th>
+            <th lay-data="{field:'from_member_id', width:100}">用户ID</th>
+            <th lay-data="{field:'ename', width:160}">用户昵称</th>
+            <th lay-data="{field:'currency_name', width:100}">币种</th>
+            <th lay-data="{field:'money', width:160}">数量</th>
+            <th lay-data="{field:'txhash', width:350}">交易编号</th>
+            <th lay-data="{field:'from_address', width:330}">提币地址</th>
+            <th lay-data="{field:'to_address', width:330}">接收地址</th>
+            <th lay-data="{field:'starttime', width:200}">审核时间</th>
+            <th lay-data="{fixed: 'right',field:'tool', width:280}">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+        <tr data-id="{$v->id}">
+            <td>{$v.id}</td>
+            <td><a href="javascript:void(0);" onclick="window.openUser({$v.from_member_id})">{$v.from_member_id}</a></td>
+            <td>{$v.ename}</td>
+            <td>{$v.currency_name}</td>
+            <td>{:floattostr($v.money)}</td>
+            <td><a target="_blank" href="">{$v.txhash}</a></td>
+            <td><a target="_blank" href="">{$v.from_address}</a></td>
+
+            <?php if(in_array($v['currency_id'],[103,104])) { ?>
+            <td><a target="_blank" href="https://bscscan.com/address/{$v.to_address}">{$v.to_address}</a></td>
+            <?php }else { ?>
+            <td><a target="_blank" href="">{$v.to_address}</a></td>
+            <?php } ?>
+            <td>{$v.starttime|date="Y-m-d H:i", ###}</td>
+            <td class="td-manage">
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" onclick="pass('{$v->id}')">确认成功</button>
+                <button type="button" class="layui-btn layui-btn-warm layui-btn-sm" onclick="restart('{$v->id}')">重新审核</button>
+                <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="fail('{$v->id}')">确认失败</button>
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <span class="fr" style="line-height:40px">共有数据：{$count} 条</span>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use(['form', 'global', 'index'], () => {});
+
+    function pass(id) {
+        layer.confirm("是否提币成功？请多查询几次确认后再操作，否则用户钱包的币没有提出去，但用户的资产已经扣除。", {
+            btn: ["确认", "取消"]
+        }, () => {
+            let captcha = $('#captcha').val();
+            // if (captcha.length <= 0) {
+            //     return layer.alert("请输入验证码!", {
+            //         icon: 5
+            //     });
+            // }
+            layer.open({
+                type: 2,
+                title: "提币成功",
+                content: "{:url('Wallet/successTake')}?param=confirmcashlist&id=" + id,
+                area: ['720px', '500px'],
+                cancel: () => {
+                    layer.closeAll();
+                }
+            });
+        }, () => {
+            layer.msg("已取消");
+        });
+    }
+
+    function fail(id) {
+        layer.confirm("是否提币失败？请多查询几次确认后再操作，否则用户钱包的币已提出去，但用户资产没有扣除", {
+            btn: ["确认", "取消"]
+        }, () => {
+            let captcha = $('#captcha').val();
+            // if (captcha.length <= 0) {
+            //     return layer.alert("请输入验证码!", {
+            //         icon: 5
+            //     });
+            // }
+            let loading = layer.msg("提交中 请稍后...", {
+                icon: 16,
+                shade: 0.3,
+                time: 0,
+                scrollbar: false
+            });
+
+            $.post("{:url('Wallet/failTake')}?param=confirmcashlist", {wtc_id: id, captcha}, data => {
+                layer.close(loading);
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, () => {
+                        window.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+        }, () => {
+            layer.msg("已取消");
+        });
+    }
+
+    function restart(id) {
+        layer.confirm("是否重新审核？请多查询几次确认后再操作，否则数据会出错", {
+            btn: ["确认", "取消"]
+        }, () => {
+            let captcha = $('#captcha').val();
+            // if (captcha.length <= 0) {
+            //     return layer.alert("请输入验证码!", {
+            //         icon: 5
+            //     });
+            // }
+            let loading = layer.msg("提交中 请稍后...", {
+                icon: 16,
+                shade: 0.3,
+                time: 0,
+                scrollbar: false
+            });
+
+            $.post("{:url('Wallet/restartTake')}?param=confirmcashlist", {wtc_id: id, captcha}, data => {
+                layer.close(loading);
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, () => {
+                        window.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                });
+            });
+        }, () => {
+            layer.msg("已取消");
+        });
+    }
+</script>
+{include file="layout/footer"}

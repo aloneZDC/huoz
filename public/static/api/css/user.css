@@ -1,0 +1,215 @@
+body,html,header,footer,h4,p{
+    margin:0;
+    padding:0;
+}
+body,html{
+    width:100%;
+    background-color: rgba(234,234,234,1);
+}
+img,p{
+    margin:0;
+    padding:0;
+    display:block;
+}
+a{
+    text-decoration:none;
+}
+
+.fl{
+    float:left;
+}
+.fr{
+    float:right;
+}
+
+
+/*header*/
+header{
+    width: 100%;
+    height:auto;
+    background-image:url(../img/gg.png);
+    padding-bottom:10px;
+}
+
+.header_top{
+    position: relative;
+    height:45px;
+    width: 100%;
+}
+.header_top img{
+    display:block;
+    width:25px;
+    height:25px;
+    margin-top:10px;
+}
+.right_logo,.left_logo{
+    position:absolute;
+    display: block;
+    height:45px;
+    width:25px;
+
+}
+.right_logo{
+    right:15px;
+
+}
+.left_logo{
+    left:15px;
+}
+.header_title{
+    width:100%;
+    height:45px;
+    line-height: 45px;
+    color:white;
+    font-size:17px;
+    text-align:center;
+
+}
+
+/*头像*/
+.portrait{
+    position: relative;
+    width:100%;
+    margin-top:10px;
+}
+.portrait img{
+    display: block;
+    width:80px;
+    height:80px;
+    margin:0 auto;
+    border-radius: 50%;
+}
+
+/*名字*/
+.my_name{
+    width:100%;
+    color:white;
+    text-align:center;
+    font-weight: lighter;
+    margin-bottom: 20px;
+}
+.my_name h4{
+    font-size:16px;
+}
+.my_name p{
+    font-size:14px;
+    margin:0;
+    padding:0;
+}
+
+.all_box_information{
+    height:50px;
+    width:100%;
+    border-bottom:1px solid rgba(234,234,234,1);
+    position: relative;
+    line-height: 50px;
+}
+.all_box_information img{
+    display: block;
+    width:27px;
+    height:25px;
+}
+.all_box_information span{
+    height:50px;
+    line-height: 50px;
+}
+.person{
+    margin:15px 15px 0 15px;
+}
+.right_arrow{
+    margin:15px 10px 0 15px;
+}
+
+.right_number{
+    background-color: rgba(255,203,63,1);
+    display: block;
+    width:20px;
+    height:20px;
+    font-size:12px;
+    line-height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    margin-top:16px;
+    color:white;
+}
+
+
+/*全部订单*/
+.all_information{
+    height:80px;
+    width:100%;
+    line-height: 60px;
+    border-bottom:1px solid rgba(234,234,234,1);
+    border-top:20px solid rgba(234,234,234,1);
+}
+.fl_orders{
+    display: block;
+    height:60px;
+    margin-left: 15px;
+}
+.fr_arrow_size{
+    color:rgba(165,165,165,1);
+    display: block;
+    height:60px;
+}
+.all_information_arrow{
+    display: block;
+    width:27px;
+    height:27px;
+    margin:18px 15px 0 10px;
+}
+
+
+/*图标logo*/
+.img_logo{
+    width:100%;
+    background: white;
+    padding-top:20px;
+    border-bottom:10px solid rgba(234,234,234,1);
+}
+.img_logo div{
+    width:20%;
+    float:left;
+    position: relative;
+}
+.img_logo div img{
+    width:28px;
+    height:28px;
+    margin:0 auto;
+}
+.img_logo div p{
+    text-align: center;
+    color:rgba(165,165,165,1);
+    margin-top:3px;
+}
+.img_logo div span{
+    background-color: rgba(255,203,63,1);
+    display: block;
+    width:18px;
+    height:18px;
+    font-size:12px;
+    line-height: 19px;
+    border-radius: 50%;
+    text-align: center;
+    margin-top:16px;
+    color:white;
+    position: absolute;
+    top:-27px;
+    left:50%;
+    margin-left:3px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

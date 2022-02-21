@@ -1,0 +1,122 @@
+<div class="weadmin-nav layui-clear">
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i
+                class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <form class="layui-form form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">产出币种</label>
+            <div class="layui-input-block">
+                <select name="mining_currency_id">
+                    {volist name="currency" id="v"}
+                    <option value="{$v.currency_id}">{$v.currency_name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" id="name" lay-verify="required" placeholder="" value=""
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">USDT价格</label>
+            <div class="layui-input-block">
+                <input type="number" name="price_usdt" id="price_usdt" lay-verify="required" placeholder="" value="0"
+                       class="layui-input">
+                <input type="hidden" name="price_usdt_currency_id" value="5">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">CNY价格</label>
+            <div class="layui-input-block">
+                <input type="number" name="price_cny" id="price_cny" lay-verify="required" placeholder="" value="0"
+                       class="layui-input">
+                <input type="hidden" name="price_cny_currency_id" value="91">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">合约周期</label>
+            <div class="layui-input-block">
+                <input type="number" name="cycle_time" id="cycle_time" lay-verify="required" placeholder="" value="0"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">交付时间</label>
+            <div class="layui-input-block">
+                <input type="number" name="deliver_time" id="deliver_time" lay-verify="required" placeholder="" value="0"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <!-- <div class="layui-form-item">
+            <label class="layui-form-label">剩余库存</label>
+            <div class="layui-input-block">
+                <input type="number" name="amount" id="amount" lay-verify="required" placeholder="" value="0"
+                       class="layui-input">
+            </div>
+        </div> -->
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态（1开启 0关闭）</label>
+            <div class="layui-input-block">
+                <input type="number" name="status" id="status" lay-verify="required" placeholder="" value="1"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序(数字小的排前面)</label>
+            <div class="layui-input-block">
+                <input type="text" name="sort" id="sort" lay-verify="required" placeholder="" value="99" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit" type="submit" lay-filter="add" lay-submit="">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'admin', 'layer'], function () {
+        let form = layui.form;
+
+        form.on("submit(add)", data => {
+            $.post("{:url('product_add')}", data.field, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, function () {
+                        // 获得frame索引
+                        let index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        window.parent.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+            return false;
+        });
+    });
+</script>
+
+
+</div>
+</body>
+</html>

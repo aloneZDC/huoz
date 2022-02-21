@@ -1,0 +1,165 @@
+<style>
+    .main-wrap {
+        margin-left: 10px;
+    }
+</style>
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">新账本</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <input type="hidden" name="member_id" value="{$where.member_id|default=''}">
+                <div class="layui-input-inline">
+                    <select name="currency_id" lay-filter="currency_id">
+                        <option value="">积分类型</option>
+                        {volist name="currencyList" id="vo"}
+                        <option value="{$vo.currency_id}" {if condition="isset($where['currency_id']) && $where['currency_id']==$vo['currency_id']"}selected{/if} >
+                        {$vo.currency_name}
+                        {if condition="$vo.is_trade_currency eq 1"}
+                        (币币)
+                        {/if}
+                        </option>
+                        {/volist}
+                    </select>
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="type" lay-filter="type">
+                        <option value="">账本类型</option>
+                        {volist name="type_list" id="vo"}
+                        <option value="{$key}" {if condition="isset($where['type']) && $where['type']==$key"}selected{/if} >{$vo.name}</option>
+                        {/volist}
+                    </select>
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="tablelist" lay-skin="line">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>币种</th>
+                        <th>用户ID</th>
+                        <th>用户手机</th>
+                        <th>用户邮箱</th>
+                        <th>资产流向</th>
+                        <th>币种交易对</th>
+                        <th>相对用户ID</th>
+                        <th>相对用户手机</th>
+                        <th>相对用户邮箱</th>
+                        <th>变动类型</th>
+                        <th>变动前</th>
+                        <th>变动数量</th>
+                        <th>变动后</th>
+                        <th>变动时间</th>
+                        <th>备注</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tableData">
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'], function(){
+        var curPage = 1;
+        var isLoading = false;
+        var isListEnd = false;
+        var data = {:json_encode($where)};
+        var last_scroll = 0;
+        window.addEventListener('scroll', function() {
+            var scrollTop = document.documentElement.scrollTop;
+            var imgslist = document.getElementById("tablelist");
+            console.log(imgslist);
+            if(last_scroll<scrollTop+100 && scrollTop + window.innerHeight >= imgslist.scrollHeight) {
+                if(isLoading) {
+                    return;
+                }
+                // 触发加载数据
+                last_scroll = scrollTop;
+                curPage =  curPage+1;
+                loadList();
+            }
+        });
+
+        loadList();
+        function loadList() {
+            if(isListEnd) {
+                return;
+            }
+
+            isLoading = true;
+            var loading_text = "提交中，请稍等···";
+            var loading = layer.msg(loading_text, {
+                icon: 16
+                , shade: 0.3
+                , time: 0
+                , scrollbar: false
+            });
+            data.page = curPage;
+            $.ajax({'url': "{:url('')}",type: 'POST',dataType : "json",data: data,
+                success: function(res){
+                    isLoading = false;
+                    layer.close(loading);
+                    if(res.code=10000) {
+                        if(res.result.length>0) {
+                            var html = '';
+                            $.each(res.result,function (i,v) {
+                                var color = '#000';
+                                if(v.number<0) {
+                                    color = '#F00';
+                                }
+
+                                html += '<tr>' +
+                                    '<td>' + v.id + '</td>' +
+                                    '<td>' + v.currency_name + ' </td>' +
+                                    '<td>' + v.from_member_id + '</td>' +
+                                    '<td>' + v.from_phone + '</td>' +
+                                    '<td>' + v.from_email + '</td>' +
+                                    '<td>' + v.type + ' </td>' +
+                                    '<td>' + v.currency_pair + '</td>' +
+                                    '<td>' + v.toMemberId+ '</td>' +
+                                    '<td>' + v.to_phone+ '</td>' +
+                                    '<td>' + v.to_email+ '</td>' +
+                                    '<td>' + v.change + '</td>' +
+                                    '<td>' + v.current+ '</td>' +
+                                    '<td style="color:'+color+'">' + v.number + '</td>' +
+                                    '<td>' + v.after + '</td>' +
+                                    '<td>' +v.add_time + '</td>' +
+                                    '<td>' +v.ad_remark + '</td>' +
+                                    '</tr>';
+                            });
+                            $('#tableData').append(html);
+                        } else{
+                            isListEnd = true;
+                        }
+                        $.each(res.result)
+                    }
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                    isLoading = false;
+                    layer.close(loading);
+                    layer.msg('系统错误,请重试!');
+                },
+            });
+        }
+    });
+</script>
+</div>
+</body>
+</html>

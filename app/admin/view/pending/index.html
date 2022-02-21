@@ -1,0 +1,443 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script>
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">提现审核</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('Pending/index')}" method="post">
+                <table class="search-tab">
+                    <tr>
+                        <th width="120">选择分类:</th>
+                        <td>
+                            <select name="pend" id="pend">
+                                <option value="0">全部</option>
+                                <option value="1">未通过</option>
+                                <option value="2">通过</option>
+                                <option value="3">审核中</option>
+                                <option value="4">付款成功</option>
+                                <option value="9">已撤销</option>
+                            </select>
+                        </td>
+                        <th width="70">提现人:</th>
+                        <td><input class="common-text" placeholder="提现人" name="keyname" value="{$inquire}" id="keyname"
+                                   type="text"></td>
+                        <th width="70">ID:</th>
+                        <td><input class="common-text" placeholder="ID" name="withdraw_id" id="withdraw_id"
+                                   value="{$withdraw_id}" type="text"></td>
+                        <th width="70">会员ID:</th>
+                        <td><input class="common-text" placeholder="会员ID" name="keyid" id="keyid" value="{$keyid}"
+                                   type="text"></td>
+                        <th width="70">会员账号:</th>
+                        <td><input class="common-text" placeholder="会员账号" name="keynum" id="keynum" type="text"></td>
+                        <th width="120">特殊客户:</th>
+                        <td>
+                            <select name="member_withdrawtype" id="member_withdrawtype">
+                                <option value="6">否</option>
+                                <option value="1">挂单客户</option>
+                                <option value="2">不可以提现客户</option>
+                                <option value="3">重点监视客户</option>
+
+                            </select>
+                        </td>
+                        <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <!--    <div class="search-wrap">
+       <div class="search-content">
+           <form action="{:U('Pending/excel_index')}" method="post">
+               <table class="search-tab">
+                   <tr>
+                       <th width="120">选择分类:</th>
+                       <td>
+                           <select name="pend" id="pend">
+                             <option value="0">全部</option>
+                             <option value="1">未通过</option>
+                             <option value="2">通过</option>
+                             <option value="3">审核中</option>
+                             <option value="4">已撤销</option>
+                           </select>
+                       </td>
+                       <th width="70">提现人:</th>
+                       <td><input class="common-text" placeholder="提现人" name="keyname" value="{$inquire}" id="keyname" type="text"></td>
+                         <th width="70">会员ID:</th>
+                       <td><input class="common-text" placeholder="会员ID" name="keyid" type="text"></td>
+                       <th width="70">会员账号:</th>
+                       <td><input class="common-text" placeholder="会员账号" name="keynum" type="text"></td>
+                       <th width="70">选择时间：</th>
+
+                               <td><input type="text" id="datePicker" name="datePicker" class="date_picker" placeholder="点击选择日期"/><input type="text" name="datePicker2" id="datePicker2" class="date_picker" placeholder="点击选择日期"/> </td>
+
+                               <td><input class="btn btn-primary btn2" name="sub" value="导出" type="submit"></td>
+
+                   </tr>
+               </table>
+           </form>
+       </div>
+   </div>-->
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th width="5%">ID</th>
+                    <th width="4%">提现人</th>
+                    <th width="5%">会员ID</th>
+                    <th width="5%">银行</th>
+                    <th width="10%">银行账号</th>
+                    <th width="6%">银行开户地</th>
+                    <th width="6%">支行</th>
+                    <th width="7%">提现金额</th>
+                    <th width="7%">手续费（{$config.fee}%）</th>
+                    <th width="6%">实际金额</th>
+                    <th width="9%">订单号</th>
+                    <th width="8%">提交时间</th>
+                    <th width="4%">状态</th>
+                    <th>操作</th>
+                </tr>
+                <volist name='info' id='vo'>
+                    <tr class="optioncardWrapper">
+                        <td>{$vo.withdraw_id}</td>
+                        <td>{$vo.name}</td>
+                        <td><a href="javascript:member_details({$vo.uid});" class="shenhe_button">{$vo.uid}</a></td>
+                        <td>{$vo.bankname}</td>
+                        <td>{$vo.cardnum}</td>
+                        <td>{$vo.aarea_name}&nbsp;&nbsp;{$vo.barea_name}</td>
+                        <td>{$vo.account_inname}</td>
+                        <td>{$vo.all_money}</td>
+                        <td>{$vo.withdraw_fee}</td>
+                        <td>{$vo.money}</td>
+                        <td>{$vo.order_num}</td>
+                        <td>{$vo.add_time|date='Y-m-d H:i:s',###}</td>
+                        <td>
+                            <eq name="vo.status" value="1">未通过
+                                <else/>
+                                <eq name="vo.status" value="2"><span
+                                        style="color:#f00;font-weight:bolder;font-size:14px;">通过</span>
+                                    <else/>
+                                    <eq name="vo.status" value="0">已撤销
+                                        <else/>
+                                        <eq name="vo.status" value="-1">付款失败
+                                            <else/>
+                                            <eq name="vo.status" value="4">付款成功
+                                                <else/>
+                                                审核中
+                                            </eq>
+                                        </eq>
+                                    </eq>
+                                </eq>
+                            </eq>
+                        </td>
+                        <td>
+                            <!-- <eq name="vo.status" value="3">
+                            <a class="link-update" href="javascript:void(0);" onclick="pass({$vo.withdraw_id});">通过</a>
+                            &nbsp;&nbsp;
+                            <a class="link-del" href="javascript:void(0);"onclick="fail({$vo.withdraw_id})">不通过</a>
+                            <else /> 操作成功</eq> -->
+                            <if condition="($username[0]['admin_id'] eq 34) or ($username[0]['admin_id'] eq 1)">
+                                <eq name="vo.firstaudit_term" value="0">
+                                    <span class="remark">备注：<input type="text"/></span>
+                                    &nbsp;&nbsp;
+                                    <!-- <a class="link-update" href="javascript:void(0);" onclick="pass1({$vo.withdraw_id},optionVal);">通过</a> -->
+                                    <a class="link-update" href="javascript:void(0);" alter="{$vo.withdraw_id}">通过</a>
+                                    &nbsp;&nbsp;
+                                    <a class="link-del" href="javascript:void(0);" alter="{$vo.withdraw_id}">不通过</a>
+                                    <else/>
+                                    操作完成
+                                </eq>
+                            </if>
+
+                            <if condition="($username[0]['admin_id'] eq 35) or ($username[0]['admin_id'] eq 1)">
+                                <!-- 初审判断不能为0  如果为0什么也不显示-->
+                                <if condition="($vo['firstaudit_term'] neq 0)">
+                                    <eq name="vo.thirdaudit_term" value="0"><!-- 二审判断如果为0 显示  如果已点通过或不通过  显示操作完成-->
+                                        <br/>
+                                        <eq name="vo.firstaudit_term" value="2">
+                                            <span><a style="font-size:18px;color:#00a600;">√</a>&nbsp;&nbsp;初审已通过</span>
+                                            <else/>
+                                            <span><a style="font-size:18px;color:#f00;">×</a>&nbsp;&nbsp;初审未通过</span>
+                                        </eq>
+                                        <span style="margin-left:10px;"><a style="font-size:16px;">初审意见：</a>{$vo.firstaudit_remarks|default="无"}</span>
+                                        <br/>
+                                        <span style="margin-left:22px;">审核人：<a style="font-size:16px;">{$vo.firstaudit_username}</a></span>
+                                        <span style="margin-left:22px;">审核时间：<a style="font-size:16px;">{$vo.firstaudit_time|date='Y-m-d H:i:s',###}</a></span>
+                                        <br/>
+
+                                        <span style="margin-left:22px;">三审备注：<input type="text"/></span>
+                                        &nbsp;&nbsp;
+                                        <!-- <a class="link-update" href="javascript:void(0);" onclick="pass1({$vo.withdraw_id},optionVal);">通过</a> -->
+                                        <a class="link-update-third" href="javascript:void(0);"
+                                           altersc="{$vo.withdraw_id}">通过</a>
+                                        &nbsp;&nbsp;
+                                        <a class="link-del-third" href="javascript:void(0);"
+                                           altersc="{$vo.withdraw_id}">不通过</a>
+                                        <else/>
+                                        操作完成 &nbsp;&nbsp;
+                                    </eq>
+                                </if>
+                            </if>
+                            &nbsp;&nbsp;
+                            <eq name="vo.status" value="2"><a href="javascript:void(0);"
+                                                              onclick="succeed_pay({$vo.withdraw_id})">付款成功</a>&nbsp;
+                            </eq>
+                        </td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    /* 初审 */
+    $('.link-update').each(function (index) {
+        $(this).click(function () {
+            var remark = $('.optioncardWrapper:eq(' + ($(this).parent().parent().index() - 1) + ')').find('input').eq(0);
+            var id = $(this).attr("alter");
+            remark = remark.val();
+            pass1(id, remark);
+        })
+    })
+
+    $('.link-del').each(function (index) {
+        $(this).click(function () {
+            var remark = $('.optioncardWrapper:eq(' + ($(this).parent().parent().index() - 1) + ')').find('input').eq(0);
+            var id = $(this).attr("alter");
+            remark = remark.val();
+            fail1(id, remark);
+        })
+    })
+
+    function pass1(id, remark) {
+        layer.confirm('确定通过初次审核', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            //location.href = '{:U('Pending/successByid',array('id'=>$vo['withdraw_id']))}';
+            $.post("{:U('Pending/successByidfirst')}", {"id": id, "remark": remark}, function (datas) {
+                if (datas.status == 0) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                }
+            });
+
+
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+    function fail1(id, remark) {
+        layer.confirm('确定不通过初次审核', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            //	location.href = '{:U('Pending/falseByid', array('id'=>$vo['withdraw_id']))}';
+            $.post("{:U('Pending/falseByidfirst')}", {"id": id, "remark": remark}, function (datas) {
+                if (datas.status == 0) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                }
+            });
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+    /* 初审 */
+    /* 二审 */
+    $('.link-update-second').each(function (index) {
+        $(this).click(function () {
+            var remark = $('.optioncardWrapper:eq(' + ($(this).parent().parent().index() - 1) + ')').find('input').eq(0);
+            var id = $(this).attr("alters");
+            remark = remark.val();
+            pass2(id, remark);
+        })
+    })
+
+    $('.link-del-second').each(function (index) {
+        $(this).click(function () {
+            var remark = $('.optioncardWrapper:eq(' + ($(this).parent().parent().index() - 1) + ')').find('input').eq(0);
+            var id = $(this).attr("alters");
+            remark = remark.val();
+            fail2(id, remark);
+        })
+    })
+
+    function pass2(id, remark) {
+        layer.confirm('确定通过二次审核', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            //location.href = '{:U('Pending/successByid',array('id'=>$vo['withdraw_id']))}';
+            $.post("{:U('Pending/successByidsecond')}", {"id": id, "remark": remark}, function (datas) {
+                if (datas.status == 0) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                }
+            });
+
+
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+    function fail2(id, remark) {
+        layer.confirm('确定不通过二次审核', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            //	location.href = '{:U('Pending/falseByid', array('id'=>$vo['withdraw_id']))}';
+            $.post("{:U('Pending/falseByidsecond')}", {"id": id, "remark": remark}, function (datas) {
+                if (datas.status == 0) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                }
+            });
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+    /* 二审 */
+    /* 三审  */
+    $('.link-update-third').each(function (index) {
+        $(this).click(function () {
+            var remark = $('.optioncardWrapper:eq(' + ($(this).parent().parent().index() - 1) + ')').find('input').eq(0);
+            var id = $(this).attr("altersc");
+            remark = remark.val();
+            pass(id, remark);
+        })
+    })
+
+    $('.link-del-third').each(function (index) {
+        $(this).click(function () {
+            var remark = $('.optioncardWrapper:eq(' + ($(this).parent().parent().index() - 1) + ')').find('input').eq(0);
+            var id = $(this).attr("altersc");
+            remark = remark.val();
+            fail(id, remark);
+        })
+    })
+
+    function pass(id, remark) {
+        layer.confirm('确定通过审核', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            //location.href = '{:U('Pending/successByid',array('id'=>$vo['withdraw_id']))}';
+            $.post("{:U('Pending/successByid')}", {"id": id, "remark": remark}, function (datas) {
+                if (datas.status == 0) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                }
+            });
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+    function fail(id, remark) {
+        layer.confirm('确定不通过审核', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            //	location.href = '{:U('Pending/falseByid', array('id'=>$vo['withdraw_id']))}';
+            $.post("{:U('Pending/falseByid')}", {"id": id, "remark": remark}, function (datas) {
+                if (datas.status == 0) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else if (datas.status == 2) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                }
+            });
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+    /* 付款失败 */
+    function fail_pay(id, remark) {
+        layer.confirm('确定付款失败', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            //	location.href = '{:U('Pending/falseByid', array('id'=>$vo['withdraw_id']))}';
+            $.post("{:U('Pending/falseByid_pay')}", {"id": id, "remark": remark}, function (datas) {
+                if (datas.status == 0) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else if (datas.status == 2) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                }
+            });
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+
+    /* 付款成功 */
+    function succeed_pay(id, remark) {
+        layer.confirm('确定成功', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            //	location.href = '{:U('Pending/falseByid', array('id'=>$vo['withdraw_id']))}';
+            $.post("{:U('Pending/succeedByid_pay')}", {"id": id, "remark": remark}, function (datas) {
+                if (datas.status == 0) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else if (datas.status == 2) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                }
+            });
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+
+    /* 三审  */
+</script>

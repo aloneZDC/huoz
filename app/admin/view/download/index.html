@@ -1,0 +1,144 @@
+{include file="../app/admin/view/public/left.html" /}
+<style>
+    .result-wrap {
+        font-size: 14px;
+    }
+
+    .wid1 {
+        width: 180px;
+    }
+
+    .wid2 {
+        width: 270px !important;
+    }
+
+    .tablesty tr {
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .ceshi {
+        clear: both;
+        padding-left: 14px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">下载管理</span></div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <span class="crumb-name">下载管理</span><br><br><br>
+            <form action="{:url('Download/qr_code')}" method="post" enctype="multipart/form-data">
+                <table class="tablesty">
+                    <tbody>
+
+                        <tr>
+                            <td class="wid1">安卓二维码上传：</td>
+                            <td class="wid2"><input type='file' name='qr_code'><input type="hidden" name="code" value="android_qr_code"></td>
+                            <td><input class="btn-primary" style=" width:60px;" type="submit" value="提交"></td>
+
+                            <notempty name="qr_code.android_qr_code">
+                                <td>&nbsp;&nbsp;&nbsp;<img src="{$qr_code['android_qr_code']}" height="60px" width="60px"></td>
+                            </notempty>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </form>
+            <form action="{:url('Download/qr_code')}" method="post" enctype="multipart/form-data">
+                <table class="tablesty">
+                    <tbody>
+                    <tr></tr>
+                    <tr>
+                        <td class="wid1">IOS二维码上传：</td>
+                        <td class="wid2"><input type='file' name='qr_code'><input type="hidden" name="code" value="iso_qr_code"></td>
+                        <td><input class="btn-primary" style=" width:60px;" type="submit" value="提交"></td>
+                        <notempty name="qr_code.iso_qr_code">
+                            <td>&nbsp;&nbsp;&nbsp;<img src="{$qr_code['iso_qr_code']}" height="60px" width="60px"></td>
+                        </notempty>
+
+
+                    </tr>
+                    </tbody>
+                </table>
+
+            </form>
+            <hr>
+            <form action="{:url('Download/biaogeDownload')}" method="post" enctype="multipart/form-data">
+                <table class="tablesty">
+                    <tbody>
+                    <tr>
+                        <td class="wid1">新积分上线申请表上传：</td>
+                        <td class="wid2">
+                            <input style=" width:190px !important; float:left;" type='file' name='biaoge'>
+                            <input class="btn-primary" style="width:40px !important; float:left;" type="submit"
+                                   value="提交"></td>
+                        <td class="wid1 ceshi"><a href='{$config.biaoge_url}'>测试</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </form>
+            <form action="{:url('Download/baipishuDownload')}" method="post" enctype="multipart/form-data">
+                <table class="tablesty">
+                    <tbody>
+                    <tr>
+                        <td class="wid1">KOK白皮书上传：</td>
+                        <td class="wid2">
+                            <input style=" width:190px !important; float:left;" type='file' name='baipishu'>
+                            <input class="btn-primary" style="width:40px !important; float:left;" type="submit"
+                                   value="提交"></td>
+                        <td class="wid1 ceshi"><a href='{$config.baipishu_url}'>测试</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </form>
+            <form action="{:url('Download/fenxiangDownload')}" method="post" enctype="multipart/form-data">
+                <table class="tablesty">
+                    <tbody>
+                    <tr>
+                        <td class="wid1">KOK泰國分享會：</td>
+                        <td class="wid2">
+                            <input style=" width:190px !important; float:left;" type='file' name='fenxiang'>
+                            <input class="btn-primary" style="width:40px !important; float:left;" type="submit"
+                                   value="提交"></td>
+                        <td class="wid1 ceshi"><a href='{$config.fenxiang_url}'>测试</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </form>
+            <br>
+            <hr>
+            <br>
+            <form action="{:url('Download/qianbaoDownload')}" method="post" enctype="multipart/form-data">
+                <table class="tablesty">
+                    <tbody>
+                    {volist name='list' id='vo'}
+                        <tr>
+                            <td class="wid1">{$vo.currency_name}钱包上传：</td>
+                            <td class="wid2"><input type='file' name='{$vo.currency_id}'></td>
+                            <td class="wid1"><a href='{$vo.qianbao_url}'>测试钱包</a></td>
+                        </tr>
+                    {/volist}
+                    <tr>
+                        <td><input class="btn-primary" style=" width:60px;" type="submit" value="提交"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

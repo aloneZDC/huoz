@@ -1,0 +1,105 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>{:lang('lan_invitation_local_BF_download')}</title>
+    <link rel="stylesheet" href="__PUBLIC__/static/moblie/css/common/reset.css">
+    <link rel="stylesheet" href="__PUBLIC__/static/moblie/css/register/download.css">
+    <script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/jquery-2.1.1.min.js"></script>
+    <!-- <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script> -->
+    <script src="__PUBLIC__/static/moblie/js/common/jquery.cookie.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/moblie/js/layer/layer.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/utensil.js"></script>
+</head>
+
+<body>
+    <script>
+        htmlFontSize();
+    </script>
+    <div class="content">
+        <div class="content-top">
+            <div class="header-top">
+                <div class="header-img">
+                    <img src="__PUBLIC__/static/moblie/images/xinpian_img.png" alt="">
+                </div>
+                <!-- <p class="header-title">BForing's group mining</p>
+                <p class="header-mid-title">Global consensus</p> -->
+            </div>
+        </div>
+    </div>
+    <div class="down-footer">
+        <a href="{$down_url}">
+            <div class="footer">
+                <img src="__PUBLIC__/static/moblie/images/bdxiaz_icon.png" alt="">
+                <!-- <span>{:lang('lan_invitation_local_download')}</span> -->
+                <span>Download</span>
+            </div>
+        </a>
+    </div>
+    <script>
+        var windowH = $(window).height();//获取当前窗口高度 
+        if (windowH >= 812) {
+            // $(".down-footer").css({ "height": "10.583rem" });
+            // $(".down-list img").css({ "height": "43.333rem" });
+            $(".header-img img").css({ "margin-top": "25%" });
+        }
+        var date = new Date();
+        //语言切换
+        $(".chinese button").each(function(i) {
+            $(this).on("click",function() {
+                if($(this).hasClass("lang_zh")) {
+                    _lang("zh-tw");
+                }else {
+                    _lang("en-us");
+                }
+            })
+        })
+
+        if($.cookie('odrthink_language') == null ) {
+            $(".chinese .lang_zh").addClass("active").siblings('button').removeClass("active");
+            _lang("zh-tw");
+        }
+
+        if($.cookie('odrthink_language') == "zh-tw") {
+            $(".chinese .lang_zh").addClass("active").siblings('button').removeClass("active");
+        }else {
+            $(".chinese .lang_us").addClass("active").siblings('button').removeClass("active");
+        }
+
+        /**
+         * 修改语言
+         * @param $lang
+         * @returns {boolean}
+         * @private
+         */
+        function _lang($lang) {
+            $.ajax({
+                url: "{:url('Index/set_languages')}",
+                data: {
+                    lang: $lang
+                },
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == 10000) {
+                        // window.location.href = window.location.href + "?" + date.getTime();
+                        window.location.reload();
+                    }
+                },
+                error: function (e) {
+                    layer.msg("{:lang('lan_Network_request_failed')}", {
+                        icon: 5
+                    });
+                }
+            });
+            return false;
+        }
+        
+
+    </script>
+</body>
+
+</html>

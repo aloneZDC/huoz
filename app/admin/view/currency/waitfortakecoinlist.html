@@ -1,0 +1,244 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<link href="__PUBLIC__/static/admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script>
+    $(function () {
+        window._deel = {
+            req_member_details_url: "{:url('member/member_details')}",
+        }
+        $('#datePicker').date_input();
+        $('#datePicker2').date_input();
+    })
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">提币待确认管理</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form id="form" action="{:url('currency/waitfortakecoinlist')} "method="get">
+                        <table class="search-tab">
+                            <tr>
+                                <th width="70">用户ID:</th>
+                                <td><input class="common-text" placeholder="用户ID" name="uid" value="{$data.uid}"  type="text"></td>
+                                <th width="70">搜索:</th>
+                                <td><input class="common-text" placeholder="地址" name="search" value="{$data.search}"  type="text"></td>
+                                <th width="70">标签:</th>
+                                <td><input class="common-text" placeholder="标签" name="tag" value="{$data.tag}"  type="text"></td>
+                                <th width="120">币种:</th>
+                                <td>
+                                    <select name="currency_id">
+                                        <option value="0">全部</option>
+                                        {volist name="currency" id="vo"}
+                                            {eq name="vo.currency_id" value="$data.currency_id">
+                                                <option value="{$vo.currency_id}" selected>{$vo.currency_mark}</option>
+                                                {else/}
+                                                <option value="{$vo.currency_id}">{$vo.currency_mark}</option>
+                                            {/eq}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70">时间:</th>
+                                <td>
+                                    <input type="text" id="datePicker" name="starttime" class="date_picker" placeholder="点击选择日期" value="{$data.starttime}" style="width: 100px;"/>-
+                                    <input type="text" name="endtime" id="datePicker2" class="date_picker" placeholder="点击选择日期" value="{$data.endtime}" style="width: 100px;"/>
+                                </td>
+                                <td><input class="btn btn-primary btn2"  value="查询" type="submit"></td>
+                                <input type="hidden" name="daochu" id="dao" value="">
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+
+        </div>
+        <div class="result-content">
+
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>列表ID</th>
+                    <th>转账地址</th>
+                    <th>提币用户ID</th>
+                    <th>操作时间</th>
+                    <th>交易编号</th>
+                    <th>接收地址</th>
+                    <th>接收标签</th>
+                    <th>数量</th>
+                    <th>币种</th>
+                    <th>结束时间</th>
+                    <th>转账管理员</th>
+                    <th>操作</th>
+                </tr>
+                {volist name='list' id='vo'}
+                    <tr>
+                        <td style="width:50px">{$vo['cid']}</td>
+                        <td style="width:300px">{$vo['from_address']}</td>
+                        <td style="width:80px">
+                            <a href="javascript:member_details( {$vo['from_member_id']});"
+                               class="shenhe_button"> {$vo['from_member_id']}</a>
+
+                        </td>
+                        <td style="width:120px">{$vo['starttime']|date="Y-m-d H:i:s",###}</td>
+
+                        <td style="width:300px">
+                            <?php if($vo['currency_type']=='eth' || $vo['currency_type']=='eth_token'):?>
+                            <a target="_blank" href="https://cn.etherscan.com/tx/{$vo['txhash']}">{$vo['txhash']}</a>
+                            <?php elseif($vo['currency_type']=='xrp'):?>
+                            <a target="_blank" href="https://bithomp.com/explorer/{$vo['txhash']}">{$vo['txhash']}</a>
+                            <?php elseif($vo['currency_type']=='btc'):?>
+                            <a target="_blank" href="https://btc.com/{$vo['txhash']}">{$vo['txhash']}</a>
+                            <?php elseif($vo['currency_type']=='usdt'):?>
+                            <a target="_blank" href="https://omniexplorer.info/search/{$vo['txhash']}">{$vo['txhash']}</a>
+                            <?php elseif($vo['currency_type']=='eos'):?>
+                            <a target="_blank" href="https://eospark.com/tx/{$vo['txhash']}">{$vo['txhash']}</a>
+                            <?php else: ?>
+                            {$vo['txhash']}
+                            <?php endif;?>
+                        </td>
+                        <td style="width:250px">
+                            <?php if($vo['currency_type']=='eth' || $vo['currency_type']=='eth_token'):?>
+                            <a target="_blank" href="{:coinUrl($vo['to_address'],3,'true')}">{$vo['to_address']}</a>
+                            <?php elseif($vo['currency_type']=='xrp'):?>
+                            <a target="_blank" href="{:coinUrl($vo['to_address'],5,'true')}">{$vo['to_address']}</a>
+                            <?php elseif($vo['currency_type']=='btc'):?>
+                            <a target="_blank" href="{:coinUrl($vo['to_address'],1,'true')}">{$vo['to_address']}</a>
+                            <?php elseif($vo['currency_type']=='usdt'):?>
+                            <a target="_blank" href="{:coinUrl($vo['to_address'],2,'true')}">{$vo['to_address']}</a>
+                            <?php elseif($vo['currency_type']=='eos'):?>
+                            <a target="_blank" href="{:coinUrl($vo['to_address'],4,'true')}">{$vo['to_address']}</a>
+                            <?php else: ?>
+                            {$vo['to_address']}
+                            <?php endif;?>
+                            </td>
+                        <td style="width:60px">{$vo['tag']}</td>
+                        <td style="width:90px">{$vo['money']}</td>
+                        <td style="width:50px">{$vo['currency_mark']}</td>
+                        <td style="width:120px">
+                            {if condition="$vo['endtime'] gt 10"}
+                                {$vo['endtime']|date="Y-m-d H:i:s",###}
+                            {/if}
+                        </td>
+                        <td>{$vo.transfer_admin_name}</td>
+                        <td>
+                            <a class="link-update"
+                               href="#" onclick="pass({$vo['cid']})">确认成功</a>
+                            <a class="link-del" href="#"
+                               onclick="restart({$vo['cid']})">重新审核</a>
+                             <a class="link-del" href="#"
+                               onclick="fail({$vo['cid']})">确认失败</a>
+<!--                            <a href="javascript:;" class="layui-open" data-width="500px" data-height="300px;" data-url="{:url('transfer_admin')}?id={$vo.cid}">分配转账管理员</a>-->
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('takecoincheck')}?address={$vo.to_address}&num={$vo.money}" data-title="{$vo.to_address} - {$vo.money}">Hash异常检测</a>
+                        </td>
+                    </tr>
+                {/volist}
+
+            </table>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+
+    $("#walletNav").show();
+    $("#walletNav").children("li").eq(10).addClass("on");
+   //弹出提币成功操作页面
+    function pass(id) {
+        layer.confirm('是否提币成功？请多查询几次确认后再操作，否则用户钱包的币没有提出去，但用户的资产已经扣除', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            var url = "{:url('successtakecoin',array('id'=>'_id'))}"; //先将变量以字符串的形式带入U函数中
+            url = url.replace("_id", id); //将代替变量的字符串用真实变量替换
+            console.info(url);
+            layer.open({
+                type: 2,
+                title: "提币成功",
+                content: url,
+                area: ['500px', '500px'],
+                shade: 0, //不显示遮罩
+                //maxmin: true,
+                //scrollbar: false, //屏蔽浏览器滚动条
+                cancel: function () {
+                    location.reload();
+                }
+        }, function () {
+            layer.msg('已取消');
+        });
+
+
+
+        });
+    }
+
+    /**
+     * 提币失败
+     * @param wucid
+     */
+    function fail(id) {
+        layer.confirm('是否提币失败？请多查询几次确认后再操作，否则用户钱包的币已提出去，但用户资产没有扣除', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+        	var captcha = $("#captcha").val();
+            var loading = layer.msg("提交中，请稍后、、、", {
+                icon: 16
+                , shade: 0.3
+                , time: 0
+                , scrollbar: false
+            });
+            $.post("{:url('updatetakecoin')}", {"id": id,"status":3, "captcha": captcha}, function (datas) {
+                if(datas.code==10000){
+                    setTimeout("location.reload()", 2000);
+                }
+                layer.msg(datas.message);
+                layer.close(loading);
+            },"json");
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+    /**
+     * 重新审核
+     * @param wucid
+     */
+    function restart(id) {
+        layer.confirm('是否重新审核？请多查询几次确认后再操作，否则数据会出错', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+        	var captcha = $("#captcha").val();
+            var loading = layer.msg("提交中，请稍后、、、", {
+                icon: 16
+                , shade: 0.3
+                , time: 0
+                , scrollbar: false
+            });
+            $.post("{:url('updatetakecoin')}", {"id": id,"status":4, "captcha": captcha}, function (datas) {
+                if(datas.code==10000){
+                    setTimeout("location.reload()", 2000);
+                }
+                layer.msg(datas.message);
+                layer.close(loading);
+            },"json");
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+</script>

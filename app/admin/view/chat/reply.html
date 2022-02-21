@@ -1,0 +1,18 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">客服留言</span></div>
+    </div>
+    <div style="margin-top: 20px;margin-left: 50px;">
+    	<a href="{:url('Chat/index')}" ><input type="button" value="返回" class="btn btn6"></a>
+    </div>
+    <div class="result-wrap" style="width: 500px;height:100%;position: absolute;left: 500px;bottom: 0;top:100px;">
+        <iframe src="{:url('chat',['member_id'=>$member_id])}" frameborder="0" height="90%" width="100%" noResize="false" scrolling="false"></iframe>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/user/myDeal.css">
+<div id="main">
+	<div class="main_box">
+		<div class="raise left clearfix">
+            <!--<script src="__PUBLIC__/Home/js/coinindex.js"></script>-->
+<div class="ybc_list">
+	<div class="ybcoin" style="padding-left: 0;">
+		<h2 class="yangwu_zhanghaozhongxin_rightTitle">
+				{:lang('lan_header_markets')}
+		</h2>
+		<!-- {:lang('lan_Entrust_management')} -->
+		<div>
+				<div class="left list-type">
+					<span>{:lang('lan_Entrust_management')}</span>
+					<a href='{:url("User/myDeal")}'>{:lang('lan_user_Mydeal')}</a>
+					<a href='{:url("User/history")}'>{:lang('lan_Entrust_history')}</a>
+				</div>
+				<div class="right">
+					<form action="{:url('User/manage')}" method="post">
+						<span class="pairs">{:lang('lan_trading_pairs')}</span>
+						<select id="" name="currency" class="deal_coin">
+							<option value="0">{:lang('lan_whole')}</option>
+							{volist name="culist" id="vo"}
+								<option value="{$vo['currency_id']|default=''}" {if condition="$vo.currency_id eq $search['currency']"}selected{/if}>{$vo['currency_mark']}</option>
+							{/volist}
+						</select> /
+						<select id="coninname" name="currency_trade">
+							<option value="0">{:lang('lan_whole')}</option>
+								{volist name="culist_trade" id="vo"}
+							<option value="{$vo['currency_id']|default=''}" {if condition="$vo.currency_id eq $search['currency_trade']"}selected{/if}>{$vo['currency_mark']}</option>
+		
+							{/volist}
+						</select>
+										<select id="status" style="margin-left:0; width:80px;" name="status">
+							<option value="2">{:lang('lan_whole')}</option>
+												 <option value="0">{:lang('lan_not_completed')}</option>
+												 <option value="1">{:lang('lan_partial_transaction')}</option>
+													<!--<option value="2">已成交</option>
+												 <option value="3">已撤销</option>  -->
+										</select>
+										<input value="{:lang('lan_submit')}" class="filtrate" type="submit">
+					</form>
+				</div>
+				<div class="clear"></div>
+		</div>
+		
+	</div>
+		
+							<div id="otc_mainwrap" style="background-color:#fefefe;">
+									<div class="otc_orderheader">
+											<span>{:lang('lan_delegate_time')}</span>
+											<span>{:lang('lan_trading_pairs')}</span>
+											<span>{:lang('lan_type')}</span>
+											<span>{:lang('lan_quantity_entrusted')}</span>
+											<span>{:lang('lan_consignment_price')}</span>
+											<span>{:lang('lan_turnover_quantity')}</span>
+											<span>{:lang('lan_not_yet_concluded')}</span>
+											<span>{:lang('lan_state')}</span>
+											<span>{:lang('lan_operation')}</span>
+									</div>
+									<ul id="otc_orderbox"> 
+											{if condition="!empty($list)"}
+												{foreach name="list" item="vo"}
+															<li style="background: white;">
+																	<p>{$vo.add_time|date='Y-m-d H:i:s',###}</p>
+																	<p>{$vo.currency_id|getCurrencynameByCurrency=###}/{$vo.currency_trade_id|getCurrencynameByCurrency=###}</p>
+																	<p>
+																			<span>
+																					{if condition="$vo.type eq 'buy'"}
+																						{$vo.type|fomatOrdersType=###}
+																					{else /}
+																							<span style="color: #e96e44;">{$vo.type|fomatOrdersType=###}</span>
+																					{/if}
+																			</span>
+																	</p>
+																	<p>{$vo.num|number_format=###,6,'.',' '}</p>
+																	<p>{$vo.price|number_format=###,6,'.',' '}</p>
+																	<p>{$vo.trade_num|number_format=###,6,'.',' '}</p>
+																	<p>{$vo['num']- $vo['trade_num']|number_format=###,6,'.',' '}</p>
+																	<p>{$vo.status|formatOrdersStatus=###}</p>
+																	<p>
+																			<a href="javascript:void(0)"  onclick="cexiao({$vo.orders_id})">{:lang('lan_revoke')}</a>
+																	</p>
+															</li>
+												{/foreach}
+											{else /}
+													<div class="isempty">{:lang('lan_event_registration29')}</div>
+											{/if}
+									</ul>
+									{if condition="!empty($page)"}
+									<div class="addpage"  style="margin: 20px;display: flex;justify-content: center;"> 
+											<div class="page">
+													{$page}
+										 </div>
+										 <div class="clear"></div>
+									</div>
+									{/if}
+									<div class="clear"></div>
+							</div>
+          </div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<script>
+$(".menu2").addClass("uc-current");
+</script>
+<script>
+	function cexiao(_this){
+		layer.confirm("{:lang('lan_cancel_commission_tip')}", {
+	  btn: ["{:lang('lan_determine')}","{:lang('lan_cancel')}"], //按钮
+	  title: "{:lang('lan_cancel_commission')}"
+	}, function(){
+	  $.post('{:url('Entrust/cancel')}',{status:-1,order_id:_this},function(data){
+				   if(data['status'] == 1){
+					   layer.msg(data['info']);
+					   setTimeout(window.location.reload(),1000);
+				   }else{
+					   layer.msg(data['info']);
+				   }
+			})
+	}, function(){
+	  layer.msg("{:lang('lan_canceled')}");
+	});
+
+	}
+</script>

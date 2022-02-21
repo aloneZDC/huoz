@@ -1,0 +1,125 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/atstic/admin/show.css"/>
+
+<style>
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 0 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">汇总地址管理</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:U('')}" method="get">
+                        <table class="search-tab">
+                            <tr>
+                                <td><a class="btn btn-primary btn2" href="{:U('add_summary_address')}">添加汇总地址</a></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <div class="list-body">
+                    <table class="result-tab" width="100%">
+                        <tr>
+                            <th>编号</th>
+                            <th>名称</th>
+                            <th>币种名称</th>
+                            <th>汇总地址</th>
+                            <th>汇总地址标签</th>
+                            <th>是否默认</th>
+                            <th>操作</th>
+                        </tr>
+                        {volist name="list" id="vo" empty=""}
+                            <tr>
+                                <td>{$vo.sa_id}</td>
+                                <td>{$vo.sa_name}</td>
+                                <td>{$vo['sa_currency_id']}
+                                </td>
+                                <td>{$vo['sa_address']}</td>
+                                <td>{$vo['sa_tag']}</td>
+                                
+                                <td>{$vo.is_default}</td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="cancel({$vo.sa_id})">删除</a>
+                                    {if condition="$vo.sa_is_default eq 2"}
+                                        <a href="javascript:void(0)" onclick="setDefault({$vo.sa_id})">设为默认</a>
+                                    {/if}
+                                </td>
+                            </tr>
+                        {/volist}
+                    </table>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+function cancel(_this){
+	layer.confirm('确定删除？', {
+	  btn: ['确定','取消'], //按钮
+	  title: '确定删除？'
+	}, function(){
+	  $.post("{:U('delete_summary_address')}",{sa_id:_this},function(data){
+			   if(data['code'] == 10000){
+				   layer.msg(data['msg']);
+				   setTimeout(function(){location.reload();},1000);
+			   }else{
+				   layer.msg(data['msg']);
+			   }
+		});
+	}, function(){
+	  layer.msg('已取消');
+	});
+
+}
+function setDefault(_this){
+    layer.confirm('是否设为默认汇总地址？', {
+        btn: ['确定','取消'], //按钮
+        title: '是否设为默认汇总地址？'
+    }, function(){
+        $.post("{:U('set_default_summary')}",{sa_id:_this},function(data){
+            if(data['code'] == 10000){
+                layer.msg(data['msg']);
+                setTimeout(function(){location.reload();},1000);
+            }else{
+                layer.msg(data['msg']);
+            }
+        });
+    }, function(){
+        layer.msg('已取消');
+    });
+
+}
+</script>

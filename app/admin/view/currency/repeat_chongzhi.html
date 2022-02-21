@@ -1,0 +1,224 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<style>
+    .pay-mb {
+        margin: 17px 20px 10px;
+        padding-top: 12px;
+        display: block;
+        border-top: 1px dashed #ccc;
+    }
+
+    .pay-title {
+        width: 65px;
+        display: inline-block;
+    }
+
+    .pay-list {
+        display: inline-block;
+    }
+
+    .pay-list label + label {
+        margin-left: 16px;
+    }
+
+    .pay-list label {
+        cursor: pointer;
+    }
+
+    .pay-button {
+        margin-left: 20px;
+        margin-top: 7px;
+        margin-bottom: 5px;
+    }
+
+    .result-tab tr:first-child th {
+        font-size: 12px;
+    }
+
+    .optioncardWrapper td:first-child {
+        text-align: center;
+    }
+
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 20px 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $('#datePicker').date_input();
+        $('#datePicker2').date_input();
+    });
+
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">批量付款管理</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('Currency/repeat_chongzhi')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <th width="70">会员ID:</th>
+                        <td><input class="common-text" placeholder="会员ID" name="keyid" value="{$keyid}" type="text">
+                        </td>
+                        <th width="70">订单号:</th>
+                        <td><input class="common-text" placeholder="订单号" name="ti_id" value="{$ti_id}" type="text"></td>
+                        <th width="70">钱包地址:</th>
+                        <td><input class="common-text" placeholder="钱包地址" name="url" value="{$url}" type="text"></td>
+
+                        <th width="70">状态选择:</th>
+                        <td>
+                            <select name="state" id="state">
+                                <option>请选择</option>
+                                <option value="2"
+                                <?php if(!empty($state) && $state == 2){echo "selected";} ?>>未处理</option>
+                                <option value="1"
+                                <?php if(!empty($state) && $state == 1){echo "selected";} ?>>处理</option>
+                            </select>
+                        </td>
+
+                        <td><input class="btn btn-primary btn2" name="sub" value="查 询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>用户ID</th>
+                    <th>订单号</th>
+                    <th>数量</th>
+                    <th>钱包地址</th>
+                    <th>时间</th>
+                    <th>处理状态</th>
+                    <th>备注</th>
+                </tr>
+                <volist name='result' id='vo'>
+                    <tr class="optioncardWrapper" data-id="{$vo.id}">
+                        <td class="withdraw_id">{$vo.id}</td>
+                        <td><a href="javascript:member_details({$vo.user_id});" class="shenhe_button">{$vo.user_id}</a>
+                        </td>
+                        <td>{$vo.ti_id}</td>
+                        <td>{$vo.num}</td>
+                        <td>{$vo.url}</td>
+                        <td>{$vo.add_time|date='Y-m-d H:i:s',###}</td>
+                        <td>
+                            <eq name="vo.a_status" value="1">已处理
+                                <else/>
+                                <eq name="vo.a_status" value="2">
+                                    <button class="btn btn-success btn-sm" data-toggle="repeat_save_status">确认处理
+                                    </button>
+                                </eq>
+                            </eq>
+                        </td>
+                        <td>
+                            <textarea name="a_remark" cols="30" rows="2">{$vo.a_remark}</textarea>
+                            <button class="btn btn-info btn-sm" data-toggle="repeat_save_remark">保 存</button>
+                        </td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    $(function () {
+
+        //保存备注
+        $('button[data-toggle="repeat_save_remark"]').click(function () {
+            var _this = $(this),
+                data = {
+                    id: _this.parents('tr').attr('data-id'),
+                    text: _this.parent().find('textarea').val()
+                };
+
+            if (!$.trim(data.text).length > 0) {
+                layer.alert("备注不能为空！", {"icon": 5});
+                return false;
+            }
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                url: "{:U('repeat_save_remark')}",
+                success: function (callback) {
+                    if (callback.Code == 1) {
+                        layer.alert("保存成功！", {"icon": 6});
+                    } else {
+                        layer.alert(callback.Msg, {"icon": 5});
+                    }
+                },
+                error: function (e) {
+                    layer.alert("保存失败，请求出错！", {"icon": 5});
+                }
+            });
+        });
+
+        //确认手工充值
+        $('button[data-toggle="repeat_save_status"]').click(function () {
+            var _this = $(this),
+                data = {
+                    id: _this.parents('tr').attr('data-id')
+                };
+
+            layer.confirm("确定这么做吗？", {icon: 3, title: '重复记录已处理确认'}, function (index) {
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    data: data,
+                    url: "{:U('repeat_save_status')}",
+                    success: function (callback) {
+                        if (callback.Code == 1) {
+                            layer.alert("修改成功！", {"icon": 6});
+                            setInterval(function () {
+                                window.location.href = window.location.href;
+                            }, 1500);
+                        } else {
+                            layer.alert(callback.Msg, {"icon": 5});
+                        }
+                    },
+                    error: function (e) {
+                        layer.alert("修改失败，请求出错！", {"icon": 5});
+                    }
+                });
+            });
+        });
+    });
+</script>

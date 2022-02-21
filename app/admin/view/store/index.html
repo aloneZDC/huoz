@@ -1,0 +1,190 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">商品列表</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('index')}" method="get">
+                <table class="search-tab" style="margin-left: 15px;">
+                    <tr>
+<!--                        <td><input class="common-text" placeholder="用户ID" name="user_id" value="{$Think.get.user_id}"-->
+<!--                                   id="user_id" type="text"></td>-->
+<!--                        <td><input class="common-text" placeholder="账户" name="user_phone" value="{$Think.get.user_phone}"-->
+<!--                                   id="user_phone" type="text"></td>-->
+<!--                        <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>-->
+                        <td>
+                            <a href="javascript:;" class="layui-open" data-url="{:url('Shop/add')}?param=index" data-title="添加商品">添加商品</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form class="layui-form">
+                <table class="layui-table" id="memberList" lay-filter="table-list">
+                    <thead>
+                    <tr>
+                        <th lay-data="{align:'center',field:'goods_id', width:50}">ID</th>
+                        <th lay-data="{align:'center',field:'goods_title', width:500}">标题</th>
+                        <!--                <th lay-data="{align:'center',field:'images', width:150}">图片</th>-->
+                        <th lay-data="{align:'center',field:'goods_currency_num', width:160}">首选币种</th>
+                        <th lay-data="{align:'center',field:'goods_currency_other_num', width:160}">组合币种</th>
+                        <th lay-data="{align:'center',field:'goods_price', width:160}">市场价</th>
+                        <th lay-data="{align:'center',field:'goods_time', width:180}">发布时间</th>
+                        <th lay-data="{align:'center',field:'goods_sort', width:80}">排序</th>
+                        <th lay-data="{align:'center',field:'goods_status', width:80}">状态</th>
+                        <th lay-data="{align:'center',field:'tool'}">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr data-id="{$v->goods_id}">
+                        <td>{$v.goods_id}</td>
+                        <td>
+                            {$v.goods_title}
+
+                        </td>
+                        <!--<td>
+                            <button type="button" onclick="showImages('{}')" class="layui-btn layui-btn-sm">
+                                <i class="layui-icon layui-icon-carousel"></i>
+                                查看图片
+                            </button>
+                        </td>-->
+                        <td>{:floatval($v.goods_currency_num)} {$v.currency.currency_name}</td>
+                        <td>{:floatval($v.goods_currency_other_num)} {$v.otherCurrency.currency_name}</td>
+                        <td>{:floatval($v.goods_price)} {$v.currency.currency_name}</td>
+                        <td>{:date("Y-m-d H:i:s", $v.goods_time)}</td>
+
+                        <td>{$v.goods_sort}</td>
+                        <td>
+                            {switch name="$v.goods_status"}
+                            {case value="1"}上架中{/case}
+                            {case value="2"}已下架{/case}
+                            {/switch}
+                        </td>
+
+                        <td>
+                            <a href="javascript:;" class="layui-open layui-btn layui-btn-normal layui-btn-sm" data-url="{:url('Shop/edit')}?param=index&id={$v.goods_id}" data-title="编辑商品{$v.goods_id}"><i class="layui-icon layui-icon-edit"></i></a>
+
+
+                            <button title="删除" class="layui-btn layui-btn-danger layui-btn-sm delete" data-id="{$v.goods_id}"  type="button">
+                                <i class="layui-icon layui-icon-delete"></i>
+                            </button>
+                            {switch name="$v.goods_status"}
+                            {case value="1"}
+                                <button title="下架" class="layui-btn layui-btn-danger layui-btn-sm up_and_down" data-id="{$v.goods_id}" data-status="2" type="button">
+                                    <i class="layui-icon layui-icon-down"></i>
+                                </button>
+                            {/case}
+                            {case value="2"}
+                                <button title="上架" class="layui-btn layui-btn-danger layui-btn-sm up_and_down" data-id="{$v.goods_id}" data-status="1" type="button">
+                                    <i class="layui-icon layui-icon-down"></i>
+                                </button>
+                            {/case}
+                            {/switch}
+
+                        </td>
+                    </tr>
+                    {/volist}
+
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'global'], function () {
+        layer = layui.layer,globals=layui.global;
+
+        $('.showImages').click(function () {
+            var id = $(this).data('id');
+            globals.ajax("{:url('images')}?param=index",{id:id},function (data) {
+                if(data.code==10000){
+                    let images = data.data;
+                    if (images == null) {
+                        return layer.alert("该文章暂无图片...", {
+                            icon: 5
+                        });
+                    }
+                    let photos = {
+                        title: "Paper图片",
+                        id: Number(id),
+                        start: 0,
+                        data: []
+                    };
+
+                    images.map((v, k) => {
+                        photos.data.push({
+                            alt: "",
+                            pid: k,
+                            src: v,
+                            thumb: "",
+                        })
+                    });
+                    layer.photos({
+                        photos
+                    });
+                } else {
+                    layer.msg(data.message);
+                }
+            });
+        });
+
+        $('.delete').click(function () {
+            var id = $(this).data('id');
+            layer.confirm("确认删除吗?", {
+                btn: ['确认', '取消']
+            }, () => {
+                layer.closeAll();
+                globals.ajax("{:url('delete')}?param=index",{id:id},function (data) {
+                    if (data.code == 10000) {
+                        layer.alert(data.message, {
+                            icon: 6
+                        });
+                        window.location.reload();
+                    } else {
+                        layer.msg(data.message);
+                    }
+                });
+            }, () => {
+                layer.msg("已取消!");
+            });
+        });
+
+        $('.up_and_down').click(function () {
+            var id = $(this).data('id');
+            var status_t = status =  $(this).data('status');
+            var str=status==1?"上架":"下架";
+            layer.confirm("确认要"+str+"该商品吗?", {
+                btn: ['确认', '取消']
+            }, () => {
+                layer.closeAll();
+                globals.ajax("{:url('up_and_down')}?param=index",{id:id,status:status},function (data) {
+                    if (data.code == 10000) {
+                        layer.alert(data.message, {
+                            icon: 6
+                        });
+                        window.location.reload();
+                    } else {
+                        layer.msg(data.message);
+                    }
+                });
+            }, () => {
+                layer.msg("已取消!");
+            });
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

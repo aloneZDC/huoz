@@ -1,0 +1,1221 @@
+<script src="__PUBLIC__/static/home/js/orders/exchange.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/home/js/charting_library/charting_library.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/home/js/datafeeds/udf/dist/polyfills.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/home/js/datafeeds/udf/dist/bundle.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/orders/exchange.css">
+<script type="text/javascript">
+  var chartObj = {};
+  var dataObj = [];
+  var cur_data_count = 0;
+  var kline_config = {:json_encode($kline_config)};
+
+  function tradingview_setVisibleRange(resolution) {
+    var tradingview_setVisibleRange = localStorage.getItem('tradingview_setVisibleRange');
+    // if(tradingview_setVisibleRange==resolution) return;
+
+    if(kline_config && kline_config[resolution] && kline_config[resolution]['from']>0 && kline_config[resolution]['to']>0) {
+      console.log(kline_config[resolution]);
+      chartObj.activeChart().setVisibleRange({from: kline_config[resolution]['from'], to: kline_config[resolution]['to']});
+    }
+  }
+    $(function () {
+        $(".nav_ulCon li a").removeClass("nav_addActive");
+        $(".nav_ulCon li a").eq(1).addClass("nav_addActive");
+        function getCookie(name) {
+            var strcookie = document.cookie;//获取cookie字符串
+            var arrcookie = strcookie.split("; ");//分割
+            //遍历匹配
+            for (var i = 0; i < arrcookie.length; i++) {
+                var arr = arrcookie[i].split("=");
+                if (arr[0] == name) {
+                    return arr[1];
+                }
+            }
+            return "";
+        };
+
+        function setCookie(name,value){
+            var Days = 30;
+            var exp = new Date();
+            exp.setTime(exp.getTime() + Days*24*60*60*1000);
+            document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+        };
+
+
+        var symbol = "{$currency['currency_mark']}_{$trade_currency['currency_mark']}";
+        var lang;
+        if (getCookie('odrthink_language') === 'en-us') {
+            lang = 'en';
+        } else if (getCookie('odrthink_language') === 'zh-tw') {
+            lang = 'zh_TW';
+        } else if(getCookie('odrthink_language') === 'th-th'){
+            // lang = 'th_TH';
+            lang = 'en';
+        }else{
+            lang = "en";
+        }
+
+
+        // btc2ckusd    btc2ckusd   eos2eth
+        var mydata = {
+            symbol: symbol || '',
+            interval: '15',
+            localStor: {}
+        }
+
+        if(localStorage.getItem('tradingview.resolution')){
+            mydata.interval = localStorage.getItem('tradingview.resolution');
+        }
+
+        TradingView.onready(function () {
+            // var _datafeed = new Datafeeds.UDFCompatibleDatafeed("https://demo_feed.tradingview.com");
+            var _datafeed = new Datafeeds.UDFCompatibleDatafeed("/index/TradingInterface",5000);
+            var widget = window.tvWidget = new TradingView.widget({
+                width: '100%',
+                height: '100%',
+                symbol: mydata.symbol,
+                // symbol: "AAPL",
+                interval: mydata.interval,
+                // interval: "D",
+                container_id: "huabiChat",
+                timezone: "Etc/UTC",
+                //  BEWARE: no trailing slash is expected in feed URL
+                datafeed: _datafeed,
+                library_path: "__PUBLIC__/static/home/js/charting_library/",
+                locale: lang,
+                //  Regression Trend-related functionality is not implemented yet, so it's hidden for a while
+                drawings_access: {
+                    type: 'black',
+                    tools: [{
+                        name: "Regression Trend"
+                    }]
+                },
+                disabled_features: [
+                    "header_symbol_search",
+                    "header_saveload",
+                    "header_screenshot",
+                    "header_chart_type",
+                    "header_compare",
+                    "header_undo_redo",
+                    "timeframes_toolbar",
+                    "volume_force_overlay",
+                    "header_resolutions",
+                    "save_chart_properties_to_local_storage",
+                    "chart_crosshair_menu",
+                    "use_localstorage_for_settings",
+                    "left_toolbar",
+                    "display_market_status",
+                ],
+                // enabled_features: [
+                //     "keep_left_toolbar_visible_on_small_screens",
+                //     "adaptive_logo",
+                //     "show_dom_first_time",
+                //     "side_toolbar_in_fullscreen_mode",
+                //     "hide_left_toolbar_by_default",
+                //     "hide_last_na_study_output", // 隐藏成交量n/a
+                // ],
+                studies_overrides: {
+                    "volume.volume.color.0": "#fd8b8b",
+                    "volume.volume.color.1": "#3cb595",
+                    "volume.volume.transparency": 70,
+                    "volume.options.showStudyArguments": !1
+                },
+                overrides: {
+                    // 处理指标 ＋ — 效果
+                    "paneProperties.legendProperties.showLegend": false,
+                    "paneProperties.legendProperties.showStudyArguments": true,
+                    "paneProperties.legendProperties.showStudyTitles": true,
+                    "paneProperties.legendProperties.showStudyValues": true,
+                    "paneProperties.legendProperties.showSeriesTitle": true,
+                    "paneProperties.legendProperties.showSeriesOHLC": true,
+                    //    蜡烛样式
+                    "mainSeriesProperties.candleStyle.upColor": "#62C378",
+                    "mainSeriesProperties.candleStyle.downColor": "#D55959",
+                    "mainSeriesProperties.candleStyle.borderUpColor": "#62C378",
+                    "mainSeriesProperties.candleStyle.borderDownColor": "#D55959",
+                    "mainSeriesProperties.candleStyle.wickUpColor": "#62C378",
+                    "mainSeriesProperties.candleStyle.wickDownColor": "#D55959",
+                    // 背景色
+                    "paneProperties.background": "#fff",
+                    // 竖直网格线颜色
+                    "paneProperties.vertGridProperties.color": "rgba(148, 171, 192,0.1)",
+                    // 水平网格线颜色
+                    "paneProperties.horzGridProperties.color": "rgba(148, 171, 192,0.1)",
+                    // 十指光标颜色
+                    "paneProperties.crossHairProperties.color": "#4A5F78",
+                    // 坐标轴线颜色
+                    "scalesProperties.lineColor": "#4A5F78",
+                    // 坐标轴文本颜色
+                    "scalesProperties.textColor": "#94ABC0",
+                    // 分时图
+                    "mainSeriesProperties.areaStyle.color1": "rgba(0, 153, 195, .1)",
+                    "mainSeriesProperties.areaStyle.color2": "rgba(0, 153, 195, 0)",
+                    "mainSeriesProperties.areaStyle.linecolor": "rgba(0, 153, 195, 1)",
+                    // 成交量高度设置  large, medium, small, tiny
+                    "volumePaneSize": "medium",
+                    // 调整k线顶部的边距
+                    "paneProperties.topMargin": 10
+                },
+                custom_css_url: '__PUBLIC__/static/home/css/orders/night.css', // 样式表
+                // loading_screen: {
+                //     backgroundColor: "#1f2b34",
+                //     foregroundColor: "#0CB0FF"
+                // }
+            });
+
+            widget.onChartReady(function () {
+
+                // 学习线
+                // widget.chart().createStudy('Moving Average', false, false, [5], null, {'plot.color': '#A699D9'});
+                // widget.chart().createStudy('Moving Average', false, false, [10], null, {'plot.color': '#6A9ACB'});
+                // widget.chart().createStudy('Moving Average', false, false, [30], null, {'plot.color': '#B27BC2'});
+                widget.chart().createStudy('Moving Average', false, false, [60], null, {'plot.color': '#FFBF53'});
+
+                // 参考线、 按钮、 时间切换：
+                var thats = widget;
+                var buttons = [{
+                    title: '分时',
+                    resolution: '1',
+                    chartType: 3
+                },
+                    {
+                        title: '1min',
+                        resolution: '1',
+                        chartType: 1
+                    }, {
+                        title: '5min',
+                        resolution: '5',
+                        chartType: 1
+                    }, {
+                        title: '15min',
+                        resolution: '15',
+                        chartType: 1
+                    }, {
+                        title: '30min',
+                        resolution: '30',
+                        chartType: 1
+                    }, {
+                        title: '1hour',
+                        resolution: '60',
+                        chartType: 1
+                    }, {
+                        title: '1day',
+                        resolution: '1D',
+                        chartType: 1
+                    }, {
+                        title: '1week',
+                        resolution: '1W',
+                        chartType: 1
+                    }, {
+                        title: '1month',
+                        resolution: '1M',
+                        chartType: 1
+                    }, ];
+
+                if (lang === 'en') {
+                    buttons[0].title = 'Time-sharing';
+                } else if (lang === 'zh_TW') {
+                    buttons[0].title = '分時';
+                } else if(lang === 'th_TH'){
+                    // buttons[0].title = 'แบ่งปันเวลา';
+                    buttons[0].title = 'Time-sharing';
+                }
+                var studies = [];
+
+                var chartType  = 1;
+                var resolution  = "15";
+                if(localStorage.getItem('tradingview.resolution')){
+                    resolution = localStorage.getItem('tradingview.resolution');
+                }
+
+                function createButton(buttons) {
+                    for (let i = 0; i < buttons.length; i++) {
+                        // var resolution = buttons[i].resolution;
+                        // var chartType = buttons[i].chartType;
+                        (function(button) {
+                            thats.createButton()
+                                .attr('title', button.title).addClass("mydate")
+                                .text(button.title)
+                                .on('click', function(e) {
+                                    if ($(this).parent().hasClass('selected')) {
+                                        return false;
+                                    }
+                                    localStorage.setItem('tradingview.resolution', button.resolution);
+                                    localStorage.setItem('tradingview.chartType', button.chartType);
+                                    $(this).parent().parent().siblings().each(function(index,item){
+                                        $(item).find(".selected").removeClass("selected");
+                                    });
+                                    $(this).addClass('selected');
+                                    thats.chart().setResolution(button.resolution, function onReadyCallback() {});
+                                    if (button.chartType != thats.chart().chartType()) {
+                                        thats.chart().setChartType(button.chartType);
+                                        toggleStudy(button.chartType);
+                                    }
+                                }).addClass('my-group' + (button.resolution == resolution && button.chartType == chartType ? ' selected' : ''));
+                        })(buttons[i]);
+                    }
+                }
+
+                function createStudy() {
+                    var id = widget.chart().createStudy('Moving Average', false, false, [5], null, {
+                        'Plot.color': 'rgb(150, 95, 196)'
+                    });
+                    studies.push(id);
+                    id = widget.chart().createStudy('Moving Average', false, false, [10], null, {
+                        'Plot.color': 'rgb(116,149,187)'
+                    });
+                    studies.push(id);
+                    id = widget.chart().createStudy('Moving Average', false, false, [20], null, {
+                        "plot.color": "rgb(58,113,74)"
+                    });
+                    studies.push(id);
+                    id = widget.chart().createStudy('Moving Average', false, false, [30], null, {
+                        "plot.color": "rgb(118,32,99)"
+                    });
+                    studies.push(id);
+                }
+
+                function toggleStudy(chartType) {
+                    var state = chartType == 3 ? 0 : 1;
+                    for (var i = 0; i < studies.length; i++) {
+                        thats.chart().getStudyById(studies[i]).setVisible(state);
+                    }
+                }
+                widget.onChartReady(function() {
+                    //设置均线种类 均线样式
+                    createStudy();
+                    //生成时间按钮
+                    createButton(buttons);
+                    thats.chart().setChartType(chartType);
+                    toggleStudy(chartType);
+
+                  chartObj = widget;
+
+                  widget.chart().dataReady(function () {
+                    var local_resolution = localStorage.getItem('tradingview.resolution');
+                    tradingview_setVisibleRange(local_resolution);
+                  })
+                });
+            })
+        });
+    })
+</script>
+<div class="content">
+  <div class="fl info_box">
+    <!-- 邀请好友 -->
+    <div class="invite">
+      <a href="{:url('User/invit')}" target="_blank">
+        <!--  <img src="__PUBLIC__/Home/images/yaoq_tw.png" alt="邀请好友"> -->
+        {eq name="Think.cookie.think_language" value="en-us"}<img src="__PUBLIC__/static/home/images/yaoq_en.jpg" alt="邀请好友">{else/}{eq name="Think.cookie.think_language" value="zh-tw"} <img src="__PUBLIC__/static/home/images/yaoq_tw.jpg" alt="邀请好友">{else/} <img src="__PUBLIC__/static/home/images/yaoq_en.jpg" alt="邀请好友">{/eq}{/eq}
+      </a>
+    </div>
+    <!-- 市场 -->
+    <div class="step_guider_four">
+      {if condition="!empty(session('USER_KEY_ID'))"}
+        <div class="desktop" id="total_balance">
+          <dl>
+            <dt>{:lang('lan_Net_asset_conversion')}:</dt>
+            <dd>
+              <b class="font_arial">{$allmoneys}</b>
+              <i class="upper">USDT</i>
+              <span class="font_arial upper"> ≈ <em class="d_total">{$allmoneys_usd}</em> {$new_price_unit}
+
+            </span>
+            </dd>
+            <i class="open eyes iconfont" id="total_eyes">&#xe603;</i>
+          </dl>
+        </div>
+        {else/}
+        <div class="desktop not_login">
+          <a href="{:url('login/index')}" class="logout">{:lang('lan_sign_in')}</a>
+          {:lang('lan_or')}
+          <a href="{:url('Reg/index')}" class="logout">{:lang('lan_register')}</a>
+          {:lang('lan_exchange_begin')}
+        </div>
+      {/if}
+      <div class="drawer">
+        <strong>{:lang('lan_exchange_market')}</strong>
+        <div class="search_box">
+          <input id="search" type="text" maxlength="7">
+          <i class="iconfont s_clear" style="display: none;">&#xe616;</i>
+          <i class="iconfont s_symol">&#xe61e;</i>
+        </div>
+        <div class="switch_box uppercase">
+          <i class="iconfont">&#xe612;</i>
+          <b style="font-weight: 400;">{$new_price_unit}</b>
+        </div>
+        <div class="coin_tab">
+          <span data-mark="USDT">USDT</span>
+          <!-- <b data-mark="myself">
+            <i class="iconfont">&#xe608;</i>
+            自選
+          </b> -->
+        </div>
+        <div class="coin_table">
+          <ul class="coin_thead">
+            <li>
+              <div class="coin_unit">
+                <div>
+                  <span data-order="down" data-key="currency_mark" data-type="string">
+                    {:lang('lan_currency')}
+                    <i>
+                      <b class="iconfont asc">&#xe601;</b>
+                      <b class="iconfont desc">&#xe600;</b>
+                    </i>
+                  </span>
+                  <span data-order="down" data-key="new_price" data-type="number">
+                    {:lang('lan_exchange_price')}
+                    <i>
+                      <b class="iconfont asc">&#xe601;</b>
+                      <b class="iconfont desc">&#xe600;</b>
+                    </i>
+                  </span>
+                  <span data-order="down" data-key="24H_change" data-type="number">
+                    {:lang('lan_Rose')}
+                    <i>
+                      <b class="iconfont asc">&#xe601;</b>
+                      <b class="iconfont desc">&#xe600;</b>
+                    </i>
+                  </span>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="coin_list">
+            <div class="loading" style="display: none;">{:lang('lan_exchange_no_data')}</div>
+            <dl>
+              <!-- <dd>
+                <div class="coin_unit">
+                  <div>
+                    <span>
+                      <i class="iconfont">&#xe620;</i>
+                      <em>BTC</em>
+                    </span>
+                    <span class="coin_price">6752.34</span>
+                    <span class="color-sell">-3.75%</span>
+                  </div>
+                </div>
+              </dd> -->
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 公告 -->
+    <div class="notice">
+      <div class="title">
+        <a href="">{:lang('lan_notice')}</a>
+      </div>
+      <div class="n_content">
+        <ul class="n_list">
+          {volist name='info_red1' id="vo" }
+          <li>
+            <a href="{:url('News/new_detail',['article_id'=>$vo['article_id']])}" target="_blank">{$vo.title}</a>
+            {$vo.add_time}
+          </li>
+          {/volist}
+
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- 行情 -->
+  <div class="market_box">
+    <div class="exchange_container">
+      <div class="mod trading_box">
+        <div class="mod_head">
+           <span class="mod_show_btn">
+             <button>
+               <i></i>
+             </button>
+           </span>
+          <dl class="ticker_warp" id="ticker_wrap">
+            <dt>
+              {$currency['currency_mark']}/{$trade_currency['currency_mark']}
+              <span class="market_type market_type_main">
+                <!-- <b>主板</b> -->
+                <!-- <em>
+                  火币主板Huobi Main：
+                  <br>
+                  原火币全球站，主要交易品种为相对成熟的优质区块链资产。
+                </em> -->
+              </span>
+              <span class="ticker_close">0.00</span>
+            </dt>
+            <dd>
+              <span id="tickerCny_ticker_bar">≈ 0.00 CNY</span>
+            </dd>
+            <dd>
+              {:lang('lan_Rose')}
+              <span name="rate" class="color_up">+0.00%</span>
+            </dd>
+            <dd>
+              {:lang('lan_high')}
+              <span name="high">0.00</span>
+            </dd>
+            <dd>
+              {:lang('lan_low')}
+              <span name="low">0.00</span>
+            </dd>
+            <dd>
+              {:lang('lan_Amount_of')}
+              <span name="amout">0.00 {$currency['currency_mark']}</span>
+            </dd>
+            <dd class="ticker_logo" hidden>
+              <img src="__PUBLIC__/static/home/images/logo.aeb4723.png" alt="瑞波钻">
+            </dd>
+          </dl>
+        </div>
+        <div id="huabiChat"></div>
+        <div class="chartMask" id="chartMask"></div>
+      </div>
+      <div class="panel_container">
+        <div class="trade_wrap">
+          <div class="trade_panel trade_panel_login">
+            <div class="mod_trade" id="mod_trade">
+              <div class="mod_head clear_fix clear">
+                <ul class="mod_tab">
+                  <li>{:lang('lan_exchange_limit_price')}</li>
+                  <!-- <li>市价交易</li> -->
+                </ul>
+                <ul class="fr description">
+                  <li>
+                    {if condition="$currency['is_limit']"}
+                      <span>{:lang('lan_price_limit')}：{$currency['newprice2']}</span><span>{:lang('lan_stop_price')}：{$currency['newprice']}</span>
+                    {/if}
+                    {if condition="$currency['is_time']"}
+                      <span>{:lang('lan_transaction_time')}：{$currency['min_time']}-{$currency['max_time']}</span></li>
+                  {/if}
+
+
+
+                </ul>
+                <div class="fees_rule">
+                  <p>
+                    <a href="" target="_blank" style="display: none">{:lang('lan_exchange_fee')}</a>
+                  </p>
+                </div>
+              </div>
+              <div class="mod_bd clear_fix">
+                <div class="panel buy_panel">
+                  {if condition="!empty(session('USER_KEY_ID'))"}
+                  <div class="hd hd_login" id="margin_hb_quote">
+                    <span>{:lang('lan_orders_available')}</span>
+                    <b class="buy_available">{$user_currency_money['currency_trade']['num']|default=0.00}</b>
+                    <em class="uppercase">{$trade_currency.currency_mark|default=''}</em>
+                    <a class="jump_coin" href="{:url('Pay/coin',['currency_id'=>$trade_currency['currency_id']])}">{:lang('lan_Recharge')}</a>
+                  </div>
+                  {else/}
+                  <div class="hd hd_logout">
+                    <a href="Login/index" class="logout">{:lang('lan_sign_in')}</a>
+                    {:lang('lan_or')}
+                    <a href="{:url('Reg/index')}" class="logout">{:lang('lan_register')}</a>
+                    {:lang('lan_exchange_begin')}
+                  </div>
+                  {/if}
+                  <div class="bd">
+                    <div class="form_buy_limit">
+                      <div class="input_box">
+                        <b class="label">{:lang('lan_Buying_price')}{$limit_price}</b>
+                        <label>
+                          <input type="password" style="display: none">
+                          <input type="text" autocomplete="off" style="display: none">
+                          <input type="text" autocomplete="new-password" name="price" maxlength="14" oninput="clearNoNum(this)">
+                          <span class="upper unit">{$trade_currency['currency_mark']}</span>
+                        </label>
+                        <p class="math_price upper">
+                          <em id="buy_limit_math_price" style="display: none;">≈ 0.00 CNY</em>
+                        </p>
+                      </div>
+                      <div class="input_box input_text_amount">
+                        <b class="label">{:lang('lan_orders_Buy_volume')}</b>
+                        <label>
+                          <input type="password" style="display: none">
+                          <input type="text" autocomplete="off" style="display: none">
+                          <input type="text" autocomplete="new-password" name="amount" maxlength="14" oninput="clearNoNum(this)">
+                          <span class="unit u">
+                              <em class="uppercase">{$currency.currency_mark|default=''}</em>
+                           </span>
+                        </label>
+                      </div>
+                      {if condition="!empty(session('USER_KEY_ID'))"}
+                        <div class="input_range sell_color login_limit_buy range">
+                          <input type="range" id="buyRange" min="0" max="100" step="1" value="0" >
+                          <i class="point" data-point="0" style="left: 0%; transform: translateX(0%);"></i>
+                          <i class="point" data-point="25" style="left: 25%; transform: translateX(-25%);"></i>
+                          <i class="point" data-point="50" style="left: 50%; transform: translateX(-50%);"></i>
+                          <i class="point" data-point="75" style="left: 75%; transform: translateX(-75%);"></i>
+                          <i class="point" data-point="100" style="right: 0px;"></i>
+                        </div>
+                        {else/}
+                        <div class="input_range buy_color logout_limit_buy range">
+                          <input type="range" id="buyRange" min="0" max="100" step="1" value="0" disabled="disabled" >
+                          <i class="point" data-point="0" style="left: 0%; transform: translateX(0%);"></i>
+                          <i class="point" data-point="25" style="left: 25%; transform: translateX(-25%);"></i>
+                          <i class="point" data-point="50" style="left: 50%; transform: translateX(-50%);"></i>
+                          <i class="point" data-point="75" style="left: 75%; transform: translateX(-75%);"></i>
+                          <i class="point" data-point="100" style="right: 0px;"></i>
+                        </div>
+                      {/if}
+                      <div class="amount_range uppercase">
+                         <span class="min">
+                           <span class="min_num">0</span>
+                           <em>{$currency.currency_mark|default=''}</em>
+                         </span>
+                        <span class="max">
+                           <span class="max_num">{$user_currency_money['currency_trade']['num']|default=0.00}</span>
+                           <em>{$currency.currency_mark|default=''}</em>
+                         </span>
+                      </div>
+                      <div class="total" id="buy_total">
+                        <p>
+                          {:lang('lan_exchange_money')}
+                          <span><span id="buyAmount">0.000000</span> {$trade_currency['currency_mark']}</span>
+                        </p>
+                        <p class="transform_total"></p>
+                      </div>
+                      <div class="submit">
+                        {if condition="!empty(session('USER_KEY_ID'))"}
+                          <button class="btn_buy color_buy_bg login_button">{:lang('lan_exchange_buy')}{$currency['currency_mark']}</button>
+                          {else/}
+                          <button class="btn_buy color_buy_bg logout_button" disabled="true">{:lang('lan_exchange_buy')}{$currency['currency_mark']}</button>
+                        {/if}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel sell_panel">
+                  {if condition="!empty(session('USER_KEY_ID'))"}
+                    <div class="hd hd_login" id="margin_hb_quote">
+                      <span>{:lang('lan_orders_available')}</span>
+                      <b class="sell_available">{$user_currency_money['currency']['num']|default=0.00}</b>
+                      <em class="uppercase">{$currency.currency_mark|default=''}</em>
+                      <a class="jump_coin" href="{:url('Pay/coin',['currency_id'=>$currency['currency_id']])}">{:lang('lan_Recharge')}</a>
+                    </div>
+                    {else/}
+                    <div class="hd hd_logout">
+                      <a href="{:url('login/index')}" class="logout">{:lang('lan_sign_in')}</a>
+                      {:lang('lan_or')}
+                      <a href="{:url('Reg/index')}" class="logout">{:lang('lan_register')}</a>
+                      {:lang('lan_exchange_begin')}
+                    </div>
+                  {/if}
+                  <div class="bd">
+                    <div class="form_sell_limit">
+                      <div class="input_box">
+                        <b class="label">{:lang('lan_order_Selling')}{$limit_price}</b>
+                        <label>
+                          <input type="password" style="display: none">
+                          <input type="text" autocomplete="off" style="display: none">
+                          <input type="text" autocomplete="new-password" name="price" maxlength="14" oninput="clearNoNum(this)">
+                          <span class="upper unit">{$trade_currency['currency_mark']}</span>
+                        </label>
+                        <p class="math_price upper">
+                          <em id="sell_limit_math_price" style="display: none;">≈ 0.00 CNY</em>
+                        </p>
+                      </div>
+                      <div class="input_box input_text_amount">
+                        <b class="label">{:lang('lan_orders_Sell_quantity')}</b>
+                        <label>
+                          <input type="password" style="display: none">
+                          <input type="text" autocomplete="off" style="display: none">
+                          <input type="text" autocomplete="new-password" name="amount" maxlength="14" oninput="clearNoNum(this)">
+                          <span class="unit u">
+                              <em class="uppercase">{$currency.currency_mark|default=''}</em>
+                           </span>
+                        </label>
+                      </div>
+                      {if condition="!empty(session('USER_KEY_ID'))"}
+                        <div class="input_range sell_color login_limit_sell range">
+                          <input type="range" id="sellRange" min="0" max="100" step="1" value="0" >
+                          <i class="point" data-point="0" style="left: 0%; transform: translateX(0%);"></i>
+                          <i class="point" data-point="25" style="left: 25%; transform: translateX(-25%);"></i>
+                          <i class="point" data-point="50" style="left: 50%; transform: translateX(-50%);"></i>
+                          <i class="point" data-point="75" style="left: 75%; transform: translateX(-75%);"></i>
+                          <i class="point" data-point="100" style="right: 0px;"></i>
+                        </div>
+                        {else/}
+                        <div class="input_range sell_color login_limit_sell range">
+                          <input type="range" id="sellRange" min="0" max="100" step="1" value="0" disabled="disabled" >
+                          <i class="point" data-point="0" style="left: 0%; transform: translateX(0%);"></i>
+                          <i class="point" data-point="25" style="left: 25%; transform: translateX(-25%);"></i>
+                          <i class="point" data-point="50" style="left: 50%; transform: translateX(-50%);"></i>
+                          <i class="point" data-point="75" style="left: 75%; transform: translateX(-75%);"></i>
+                          <i class="point" data-point="100" style="right: 0px;"></i>
+                        </div>
+                      {/if}
+                      <div class="amount_range uppercase">
+                         <span class="min">
+                           <span class="min_num">0</span>
+                           <em>{$currency.currency_mark|default=''}</em>
+                         </span>
+                        <span class="max">
+                           <span class="max_num">{$user_currency_money['currency']['num']|default=0.00}</span>
+                           <em>{$currency.currency_mark|default=''}</em>
+                         </span>
+                      </div>
+                      <div class="total" id="sell_total">
+                        <p>
+                          {:lang('lan_exchange_money')}
+                          <span><span id="sellAmount">0.000000</span> {$trade_currency['currency_mark']}</span>
+                        </p>
+                        <p class="transform_total"></p>
+                      </div>
+                      <div class="submit">
+                        {if condition="!empty(session('USER_KEY_ID'))"}
+                          <button class="btn_sell color_sell_bg login_button">{:lang('lan_orders_sell')}{$currency['currency_mark']}</button>
+                          {else/}
+                          <button class="btn_sell color_sell_bg logout_button" disabled="true">{:lang('lan_orders_sell')}{$currency['currency_mark']}</button>
+                        {/if}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="order_book table-container">
+            <div class="head">
+              <p class="title">
+                {:lang('lan_exchange_price')}
+                <span id="tickerClose">0.0000</span>
+                <em class="uppercase">{$trade_currency['currency_mark']}</em>
+                <span id="tickerCny" class="ticker-transform upper">≈ 0.0000 CNY</span>
+              </p>
+            </div>
+            <div class="ex-depth">
+              <div id="market_depth">
+                <dl id="marketDepthSell">
+                  <dt class="header">
+                    <span class="title"></span>
+                    <span class="price">{:lang('lan_price')}({$trade_currency['currency_mark']})</span>
+                    <span class="amount">
+                       {:lang('lan_number')}
+                       <em class="uppercase">({$currency['currency_mark']})</em>
+                     </span>
+                    <!-- <span>
+                      累计
+                      <em class="uppercase">(BTC)</em>
+                    </span> -->
+                  </dt>
+                  <!-- <dd>
+                    <div class="inner">
+                      <span class="title color-sell">卖 7</span>
+                      <span class="price">6516.10</span>
+                      <span class="amount">0.0140</span>
+                      <span>2.6082</span>
+                      <b class="color-sell-bg" style="width: 0.7000000000000001%"></b>
+                    </div>
+                  </dd>
+                  <dd>
+                    <div class="inner">
+                      <span class="title color-sell">卖 6</span>
+                      <span class="price">6516.10</span>
+                      <span class="amount">0.0140</span>
+                      <span>2.6082</span>
+                      <b class="color-sell-bg" style="width: 0.7000000000000001%"></b>
+                    </div>
+                  </dd>
+                  <dd>
+                    <div class="inner">
+                      <span class="title color-sell">卖 5</span>
+                      <span class="price">6516.10</span>
+                      <span class="amount">0.0140</span>
+                      <span>2.6082</span>
+                      <b class="color-sell-bg" style="width: 0.7000000000000001%"></b>
+                    </div>
+                  </dd>
+                  <dd>
+                    <div class="inner">
+                      <span class="title color-sell">卖 4</span>
+                      <span class="price">6516.10</span>
+                      <span class="amount">0.0140</span>
+                      <span>2.6082</span>
+                      <b class="color-sell-bg" style="width: 0.7000000000000001%"></b>
+                    </div>
+                  </dd>
+                  <dd>
+                    <div class="inner">
+                      <span class="title color-sell">卖 3</span>
+                      <span class="price">6516.10</span>
+                      <span class="amount">0.0140</span>
+                      <span>2.6082</span>
+                      <b class="color-sell-bg" style="width: 0.7000000000000001%"></b>
+                    </div>
+                  </dd>
+                  <dd>
+                    <div class="inner">
+                      <span class="title color-sell">卖 2</span>
+                      <span class="price">6516.10</span>
+                      <span class="amount">0.0140</span>
+                      <span>2.6082</span>
+                      <b class="color-sell-bg" style="width: 0.7000000000000001%"></b>
+                    </div>
+                  </dd>
+                  <dd>
+                    <div class="inner">
+                      <span class="title color-sell">卖 1</span>
+                      <span class="price">6516.10</span>
+                      <span class="amount">0.0140</span>
+                      <span>2.6082</span>
+                      <b class="color-sell-bg" style="width: 0.7000000000000001%"></b>
+                    </div>
+                  </dd> -->
+                </dl>
+                <div class="dl-hr">
+                  <hr>
+                  <hr>
+                </div>
+                <dl id="marketDepthBuy">
+                  <!-- <dd>
+                    <div class="inner">
+                      <span class="title color-buy">买 1</span>
+                      <span class="price">6515.11</span>
+                      <span class="amount">0.1878</span>
+                      <span>0.1878</span>
+                      <b class="color-buy-bg" style="width: 9.39%"></b>
+                    </div>
+                  </dd>
+                  <dd>
+                    <div class="inner">
+                      <span class="title color-buy">买 2</span>
+                      <span class="price">6515.11</span>
+                      <span class="amount">0.1878</span>
+                      <span>0.1878</span>
+                      <b class="color-buy-bg" style="width: 9.39%"></b>
+                    </div>
+                  </dd>
+                  <dd>
+                    <div class="inner">
+                      <span class="title color-buy">买 3</span>
+                      <span class="price">6515.11</span>
+                      <span class="amount">0.1878</span>
+                      <span>0.1878</span>
+                      <b class="color-buy-bg" style="width: 9.39%"></b>
+                    </div>
+                  </dd>
+                  <dd>
+                    <div class="inner">
+                      <span class="title color-buy">买 4</span>
+                      <span class="price">6515.11</span>
+                      <span class="amount">0.1878</span>
+                      <span>0.1878</span>
+                      <b class="color-buy-bg" style="width: 9.39%"></b>
+                    </div>
+                  </dd>
+                  <dd>
+                    <div class="inner">
+                      <span class="title color-buy">买 5</span>
+                      <span class="price">6515.11</span>
+                      <span class="amount">0.1878</span>
+                      <span>0.1878</span>
+                      <b class="color-buy-bg" style="width: 9.39%"></b>
+                    </div>
+                  </dd>
+                  <dd>
+                    <div class="inner">
+                      <span class="title color-buy">买 6</span>
+                      <span class="price">6515.11</span>
+                      <span class="amount">0.1878</span>
+                      <span>0.1878</span>
+                      <b class="color-buy-bg" style="width: 9.39%"></b>
+                    </div>
+                  </dd>
+                  <dd>
+                    <div class="inner">
+                      <span class="title color-buy">买 7</span>
+                      <span class="price">6515.11</span>
+                      <span class="amount">0.1878</span>
+                      <span>0.1878</span>
+                      <b class="color-buy-bg" style="width: 9.39%"></b>
+                    </div>
+                  </dd> -->
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="panel_container">
+        <div class="trade_wrap">
+          <div class="trade_panel trade_panel_login">
+            <div class="mod_trade" id="mod_trade">
+              <div class="mod_head clear_fix">
+                <ul class="mod_tab">
+                  <li class="cur">限价交易</li>
+                  <li>市价交易</li>
+                </ul>
+                <div class="fees_rule">
+                  <p>
+                    <a href="" target="_blank" style="display: none">费率</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div id="open_history_order">
+        <div class="mod open_orders" id="open_orders_scroll">
+          <div class="mod_hd l_transac_title">
+             <span class="mod_show_btn">
+               <button>
+                 <i></i>
+               </button>
+               <span data-id="open_orders_body">{:lang('lan_Current_entrustment')}</span>
+             </span>
+            <ul class="l_tab_transac">
+              <li>
+                <a href="javascript:;" data-type="buy">{:lang('lan_exchange_buy')}</a>
+              </li>
+              <li>
+                <a href="javascript:;" data-type="sell">{:lang('lan_orders_sell')}</a>
+              </li>
+              <li class="z_active">
+                <a href="javascript:;" data-type="all">{:lang('lan_whole')}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="mod_bd transac_body l_show_box">
+            <div class="transac_body_main">
+              <div class="transac_table_box open_orders" id="open_orders" style="display: block;">
+                <div id="open_orders_body">
+                  <ul class="l_th">
+                    <li class="trade_time">{:lang('lan_time')}</li>
+                    <li class="trade_type">{:lang('lan_exchange_type')}</li>
+                    <li>{:lang('lan_trading_pairs')}</li>
+                    <li>{:lang('lan_exchange_direction')}</li>
+                    <li>{:lang('lan_price')} ({$trade_currency['currency_mark']})</li>
+                    <li>{:lang('lan_number')} ({$currency['currency_mark']})</li>
+                    <li>{:lang('lan_exchange_commission')} ({$trade_currency['currency_mark']})</li>
+                    <li>{:lang('lan_concluded')}</li>
+                    <li>{:lang('lan_not_completed')}</li>
+                    <li>{:lang('lan_operation')}</li>
+                  </ul>
+                  {if condition="!empty(session('USER_KEY_ID'))"}
+                    <div class="list_prompt J_list_prompt">{:lang('lan_exchange_no_data')}</div>
+                    <div class="list_prompt login_out"></div>
+                    <div class="l_transac_list">
+                      <!-- <div class="l_tr">
+                        <ul>
+                          <li class="trade_time">2018-10-30 08:58:19</li>
+                          <li class="trade_type">幣幣交易</li>
+                          <li class="trade_pair">BTC/USDT</li>
+                          <li class="color_down">賣出</li>
+                          <li>6550.00</li>
+                          <li>0.0023</li>
+                          <li>15.06500000</li>
+                          <li>0.0000</li>
+                          <li>0.0023</li>
+                          <li>
+                            <a href="javascript:;" data-id="" class="btn_cancel">撤單</a>
+                          </li>
+                        </ul>
+                      </div> -->
+                    </div>
+                    {else/}
+                    <div class="list_logout">
+                      <a href="{:url('login/index')}" class="logout">{:lang('lan_sign_in')}</a>
+                      {:lang('lan_or')}
+                      <a href="{:url('Reg/index')}" class="logout">{:lang('lan_register')}</a>
+                      {:lang('lan_exchange_begin')}
+                    </div>
+                  {/if}
+                  <div class="l_paging"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mod order_history" id="order_history_scroll">
+          <div class="mod_hd l_transac_title">
+             <span class="mod_show_btn">
+               <button>
+                 <i></i>
+               </button>
+               <span data-id="order_history_body">{:lang('lan_Entrust_history')}<em>({:lang('lan_exchange_one_week')})</em></span>
+             </span>
+            <ul class="l_tab_transac">
+              <li>
+                <a href="javascript:;" data-type="buy">{:lang('lan_exchange_buy')}</a>
+              </li>
+              <li>
+                <a href="javascript:;" data-type="sell">{:lang('lan_orders_sell')}</a>
+              </li>
+              <li class="z_active">
+                <a href="javascript:;" data-type="all">{:lang('lan_whole')}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="mod_bd transac_body l_show_box">
+            <div class="transac_body_main">
+              <div class="transac_table_box open_orders" id="order_history" style="display: block;">
+                <div id="order_history_body">
+                  <ul class="l_th">
+                    <li class="trade_time">{:lang('lan_time')}</li>
+                    <li class="trade_type">{:lang('lan_exchange_type')}</li>
+                    <li>{:lang('lan_trading_pairs')}</li>
+                    <li>{:lang('lan_exchange_direction')}</li>
+                    <li>{:lang('lan_price')} ({$trade_currency['currency_mark']})</li>
+                    <li>{:lang('lan_amount_commission')}</li>
+                    <li>{:lang('lan_concluded')} ({$currency['currency_mark']})</li>
+                    <li>{:lang('lan_exchange_average')}</li>
+                    <li>{:lang('lan_state')}</li>
+                    <li>{:lang('lan_operation')}</li>
+                  </ul>
+                  {if condition="!empty(session('USER_KEY_ID'))"}
+                    <div class="list_prompt J_list_prompt">{:lang('lan_exchange_no_data')}</div>
+                    <div class="list_prompt login_out"></div>
+                    <div class="l_transac_list">
+                      <!-- <div class="l_tr">
+                        <ul>
+                          <li class="trade_time">2018-10-30 08:58:19</li>
+                          <li class="trade_type">幣幣交易</li>
+                          <li class="trade_pair">BTC/USDT</li>
+                          <li class="color_down">賣出</li>
+                          <li>6550.00</li>
+                          <li>0.0023</li>
+                          <li>15.06500000</li>
+                          <li>0.0000</li>
+                          <li>0.0023</li>
+                          <li>
+                            <a href="javascript:;" data-id="" class="btn_details">详情<i></i></a>
+                          </li>
+                        </ul>
+                        <div class="l_drop_down_box">
+                          <div class="l_drop_down_list">
+                            <i class="z-border"></i>
+                            <i></i>
+                            <ul class="drop_down_th">
+                              <li>時間</li>
+                              <li>價格 ({$trade_currency['currency_mark']})</li>
+                              <li>數量 ({$currency['currency_mark']})</li>
+                              <li>成交額 ({$trade_currency['currency_mark']})</li>
+                              <li>手續費</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- <div class="l_tr z_active">
+                        <ul>
+                          <li class="trade_time">2018-10-30 08:58:19</li>
+                          <li class="trade_type">幣幣交易</li>
+                          <li class="trade_pair">BTC/USDT</li>
+                          <li class="color_down">賣出</li>
+                          <li>6550.00</li>
+                          <li>0.0023</li>
+                          <li>15.06500000</li>
+                          <li>0.0000</li>
+                          <li>0.0023</li>
+                          <li>
+                            <a href="javascript:;" data-id="" class="btn_details">详情<i></i></a>
+                          </li>
+                        </ul>
+                        <div class="l_drop_down_box" style="height: 83px;">
+                          <div class="l_drop_down_list">
+                            <i class="z-border"></i>
+                            <i></i>
+                            <ul class="drop_down_th">
+                              <li>時間</li>
+                              <li>價格 ({$trade_currency['currency_mark']})</li>
+                              <li>數量 (BTC)</li>
+                              <li>成交額 ({$trade_currency['currency_mark']})</li>
+                              <li>手續費</li>
+                            </ul>
+                            <div class="drop_down_scroll">
+                              <div class="drop_down_body">
+                                <div class="drop_down_tr_hover">
+                                  <ul class="drop_down_tr">
+                                    <li>2018-10-30 09:33:14</li>
+                                    <li>6350.00</li>
+                                    <li>0.0013</li>
+                                    <li>8.25500000</li>
+                                    <li>0.00000260 BTC</li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+                    </div>
+                    {else/}
+                    <div class="list_logout">
+                      <a href="{:url('login/index')}" class="logout">{:lang('lan_sign_in')}</a>
+                      {:lang('lan_or')}
+                      <a href="{:url('Reg/index')}" class="logout">{:lang('lan_register')}</a>
+                      {:lang('lan_exchange_begin')}
+                    </div>
+                  {/if}
+                  <div class="l_paging"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="market_wrap clear_fix">
+        <div class="mod market_trades">
+          <div class="mod_hd">
+             <span class="mod_show_btn">
+               <button>
+                 <i></i>
+               </button>
+               <span>{:lang('lan_exchange_real_time')}</span>
+             </span>
+          </div>
+          <div class="mod_bd">
+            <div class="market_trades_list" id="market_trades_list">
+              <dl class="market_trades_time">
+                <dt>{:lang('lan_time')}</dt>
+              </dl>
+              <dl class="market_trades_type">
+                <dt>{:lang('lan_exchange_direction')}</dt>
+              </dl>
+              <dl class="market_trades_price">
+                <dt>{:lang('lan_price')}<span class="uppercase">({$trade_currency['currency_mark']})</span></dt>
+              </dl>
+              <dl class="market_trades_amount">
+                <dt>{:lang('lan_number')}<span class="uppercase">({$currency['currency_mark']})</span></dt>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="coin_detail">
+      <div class="mod">
+        <div class="mod_hd">
+           <span class="mod_show_btn">
+             <button>
+               <i></i>
+             </button>
+             <span>{:lang('lan_MSCurrency')}</span>
+           </span>
+          <!-- <a href="">瞭解更多</a> -->
+        </div>
+        <div class="mod_bd" id="coin_detail_in">
+          <div class="left">
+            <h3>
+              <span class="uppercase">{$cid_value.english_short}</span>
+              {$cid_value.english_name}
+            </h3>
+            <div class="in">
+              <span>{:lang('lan_brief_introduction')}</span>
+              <p>
+                {$cid_value.feature}
+              </p>
+            </div>
+          </div>
+          <div class="right">
+            <ul>
+              <li>
+                <span>{:lang('lan_publish_time')}</span>
+                <p>{$cid_value.pushout_time}</p>
+              </li>
+              <li>
+                <span>{:lang('lan_total_amount_of_issuance')}</span>
+                <p>{$cid_value.total_circulation}</p>
+              </li>
+              <li>
+                <span>{:lang('lan_exchange_total_circulation')}</span>
+                <p>{$cid_value.daibi_turnover}</p>
+              </li>
+              <li>
+                <span>{:lang('lan_exchange_crowdfunding_price')}</span>
+                <p>--</p>
+              </li>
+              <li>
+                <span>{:lang('lan_white_paper')}</span>
+                <p><a href="{$cid_value.white_paper}" target="_blank">{$cid_value.white_paper}</a></p>
+              </li>
+              <li>
+                <span>{:lang('lan_official_website')}</span>
+                <p><a href="{$cid_value.website}" target="_blank">{$cid_value.website}</a></p>
+              </li>
+              <li>
+                <span>{:lang('lan_exchange_block_query')}</span>
+                <p><a href="{$cid_value.block_query}" target="_blank">{$cid_value.block_query}</a></p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="clear: both;"></div>
+</div>
+<div class="shade"></div>
+<div class="vo_all">
+    <p class="vo_all_close"><span class="vo_all_close_x">x</span></p>
+    <div class="vo_all_cont">
+        <p>{:lang('lan_set_safe')}</p>
+        <div class="vo_all_cont_ins">
+            <input type="password" class="vo_all_cont_ni" maxlength="6" placeholder="{:lang('lan_reg_transaction_password2')}" autocomplete="off"/>
+        </div>
+    </div>
+    <div class="vo_all_button">
+        <input type="button" value="{:lang('lan_determine')}" class="vo_all_button_t"/>
+        <input type="button" value="{:lang('lan_cancel')}" class="vo_all_button_o"/>
+    </div>
+</div>
+<script>
+    let usd2cny = '{$usd2cny}';
+    console.log(usd2cny);
+    let currency = "{$currency['currency_id']}";
+    let trade_currency = "{$trade_currency['currency_id']}";
+    let sellFont = "{:lang('lan_sell')}";
+    let buyFont = "{:lang('lan_buy')}";
+    let bpe = "{:lang('lan_Buy_price_empty')}";
+    let nbe = "{:lang('lan_The_number_buying_empty')}";
+    let nlz = "{:lang('lan_The_number__buy_less_zone')}";
+    let tpe = "{:lang('lan_user_Transaction_password_empty')}";
+    let ttr = "{:lang('lan_The_trade_rules')}";
+    let buyUrl = "{:url('Trade/buy')}";
+    let spe = "{:lang('lan_The_number_selling_price_empty')}";
+    let nse = "{:lang('lan_The_number_selling_empty')}";
+    let nslz = "{:lang('lan_The_number_selling_less_zone')}";
+    let sellUrl = "{:url('Trade/sell')}";
+    let user = "{session('USER_KEY_ID')}";
+    let cancelUrl = "{:url('Entrust/cancel')}";
+    let c = "{$currency['currency_mark']}";
+    let c_trade = "{$trade_currency['currency_mark']}";
+    let maxNumBuy = "{$user_currency_money['currency_trade']['num']|default=0.00}";
+    let sellfont = "{:lang('lan_orders_sell')}";
+    let buyfont = "{:lang('lan_exchange_buy')}";
+    let buyFee = "{$currency['currency_buy_fee']}" / 100;
+    let sellFee = "{$currency['currency_sell_fee']}" / 100;
+    let smallSymbol = "{$new_price_unit}".toLowerCase();
+    let rateStatus = "{$Think.cookie.think_unit}" || "unit_"+smallSymbol;
+    let limitMin = "{$currency['newprice']}";
+    let limitMax = "{$currency['newprice2']}";
+    let isLimit = "{$currency['is_limit']}";
+    let isTime = "{$currency['is_time']}";
+    let minTime = "{$currency['min_time']}";
+    let maxTime = "{$currency['max_time']}";
+
+    // 只能输入数字，且保留6位小数
+    function clearNoNum(obj){
+        obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
+        obj.value = obj.value.replace(/\.{4,}/g,"."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d\d\d\d\d).*$/,'$1$2.$3');//只能输入6位小数
+        if(obj.value.indexOf(".")< 0 && obj.value !=""){
+            obj.value= parseFloat(obj.value);
+        }
+    };
+    // 只能输入数字，且保留4位小数
+    function clearNoNumFour(obj){
+        obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
+        obj.value = obj.value.replace(/\.{4,}/g,"."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d\d\d).*$/,'$1$2.$3');//只能输入4位小数
+        if(obj.value.indexOf(".")< 0 && obj.value !=""){
+            obj.value= parseFloat(obj.value);
+        }
+    }
+    $(".in p span").css({
+        "background-color":"transparent",
+        "color":"#666",
+    });
+</script>

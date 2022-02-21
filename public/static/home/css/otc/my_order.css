@@ -1,0 +1,410 @@
+ul {
+  list-style: none;
+}
+li {
+  list-style: none;
+}
+#main {
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.main_box {
+  width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+li h3 {
+  font-size: 22px;
+  color: #555;
+}
+.left {
+  float: left;
+}
+.clearfix {
+  display: block;
+  overflow: hidden;
+  zoom: 1;
+  margin-bottom: 0px;
+  background: #fff;
+  margin-left: 30px;
+  width: 920px;
+}
+.ybc_list {
+  width: 100%;
+}
+.ybcoin {
+  line-height: 40px;
+  width: 100%;
+}
+.clear {
+  zoom: 1;
+}
+.clear:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+.raise_list .assets01 {
+  width: 135px;
+  padding: 0 20px;
+}
+.raise_list .assets01,
+.raise_list .assets02 {
+  text-align: left;
+}
+.sidetool {
+  display: none;
+}
+.raise_list .assets03 {
+  width: 120px;
+  text-align: right;
+}
+#main {
+  min-height: 75%;
+}
+
+.sdmenu div p {
+  font-size: 16px;
+}
+
+#fileList {
+  position: absolute;
+}
+
+#fileList .thumbnail {
+  padding: 0px;
+  border: none;
+}
+
+.imgOcity {
+  opacity: 0;
+}
+
+#fileList .info {
+  display: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.advertising {
+  width: 100%;
+  font-size: 14px;
+  float: left;
+  position: relative;
+}
+
+.advert_head {
+  width: 100%;
+  height: 100px;
+  background: #fff;
+  margin-bottom: 20px;
+}
+
+.advert_title {
+  padding-left: 20px;
+  line-height: 100px;
+  font-family: "microsoft yahei";
+  color: #333;
+  font-size: 24px;
+  font-weight: 400;
+}
+.advert_middle {
+  margin: 0 auto;
+  margin-bottom: 20px;
+  width: 100%;
+  background: #fff;
+}
+.yangwu_zhanghaozhongxin_rightTitle {
+  font-size: 16px;
+  color: black;
+  height: 60px;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+}
+.list-type {
+  font-size: 16px;
+}
+.list-type a {
+  margin-left: 24px;
+  color: #3076cc;
+}
+.list-type .left {
+  padding-left: 20px;
+}
+.filter-box {
+  padding-left: 20px;
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+}
+.filter-box .right {
+  flex: 1;
+  text-align: right;
+}
+.advert_middle_title {
+  padding-top: 20px;
+}
+.advert_middle_title span {
+  font-size: 16px;
+  font-family: HiraginoSansGB-W3;
+  font-weight: normal;
+  color: #979cad;
+  margin-right: 60px;
+  cursor: pointer;
+}
+
+.advert_middle_title span:nth-child(1) {
+  margin-left: 20px;
+}
+.addpage {
+  padding-bottom: 40px;
+}
+.otc_orderheader {
+  padding-top: 30px;
+  height: 60px;
+  line-height: 60px;
+  color: #999;
+  border-bottom: 1px solid #ccc;
+}
+.otc_orderheader > span {
+  display: inline-block;
+  font-size: 14px;
+  text-align: left;
+  float: left;
+}
+.isempty {
+  height: 400px;
+  line-height: 400px;
+  text-align: center;
+  font-size: 30px;
+  color: #999;
+}
+.my_dealheadr {
+  display: flex;
+  padding-top: 30px;
+  height: 60px;
+  line-height: 60px;
+  color: #999;
+  border-bottom: 1px solid #ccc;
+}
+.my_dealheadr > span {
+  flex: 1;
+  text-align: center;
+}
+.my_dealheadr > span:first-of-type {
+  padding-left: 20px;
+  text-align: left;
+}
+.my_dealheadr > span:last-of-type {
+  text-align: right;
+  padding-right: 20px;
+}
+.my_deal > li {
+  padding: 0 20px;
+  height: 80px;
+  line-height: 80px;
+  border-bottom: 1px solid #eeeeee;
+  display: flex;
+}
+.my_deal > li > p {
+  flex: 1;
+  text-align: center;
+}
+.my_deal > li > p:first-of-type {
+  text-align: left;
+}
+.my_deal > li > p:last-of-type {
+  text-align: right;
+}
+.content_box_th {
+  background: #3284ca;
+  padding: 7px 18px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.raise_list thead {
+  height: 60px;
+  line-height: 70px;
+  font-size: 14px;
+  border-bottom: 2px solid #ccc;
+}
+
+.raise_list th {
+  background: #fff;
+  color: #999;
+  font-family: "microsoft yahei";
+}
+
+.raise_list tr {
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.advert_middle_content .raise_list tbody {
+  height: 100px;
+  line-height: 100px;
+  border-bottom: 1px solid #eee;
+}
+
+.list_con2:hover {
+	background: #f3f5f7;
+	cursor: pointer;
+}
+
+.list_con2 td:nth-child(1) {
+  color: #3284ca;
+}
+
+.list_con2 td:nth-child(2) {
+  color: #41db7f;
+}
+
+.assets03 {
+  text-align: right;
+  padding-right: 20px;
+}
+
+.cover_cont {
+  width: 580px;
+  margin: 0 auto;
+  position: fixed;
+  background: #fff;
+  left: 0;
+  right: 0;
+  top: 200px;
+  z-index: 100;
+  display: none;
+}
+
+.cover_cont1 {
+  width: 580px;
+  margin: 0 auto;
+  position: fixed;
+  background: #fff;
+  left: 0;
+  right: 0;
+  top: 200px;
+  z-index: 100;
+  display: none;
+}
+
+.cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: none;
+  z-index: 99;
+  opacity: 0.5;
+}
+
+.cover_cont .cover_cont_title {
+  font-size: 20px;
+  color: #333;
+  text-align: center;
+  padding-top: 48px;
+}
+
+.cover_cont .cover_cont_main {
+  font-size: 16px;
+  color: #666;
+  text-align: left;
+  padding: 10px 10px;
+}
+
+.cover_cont .cover_cont_main p {
+  padding: 10px 20px;
+}
+
+.cover_cont_line {
+  border-bottom: 1px solid #dddddd;
+  padding-top: 10px;
+}
+
+.cover_cont_footer {
+  color: #999;
+  font-size: 14px;
+  text-align: right;
+  padding: 30px 53px 30px 0;
+}
+
+.cover_cont_footer span {
+  height: 34px;
+  line-height: 34px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.cover_cont_footer .issue_footer_close {
+  padding-right: 30px;
+  color: #666;
+}
+
+.cover_cont_footer .issue_footer_close:hover {
+  color: #3284ca;
+  cursor: pointer;
+}
+
+.cover_footer_button {
+  width: 80px;
+  height: 34px;
+  background: #3284ca;
+  outline: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.cover_cont1 .cover_cont_title {
+  font-size: 20px;
+  color: #333;
+  text-align: center;
+  padding-top: 48px;
+}
+
+.cover_cont1 .cover_cont_main {
+  font-size: 16px;
+  color: #666;
+  text-align: left;
+  padding: 10px 10px;
+}
+
+.cover_cont1 .cover_cont_main p {
+  padding: 10px 20px;
+}
+
+.active_ads:hover {
+  cursor: pointer;
+}
+
+.list_con_three {
+  width: 950px;
+  height: 36px;
+  border-bottom: 1px solid #999;
+  text-align: center;
+}
+.asset_one {
+  text-align: right;
+  padding-right: 20px;
+}
+.asset_one > span {
+  cursor: pointer;
+}
+.layui-table td,
+.layui-table th {
+  height: 80px !important;
+  line-height: 80px !important;
+}

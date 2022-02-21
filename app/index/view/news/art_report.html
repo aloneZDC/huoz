@@ -1,0 +1,77 @@
+<include file="App/Home/View/Public/header.html"/>
+<!-- 该样式取自zcpc -->
+<div class="mobile-style-wrapper" id="mobieSupernatant">
+  <div class="mobile-style clearfix">
+    <div class="mobile-style-text"><a href="./../Mobile/">您正在使用移动设备访问合约数字商品交易中心，点击使用触屏版</a></div>
+    <div class="mobile-style-img" id="mobieAction"><a><img src="/Public/Mobile/images/mobile_icon_close.png" width="80%"/></a></div>
+  </div>
+</div>
+<style>
+.page a{
+	color: #dbb668;
+}
+.page a:hover{
+	color: white;
+	background: #dbb668;
+}
+.page .current{
+	background: #dbb668;
+}
+</style>
+<div class="Art_wrap_bgColor">
+    <div class="yangwuWrapper clearfloat yangwuWrapper_art">
+        <!-- 页面指向 -->
+        <!--<div class="now"><a href="{:U('Index/index')}" class="orange">{:L('lan_home')}</a> &gt; {:L('lan_News_bulletin')} &gt; <span id="tExt_Array">>{:L('lan_Mediareports')}</span> </div>-->
+        <!-- 左边分页 -->
+        <div class="Art_title">{:L('lan_Mediareports')}</div>
+         <div class="Art_title_nav" style="background: #fff;">
+            <!-- <a href="{:U('Art/art_system',array('id'=>'32'))}"><div>{:L('lan_art_System_Bulletin')}</div></a> -->
+            <a href="{:U('Art/art_news',array('id'=>'129'))}"><div>{:L('lan_NewsCenter')}</div></a>
+            <a href="{:U('Art/art_report',array('id'=>'2'))}"><div class="Art_left_paging_active">{:L('lan_Mediareports')}</div></a>
+            <a href="{:U('Art/index',array('id'=>'1'))}"><div>{:L('lan_art_news')}</div></a>
+        </div>
+        <!-- 右边详情 -->
+        <div class="Art_right_details">
+          <!--<h3>{:L('lan_Mediareports')}</h3>-->
+          <ul>
+          <volist name="list" id="vo">
+          <li class="Art_list"> 
+          	<div class="Art_square"></div>
+          	<a href="{:U('Art/details',array('id'=>$vo['article_id']))}">
+          		<h4 class="Art_list_fontone">
+          			<eq name="Think.cookie.think_language" value="en-us">{$vo.en_title}
+	          			<else/><eq name="Think.cookie.think_language" value="zh-tw">{$vo.tc_title}
+	          			<else/>{$vo.title}
+	          			</eq>
+	          		</eq> 
+          		</h4>
+          		<p class="Art_list_fonttwo">
+                <eq name="Think.cookie.think_language" value="en-us">{$vo.en_content}
+                  <else/><eq name="Think.cookie.think_language" value="zh-tw">{$vo.tc_content}
+                  <else/>{$vo.content}
+                  </eq>
+                </eq> 
+              </p>
+          		<span class="Art_list_fontthree">{$vo.add_time|date='Y-m-d',###}</span> 
+          	</a> 
+          </li>
+          </volist>
+          </ul> 
+        </div>
+        <div class="clear"></div>
+        <div class="page" style="display: flex;justify-content: center;padding-bottom: 40px">
+            <ul>
+            {$page}
+            </ul>
+        </div>
+    </div>
+</div>
+<include file="App/Home/View/Public/footer.html"/>
+
+        
+        
+       
+        
+        
+        
+    

@@ -1,0 +1,206 @@
+{include file="layout/header"}
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/kindeditor-all.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/plugins/prettify.js"></script>
+
+<div class="weadmin-nav layui-clear">
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="layui-main">
+    <form class="layui-form form" action="" method='POST'>
+        <div class="">
+
+<!--            <div class="layui-form-item">-->
+<!--                <label class="layui-form-label">商品分类</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <select name="form[category_id]">-->
+<!--                        <option value="">请选择</option>-->
+<!--                        {volist name="category" id="vo"}-->
+<!--                        <option value="{$vo.id}">{$vo.name}</option>-->
+<!--                        {/volist}-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品分类</label>
+                <div class="layui-input-block">
+                    <select name="form[category_id]">
+                        <option value="">请选择</option>
+                        {volist name="category" id="vo"}
+                        <optgroup label="{$vo.name}">
+                            {volist name="$vo.list" id="item"}
+                            <option value="{$item.id}" >{$item.name}</option>
+                            {/volist}
+                        </optgroup>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="商品标题">商品标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="form[goods_title]" class="layui-input" value="" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="商品说明">商品说明</label>
+                <div class="layui-input-block">
+                    <input type="text" name="form[goods_desc]" class="layui-input" value="" >
+                </div>
+            </div>
+
+<!--            <div class="layui-form-item">-->
+<!--                <label class="layui-form-label" title="发货地">发货地</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <input type="text" name="form[goods_ship]" class="layui-input" value="">-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="成本价">成本价</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[goods_purch]" class="layui-input" value=""><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">人民币</span>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="市场价">市场价</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[goods_market]" class="layui-input" value=""><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">人民币</span>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="折扣价">折扣价</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[goods_price]" class="layui-input" value=""><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">人民币</span>
+                </div>
+            </div>
+
+<!--            <div class="layui-form-item">-->
+<!--                <label class="layui-form-label" title="折扣">折扣</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <input type="number" name="form[goods_discount]" class="layui-input" value="">-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="layui-form-item">-->
+<!--                <label class="layui-form-label" title="爆款商品">爆款商品</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <input type="radio" name="form[goods_is_hot]" value="1" title="否" checked>-->
+<!--                    <input type="radio" name="form[goods_is_hot]" value="2" title="爆款">-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="商品邮费">商品邮费</label>
+                <div class="layui-input-block">
+                    <input type="text" name="form[goods_postage]" class="layui-input" value=""><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">人民币</span>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="商品库存">商品库存</label>
+                <div class="layui-input-block">
+                    <input type="text" name="form[goods_stock]" class="layui-input" value="">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="商品库存">赠送数量</label>
+                <div class="layui-input-block">
+                    <input type="text" name="form[goods_currency_give_num]" class="layui-input"><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;"></span>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="排序">排序(倒序)</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[goods_sort]" class="layui-input" >
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="货号">商品货号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="form[goods_code]" class="layui-input">
+                </div>
+            </div>
+
+
+<!--            <div class="layui-form-item">-->
+<!--                <label class="layui-form-label" title="拼团人数">拼团人数(拼团专区)</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <input type="text" name="form[goods_group_num]" class="layui-input"><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">人</span>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="轮播图">主图</label>
+                <div class="layui-input-block">
+                    <div class="image_list">
+                        <div class="img_box">
+                            <div class="layui-upload-drag image_file" data-field="form[goods_img]">
+                                <i class="layui-icon"></i>
+                                <p>点击上传，或将文件拖拽到此处</p>
+                            </div>
+                            <input type="hidden" name="form[goods_img]" value="">
+                            <div class="img_data"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="轮播图">轮播图</label>
+                <div class="layui-input-block">
+                    <div class="image_list">
+                        <div class="layui-upload-drag image_list_upload" data-field="form[goods_banners][]">
+                            <i class="layui-icon"></i>
+                            <p>多图片上传,点击上传，或将文件拖拽到此处</p>
+                        </div>
+                        <div class="img_list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="轮播图">商品详情</label>
+                <div class="layui-input-block">
+                    <textarea id="goods_content" name="form[goods_content]" cols="30" style="width:800px;height:300px;" rows="10"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn submit" type="button" lay-submit lay-filter="submit" data-url="{:url('')}" >立即提交</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    var uploadUrl = "{:url('index/img_upload')}";
+    layui.use(['add','wpupload'],function () {
+
+    });
+
+    KindEditor.ready(function (K) {
+        window.editor1 = K.create('#goods_content',{
+            uploadJson : '{:url("Index/oss_file_upload")}',
+            fileManagerJson : '{:url("Index/oss_file_upload")}',
+        });
+    });
+
+    layui.use(['form','add'], function() {});
+</script>
+
+{include file="layout/footer"}

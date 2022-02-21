@@ -1,0 +1,117 @@
+<style>
+    .my_assets_header{
+        padding-bottom: 5px;
+    }
+    #promt_txt{
+        color: #F20101;
+        padding:0 20px 30px 20px;
+    }
+</style>
+<div class="my_assets_header">
+    <span class="my_assets_header_num">{:lang("lan_Net_asset_conversion")}： ≈ {$Think.NEW_PRICE_UNIT=="CNY"?$totalMoney['allmoneys_cny']:$totalMoney['allmoneys_usd']}     {$Think.NEW_PRICE_UNIT}</span>
+    <span class="my_assets_header_check">
+        <input type="checkbox" <?php if($is_hide==1)echo "checked";?>>
+    </span>
+    <span class="my_assets_header_hide">{:lang("lan_none_assets")}</span>
+</div>
+<p id="promt_txt">({:lang("lan_remarks_aset")})</p>
+<table class="layui-table" lay-skin="line" >
+    <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+        <col>
+        <col>
+        <col>
+        <col>
+    </colgroup>
+    <thead>
+        <tr>
+        <th>{:lang("lan_currency")}</th>
+        <th>{:lang("lan_orders_total")}</th>
+        <th>{:lang("lan_status_1")}</th>
+        <th class="freeze">{:lang("lan_status_2")}</th>
+        <!-- <i class="iconfont">&#xe844;</i> -->
+        <th>{:lang("lan_status_6")} </th>
+       <th class="text_r">{:lang('lan_operation')}</th>
+        </tr> 
+    </thead>
+    <tbody>
+    <?php foreach((array)$list as $vo):?>
+        <tr>
+        <td class="currency">{$vo['currency_name']}
+            <?php if($vo['take_switch']==2):?>
+                <i class="iconfont">&#xe64b;</i><span>提币暂时关闭</span>
+            <?php endif;?>
+
+        </td>
+        <td>{$vo['money']+$vo['num_award']+$vo['forzen_num']}</td>
+        <td>{$vo['money']}</td>
+        <td>{$vo['forzen_num']}</td>
+        <td>{$vo['num_award']}</td>
+        <td class="operation">
+            <!--充币通道关闭-->
+            <?php if($vo['recharge_switch']==2):?>
+            <p>{:lang("lan_Coin")}</p>
+            <?php else:?>
+            <p><a href='{:url("Pay/coin",["currency_id"=>$vo["currency_id"]])}'>{:lang("lan_Coin")}</a></p>
+            <?php endif;?>
+
+
+            <!--提币通道关闭-->
+            <?php if($vo['take_switch']==2):?>
+            <p>{:lang("lan_change_Lifting_integral")}</p>
+            <?php else:?>
+               <p>
+                   <a href='{:url("Pay/tcoin",["currency_id"=>$vo["currency_id"]])}'>{:lang("lan_change_Lifting_integral")}</a>
+               </p>
+           <?php endif;?>
+           <p><a href='{:url("orders/exchange")}'>{:lang("lan_transact")}</a></p>
+        </td>
+        </tr>
+    <?php endforeach;?>
+
+    </tbody>
+</table>
+
+<script>
+        layui.use('element', function(){
+          var element = layui.element;
+          
+          //…
+        });
+        // 暂停充提币提示
+        $(".currency>i").each(function(){
+            $(this).hover(function(){
+            $(this).siblings(".currency>span").show();
+        }, function () {
+                $(this).siblings(".currency>span").hide();
+            })
+        })
+        //操作按钮移入移出
+        $(".operation>p").each(function(){
+            $(this).hover(function(){
+            $(this).siblings(".operation_box").show();
+        }, function () {
+                $(this).siblings(".operation_box").hide();
+            })
+        })
+    
+        $(".operation_box").each(function(){
+            $(this).hover(function(){
+            $(this).show();
+        }, function () {
+                $(this).hide();
+            })
+        })
+        //点击显示隐藏资产为0的资产
+        $(".my_assets_header_check>input").click(function(){
+            if($(this).attr('checked')){
+                location.href='{:url("Wallet/index",["is_hide"=>1])}'
+            }else{
+                location.href='{:url("Wallet/index")}'
+            }
+        })
+       
+    </script>

@@ -1,0 +1,243 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">会员管理</span></div>
+    </div>
+    <div class="result-wrap">
+
+        <form action="{:url('Member/saveMember')}" method="post" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <input type="hidden" value="{$list['member_id']}" name="member_id"/>
+                        <tbody>
+                        <tr>
+                            <th width="15%">电子邮件：</th>
+                            <td>{$list['email']}</td>
+                        </tr>
+                        <tr>
+                            <th>头像上传：</th>
+                            <td><input type="file" name="head" style="width:200px;"/>
+                                <img src="{$list['head']}" style="width:50px;height:auto"/>
+                                <input type="hidden" name="headold" value="{$list['head']}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> 登录密码：</th>
+                            <td><input id="pwd" name="pwd" type="password">
+                                <span id="showBug" style=" margin-left:10px;color:#FF0000">为空则不修改</span></td>
+                        </tr>
+                        <tr>
+                            <th> 邀请码：</th>
+                            <td>{$list['pid']}</td>
+                        </tr>
+                        <tr>
+                            <th> 交易密码：</th>
+                            <td><input id="pwdtrade" name="pwdtrade" type="password">
+                                <span id="showBug" style=" margin-left:10px;color:#FF0000">为空则不修改</span></td>
+                        </tr>
+                        <!--  	<tr>
+                                <th> 金额：</th>
+                                <td><input name="rmb" value="{$list['rmb']}" type="text"></td>
+                            </tr>
+
+                            <tr>
+                                <th> 冻结金额：</th>
+                                <td><input name="forzen_rmb" value="{$list['forzen_rmb']}" type="text"></td>
+                            </tr>-->
+                        <if condition="$list['status']!=0 ">
+                            <tr>
+                                <th>昵称：</th>
+                                <td><input name="nick" id="nick" value="{$list['nick']}" type="text"></td>
+                            </tr>
+                            <tr>
+                                <th> 真实姓名：</th>
+                                <td><input name="name" id="name" value="{$list['name']}"
+                                           onkeyup="value=value.replace(/[^\D]/g,'');" autocomplete="off" maxlength="8"
+                                           type="text"></td>
+                            </tr>
+                            <tr>
+                                <th> 证件类型：</th>
+                                <td>
+                                    <select id="cardtype" name="cardtype">
+                                        <option value="1"
+                                        {if condition="$list['cardtype'] eq 1"}selected="selected"{/if}
+                                        >身份证</option>
+                                        <option value="2"
+                                        {if condition="$list['cardtype'] eq 2"}selected="selected"{/if}
+                                        >护照</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> 证件号码：</th>
+                                <td><input name="idcard" id="idcard" value="{$list['idcard']}" type="text"></td>
+                            </tr>
+                            <tr>
+                                <th> 手机号码：</th>
+                                <td><input name="phone" id="mo" value="{$list['phone']}" type="text"></td>
+                            </tr>
+                            <tr>
+                                <th> 邮箱：</th>
+                                <td><input name="email" id="mo" value="{$list['email']}" type="text"></td>
+                            </tr>
+                        </if>
+                        <tr>
+                            <th> 注册Ip：</th>
+                            <td>{$list['ip']}<span style="margin-left:20px;">时间： {$list['reg_time']|date='Y-m-d H:i:s',###}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>最后一次登录Ip：</th>
+                            <td>{$list['login_ip']?$list['login_ip']:'未登录'}<span style="margin-left:20px;">时间： {$list['login_time']?date('Y-m-d H:i:s',$list['login_time']):''}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                        <tr>
+                            <th>资料状态</th>
+                            <td>
+                                <input type="radio" value="0"
+                                {if condition="$list['status'] eq 0"}checked="checked"{/if}
+                                name="status" />正常(未填写个人信息)
+                                <input type="radio" value="1"
+                                 {if condition="$list['status'] eq 1"}checked="checked"{/if}
+                                name="status" />正常（初级认证）&nbsp;<input type="radio" value="2"
+                                 {if condition="$list['status'] eq 2"}checked="checked"{/if}
+                                name="status" />禁用
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>高级认证</th>
+                            <td>
+                                <input type="radio" value="0"
+                                {if condition="$list['verify_state'] eq 0 or $list['verify_state'] eq 2"}checked="checked"{/if}
+                                name="verify_state" /> 未认证
+                                <input type="radio" value="1"
+                                {if condition="$list['verify_state'] eq 1"}checked="checked"{/if}
+                                name="verify_state" /> 已认证
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="15%">会员类型：</th>
+                            <td>
+                                散户&nbsp;<input type="radio" value="1"
+                                {if condition="$list['member_type'] eq 1"}checked="checked"{/if}
+                                name="member_type" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                团队&nbsp;<input type="radio" value="2"
+                                {if condition="$list['member_type'] eq 2"}checked="checked"{/if}
+                                name="member_type" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                ACC&nbsp;<input type="radio" value="3"
+                                {if condition="$list['member_type'] eq 3"}checked="checked"{/if}
+                                name="member_type" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                轮胎&nbsp;<input type="radio" value="4"
+                                {if condition="$list['member_type'] eq 4"}checked="checked"{/if}
+                                name="member_type" />&nbsp;&nbsp;&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="15%">介绍人：</th>
+                            <td><input class="common-text" name="introducer" type="text" value="{$list['introducer']}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="15%">报单时间：</th>
+                            <td>
+                                {eq name="list['declara_time']" value="0"}
+                                    {else/}
+                                    {$list['declara_time']|date='Y-m-d H:i:s',###}
+                                {/eq}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="15%">报单ID号：</th>
+                            <td>{$list['declara_id']}</td>
+                        </tr>
+                        <tr>
+                            <th width="15%">备注：</th>
+                            <td><input class="common-text" name="remarks" type="text" value="{$list['remarks']}"
+                                       size="100"></td>
+                        </tr>
+                        <tr>
+                            <th width="15%">是否参与释放：</th>
+                            <td>否&nbsp;<input type="radio" value="0"
+                                {if condition="$list['release'] eq 0"}checked="checked"{/if}
+                                name="release" />&nbsp;&nbsp;&nbsp;
+                                是&nbsp;<input type="radio" value="1"
+                                {if condition="$list['release'] eq 1"}checked="checked"{/if}
+                                name="release" />&nbsp;&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="15%">最大提现金额：</th>
+                            <td><input class="common-text" name="max_withdraw" type="text"
+                                       value="{$list['max_withdraw']}" size="50"></td>
+                        </tr>
+                        <tr>
+                            <th width="15%">提现手续：</th>
+                            <td><input class="common-text" name="member_payfee" type="text"
+                                       value="{$list['member_payfee']}" size="50">%
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="15%">客户类型：</th>
+                            <td>
+                                挂单客户&nbsp;<input type="radio" value="1"
+                                {if condition="$list['member_withdrawtype'] eq 1"}checked="checked"{/if}
+                                name="member_withdrawtype" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                不可以提现客户&nbsp;<input type="radio" value="2"
+                                {if condition="$list['member_withdrawtype'] eq 2"}checked="checked"{/if}
+                                name="member_withdrawtype" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                重点监视客户&nbsp;<input type="radio" value="3"
+                                {if condition="$list['member_withdrawtype'] eq 3"}checked="checked"{/if}
+                                name="member_withdrawtype" />&nbsp;&nbsp;&nbsp;&nbsp;
+								正常&nbsp;<input type="radio" value="0"
+                                {if condition="$list['member_withdrawtype'] eq 0"}checked="checked"{/if}
+                                name="member_withdrawtype" />&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>角色：</th>
+                            <td>
+                                <input type="radio" value="1"
+                                {if condition="$list['role'] eq 1"}checked="checked"{/if}
+                                name="role" /> 发起人
+                                <input type="radio" value="2"
+                                {if condition="$list['role'] eq 2"}checked="checked"{/if}
+                                name="role" /> 合伙人
+                                <input type="radio" value="3"
+                                {if condition="$list['role'] eq 3"}checked="checked"{/if}
+                                name="role" /> 普通会员
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>是否敏感用户(禁止提币等)</th>
+                            <td>
+                                <input type="radio" value="0"
+                                       {if condition="$list['is_sensitive'] eq 0"}checked="checked"{/if}
+                                name="is_sensitive" /> 非敏感用户
+                                <input type="radio" value="1"
+                                       {if condition="$list['is_sensitive'] eq 1"}checked="checked"{/if}
+                                name="is_sensitive" /> 敏感用户
+                            </td>
+                        </tr>
+                        <th></th>
+                        <td>
+                            <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                            <a href="{:url('Currency/member_index')}"><input type="button" value="返回" class="btn btn6"></a>
+                        </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--/main-->
+</div>
+</body>
+</html>

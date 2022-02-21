@@ -1,0 +1,67 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">短信选择设置</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-title">
+                <div class="result-list">
+                    <a href="{:url('Config/addsendsms')}"><i class="icon-font"></i>新增短信</a>
+                </div>
+            </div>
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+
+                        <th>序号</th>
+                        <th>平台名称</th>
+                        <th>状态</th>
+                        <th>用户id或者appid</th>
+                        <th>用户名称</th>
+                        <th>用户密码跟用户的token</th>
+                        <th>标识</th>
+                        <th>操作</th>
+                    </tr>
+                    {volist name="sendSMS" id="vo" empty="$empty"}
+                        <tr>
+
+                            <td>{$vo.s_id}</td>
+                            <td>{$vo.s_name}</td>
+                            <td>
+                                 <?php if(!empty($vo['s_status'])){ ?> 开启  <?php } ?>
+                                <?php if ( empty($vo['s_status'])  ){ ?>   禁止 <?php } ?>
+                            </td>
+                            <td>{$vo.appid}</td>
+                            <td>{$vo.account}</td>
+                            <td>{$vo.token}</td>
+                            <td>{$vo.uc_keyword}</td>
+
+                            <td>
+                                <a class="link-update" href="{:url('Config/addsendsms',array('s_id'=>$vo['s_id']))}">修改</a>
+                                <a class="link-del" href="{:url('Config/delsendsms',array('s_id'=>$vo['s_id']))}">删除</a>
+                            </td>
+                        </tr>
+                    {/volist}
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    //$(".sub-menu").eq(0).show();
+    //$(".sub-menu").eq(0).children("li").eq(5).addClass("on");
+    $(".sub-menu[key=0]").show();
+    $(".sub-menu[key=0]").children("li").eq(5).addClass("on");
+</script>

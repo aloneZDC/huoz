@@ -1,0 +1,115 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">系统设置</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Config/updateCofig')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>网站财务设置</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+
+                        <tr>
+                            <th></th>
+                            <td style="color:#f00;">OTC配置開始</td>
+                        </tr>
+
+                        <tr>
+                            <th><i class="require-red">*</i>OTC申诉时间限制：</th>
+                            <td><input type="text" id="" value="{$config.repeal_time}" size="85" name="repeal_time"
+                                       class="common-text">分
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>OTC每天可撤销次数：</th>
+                            <td><input type="text" id="" value="{$config.otc_day_cancel}" size="85" name="otc_day_cancel"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>OTC发布广告后撤销限制：</th>
+                            <td><input type="text" id="" value="{$config.otc_cancel_limit}" size="85" name="otc_cancel_limit"
+                                       class="common-text">秒
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>OTC交易中的订单数量限制：</th>
+                            <td><input type="text" id="" value="{$config.otc_trade_online}" size="85" name="otc_trade_online"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>OTC下单后自动撤销(购买)：</th>
+                            <td><input type="text" id="" value="{$config.buy_confirm_time}" size="85" name="buy_confirm_time"
+                                       class="common-text">分钟
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>OTC下单后自动撤销(卖出)：</th>
+                            <td><input type="text" id="" value="{$config.sell_confirm_time}" size="85" name="sell_confirm_time"
+                                       class="common-text">分钟
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th><i class="require-red">*</i>OTC广告发布无交易超时撤销：</th>
+                            <td><input type="text" id="otc_orders_timeout_cancel" value="{$config.otc_orders_timeout_cancel}" size="85" name="otc_orders_timeout_cancel"
+                                       class="common-text">秒
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <th><i class="require-red">*</i>OTC支付宝支付</th>
+                            <td>
+                                支持：<input type="radio" name="not_support_alipay" value="0"
+                                {if condition="$config['not_support_alipay'] eq 0"}checked="checked"{/if}
+                                />
+                                不支持<input type="radio" name="not_support_alipay" value="1"
+                                {if condition="$config['not_support_alipay'] eq 1"}checked="checked"{/if}
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>OTC微信支付</th>
+                            <td>
+                                支持：<input type="radio" name="not_support_wechat" value="0"
+                                {if condition="$config['not_support_wechat'] eq 0"}checked="checked"{/if}
+                                />
+                                不支持<input type="radio" name="not_support_wechat" value="1"
+                                {if condition="$config['not_support_wechat'] eq 1"}checked="checked"{/if}
+                                />
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td style="color:#f00;">OTC配置结束</td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <input type="button" value="返回" onclick="history.go(-1)" class="btn btn6">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

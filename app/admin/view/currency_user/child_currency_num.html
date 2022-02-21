@@ -1,0 +1,60 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+
+    <div class="result-wrap " style="border-bottom:0;">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="member_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.member_id}" />
+                </div>
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <p></p>
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>可用</th>
+                            <th>交易冻结</th>
+<!--                            <th>红包冻结</th>-->
+<!--                            <td>合约冻结</td>-->
+<!--                            <td>DNC锁仓</td>-->
+                            <th>总量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="currency_list" id="vo"}
+                        <tr>
+                            <td>
+                                <a href="javascript:;" class="layui-open"  data-url="{:url('num_top',['currency_id'=>$vo['currency_id']])}" data-title="{$vo.currency_name}排行榜">
+                                    {$vo.currency_name|default=''} ({:lang('bfw_' . $vo['account_type'])})
+                                </a>
+                            </td>
+                            <td>{$vo.num}</td>
+                            <td>{$vo.forzen_num}</td>
+<!--                            <td>{$vo.hb_num}</td>-->
+<!--                            <td>{$vo.contract_num}</td>-->
+<!--                            <td>{$vo.dnc_lock}</td>-->
+                            <td>{$vo['num']+$vo['forzen_num']}</td>
+                        </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','global']);
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,126 @@
+.content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: url(../../images/bfxzy_bg.png) no-repeat center;
+    background-size: 100% 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.chinese {
+    margin: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: #fff;
+    font-weight:500;
+    font-size: 1.167rem;
+}
+.chinese > span {
+    margin: 0 1.333rem;
+}
+.chinese>button {
+    border: none;
+    background: transparent;
+    color: #fff;
+}
+
+.chinese>button.active {
+    color: #F4B84A;
+}
+.content-top {
+    height: 55.583rem;
+    padding-top: 3.667rem;
+    position: relative;
+    box-sizing: border-box;
+}
+.header-top {
+    height: 37.583rem;
+    width: 100%;
+    text-align: center;
+}
+.header-img > img {
+    width: 6.333rem;
+    height: 6.333rem;
+}
+.header-title {
+    font-size:1.833rem;
+    font-family:"Microsoft YaHei";
+    font-weight:bold;
+    color:#fff;
+    margin-top: 1.25rem;
+    text-align: center;
+}
+.header-mid-title {
+    font-size:1.833rem;
+    font-family:"Microsoft YaHei";
+    font-weight:bold;
+    color:#fff;
+    margin-top: 0.833rem;
+}
+
+.down-footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 4;
+    width: 100%;
+    height: 8.333rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.down-footer > a > .footer {
+    width:22.292rem;
+    height:4.167rem;
+    background: linear-gradient(90deg, #475CF3 0%, #222B81 100%);
+    border-radius:2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size:1.417rem;
+    font-family:PingFang TC;
+    font-weight:400; 
+    color: #fff;
+}
+.down-footer > a > .footer > img {
+    width: 1.75rem;
+    height: 1.5rem;
+    margin-right: 1.125rem;
+}
+a{
+    text-decoration:none;
+    color: #333;
+}
+.content-middle {
+    height: 55.583rem;
+    padding-top: 3.667rem;
+    position: relative;
+    box-sizing: border-box;
+    background: #F4B84A;
+}
+
+.content-bottom {
+    height: 55.583rem;
+    padding-top: 2.667rem;
+    position: relative;
+    box-sizing: border-box;
+}
+.bottom-top {
+    background:url("../../images/hbyq_bg_two.png") no-repeat center;
+    background-size: 100% 100%;
+    height: 37.583rem;
+    width: 100%;
+    text-align: center;
+}
+.header-bottom-title {
+    margin-top: 1.25rem;
+    font-size: 1.8333rem;
+    padding: 0 2.1667rem;
+    box-sizing: border-box;
+    text-align: center;
+    color: #fff;
+}

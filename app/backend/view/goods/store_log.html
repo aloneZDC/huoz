@@ -1,0 +1,66 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="{:url('/admin/')}">首页</a> <a href="{:url('index')}">订单管理</a> <a><cite>预约记录</cite></a>
+    </span>
+
+    <span class="fr">
+<!--        <a class="layui-btn layui-open" data-url="{:url('add')}" data-title="添加" href="javascript:;">添加</a>-->
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <form class="layui-form" >
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>门店</th>
+                <th>预约人姓名</th>
+                <th>预约人手机号</th>
+                <th>预约人备注</th>
+                <th>到店时间</th>
+                <th>状态</th>
+                <th>添加时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="v"}
+            <tr data-id="{$v.id}">
+                <td>
+                    {$v.store_name}<br/>
+                    {$v.store_address}<br/>
+                    {$v.store_phone}
+                </td>
+                <td>{$v.name}</td>
+                <td>{$v.phone}</td>
+                <td>{$v.remarks}</td>
+                <td>{:date('Y-m-d H:i',$v['store_time'])}</td>
+                <td>
+                    {if ($v.status == 0)}
+                    未使用
+                    {elseif ($v.status == 1)}
+                    已完成
+                    {else}
+                    取消
+                    {/if}
+                </td>
+                <td>{:date('Y-m-d H:i:s',$v['add_time'])}</td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','global']);
+</script>
+{include file="layout/footer"}

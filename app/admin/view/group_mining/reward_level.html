@@ -1,0 +1,80 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<style>
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 0 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">拼团挖矿奖励等级</span></div>
+    </div>
+
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="get">
+            <div class="result-content">
+                <div class="list-body">
+                    <table class="result-tab" width="100%">
+                        <tr>
+                            <th>等级id</th>
+                            <th>等级名称</th>
+                            <th>有效直推数量</th>
+                            <th>有效团队数量</th>
+                            <th>燃烧币种数量</th>
+                            <th>矿工费奖励比例</th>
+                            <th>拼团金奖励比例</th>
+                            <th>联创红利奖励延长时间</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                        {volist name="list" id="vo" empty=""}
+                            <tr>
+                                <td>{$vo.level_id}</td>
+                                <td>{$vo.level_name}</td>
+                                <td>{$vo.zhitui_num}</td>
+                                <td>{$vo.team_num}</td>
+                                <td>{$vo.burn_num}</td>
+                                <td>{$vo.fee_reward_rate} %</td>
+                                <td>{$vo.gold_reward_rate} %</td>
+                                <td>{$vo.dividend_reward_time} 天</td>
+                                <td>{$vo.add_time}</td>
+                                <td>
+                                    <a href="javascript:" class="layui-open link-update" data-url="{:url('reward_level_update', ['level_id' => $vo['level_id']])}?" data-width="1000px" data-time="奖励等级编辑">编辑</a>&nbsp;&nbsp;
+                                </td>
+                            </tr>
+                        {/volist}
+                    </table>
+                </div>
+            </div>
+        </form>
+        <div class="weadmin-block">
+            <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+        </div>
+        <div class="page">
+            <div>
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

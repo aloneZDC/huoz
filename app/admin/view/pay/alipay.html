@@ -1,0 +1,272 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#datePicker').date_input();
+        $('#datePicker2').date_input();
+    });
+
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">人工充值记录管理</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:U('Pay/payByMan')}" method="post">
+                        <table class="search-tab">
+                            <tr>
+                                <th width="120">选择分类:</th>
+                                <td>
+                                    <select name="status" id="">
+                                        <option value="">全部</option>
+                                        <option value="0">未付款</option>
+                                        <option value="1">充值成功</option>
+                                        <option value="2">充值失败</option>
+                                        <option value="3">已失效</option>
+                                    </select>
+                                </td>
+                                <th width="70">汇款人:</th>
+                                <td><input class="common-text" placeholder="汇款人" name="member_name" value="" id=""
+                                           type="text"></td>
+                                <th width="100">汇款人ID号:</th>
+                                <td><input class="common-text" placeholder="汇款人ID号" name="member_id" value="" id=""
+                                           type="text"></td>
+                                <th width="100">汇款人手机号:</th>
+                                <td><input class="common-text" placeholder="汇款人手机号" name="member_phone" value="" id=""
+                                           type="text"></td>
+                                <th width="100">汇款人账号:</th>
+                                <td><input class="common-text" placeholder="汇款人账号" name="member_email" value="" id=""
+                                           type="text"></td>
+                                <th width="100">实际打款:</th>
+                                <td><input class="common-text" placeholder="实际打款" name="count" value="" id=""
+                                           type="text"></td>
+                                <th width="70">选择时间：</th>
+
+                                <td><input type="text" id="datePicker" name="datePicker" class="date_picker"
+                                           placeholder="点击选择日期"/><input type="text" name="datePicker2" id="datePicker2"
+                                                                        class="date_picker" placeholder="点击选择日期"/></td>
+
+                                <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    <div class="search-wrap">
+          <div class="search-content">
+              <div class="search-wrap">
+                  <div class="search-content">
+                      <form action="{:U('Pay/excel_payByMan')}" method="post">
+                          <table class="search-tab">
+                              <tr>
+                                  <th width="120">选择分类:</th>
+                                  <td>
+                                      <select name="status" id="">
+                                          <option value="">全部</option>
+                                          <option value="0">未付款</option>
+                                          <option value="1">充值成功</option>
+                                          <option value="2">充值失败</option>
+                                          <option value="3">已失效</option>
+                                      </select>
+                                  </td>
+                                  <th width="70">汇款人:</th>
+                                  <td><input class="common-text" placeholder="汇款人" name="member_name" value="" id="" type="text"></td>
+                                  <th width="100">汇款人ID号:</th>
+                                  <td><input class="common-text" placeholder="汇款人ID号" name="member_id" value="" id="" type="text"></td>
+                                  <th width="100">汇款人手机号:</th>
+                                  <td><input class="common-text" placeholder="汇款人手机号" name="member_phone" value="" id="" type="text"></td>
+                                  <th width="100">汇款人账号:</th>
+                                  <td><input class="common-text" placeholder="汇款人账号" name="member_email" value="" id="" type="text"></td>
+                                  <th width="70">选择时间：</th>
+
+                                  <td><input type="text" id="datePicker" name="datePicker" class="date_picker" placeholder="点击选择日期"/><input type="text" name="datePicker2" id="datePicker2" class="date_picker" placeholder="点击选择日期"/> </td>
+
+                                  <td><input class="btn btn-primary btn2" name="sub" value="导出" type="submit"></td>
+
+                              </tr>
+                          </table>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>-->
+    <div class="result-wrap">
+        <!-- <form name="myform" id="myform" method="post" action="{:U('Pay/payByMan')}"> -->
+        <div class="result-content">
+            <if condition="$username[0]['admin_id'] eq 6">
+                <table class="result-tab" width="1500">
+                    <elseif condition="$username[0]['admin_id'] eq 7"/>
+                    <table class="result-tab" width="1800">
+                        <else/>
+                        <table class="result-tab" width="2000">
+            </if>
+            <tr>
+                <th>订单号</th>
+                <th>订单流水号</th>
+                <th>汇款人账号</th>
+                <th>汇款人ID号</th>
+                <th>手机号码</th>
+                <th>汇款人</th>
+                <th>银行卡号</th>
+                <th>充值钱数</th>
+                <th>实际打款</th>
+                <th>状态</th>
+                <th>充值类型</th>
+                <th>时间</th>
+                <th>收款行</th>
+                <th>第三方交易流水号</th>
+                <th>实收资金</th>
+                <if condition="$username[0]['admin_id'] eq 1 || $username[0]['admin_id'] eq 7">
+                    <th>提交账号</th>
+                    <th>提交时间</th>
+                    <th>操作</th>
+                </if>
+            </tr>
+            <volist name="list" id="vo" empty="$empty">
+                <form name="myform" id="myform" method="post" action="{:U('Pay/payByMan')}">
+                    <tr>
+                        <td>{$vo.pay_id}</td>
+                        <td>
+                            <if condition="$vo.order_id neq null">{$vo.order_id}
+                                <else/>
+                                --
+                            </if>
+                        </td>
+                        <td>{$vo.email}</td>
+                        <td><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo['member_id']}</a>
+                        </td>
+                        <td>{$vo.phone}</td>
+                        <td>{$vo.member_name}</td>
+                        <td>{$vo.account}</td>
+                        <td>{$vo.money}</td>
+                        <td>{$vo.count}</td>
+                        <td>
+                            <if condition='$vo.status eq "请付款"'>未付款
+                                <elseif condition='$vo.status eq "充值成功"'/>
+                                <b style="color: #f00;">{$vo.status}</b>
+                                <else/>
+                                {$vo.status}
+                            </if>
+                        </td>
+                        <if condition="$vo.type eq 13 || $vo.currency_id gt 0">
+                            <td>充积分</td>
+                            <else/>
+                            <td>充值</td>
+                        </if>
+                        <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                        <td>{$vo.due_bank}</td>
+                        <td>{$vo.batch}</td>
+                        <td>
+                            <if condition='$vo.capital eq 0.0000'>
+                                <php>echo '';</php>
+                                <else/>
+                                {$vo.capital}
+                            </if>
+                        </td>
+                        <input type="hidden" value="{$vo.pay_id}" name="hid">
+                        <if condition="$username[0]['admin_id'] eq 1 || $username[0]['admin_id'] eq 7">
+                            <td>{$vo.commit_name}</td>
+                            <td>
+                                <if condition='$vo.commit_time eq 0'>
+                                    <php>echo '';</php>
+                                    <else/>
+                                    {$vo.commit_time|date="Y-m-d H:i:s",###}
+                                </if>
+                            </td>
+
+                            <td>
+
+                                <eq name='vo.status' value='请付款'>
+                                    <if condition="$vo.due_bank eq '' || $vo.batch eq '' || $vo.capital eq ''">
+                                        <a class="link-update" href="javascript:void(0);">通过</a>
+                                        <else/>
+                                        <a class="link-update" href="javascript:void(0);"
+                                           onClick="pass({$vo['pay_id']});">通过</a>
+                                    </if>
+                                    <a class="link-del" href="javascript:void(0);"
+                                       onClick="fail({$vo['pay_id']})">不通过</a>
+                                    <else/>
+                                    操作完成
+                                </eq>
+                            </td>
+                        </if>
+                    </tr>
+                </form>
+            </volist>
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+        <!-- </form> -->
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+
+<script>
+    function pass(id) {
+        layer.confirm(
+            '确定通过审核',
+            {btn: ['确定', '取消']},
+            function () {
+                $.post("{:U('Pay/payUpdate')}", {"pay_id": id, "status": 1}, function (data) {
+                    if (data.status == 0) {
+                        layer.msg(data['info']);
+                        setTimeout("location.reload()", 2000);
+                    } else {
+                        layer.msg(data['info']);
+                        setTimeout("location.reload()", 2000);
+                    }
+                })
+            }
+        ),
+            function () {
+                layer.msg('已取消');
+            }
+    }
+
+    function fail(id) {
+        layer.confirm(
+            '确定不通过审核',
+            {btn: ['确定', '取消'],},
+            function () {
+                //href="{:U('Pay/payUpdate',array('pay_id'=>$vo['pay_id'],'status'=>1))}
+                $.post("{:U('Pay/payUpdate')}", {"pay_id": id, "status": 2}, function (data) {
+                    if (data.status == 0) {
+                        layer.msg(data['info']);
+                        setTimeout("location.reload()", 2000);
+
+                    } else if (data.status == 2) {
+                        layer.msg(data['info']);
+                        setTimeout("location.reload()", 2000);
+                    } else {
+                        layer.msg(data['info']);
+                        setTimeout("location.reload()", 2000);
+                    }
+                })
+            }
+        ),
+            //layer.msg('');
+            function () {
+                layer.msg('已取消');
+            }
+    }
+</script>

@@ -1,0 +1,115 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">会员管理</a> <a href="javascript:;">客服留言管理</a>
+    </span>
+
+    <span class="fr">
+<!--        <a class="layui-btn layui-open" data-url="{:url('add')}" data-title="添加" href="javascript:;">添加</a>-->
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class=" layui-col-md12 we-search">
+            <div class="layui-inline">
+                <label for="ename"></label>
+                <input class="layui-input" placeholder="请输入用户名" name="ename" id="ename" value="{$Think.get.ename}" />
+            </div>
+
+            <div class="layui-inline">
+                <label for="member_id"></label>
+                <input class="layui-input" placeholder="请输入用户ID" name="member_id" id="member_id" value="{$Think.get.member_id}" />
+            </div>
+
+            <div class="layui-inline">
+                <label for="member_id"></label>
+                <input class="layui-input" placeholder="请输入手机号" name="phone" id="phone" value="{$Think.get.phone}" />
+            </div>
+            <div class="layui-inline">
+                <label for="is_reply"></label>
+                <select name="is_reply" id="is_reply">
+                    <option value="" <?php if(isset($_GET['is_reply']) && $_GET['is_reply'] == ''){ ?> selected <?php } ?>>全部</option>
+                    <option value="0" <?php if(isset($_GET['is_reply']) && $_GET['is_reply'] == 0){ ?> selected <?php } ?>>未回复</option>
+                    <option value="1" <?php if(isset($_GET['is_reply']) && $_GET['is_reply'] == 1){ ?> selected <?php } ?>>已回复</option>
+                </select>
+            </div>
+
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+
+    <form class="layui-form" >
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>会员ID</th>
+                <th>账户</th>
+                <th>姓名</th>
+                <th>内容</th>
+                <th>添加时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="v"}
+            <tr data-id="{$v.msg_id}">
+                <td>
+                    {$v.msg_id}
+                </td>
+                <td>
+                    <a class="layui-open" data-url="{:url('CurrencyUser/accountbook',['member_id'=>$v.across_id])}" data-width="90%" data-title="{$v.across_id}账本"  href="javascript:;">{$v.across_id}</a>
+                </td>
+                <td>
+                    {empty name='v.phone'}
+                        {$v.email}
+                    {else /}
+                        {$v.phone}
+                    {/empty}
+                </td>
+                <td>{$v.name}</td>
+                <td>
+                    {php}
+                        if(strpos($v['msg_content'],'aliyuncs.com')===false) {
+                            echo msubstr($v['msg_content'],0,100);
+                        } else {
+                            echo '<img src="'.str_replace('https', 'http', $v['msg_content']).'" style="max-height: 80px;">';
+                        }
+                    {/php}
+                </td>
+                <td>{$v.msg_time|date="Y-m-d H:i:s",###}</td>
+                <td>
+                    {if condition="$v.is_reply eq 0"}未回复
+                    {elseif condition="$v.is_reply eq 1" /}已回复
+                    {/if}
+                </td>
+                <td class="td-manage">
+                    {if condition="$v.is_reply eq 0"}
+                        <a class="layui-btn layui-open" data-url="{:url('reply',['member_id'=>$v.across_id])}" data-title="回复" data-width="80%" data-height="95%"  href="javascript:;">回复</a>
+                    {else /}
+                        <a class="layui-btn layui-open" data-url="{:url('reply',['member_id'=>$v.across_id])}" data-title="聊天" data-width="80%" data-height="95%"  href="javascript:;">聊天</a>
+                    {/if}
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','global']);
+</script>
+{include file="layout/footer"}

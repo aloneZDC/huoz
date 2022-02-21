@@ -1,0 +1,301 @@
+ul {
+  list-style: none;
+}
+li {
+  list-style: none;
+}
+#main {
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.main_box {
+  width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+li h3 {
+  font-size: 22px;
+  color: #555;
+}
+.left {
+  float: left;
+}
+.clearfix {
+  display: block;
+  overflow: hidden;
+  zoom: 1;
+  margin-bottom: 0px;
+  width: 1200px;
+}
+.ybc_list {
+  width: 100%;
+}
+.ybcoin {
+  line-height: 40px;
+  width: 100%;
+  background-color: #fefefe;
+  margin-bottom: 20px;
+}
+.otc_mainwrap{
+  background-color:#fefefe;
+}
+.clear {
+  zoom: 1;
+}
+.clear:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+#main .yangwu_zhanghaozhongxin_rightTitle {
+  font-size: 24px;
+  color: black;
+  height: 60px;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+}
+#main .list-type {
+  font-size: 16px;
+}
+#main .list-type a {
+  margin-left: 24px;
+  color: #3076cc;
+}
+.ybc_list .left {
+  padding-left: 20px;
+}
+.right {
+  float: right;
+}
+.filtrate {
+  margin-top: -5px;
+  vertical-align: middle;
+  cursor: pointer;
+  height: 26px;
+  width: 50px;
+}
+.filtrate {
+  border: 1px solid #3076cc;
+  color: #3076cc;
+  border-radius: 3px;
+  width: 60px;
+  height: 26px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+.filtrate:hover {
+  border: 1px solid #3076cc;
+  border-radius: 3px;
+  width: 60px;
+  height: 28px;
+  margin: 5px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #3076cc;
+}
+#shuru {
+  padding-left: 5px;
+}
+.deal_coin {
+  color: #333;
+  cursor: pointer;
+  width: 120px;
+  font-size: 12px;
+  padding: 1px;
+  height: 26px;
+}
+.pairs {
+  padding-right: 5px;
+}
+#coninname,
+#status {
+  color: #333;
+  cursor: pointer;
+  width: 120px;
+  font-size: 12px;
+  padding: 1px;
+  height: 26px;
+}
+.otc_orderheader {
+  padding-top: 30px;
+  height: 60px;
+  line-height: 60px;
+  color: #999;
+  border-bottom: 1px solid #ccc;
+}
+.otc_orderheader > span {
+  display: inline-block;
+  font-size: 14px;
+  text-align: left;
+  float: left;
+}
+.otc_orderheader > span:nth-child(1) {
+  padding-left: 20px;
+  width: 165px;
+}
+.otc_orderheader > span:nth-child(2) {
+  width: 135px;
+}
+.otc_orderheader > span:nth-child(3) {
+  width: 125px;
+}
+.otc_orderheader > span:nth-child(4) {
+  width: 140px;
+}
+.otc_orderheader > span:nth-child(5) {
+  width: 175px;
+}
+.otc_orderheader > span:nth-child(6) {
+  width: 145px;
+}
+.otc_orderheader > span:nth-child(7) {
+  width: 145px;
+}
+.otc_orderheader > span:nth-child(8) {
+  float: left;
+  padding-right: 20px;
+  text-align: left;
+}
+.otc_orderheader > span:nth-child(9) {
+  float: right;
+  padding-right: 20px;
+  text-align: right;
+}
+#otc_orderbox > li {
+  padding: 0 20px;
+  height: 80px;
+  line-height: 80px;
+  border-bottom: 1px solid #eeeeee;
+  display: flex;
+}
+#otc_orderbox > li > p {
+  font-size: 14px;
+  color: #333;
+}
+#otc_orderbox > li > p:nth-child(1) {
+  width: 165px;
+}
+#otc_orderbox > li > p:nth-child(2) {
+  width: 135px;
+}
+#otc_orderbox > li > p:nth-child(2) > span {
+  color: #41db7f;
+}
+#otc_orderbox > li > p:nth-child(3) {
+  width: 125px;
+}
+#otc_orderbox > li > p:nth-child(4) {
+  width: 140px;
+}
+#otc_orderbox > li > p:nth-child(5) {
+  width: 175px;
+}
+#otc_orderbox > li > p:nth-child(6) {
+  width: 145px;
+}
+#otc_orderbox > li > p:nth-child(7) {
+  width: 145px;
+}
+#otc_orderbox > li > p:nth-child(8) {
+  text-align: left;
+}
+#otc_orderbox > li > p:nth-child(9) {
+  flex: 1;
+  text-align: right;
+}
+#otc_orderbox > li > p:nth-child(9) a {
+  color: #3284ca;
+}
+.isempty {
+  height: 400px;
+  line-height: 400px;
+  text-align: center;
+  font-size: 30px;
+  color: #999;
+}
+.filter-box{
+  display: flex;
+  align-items: center;
+}
+.filter-box .right{
+  flex: 1;
+  text-align: right;
+}
+.my_dealheadr{
+  display: flex;
+  padding-top: 30px;
+  height: 60px;
+  line-height: 60px;
+  color: #999;
+  border-bottom: 1px solid #ccc;
+}
+.my_dealheadr>span{
+  flex: 1;
+  text-align: center;
+}
+.my_dealheadr>span:first-of-type{
+  padding-left: 20px;
+  text-align: left;
+}
+.my_dealheadr>span:last-of-type{
+  text-align: right;
+  padding-right: 20px;
+}
+.my_deal > li {
+  padding: 0 20px;
+  height: 80px;
+  line-height: 80px;
+  border-bottom: 1px solid #eeeeee;
+  display: flex;
+}
+.my_deal > li > p{
+  flex: 1;
+  text-align: center;
+}
+.my_deal > li > p:first-of-type{
+  text-align: left;
+}
+.my_deal > li > p:last-of-type{
+  text-align: right;
+}
+.raise_list {
+  width: 1200px;
+}
+.raise_list th {
+  background-color: #f1f1f1;
+  color: #000;
+  border-bottom: 1px solid #dfdfdf;
+}
+.raise_list th,
+.raise_list tr,
+.raise_list td {
+  height: 36px;
+  text-align: center;
+  color: #666;
+}
+.raise_list td > a {
+  color: #3284ca;
+}
+.pagesize_box{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+.no_data {
+  padding: 20px;
+  text-align: center;
+}
+.no_data img {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  width: 150px;
+}
+.no_data span {
+  color: #9ca9b5;
+  font-size: 14px;
+}

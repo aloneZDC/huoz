@@ -1,0 +1,62 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+    <span class="layui-breadcrumb" style="visibility: visible;">
+        <a href="javascript:;">首页</a><a href="javascript:;">加速管理</a>
+        <a href="javascript:;"><cite>配置列表</cite></a>
+    </span>
+    <span class="fr">
+<!--        <a class="layui-btn layui-btn-sm layui-open" data-url="/backend/Mining/common_config_add?param=common_config" data-title="添加" data-width="800px" href="javascript:;">添加</a>-->
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+<div class="weadmin-body">
+    <table class="layui-hide" id="table-list" lay-filter="table-list"></table>
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+<!--    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>-->
+</script>
+
+{include file="layout/footer"}
+<script type="text/javascript">
+    layui.use(['table', 'global'], () => {
+        let table = layui.table,
+            global = layui.global;
+
+        table.render({
+            elem: '#table-list'
+            , url: '/backend/Mining/yun_config_list?param=yun_config'
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                {field: 'id', width: 60, title: 'ID', sort: true}
+                , {field: 'key', title: '配置名称'}
+                , {field: 'value', title: '配置索引'}
+                , {field: 'desc', title: '配置描述'}
+                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150}
+            ]]
+            , page: true //是否显示分页
+            , limits: [10, 15, 20]
+            , limit: 10 //每页默认显示的数量
+        });
+
+        //监听行工具事件
+        table.on('tool(table-list)', function (obj) {
+            let data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    global.ajax('/backend/Mining/common_config_del?param=common_config', {id: data.id}, function (res) {
+                        layer.close(index);
+                        if (res.code == 10000) {
+                            obj.del();
+                            return false;
+                        }
+                        global.msg(res.message);
+                    });
+                });
+            } else if (obj.event === 'edit') {
+                global.open('编辑', '/backend/Mining/yun_config_edit?param=yun_config&id=' + data.id, '800px');
+            }
+        });
+    });
+</script>

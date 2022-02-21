@@ -1,0 +1,161 @@
+{include file="layout/header"}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<link href="__PUBLIC__/static/admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script src="__PUBLIC__/static/admin/js/jquery.js"></script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#datePicker').date_input();
+        $('#datePicker2').date_input();
+    });
+
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<div class="weadmin-nav">
+    <span class="layui-breadcrumb" style="visibility: visible;">
+        <a href="javascript:;">首页</a><a href="javascript:;">交易交易</a>
+        <a href="javascript:;"><cite>交易记录</cite></a>
+    </span>
+    <span class="fr">
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="search-content">
+    <form action="{:url('Trade/trade',['param'=>'trade'])}" method="get">
+        <table class="search-tab">
+            <tr>
+                <th width="120">选择积分类型:</th>
+                <td>
+                    <select name="currency_id" id="">
+                        <option value="">全部</option>
+                        {volist name="currency" id="vo"}
+                            <option value="{$vo['currency_id']}"
+                            {if condition="$currency_id neq null and $currency_id eq $vo['currency_id']"}
+                                selected
+                            {/if}
+                            >{$vo['currency_name']}
+                        {if condition="$vo.is_trade_currency eq 1"}
+                        （币币)
+                        {/if}
+                        </option>
+                        {/volist}
+                    </select>
+                </td>
+                <th width="120">被兑积分类型:</th>
+                <td>
+                    <select name="currency_trade_id" id="">
+                        <option value="">全部</option>
+                        {volist name="currency" id="vo"}
+                            <option value="{$vo['currency_id']}"
+                            {if condition="$currency_trade_id neq null and $currency_trade_id eq $vo['currency_id']"}
+                                selected
+                                {/if}
+                            >{$vo['currency_name']}
+                        {if condition="$vo.is_trade_currency eq 1"}
+                        （币币)
+                        {/if}
+                        </option>
+                        {/volist}
+                    </select>
+                </td>
+                <th width="120">选择类型:</th>
+                <td>
+                    <select name="types" id="">
+                        <option value="">全部</option>
+                        <option value="buy" <?php if($type=='buy')echo 'selected';?> >买入</option>
+                        <option value="sell" <?php if($type=='sell')echo 'selected';?>>卖出</option>
+                    </select>
+                </td>
+                <th width="70px">用户类型:</th>
+                <td>
+                    <select name="user_type" id="">
+                        {volist name="userTypeList" id="vo"}
+                            {if $key == $user_type}
+                                <option value="{$key}" selected>{$vo}</option>
+                            {else/}
+                                <option value="{$key}">{$vo}</option>
+                            {/if}
+                        {/volist}
+                    </select>
+                </td>
+                <th width="70">订单号:</th>
+                <td><input class="common-text" placeholder="订单号" name="trade_no" value="{$trade_no}" id="" type="text"></td>
+            </tr>
+            <tr>
+                <th width="70">账户:</th>
+                <td><input class="common-text" placeholder="账户" name="phone" value="{$phone}" id="" type="text"></td>
+
+                <th width="70">ID:</th>
+                <td><input class="common-text" placeholder="用户ID" name="member_id" value="{if condition=" $member_id neq null"}{$member_id}{/if}" id="" type="text"></td>
+
+                <th width="70">数量:</th>
+                <td><input class="common-text" placeholder="数量" name="num" value="{if condition=" $num neq null"}{$num}{/if}" id="" type="text"></td>
+
+                <th width="70">价格:</th>
+                <td><input class="common-text" placeholder="价格" name="price" value="{if condition=" $price neq null"}{$price}{/if}" id="" type="text"></td>
+
+                <th width="120">是否负数:</th>
+                <td>
+                    <select name="is_fu" id="">
+                        <option value="0">否</option>
+                        <option value="1" <?php if($is_fu==1)echo 'selected';?> >是</option>
+
+                    </select>
+                </td>
+                <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div class="layui-table">
+<table class="result-tab" width="100%">
+    <tr>
+        <th>成交编号</th>
+        <th>订单号</th>
+        <th>会员ID</th>
+        <th>姓名</th>
+        <th>手机/邮箱</th>
+        <th>交易对</th>
+        <th>数量</th>
+        <th>单价</th>
+        <th>总量</th>
+        <th>手续费</th>
+        <th>类型</th>
+        <th>成交时间</th>
+    </tr>
+    {volist name="list" id="vo" empty=""}
+        <tr>
+            <td>{$vo.trade_id}</td>
+            <td>{$vo.trade_no}</td>
+
+            <td><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo.member_id}</a>
+            </td>
+            <td>{$vo['name']}</td>
+            <td>
+                <?php if(empty($vo['phone'])){ ?>
+                {$vo.email}
+                <?php }else{ ?>
+                {$vo['phone']}
+                <?php } ?>
+            </td>
+            <td>{$vo.b_name}/{$vo.b_trade_name}</td>
+            <td>{$vo.num}</td>
+            <td>{$vo.price}</td>
+            <td>{$vo.money}</td>
+            <td>{$vo['fee']|number_format=###,4}</td>
+            <td>{$vo.type_name}</td>
+            <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+        </tr>
+        {/volist}
+</table>
+<div class="page">
+    <div>
+        {$page}
+    </div>
+</div>
+</div>

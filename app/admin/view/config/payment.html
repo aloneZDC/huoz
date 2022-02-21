@@ -1,0 +1,187 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list">
+            <i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span class="crumb-name">商城支付方式配置</span>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Config/updateCofig')}" method="post" id="myform" name="myform">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1>
+                        <i class="icon-font">&#xe00a;</i>支付宝
+                    </h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th style="width: 20%;"><i class="require-red">*</i>支付宝账号：</th>
+                            <td><input type="text" id=""
+                                       value="{$config.alipay_account}" size="85"
+                                       name="alipay_account" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>合作者身份（partner ID）：</th>
+                            <td><input type="text" id="" value="{$config.alipay_pid}"
+                                       size="85" name="alipay_pid" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>交易安全校验码（key）：</th>
+                            <td><input type="text" id=""
+                                       value="{$config.alipay_key}" size="85"
+                                       name="alipay_key" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input type="submit" value="提交"
+                                       class="btn btn-primary btn6 mr10"> <input type="button"
+                                                                                 value="返回" onclick="history.go(-1)"
+                                                                                 class="btn btn6"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="config-items">
+                <div class="config-title">
+                    <h1>
+                        <i class="icon-font">&#xe00a;</i>双乾支付（代付）
+                    </h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th style="width: 20%;"><i class="require-red">*</i>商户号：</th>
+                            <td><input type="text" id=""
+                                       value="{$config.sqpay_pid}" size="85"
+                                       name="sqpay_pid" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input type="submit" value="提交"
+                                       class="btn btn-primary btn6 mr10"> <input type="button"
+                                                                                 value="返回" onclick="history.go(-1)"
+                                                                                 class="btn btn6"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="config-items">
+                <div class="config-title">
+                    <h1>
+                        <i class="icon-font">&#xe00a;</i>爱农支付（代付）
+                    </h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th style="width: 20%;"><i class="require-red">*</i>商户号：</th>
+                            <td><input type="text" id=""
+                                       value="{$config.anpay_pid}" size="85"
+                                       name="anpay_pid" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th style="width: 20%;"><i class="require-red">*</i>密钥：</th>
+                            <td><input type="text" id=""
+                                       value="{$config.anpay_key}" size="85"
+                                       name="anpay_key" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input type="submit" value="提交"
+                                       class="btn btn-primary btn6 mr10"> <input type="button"
+                                                                                 value="返回" onclick="history.go(-1)"
+                                                                                 class="btn btn6"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="config-items">
+                <div class="config-title">
+                    <h1>
+                        <i class="icon-font">&#xe00a;</i>通联支付（快捷支付）
+                    </h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th style="width: 20%;"><i class="require-red">*</i>商户号：</th>
+                            <td><input type="text" id=""
+                                       value="{$config.allinpay_quick_pid}" size="85"
+                                       name="allinpay_quick_pid" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th style="width: 20%;"><i class="require-red">*</i>密钥：</th>
+                            <td><input type="text" id=""
+                                       value="{$config.allinpay_quick_key}" size="85"
+                                       name="allinpay_quick_key" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input type="submit" value="提交"
+                                       class="btn btn-primary btn6 mr10"> <input type="button"
+                                                                                 value="返回" onclick="history.go(-1)"
+                                                                                 class="btn btn6"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="config-items">
+                <div class="config-title">
+                    <h1>
+                        <i class="icon-font">&#xe00a;</i>通联支付（批量代付）
+                    </h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th style="width: 20%;"><i class="require-red">*</i>商户号：</th>
+                            <td><input type="text" id=""
+                                       value="{$config.allinpay_daifu_pid}" size="85"
+                                       name="allinpay_daifu_pid" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th style="width: 20%;"><i class="require-red">*</i>系统对接用户：</th>
+                            <td><input type="text" id=""
+                                       value="{$config.allinpay_daifu_user}" size="85"
+                                       name="allinpay_daifu_user" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th style="width: 20%;"><i class="require-red">*</i>用户密码：</th>
+                            <td><input type="text" id=""
+                                       value="{$config.allinpay_daifu_pass}" size="85"
+                                       name="allinpay_daifu_pass" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input type="submit" value="提交"
+                                       class="btn btn-primary btn6 mr10"> <input type="button"
+                                                                                 value="返回" onclick="history.go(-1)"
+                                                                                 class="btn btn6"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

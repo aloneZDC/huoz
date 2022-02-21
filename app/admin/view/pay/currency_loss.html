@@ -1,0 +1,282 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+<script>
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    };
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<style>
+    .bold {font-weight: 700;}
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">负资产会员</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="__SELF__" method="get" onsubmit="return search();">
+                <table class="search-tab">
+                    <tr>
+                        <td width="70">会员账号:</td>
+                        <td><input class="common-text" placeholder="关键字" name="email" type="text"></td>
+                        <td width="70">会员姓名:</td>
+                        <td><input class="common-text" placeholder="关键字" name="name" type="text"></td>
+                        <td width="70">会员电话:</td>
+                        <td><input class="common-text" placeholder="关键字" name="phone" type="text"></td>
+                        <td width="70">会员ID:</td>
+                        <td><input class="common-text" placeholder="ID" name="member_id" type="text"></td>
+                        <td width="70">推荐人ID:</td>
+                        <td><input class="common-text" placeholder="ID" name="pid" type="text"></td>
+                        <td width="70">过滤奖励：</td>
+                        <td><input class="common-text" placeholder="输1可过滤可奖励的人" name="status" type="text"></td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <thead>
+                    <tr>
+                        <th>用户ID</th>
+                        <th>会员邮箱</th>
+                        <th>推荐人</th>
+                        <th>会员姓名</th>
+                        <th>手机号</th>
+                        <th>账户余额</th>
+                        <th>冻结金钱</th>
+                        <th>注册时间</th>
+                        <th>资料状态</th>
+                        <th>操作</th>
+                        <th>备注记录</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="list-page">
+                <ul>
+                    <li style="margin-top: 20px;"><a href="javascript:;" onclick="get_currency_loss();" class="btn btn-default btn-lg btn-block read-more" style="max-width: 98%;">查看更多</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+
+    function search() {
+        var data = {
+            email: $('input[name="email"]').val(),
+            name: $('input[name="name"]').val(),
+            phone: $('input[name="phone"]').val(),
+            member_id: $('input[name="member_id"]').val(),
+            pid: $('input[name="pid"]').val(),
+            status: $('input[name="status"]').val()
+        };
+
+        return get_currency_loss(1, 0, data);
+    }
+
+    $(document).ready(function () {
+        //get_currency_loss();
+    });
+
+    /**
+     * 加载列表
+     * @param p
+     * @param round
+     * @param data
+     */
+    function get_currency_loss(p, round, data) {
+        data = (typeof data !== 'undefined' ? data : {});
+        data.p = (typeof p !== 'undefined' ? p : 1);
+        data.rand = Math.random();
+        round = (typeof round !== 'undefined'  ? round : 0);
+
+        if(data.p === 1 && round === 0){
+            $('table.result-tab tbody').empty();
+        }
+
+        var html = "",
+            page = 1,
+            loading = layer.msg("数据加载中，请稍等···<br><br>每页检索 100 条，当前第 <b style='color: #0a6ec8;font-size: 22px;'>" + data.p + "</b> 页<br><br><button type='button' class='btn btn-primary stop'>停止加载</button>", {
+                icon: 16
+                , shade: 0.3
+                , time: 0
+                , scrollbar: false
+            }),
+            ajaxGet = $.ajax({
+                type: 'get',
+                dataType: 'json',
+                data: data,
+                url: "{:U('currency_loss')}",
+                success: function (callback) {
+                    layer.close(loading);
+
+                    if(parseInt(callback.Msg.end) === 1 && callback.Msg.list.length == 0){
+                        ajaxGet.abort();
+                        $(".read-more").hide();
+                        layer.alert("所有数据已加载完毕。");
+                        return false;
+                    }
+
+                    page = parseInt(callback.Msg.page) + 1;
+                    round = parseInt(round) + parseInt(callback.Msg.list.length);
+
+                    if(callback.Msg.list.length > 0){
+                        $.each(callback.Msg.list, function (key, val) {
+                            html += "<tr>\n" +
+                                "<td style=\"width:6%;\" class='bold'><a href=\"javascript:member_details("+val.member_id+");\" class=\"shenhe_button\">"+val.member_id+"</a></td>\n" +
+                                "<td style=\"width:10%;\">"+val.email+"</td>\n" +
+                                "<td style=\"width:6%;\">"+val.pid+"</td>\n" +
+                                "<td style=\"width:6%;\">"+val.name+"</td>\n" +
+                                "<td style=\"width:10%;\">"+val.phone+"</td>\n" +
+                                "<td style=\"width:6%;\">"+val.rmb+"</td>\n" +
+                                "<td style=\"width:6%;\">"+val.forzen_rmb+"</td>\n" +
+                                "<td style=\"width:10%;\">"+val.reg_time+"</td>\n" +
+                                "<td style=\"width:5%;\">"+val.status+"</td>\n" +
+                                "<td style=\"width:5%;\">\n" +
+                                "     <a class=\"link-update\" href=\"javascript:remarks('"+val.member_id+"');\" style=\"margin-left: 20px;\">备注</a>\n" +
+                                //"    <a class=\"link-update\" href=\"javascript:remarks_log('"+val.member_id+"');\" style=\"margin-left: 20px;\">处理记录</a>\n" +
+                                "</td>\n" +
+                                "<td style=\"width:30%;\">"+val.loss_log+"</td>\n" +
+                                "</tr>";
+                        });
+
+                        $('table.result-tab tbody').append(html);
+
+                        if(callback.Msg.type == 'search'){
+                            page = 1;
+                        }
+
+                        if(round < 5 && callback.Msg.end != 1){
+                            get_currency_loss(page, round);
+                        }
+                    }else{
+                        if(callback.Msg.end != 1){
+                            get_currency_loss(page, round);
+                        }
+                    }
+                    $(".read-more").attr('onclick', "get_currency_loss("+ page +");");
+                },
+                error: function (e) {
+                    layer.close(loading);
+                    if(e.statusText !== 'abort'){
+                        layer.alert("数据量太大，请求超时···");
+                    }
+                }
+            });
+
+        $('.stop').off().on('click', function () {
+            ajaxGet.abort();
+            layer.close(loading);
+        });
+
+        return false;
+    }
+
+    function remarks(member_id) {
+        var html = "<textarea style='width: 500px;height: 260px;margin: 20px 0 10px 20px;padding: 10px;'></textarea><button type='button' style='display: block;margin-left: 20px;' class='btn' id='save_remarks' data-state='0'>提交</button>";
+        var index = layer.open({
+            type: 1,
+            title: "添加备注",
+            area: ['560px', '420px'],
+            fixed: false, //不固定
+            maxmin: true,
+            scrollbar: false,
+            content: html
+        });
+
+        $("#save_remarks").unbind("click").bind("click");
+        $("#save_remarks").on('click', function () {
+            var __remarks = $("textarea").val(),
+                __state = $(this).attr("data-state");
+
+            if(__state == 1){
+                layer.msg("请不要重复提交", {time: 2000});
+                return false;
+            }
+
+            if(!$.trim(__remarks).length > 0){
+                layer.msg("请填写处理结果", {time: 2000});
+                return false;
+            }
+
+            $(this).attr("data-state", 1);
+
+            var data = {
+                member_id: member_id,
+                content: __remarks
+            };
+
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: data,
+                url: "{:U('save_loss')}",
+                success: function (callback) {
+                    if(callback.Code == 1){
+                        layer.msg(callback.Msg, {time: 2000});
+                        layer.close(index);
+                        $(this).attr("data-state", 0);
+                    }else{
+                        layer.msg(callback.Msg, {time: 2000});
+                    }
+                },
+                error: function (e) {
+                    layer.msg("网络请求失败", {time: 2000});
+                }
+            });
+        });
+    }
+
+    function remarks_log(member_id) {
+        var html = "";
+        $.ajax({
+            type: "get",
+            dataType: "json",
+            data: {member_id: member_id},
+            url: "{:U('get_loss')}",
+            success: function (callback) {
+                if(callback.Code == 1){
+                    if(!callback.Msg.length > 0){
+                        html = "<p style='margin: 20px;'>没有记录。</p>";
+                    }else{
+                        html = "<table style='margin: 20px;width: calc(100% - 40px);min-width: 720px;'><thead style='font-size: 14px;font-weight: 700;'><tr><td style='width: 15%;'>处理人</td><td style='width: 25%;'>操作时间</td><td style='width: 60%;'>处理结果</td></tr></thead><tbody style='line-height: 22px;'>";
+                        $.each(callback.Msg, function (key, value) {
+                            html += "<tr>";
+                            html += "<td>"+ value.admin_name +"</td><td>"+ value.insertd_tm +"</td><td>"+ value.remarks +"</td>";
+                            html += "</tr>";
+                        });
+                        html += "</tbody></table>";
+                    }
+
+                    layer.open({
+                        type: 1,
+                        title: "操作记录",
+                        area: ['760px', '480px'],
+                        fixed: false, //不固定
+                        maxmin: true,
+                        scrollbar: false,
+                        content: html
+                    });
+                }else{
+                    layer.msg(callback.Msg, {time: 2000});
+                }
+            },
+            error: function (e) {
+                layer.msg("网络请求失败", {time: 2000});
+            }
+        });
+    }
+</script>

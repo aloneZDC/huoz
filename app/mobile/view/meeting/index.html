@@ -1,0 +1,165 @@
+
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<title>{:lang('lan_event_registration')}</title>
+	<link rel="stylesheet" href="__PUBLIC__/static/moblie/css/common/reset.css">
+	<link rel="stylesheet" href="__PUBLIC__/static/moblie/css/common/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/static/moblie/css/meeting/index.css">
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/utensil.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/layer/layer.js"></script>
+</head>
+<body>
+	<script>
+		htmlFontSize();
+	</script>
+	<header class="header">
+		<span class="left_btn iconfont icon-fanhui exit"></span>
+		<div class="title">{:lang('lan_event_registration')}</div>
+		<span class="right_btn"> <a href="{:url('Meeting/attend_list')}">{:lang('lan_Registration_record')}</a></span>
+	</header>
+	<div style="height:44px;"></div>
+	<div id="main">
+		<div class="form_data_wrap">
+			<div class="form_data">
+				<span>{:lang('lan_username')}</span>
+				<input type="text" name="username">
+			</div>
+			<div class="form_data">
+				<span>{:lang('lan_event_registration1')}ID</span>
+				<input type="text" name="member_id">
+			</div>
+			<div class="form_data">
+				<span>{:lang('lan_event_registration2')}</span>
+				<input type="text" name="name">
+			</div>
+			<div class="form_data">
+				<span>{:lang('lan_senior_sex')}</span>
+				<div class="sex">
+					<span>{:lang('lan_senior_sex_man')}  <input type="radio" name="sex" value="1"  checked=""></span>
+					<span>{:lang('lan_senior_sex_girl')} <input type="radio" name="sex" value="0" ></span> 
+				</div>
+			</div>
+			<div class="form_data">
+				<span>{:lang('lan_age')}</span>
+				<input type="text" name="age">
+			</div>
+			<div class="form_data">
+				<span>{:lang('lan_event_registration3')}</span>
+				<input type="text" name="idcard" maxlength="18">
+			</div>
+			<div class="form_data">
+				<span>{:lang('lan_passport')}</span>
+				<input type="text" name="passport">
+			</div>
+			<div class="form_data">
+				<span>{:lang('lan_contact_phone')}</span>
+				<input type="text" name="phone">
+			</div>
+			
+
+			<div class="description">
+				<h2>{:lang('lan_event_registration5')}：</h2>
+				<p>{:lang('lan_event_registration6')}</p>
+			</div>
+			<div class="check">
+				<input type="checkbox" name="check"  class="checkbox" >
+				<span>{:lang('lan_event_registration7')}.</span>
+			</div>
+		</div>
+		
+		<p class="submit">
+				{:lang('lan_event_registration8')}{$pay_num}枚{$currency.currency_name}
+		</p>
+	</div>
+</body>
+<script>
+	// 用户协议勾选
+	$(function(){
+		function istrue(){
+			var stop = "{$stop}";
+			if(stop!='') {
+				layer.msg(stop);
+				return false;
+			}
+
+			if($("input[name='username']").val() ==""){
+				layer.msg("{:lang('lan_enter_account')}");
+				return false;
+			}
+			if($("input[name='member_id']").val() ==""){
+				layer.msg("{:lang('lan_event_registration9')}");
+				return false;
+			}
+			if($("input[name='name']").val() ==""){
+				layer.msg("{:lang('lan_event_registration10')}");
+				return false;
+			}
+			if($("input[name='age']").val() ==""){
+				layer.msg("{:lang('lan_event_registration32')}");
+				return false;
+			}
+			if($("input[name='idcard']").val() ==""){
+				layer.msg("{:lang('lan_event_registration11')}");
+				return false;
+			}
+			if($("input[name='passport']").val() ==""){
+				// 请输入您的护照号
+				layer.msg("{:lang('lan_event_registration31')}");
+				return false;
+			}
+			if($("input[name='phone']").val() ==""){
+				layer.msg("{:lang('lan_event_registration12')}");
+				return false;
+			}
+			if(!$(".checkbox").prop("checked")){
+				layer.msg("{:lang('lan_event_registration13')}");
+				return false;
+			}
+
+			return true;
+		}
+		$(".submit").click(function(){
+			if(istrue()){
+				$.ajax({
+                "url":" {:url('Meeting/attend')}",
+                "type": "POST",
+                "data": {
+                	username:$("input[name='username']").val(),
+                    member_id:$("input[name='member_id']").val(),
+                    name:$("input[name='name']").val(),
+                    idcard:$("input[name='idcard']").val(),
+					phone:$("input[name='phone']").val(),
+					sex:$("input[name='sex']:checked").val(),
+					passport:$("input[name='passport']").val(),
+					age:$("input[name='age']").val(),
+                },
+                success: function (data) {
+                    if(data.code==10000){
+                      location.href = " {:url('Meeting/attend_list')}";
+					}
+					layer.msg(data.message)
+                }
+            });
+			}
+			
+		})
+		var client = getCookie('platform');//客户端
+		$(".exit").click(function(){
+			if (client == 'android') {
+				apps.exit();
+			} else if (client == 'ios') {
+				window.webkit.messageHandlers.iosAction.postMessage("exit");
+			}else{
+				history.go(-1);
+			}
+		})
+		
+	})
+</script>
+</html>
+

@@ -1,0 +1,611 @@
+body, html, header, footer {
+    margin: 0;
+    padding: 0;
+    background-color: rgba(234, 234, 234, 1);
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+}
+
+img, p {
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+/*头部*/
+header {
+    position: fixed;
+    top: 0;
+    height: 45px;
+    width: 100%;
+    background-color: #fefefe;
+    line-height: 45px;
+    color: #333;
+    font-size: 17px;
+    z-index: 99;
+}
+
+.headerTitle {
+    display: block;
+    width: 70%;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    margin-left: 50px;
+    overflow: hidden;
+}
+
+.returnbtn {
+    display: block;
+    position: absolute;
+    left: 0;
+    height: 45px;
+    width: 45px;
+}
+
+.sharebtn {
+    display: block;
+    position: absolute;
+    right: 0;
+    height: 45px;
+    width: 45px;
+    top: 0;
+}
+
+.returnbtn img {
+    width: 25px;
+    height: 25px;
+    margin-left: 15px;
+    margin-top: 10px;
+}
+
+.sharebtn img {
+    width: 25px;
+    height: 25px;
+    margin-right: 15px;
+    margin-top: 10px;
+}
+
+/*商品详情*/
+.goods_details {
+    width: 100%;
+    padding: 15px 0;
+    background-color: white;
+}
+
+.goods_name {
+    width: 100%;
+    height: 90px;
+    margin-top: 5px;
+}
+
+.business_state {
+    padding: 2px 8px;
+    background: rgba(44, 144, 233, 1);
+    color: white;
+    font-size: 12px;
+    border-radius: 3px;
+    margin-right: 5px;
+    font-weight: lighter;
+}
+
+.goods_namen {
+    font-size: 17px;
+    letter-spacing: 1px;
+    margin-left: 10px;
+    overflow: hidden;
+}
+
+.goods_money {
+    color: rgba(255, 203, 63, 1);
+    font-size: 18px;
+    margin: 30px 0;
+    font-weight: bold;
+    margin-left: 15px;
+}
+
+.goods_Courier {
+    font-size: 18px;
+    margin-left: 15px;
+}
+
+.Courier_money {
+    color: rgba(255, 203, 63, 1);
+}
+
+.goods_attribute {
+    width: 100%;
+    height: 95px;
+    line-height: 95px;
+    background-color: white;
+    border-top: 1px solid rgba(234, 234, 234, 1);
+    font-size: 18px;
+}
+
+.attribute {
+    margin: 0 15px;
+    color: rgba(51, 51, 51, 1);
+}
+
+.attribute_choose {
+    color: rgba(165, 165, 165, 1);
+}
+
+.attribute_img {
+    margin-right: 15px;
+    margin-top: 35px;
+}
+
+.goods_comments {
+    height: 90px;
+    font-size: 18px;
+    line-height: 90px;
+    margin-top: 20px;
+    background-color: white;
+    border-bottom: 1px solid rgba(234, 234, 234, 1);
+}
+
+.goods_comments_box {
+    margin-left: 15px;
+}
+
+.goods_comments_show {
+    height: 140px;
+    width: 100%;
+    background: white;
+    color: rgba(165, 165, 165, 1);
+    font-size: 25px;
+    text-align: center;
+    line-height: 70px;
+}
+
+.goods_show {
+    line-height: 90px;
+    width: 100%;
+}
+
+.solid_show {
+    height: 2px;
+    width: 23%;
+    background-color: rgba(196, 199, 204, 1);
+    margin: 45px 15px 0 15px;
+}
+
+.solid_show_name {
+    width: 100%;
+    height: 90px;
+    color: rgba(109, 109, 109, 1);
+    text-align: center;
+    font-size: 18px;
+    font-weight: lighter;
+}
+
+.goods_img {
+    width: 100%;
+    height: 140px;
+    background-color: white;
+    padding: 10px 0;
+}
+
+.goods_img img {
+    display: block;
+    margin: 0 auto;
+    height: 80px;
+    width: 230px;
+}
+
+.goods_img span {
+    margin-left: 15px;
+    font-size: 20px;
+    margin-top: 18px;
+    display: block;
+}
+
+.goods_show_img {
+    width: 100%;
+    margin-bottom: 43px;
+}
+
+.goods_show_img img {
+    width: 100%;
+}
+
+/*底*/
+footer {
+    height: 64px;
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 9;
+    border-top: 1px solid rgba(196, 199, 204, 0.4);
+}
+
+.left_small_box {
+    width: 50%;
+    font-size: 15px;
+}
+
+.left_small_box span {
+    float: left;
+    width: 33%;
+}
+
+.left_small_box span img {
+    padding-top: 10px;
+    width: 25px;
+    height: 25px;
+    margin: 0 auto;
+}
+
+.left_small_box span p {
+    margin-top: 3px;
+    text-align: center;
+    background-color: white;
+}
+
+.left_small_border_box {
+    border-right: 1px solid rgba(196, 199, 204, 0.4);
+    border-left: 1px solid rgba(196, 199, 204, 0.4);
+    box-sizing: border-box;
+}
+
+.right_big_box {
+    width: 50%;
+}
+
+.right_big_box span {
+    width: 50%;
+    display: inline-block;
+    font-size: 16px;
+    color: white;
+    line-height: 65px;
+    text-align: center;
+}
+
+.JoinShoppingCity {
+    background-color: rgba(255, 203, 63, 1);
+}
+
+.buyNow {
+    background-color: rgba(255, 148, 2, 1);
+
+}
+
+/*回到顶部按钮*/
+.gotop {
+    display: block;
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    bottom: 70px;
+    right: 8px;
+    background-color: rgba(27, 27, 27, 0.6);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    z-index: 999
+}
+
+.gotop img {
+    display: block;
+    width: 40px;
+    height: 40px;
+}
+
+/*遮罩层*/
+.theMaskLayer {
+    height: 100%;
+    width: 100%;
+    background: rgba(41, 44, 52, 0.8);
+    z-index: 15;
+    display: none;
+    position: fixed;
+    top: 0;
+}
+
+/*右侧详情页*/
+.offside_detail_page {
+    width: 85%;
+    height: 100%;
+    z-index: 18;
+    position: absolute;
+    top: 0;
+    right: -85%;
+    background-color: white;
+}
+
+.clear_margin_header {
+    height: 45px;
+    width: 100%;
+}
+
+.btn_div {
+    position: absolute;
+    bottom: 0;
+    color: red;
+}
+
+.theMaskLayer_goods_img_padding {
+    margin: 20px 15px 15px 15px;
+}
+
+.theMaskLayer_goods_img_padding img {
+    width: 130px;
+    height: 130px;
+    margin-right: 10px;
+}
+
+.theMaskLayer_goods_img_text p {
+    font-size: 15px;
+    margin-bottom: 30px;
+}
+
+.theMaskLayer_goods_img_text span {
+    font-size: 18px;
+    color: rgba(254, 203, 133, 1);
+
+}
+
+.theMaskLayer_goods_text_img {
+    height: 180px;
+    width: 100%;
+}
+
+.theMaskLayer_model {
+    margin-top: 20px;
+    border-top: 1px solid rgba(196, 199, 204, 1);
+    width: 100%;
+    padding-top: 15px;
+}
+
+.theMaskLayer_model_btn {
+    padding: 2px 12px;
+    display: inline-block;
+    border: 1px solid #333;
+    margin-left: 20px;
+    -moz-border-radius: 4px; /* Firefox */
+    -webkit-border-radius: 4px; /* Safari 和 Chrome */
+    border-radius: 4px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+
+}
+
+.theMaskLayer_amoun {
+    width: 100%;
+    height: 60px;
+    margin-top: 40px;
+    line-height: 60px;
+}
+
+.NumberOfCalculation input {
+    float: left;
+    margin-top: 10px;
+}
+
+.NumberOfCalculation input[type="button"] {
+    background: white;
+    font-size: 30px;
+    text-align: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(196, 199, 204, 1);
+    display: inline-block;
+    color: rgba(196, 199, 204, 1);
+}
+
+.NumberOfCalculation input[type="text"] {
+    width: 50px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid rgba(208, 210, 214, 1);
+    font-size: 22px;
+    font-weight: lighter;
+    margin-top: 10px;
+}
+
+.theMaskLayerBtnBox {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    color: red;
+}
+
+.theMaskLayerBtnBox span {
+    width: 50%;
+    height: 40px;
+    font-size: 16px;
+    text-align: center;
+    line-height: 40px;
+    display: inline-block;
+    float: left;
+    color: white;
+}
+
+.Add_to_cart_btn {
+    background-color: rgba(255, 203, 63, 1);
+}
+
+.Buy_now_btn {
+    background-color: rgba(255, 148, 2, 1);
+}
+
+/*最少提示*/
+.Choose_at_least {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    text-align: center;
+    display: block;
+    width: 100px;
+    border: 1px solid rgba(47, 47, 47, 1);
+    margin-left: -60px;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -o-border-radius: 30px;
+    height: 22px;
+    line-height: 22px;
+    color: white;
+    background: rgba(47, 47, 47, 1);
+    font-size: 14px;
+    display: none;
+}
+
+/*按钮*/
+.function_btn {
+    width: 100%;
+    position: relative;
+}
+
+.JoinShoppingCity_btn, .buyNow_btn {
+    position: absolute;
+    color: white;
+    left: 50%;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    margin-top: 20px;
+    width: 180px;
+    margin-left: -90px;
+    background-color: rgba(255, 148, 2, 1);
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -o-border-radius: 30px;
+    display: none;
+}
+
+/*分享块*/
+
+.share_box {
+    position: absolute;
+    bottom: -74px;
+    left: 0;
+    width: 100%;
+    height: 74px;
+}
+
+.share_box div {
+    float: left;
+    width: 25%;
+    background-color: white;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /* Firefox */
+    -webkit-box-sizing: border-box; /* Safari */
+}
+
+.share_box div img {
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+.share_box div p {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.share_box_border {
+    border-right: 1px solid rgba(41, 44, 52, 0.2);
+}
+
+/*分享快遮罩层*/
+.theMaskLayer_share_box {
+    height: 100%;
+    width: 100%;
+    background: rgba(41, 44, 52, 0.5);
+    z-index: 88;
+    display: none;
+    position: fixed;
+    top: 0;
+}
+
+.share_box_tishi {
+    padding: 2px 8px;
+    position: absolute;
+    bottom: 64px;
+    left: 50%;
+    text-align: center;
+    display: block;
+    width: 100px;
+    border: 1px solid rgba(47, 47, 47, 1);
+    margin-left: -60px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -o-border-radius: 20px;
+    height: 22px;
+    line-height: 22px;
+    color: white;
+    background: rgba(47, 47, 47, 1);
+    font-size: 14px;
+    display: none;
+}
+
+/*商品评论*/
+.logo_person {
+    background-color: white;
+}
+
+.logo_person img {
+    display: block;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 15px;
+}
+
+.logo_person div {
+    margin-top: 25px;
+}
+
+/*购物车数字*/
+.The_shopping_cart_btn{
+    position: relative;
+}
+.The_shopping_cart_btn .The_shopping_cart_btn_weizhang{
+    width:18px;
+    height:18px;
+    position: absolute;
+    display: block;
+    top:3px;
+    left:57%;
+    color:white;
+    text-align: center;
+    border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+
+

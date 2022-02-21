@@ -1,0 +1,44 @@
+<div class="result-wrap " style="border-bottom:0;">
+    <div class="result-content"  style="margin-top: 20px;">
+        <p>当日总奖励： {$total_award}</p>
+        <form class="layui-form" >
+            <table class="layui-table" id="memberList">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户</th>
+                    <th>奖励数量</th>
+                    <th>下级用户数量</th>
+                    <th>来源用户</th>
+                    <th>时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="v"}
+                    <tr>
+                        <td>{$v.id}</td>
+                        <td>{$v.user_id}</td>
+                        <td>{$v.num}</td>
+                        <td>{:intval($v['base_num'])}</td>
+                        <td>
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('award_detail_user')}?third_user_id={$v.third_user_id}&today={$today}" data-title="{$v.third_user_id}上级节点奖励详情">
+                                {$v.third_user_id}
+                            </a>
+                        </td>
+                        <td>{:date('Y-m-d H:i:s',$v['create_time'])}</td>
+                    </tr>
+                {/volist}
+                </tbody>
+            </table>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>

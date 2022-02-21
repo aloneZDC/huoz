@@ -1,0 +1,107 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">币币交易限制列表</span></div>
+    </div>
+    <div class="result-wrap">
+        <a href="javascript:;" class="layui-open layui-btn" data-url="{:url('currency_add')}?" data-width="500px">添加</a>
+    </div>
+    <div class="result-wrap ">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>币种</th>
+                        <th>时间区间</th>
+                        <th>购买最低价格</th>
+                        <th>购买最高价格</th>
+                        <th>购买最低数量</th>
+                        <th>购买最高数量</th>
+                        <th>出售最低价格</th>
+                        <th>出售最高价格</th>
+                        <th>出售最低数量</th>
+                        <th>出售最高数量</th>
+                        <th>开启买</th>
+                        <th>开启卖</th>
+                        <th>机器人</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>{$v.currency_name} / {$v.currency_trade_name}</td>
+                        <td>
+                            {if condition="$v.start_time gt 0"}
+                                {:date('Y-m-d H:i:s',$v['start_time'])}
+                            {else /}
+
+                            {/if}<br>
+                             -<br>
+                            {if condition="$v.stop_time gt 0"}
+                                {:date('Y-m-d H:i:s',$v['stop_time'])}
+                            {else /}
+
+                            {/if}
+                        </td>
+                        <td>{$v.min_price}</td>
+                        <td>{$v.max_price}</td>
+                        <td>{$v.min_num}</td>
+                        <td>{$v.max_num}</td>
+                        <td>{$v.sell_min_price}</td>
+                        <td>{$v.sell_max_price}</td>
+                        <td>{$v.sell_min_num}</td>
+                        <td>{$v.sell_max_num}</td>
+                        <td>
+                            {if condition="$v.is_buy eq 1"}
+                                是
+                            {else /}
+                                否
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$v.is_sell eq 1"}
+                            是
+                            {else /}
+                            否
+                            {/if}
+                        </td>
+                        <td>{$v.robot_id}</td>
+                        <td>
+                            <a href="javascript:;" class="delete layui-btn" data-url="{:url('currency_delete',['id'=>$v['id']])}" >删除</a>
+                            <a href="javascript:;" class="layui-open layui-btn" data-url="{:url('currency_edit',['id'=>$v['id']])}" >编辑</a>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.delete').click(function () {
+            var url = $(this).data('url');
+            var that = $(this);
+            globals.ajax(url,{},function (res) {
+                if(res.code==10000){
+                    layer.msg(res.message);
+                    location.reload();
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

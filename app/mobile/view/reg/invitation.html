@@ -1,0 +1,209 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>{:lang('lan_invitation_local_TFT')}</title>
+    <link rel="stylesheet" href="__PUBLIC__/static/moblie/css/common/reset.css">
+    <link rel="stylesheet" href="__PUBLIC__/static/moblie/css/register/invitation.css">
+    <script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/jquery-2.1.1.min.js"></script>
+    <script src="__PUBLIC__/static/moblie/js/common/jquery.cookie.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/moblie/js/layer/layer.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/utensil.js"></script>
+</head>
+
+<body>
+    <script>
+        htmlFontSize();
+    </script>
+    <div class="content">
+        <div class="header-top">
+            <div class="header">
+                <div class="chinese">
+                    <button class="lang_zh active">中文</button>
+                    <span>|</span>
+                    <button class="lang_us">English</button>
+                </div>
+                <!-- <div class="chinese">
+                    {if condition="$Think.cookie.think_language eq 'en-us'"}
+                    <p><span class="lang">English</span> <i class="fa fa-caret-down" aria-hidden="true"></i></p>
+                    {elseif condition="$Think.cookie.think_language eq 'zh-tw'"/}
+                    <p><span class="lang">简体中文</span><i class="fa fa-caret-down" aria-hidden="true"></i></p>
+                    {else /}
+                    <p>简体中文<i class="fa fa-caret-down" aria-hidden="true"></i></p>
+                    {/if}
+                    <ul class="more_lang">
+                        <li class="zh_tw">
+                            <p>简体中文</p>
+                        </li>
+                        <li class="en_us">
+                            <p>English</p>
+                        </li>
+                    </ul>
+                </div> -->
+            </div>
+        </div>
+        <div class="cont-line-list">
+            <div class="center-list">
+                <div class="list-pr">
+                    <img src="__PUBLIC__/static/moblie/images/jihui_icon4.png" alt="">
+                </div>
+                <div class="account"></div>
+                <div class="but">
+                    <button>{:lang('lan_invitation_activate')}</button>
+                </div>
+            </div>
+            <div class="footer">
+                <h4>{:lang('lan_invitation_activate_acc')}</h4>
+                <div class="account-list">
+                    <img src="__PUBLIC__/static/moblie/images/jihui_icon1.png" alt="">
+                    <input type="text" placeholder="{:lang('lan_invitation_activate_enter')}" class="input1" />
+                </div>
+                <div class="account-list acaount-list-two">
+                    <img src="__PUBLIC__/static/moblie/images/jihui_icon2.png" alt="">
+                    <input type="password" placeholder="{:lang('lan_invitation_activate_password')}" class="input2" />
+                </div>
+                <div class="buts">
+                    <button>{:lang('lan_invitation_activate_sign')}</button>
+                </div>
+                <div class="foot">
+                    <img src="__PUBLIC__/static/moblie/images/jihui_icon3.png" alt="">
+                    <span>{:lang('lan_invitation_activate_consumption')} <span class="foot-number"></span> <span
+                            class="foot-name"></span>,{:lang('lan_invitation_activate_gives')} <span
+                            class="foot-give"></span> <span class="foot-name"></span></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        var windowH = $(window).height();//获取当前窗口高度 
+        if (windowH >= 812) {
+            $(".center-list").css({ "top": "22.15rem" });
+        }
+
+        var useName = "{$active_name}";
+        firstUrl = "{:url('Reg/invite_active_init')}";
+        twoUrl = "{:url('Reg/invite_active')}";
+        var date = new Date();
+
+        $(".account").html(useName);
+        //语言切换
+        $(".chinese button").each(function (i) {
+            $(this).on("click", function () {
+                if ($(this).hasClass("lang_zh")) {
+                    _lang("zh-tw");
+                } else {
+                    _lang("en-us");
+                }
+            })
+        })
+
+        if ($.cookie('odrthink_language') == null) {
+            $(".chinese .lang_zh").addClass("active").siblings('button').removeClass("active");
+            _lang("zh-tw");
+        };
+
+        if ($.cookie('odrthink_language') == "zh-tw") {
+            $(".chinese .lang_zh").addClass("active").siblings('button').removeClass("active");
+        } else {
+            $(".chinese .lang_us").addClass("active").siblings('button').removeClass("active");
+
+        }
+
+        /**
+         * 修改语言
+         * @param $lang
+         * @returns {boolean}
+         * @private
+         */
+        function _lang($lang) {
+            $.ajax({
+                url: "{:url('Index/set_languages')}",
+                data: {
+                    lang: $lang
+                },
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == 10000) {
+                        // window.location.href = window.location.href + "?" + date.getTime();
+                        window.location.reload();
+                    }
+                },
+                error: function (e) {
+                    layer.msg("{:lang('lan_Network_request_failed')}", {
+                        icon: 5
+                    });
+                }
+            });
+            return false;
+        }
+
+        // 初始化请求
+        $.ajax({
+            url: firstUrl,
+            data: {},
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 10000) {
+                    // window.location.href = window.location.href + "?" + date.getTime();
+                    $(".foot-number").html(data.result.number);
+                    $(".foot-give").html(data.result.give_num);
+                    $(".foot-name").html(data.result.currency_name);
+                }
+            },
+            error: function (e) {
+                layer.msg("{:lang('lan_Network_request_failed')}", {
+                    icon: 5
+                });
+            }
+        });
+
+        // 提交请求
+        $(".buts button").on("click", function () {
+            if ($(".input1").val() == "") {
+                layer.msg("{:lang('lan_invitation_activate_acc_empty')}");
+                return false;
+            } else if ($(".input2").val() == "") {
+                layer.msg("{:lang('lan_cant_be_empty')}");
+            } else {
+                var data = {
+                    active_name: useName,
+                    username: $(".input1").val(),
+                    password: $(".input2").val(),
+                };
+                $.ajax({
+                    url: twoUrl,
+                    data: data,
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 10000) {
+                            layer.msg(data.message);
+                            // window.location.href = window.location.href + "?" + date.getTime();
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000)
+                        } else {
+                            layer.msg(data.message);
+                        }
+                    },
+                    error: function (e) {
+                        layer.msg("{:lang('lan_Network_request_failed')}", {
+                            icon: 5
+                        });
+                    }
+                });
+
+            }
+
+        })
+
+    </script>
+</body>
+
+</html>

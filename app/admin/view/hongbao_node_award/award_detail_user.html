@@ -1,0 +1,59 @@
+<div class="result-wrap " style="border-bottom:0;">
+    <div class="result-content"  style="margin-top: 20px;">
+        <form class="layui-form" >
+            <table class="layui-table" id="memberList">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户</th>
+                    <th>奖励数量</th>
+                    <th>下级用户数量</th>
+                    <th>来源用户</th>
+                    <th>时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="v"}
+                <tr>
+                    <td>{$v.id}</td>
+                    <td>{$v.user_id}</td>
+                    <td>{$v.num}</td>
+                    <td>{:intval($v.base_num)}</td>
+                    <td>
+                        {$v.third_user_id}
+                    </td>
+                    <td>{:date('Y-m-d H:i:s',$v['create_time'])}</td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="result-content"  style="margin-top: 20px;">
+        <p>{$user_id}上级列表</p>
+        <form class="layui-form" >
+            <table class="layui-table" id="memberList1">
+                <thead>
+                <tr>
+                    <th>用户</th>
+                    <th>层级</th>
+                    <th>下级用户</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="member_bind" id="v"}
+                <tr>
+                    <td>{$v.member_id}</td>
+                    <td>{$v.level}</td>
+                    <td>{$v.child_id}</td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>

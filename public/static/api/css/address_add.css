@@ -1,0 +1,117 @@
+body,html,header,footer{
+	margin:0;
+	padding:0;
+	background-color: rgba(234,234,234,1);
+}
+input{outline:none} 
+body,html{
+	width:100%;
+	height:100%;
+	overflow: hidden;
+}
+img,p{
+	margin:0;
+	padding:0;
+	display:block;
+}
+a{
+	text-decoration:none;
+}
+
+.fl{
+	float:left;
+}
+.fr{
+	float:right;
+}
+
+input{
+	margin:0;
+	padding:0;
+}
+
+/*头部*/
+header{
+	position: relative;
+	top:0;
+	height:45px;
+	width:100%;
+	background-color: rgba(41,44,52,1);
+	line-height:45px;
+	color:white;
+	font-size:17px;
+	z-index: 99;
+}
+.headerTitle{
+	display:block;
+	width:100%;
+	height:45px;
+	text-align: center;
+}
+.returnbtn img{
+	width:25px;
+	height:25px;
+	margin-left:15px;
+	margin-top:10px;
+}
+.sharebtn span{
+	width:45px;
+	height:45px;
+	line-height:45px;
+	color:white;
+	position: absolute;
+	right:0;
+	top:0;
+}
+
+
+.new_border_box{
+	border-top: 10px solid rgba(234,234,234,1);
+	border-bottom: 20px solid rgba(234,234,234,1);
+}
+.new_inputBox{
+	height:40px;
+	position: relative;
+	background-color: white;
+	border-bottom:1px solid rgba(234,234,234,1);
+}
+.new_inputBox div{
+	height:40px;
+	position: absolute;
+	left:0;
+	width:100px;
+	line-height: 40px;
+	margin-left: 15px;
+}
+.new_inputBox img{
+	position: absolute;
+	width:25px;
+	height:25px;
+	right:0;
+	top:10px;
+	z-index: 9;
+	margin-right:15px;
+	
+}
+.new_inputBox input[type="text"]{
+	height:38px;
+	border:none;
+	width: 100%;
+	padding-left:115px;
+}
+
+.radio_box_moren{
+	background-color: white;
+	height:40px;
+	line-height: 40px;
+}
+.radio_box_moren div{
+	margin-left: 15px;
+}
+input[type="checkbox"]{
+	display: inline-block;
+	height:15px;
+	width:15px;
+	margin:13px 15px 0 0;
+	border-radius: 50%;
+}

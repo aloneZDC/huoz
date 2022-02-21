@@ -1,0 +1,80 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/wallet/finance.css">
+<div class="account_book">
+	<div class="currency_check">
+		<p> {:lang("lan_asset_selection")}:</p>
+		<div class="select_wrap">
+			<select name="currency_id">
+				<option value=""> {:lang("lan_whole")}</option>
+				{volist name="currency" id="vo"}
+				<option value="{$vo.currency_id}" {if condition="$currency_id == $vo.currency_id"} selected="selected" {/if} >{$vo.currency_name}</option>
+				{/volist}
+			</select>
+		</div>
+	</div>
+	<div>
+			<table class="layui-table" lay-skin="line" >
+					<colgroup>
+						<col>
+						<col>
+						<col>
+						<col>
+						<col>
+						<col>
+					</colgroup>
+					<thead>
+						<tr>
+						<th>{:lang('lan_transaction_name')}</th>
+						<th class="text_c">{:lang("lan_change_type")}</th>
+						<th class="text_c">{:lang("lan_status_1")}</th>
+						<th class="text_c">{:lang('lan_order_dealvolume')}</th>
+						<th style="text-align: right">{:lang('lan_transaction_time')}</th>
+						</tr> 
+					</thead>
+					<tbody>
+					{notempty name="account_list"}
+					   {volist name="account_list" id="vo"}
+						<tr>
+
+							<td>{$vo.content}</td>
+							<td class="text_c">{$vo.type_name}</td>
+							<td class="text_c">
+								{if condition="$vo.number_type ==1"}
+								
+								<p style="color:#03C086">{:lang("lan_income")}</p>
+								{else/}
+								<p style="color:#E96E44">{:lang("lan_expenditure")}</p>
+								{/if}
+							</td>
+							<td class="text_c">{$vo.number}{$vo.from_name}</td>
+							<td style="text-align: right">{$vo.add_time}</td>
+						</tr>
+					  {/volist}
+					{/notempty}
+					</tbody>
+				</table>
+
+				{empty name="account_list"}
+				<div class="isempty">{:lang('lan_No_data')}</div>
+				{/empty}
+	</div>
+
+
+	<div class="page">{$pages}</div>
+</div>
+<script>
+	layui.use('element', function(){
+		var element = layui.element;
+		
+		//…
+	});
+	$('[name="currency_id"]').change(function () {
+	    var currency_id=$(this).val();
+        location.href ="{:url('Wallet/index',['tab'=>2])}"+"/currency_id/"+currency_id;
+
+    })
+	$(function(){
+		$(".currency_check .iconfont").click(function(){
+			$(".select_box").slideToggle();
+		})
+	})
+</script>

@@ -1,0 +1,95 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+				<a href="javascript:;">首页</a> <a href="javascript:;">钱包管理</a>
+				<a href="javascript:;"> <cite>每日提币统计</cite></a>
+			</span>
+    <a class="layui-btn layui-btn-sm" style="margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);"
+       title="刷新">
+        <i class="layui-icon layui-icon-refresh"></i>
+        <!-- <i class="layui-icon" style="line-height:30px">&#x1002;</i> -->
+    </a>
+</div>
+
+<div class="weadmin-body">
+    <form class="">
+        数据搜索：
+
+        <div class="layui-inline">
+            <label for="currency_id">币种: </label>
+            <select style="display: inline; width: 100px;" class="layui-select" name="currency_id" id="currency_id">
+                <option value="">全部</option>
+                {volist name="currencys" id="currency"}
+                <option {if $Think.get.currency_id== $currency->currency_id}selected{/if}
+                    value="{$currency->currency_id}">{$currency->currency_name}
+                </option>
+                {/volist}
+            </select>
+        </div>
+
+        <div class="layui-inline">
+            <label for="start"></label>
+            <input type="text" class="layui-input" placeholder="提币开始日" name="start" id="start" value="{$Think.get.start}" />
+        </div>
+        <div class="layui-inline">
+            <label for="end"></label>
+            <input type="text" class="layui-input" placeholder="提币截止日" name="end" id="end" value="{$Think.get.end}" />
+        </div>
+
+        <button class="layui-btn" type="submit" lay-submit="" lay-filter="sreach">
+            <i class="layui-icon layui-icon-search"></i>搜索
+        </button>
+        <a class="layui-btn layui-btn-normal" href="{:url('')}?<?php echo $_SERVER['QUERY_STRING'] ?>&param=daycashcount&is_excel=1">
+            <i class="layui-icon layui-icon-file"></i>导出excel
+        </a>
+    </form>
+
+    <table class="layui-table" id="memberList">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>币种名称</th>
+            <th>时间</th>
+            <th>总数</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+        <tr data-id="{$v->wet_id}">
+            <td>{$v->wet_id}</td>
+            <td>
+                {if $v.currency.currency_name}
+                    {$v.currency.currency_name}
+                {else/}
+                    Unknown
+                {/if}
+            </td>
+            <td>{$v->wet_time}</td>
+            <td>{:floattostr($v->wet_total)}</td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <span class="fr" style="line-height:40px">共有数据：{$count} 条</span>
+
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+{include file="layout/footer"}
+
+<script>
+    layui.use(['laydate'], function () {
+        let laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+    });
+</script>

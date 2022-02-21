@@ -1,0 +1,66 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <cite>商品《{$goodsInfo.goods_title}》规格列表</cite>
+    </span>
+
+    <span class="fr">
+        <a class="layui-btn layui-open" data-url="{:url('format_add', ['goods_id'=>$goodsInfo['goods_id']])}" data-title="添加" data-width="60%" data-height="60%" href="javascript:;">添加</a>
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <form class="layui-form" >
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>商品信息</th>
+                <th>名称</th>
+                <th>折扣价</th>
+                <th>市场价</th>
+                <th>排序(倒序)</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="v"}
+            <tr data-id="{$v.id}">
+                <td>{$v.id}</td>
+                <td style="display: flex;">
+                    <span><img src="{$goodsInfo.goods_img}" alt="" style="height: 60px;width: 60px;"></span>
+                    <span style="margin-left: 10px;">
+                        {$goodsInfo.goods_title}
+                    </span>
+                </td>
+                <td>{$v.name}</td>
+                <td>{$v.goods_price}</td>
+                <td>{$v.goods_market}</td>
+                <td>{$v.sort}</td>
+                <td>{$statusList[$v.status]}</td>
+                <td>
+                    <a class="layui-btn layui-open" data-url="{:url('format_edit',['id'=>$v.id])}" data-title="修改商品规格" data-width="60%" data-height="60%" href="javascript:;">编辑</a>
+                    {if ($v.status == 1)}
+                    <a class="layui-btn layui-ajax" data-url="{:url('format_del',['id'=>$v.id])}" data-title="删除商品规格" href="javascript:;"><i class="layui-icon layui-icon-delete"></i></a>
+                    {/if}
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','global','index']);
+</script>
+{include file="layout/footer"}

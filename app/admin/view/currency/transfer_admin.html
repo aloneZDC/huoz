@@ -1,0 +1,51 @@
+<div class="weadmin-body">
+    <form class="layui-form form" style="margin-right: 20px;margin-top: 20px;">
+        <input type="hidden" name="id" value="{$info.id}">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">管理员</label>
+            <div class="layui-input-block">
+                <select name="admin_id">
+                    {volist name="admins" id="v"}
+                        <option value="{$v.admin_id}">{$v.username}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit" type="submit" lay-filter="add" lay-submit="">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'admin', 'layer'], function () {
+        let form = layui.form;
+
+        form.on("submit(add)", data => {
+            $.post("{:url('')}", data.field, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, function () {
+                        // 获得frame索引
+                        let index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        window.parent.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+            return false;
+        });
+    });
+</script>
+
+</div>
+</body>
+</html>

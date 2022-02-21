@@ -1,0 +1,65 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<meta name="referrer" content="never">
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">群组管理</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('district/editGroup')}" method="post" enctype="multipart/form-data" >
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>群组修改</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>群组名字：</th>
+                            <td><input name="group_name" type="text" value="{$group.name}"><span id="showBug"
+                                                                                 style=" margin-left:10px;color:#FF0000"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red"></i>LOGO图片：</th>
+                            <td><img src="{$group.logo}" width="80" height="80" /></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red"></i>修改LOGO地址：</th>
+                            <td><input type="text" name="logo_address_text" style="width: 600px;" value="{$group.logo}" id="logo_address_text" /></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>修改LOGO：</th>
+                            <td><input type="file" name="logo_address" id="logo_address" />(如果已输入LOGO地址,则不需要再上传文件,忽略此项)</td>
+                        </tr>
+                        <tr>
+                            <td><input name="group_id" type="hidden" style="width:600px;"value="{$group.id}"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit"value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('district/group')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    
+</script>
+
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    $("#logo_address").live('change', function(){   
+        $('#logo_address_text').val('');
+    });
+</script>

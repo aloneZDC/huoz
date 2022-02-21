@@ -1,0 +1,89 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span
+                class="crumb-name">兑换记录</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('transfer')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <th width="70">用户ID:</th>
+                        <td><input class="common-text" placeholder="关键字" name="member_id"
+                                   value="{$Think.get.member_id}" type="text"></td>
+                        <th width="70">兑换币种:</th>
+                        <td>
+                            <select name="currency_id">
+                                <option value="">全部</option>
+                                {volist name="currency_list" id="vo"}
+                                <option value="{$vo.currency_id}"
+                                        {eq name="vo.currency_id" value="$Think.get.currency_id" } selected {/eq}
+                                >{$vo.account_name}</option>
+                                {/volist}
+                            </select>
+                        <th width="70">目标币种:</th>
+                        <td>
+                            <select name="to_currency_id">
+                                <option value="">全部</option>
+                                {volist name="currency_list" id="vo"}
+                                <option value="{$vo.currency_id}"
+                                        {eq name="vo.currency_id" value="$Think.get.to_currency_id" } selected {/eq}
+                                >{$vo.account_name}</option>
+                                {/volist}
+                            </select>
+                        <th width="70">兑换类型:</th>
+                        <td><select name="ct_type">
+                            <option value="">全部</option>
+                            {volist name="$ct_type" id='vo'}
+                            <option value="{$key}"
+                                    {eq name="key" value="$Think.get.ct_type" } selected {/eq}
+                            >{$vo}</option>
+                            {/volist}
+                        </select></td>
+
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-title">
+            <div class="result-list" style="display: none;">
+                <a href="{:url('config_create')}"><i class="icon-font"></i>新增配置</a>
+            </div>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>用户</th>
+                    <th>兑换币种</th>
+                    <th>目标币种</th>
+                    <th>兑换类型</th>
+                    <th>数量</th>
+                    <th>手续费</th>
+                    <th>时间</th>
+                </tr>
+                {volist name="list" id="v"}
+                <tr>
+                    <td>{$v.ct_id}</td>
+                    <td>{$v.member.ename} ({$v.member_id})</td>
+                    <td>{$v.dh_currency_name}</td>
+                    <td>{$v.to_currency_name}</td>
+                    <td>{$v.ct_type}</td>
+                    <td>{$v.number}</td>
+                    <td>{:floattostr($v.ct_fee)}</td>
+                    <td>{$v.add_time}</td>
+                </tr>
+                {/volist}
+
+            </table>
+        </div>
+        <div class="page">
+            {$page}
+        </div>
+    </div>
+</div>

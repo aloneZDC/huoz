@@ -1,0 +1,10 @@
+OrdersKlineServer.php
+OrdersKline1.php 监听火币数据并写入kine_history表
+OrdersRebot1.php 机器人根据火币数据挂单  获取history数据进行挂单，挂单之后把数据存入kline表
+OrdersTradeTask 负责戳和交易
+
+# orderskline1和OrdersRebot1开了的话，kline1不需要开启
+#Kline1.php 只负责更新K线数据
+
+# 开启Kline2.php 负责更新涡轮算力值所需的K线图
+kline2.php 

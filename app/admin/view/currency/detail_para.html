@@ -1,0 +1,396 @@
+{include file="../app/admin/view/public/left.html" /}
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/plugins/prettify.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">积分类型设置</span></div>
+    </div>
+    <div class="result-wrap">
+        {if condition="$pd==1"}
+            <form action="{:url('Currency/detail_para',array('currencyId'=>$currency_id))}" method="post" id="myform"
+                  name="myform" enctype="multipart/form-data">
+                {else/}
+                <form action="{:url('Currency/detail_para')}" method="post" id="myform" name="myform"
+                      enctype="multipart/form-data">
+        {/if}
+        <div class="config-items">
+            <div class="config-title">
+                <h1><i class="icon-font">&#xe00a;</i>货币详细参数</h1>
+            </div>
+            <div class="result-content">
+                <table width="100%" class="insert-tab">
+                    <tbody>
+
+                    <tr>
+                        <th>英文名</th>
+                        <td><input type="text" id="" value="{$list.english_name}" size="85" name="english_name"
+                                   class="common-text">
+                            {if condition="$pd==1"}
+                                <input type="hidden" id="" value="" size="85" name="" class="common-text">
+                                {else/}
+                                <input type="hidden" id="" value="{$currency_id}" size="85" name="currency_id"
+                                       class="common-text">
+                                {/if}
+                        </td>
+                    </tr>
+                    {if condition="$pd eq 1"}
+                        <tr>
+                            <th>货币ID</th>
+                            <td><input type="text" id="" value="{$list.currency_id}" size="85" name="currency_id"
+                                       class="common-text"></td>
+                        </tr>
+                        {/if}
+                    <tr>
+                        <th>推出日期</th>
+                        <td><input type="text" id="" value="{$list.pushout_time}" size="85" name="pushout_time"
+                                   class="common-text"><i class="require-red">*请按以下格式录入日期时间，具体时间也要录入 例如： 2016/05/21
+                            09/30/40*</i></td>
+                    </tr>
+                    <tr>
+                        <th>中文名</th>
+                        <td><input type="text" id="" value="{$list.china_name}" size="85" name="china_name"
+                                   class="common-text"></td>
+                    </tr>
+
+                    <tr>
+                        <th>英文简称</th>
+                        <td><input type="text" id="" value="{$list.english_short}" size="85" name="english_short"
+                                   class="common-text"></td>
+                    </tr>
+                    <tr>
+                        <th>研发者</th>
+                        <td><input type="text" id="" value="{$list.designer}" size="85" name="designer"
+                                   class="common-text"></td>
+                    </tr>
+                    <tr>
+                        <th>核心算法</th>
+                        <td><input type="text" id="" value="{$list.core_algorithm}" size="85" name="core_algorithm"
+                                   class="common-text"></td>
+                    </tr>
+                    <tr>
+                        <th>发布日期</th>
+                        <td><input type="text" id="" value="{$list.release_date}" size="85" name="release_date"
+                                   class="common-text"><i class="require-red">*请按以下格式录入日期时间，具体时间也要录入 例如： 2016/05/21
+                            09/30/40*</i></td>
+                    </tr>
+                    <tr>
+                        <th>区块速度</th>
+                        <td><input type="text" id="" value="{$list.block_speed}" size="85" name="block_speed"
+                                   class="common-text"></td>
+                    </tr>
+                    <tr>
+                        <th>发行总量</th>
+                        <td><input type="text" id="" value="{$list.total_circulation}" size="85"
+                                   name="total_circulation" class="common-text"></td>
+                    </tr>
+                    <tr>
+                        <th>代币流通量</th>
+                        <td><input type="text" id="" value="{$list.daibi_turnover}" size="85"
+                                   name="daibi_turnover" class="common-text"></td>
+                    </tr>
+                    <tr>
+                        <th>卖买基数量</th>
+                        <td><input type="text" id="" value="{$list.base_num}" size="85" name="base_num"
+                                   class="common-text"></td>
+                    </tr>
+                    <tr>
+                        <th>存量</th>
+                        <td><input type="text" id="" value="{$list.stock}" size="85" name="stock" class="common-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>证明方式</th>
+                        <td><input type="text" id="" value="{$list.proof_mode}" size="85" name="proof_mode"
+                                   class="common-text"></td>
+                    </tr>
+
+                    <tr>
+                        <th>难度调整</th>
+                        <td><input type="text" id="" value="{$list.difficulty_adjust}" size="85"
+                                   name="difficulty_adjust" class="common-text"></td>
+
+                    </tr>
+
+                    <tr>
+                        <th>区块奖励</th>
+                        <td>
+                            <input type="text" id="" value="{$list.block_rewards}" size="85" name="block_rewards"
+                                   class="common-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>白皮书</th>
+                        <td>
+                            <input type="text" id="" value="{$list.white_paper}" size="85" name="white_paper"
+                                   class="common-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>官网地址</th>
+                        <td>
+                            <input type="text" id="" value="{$list.website}" size="85" name="website"
+                                   class="common-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>区块查询</th>
+                        <td>
+                            <input type="text" id="" value="{$list.block_query}" size="85" name="block_query"
+                                   class="common-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>众筹价格</th>
+                        <td>
+                            <input type="text" id="" value="{$list.raise_price}" size="85" name="raise_price"
+                                   class="common-text">
+                            <i class="require-red">*请按以下格式录入价格 例如： $0.31*</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>开源代码</th>
+                        <td>
+                            <input type="text" id="open_code_url" value="{$list.open_code_url}" size="85" name="open_code_url"
+                                   class="common-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>钱包开源代码</th>
+                        <td>
+                            <input type="text" id="wallet_code_url" value="{$list.wallet_code_url}" size="85" name="wallet_code_url"
+                                   class="common-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>钱包下载地址</th>
+                        <td>
+                            <input type="text" id="wallet_down_url" value="{$list.wallet_down_url}" size="85" name="wallet_down_url"
+                                   class="common-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>语言</th>
+                        <td>
+                            <select id="lang" name="lang">
+                                <option value="zh" <?php if(empty(input('lang')) || input('lang') == 'zh'){ ?>selected<?php } ?>>中文</option>
+                                <option value="tc" <?php if(input('lang') == 'tc'){ ?>selected<?php } ?>>繁体</option>
+                                <option value="en" <?php if(input('lang') == 'en'){ ?>selected<?php } ?>>英文</option>
+                                <option value="th" <?php if(input('lang') == 'th'){ ?>selected<?php } ?>>泰文</option>
+                            </select>
+                            <script>
+                                $("#lang").on('change', function (e) {
+                                    window.location.href = "?lang=" + $(this).val();
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <?php if(empty(input('lang')) || input('lang') == 'zh'){ ?>
+                    <tr>
+                        <th>主要特色</th>
+                        <td style="padding:8px;">
+                            <textarea id="content" name="feature" cols="30" style="width:500px;height:300px;" rows="10">{$list.feature}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#content',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>不足之处</th>
+                        <td style="padding:8px;">
+                            <textarea id="content2" name="short" cols="30" style="width:500px;height:300px;" rows="10">{$list.short}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#content2',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>综合优势</th>
+                        <td style="padding:8px;">
+                            <textarea id="content3" name="advantage" cols="30" style="width:500px;height:300px;"
+                                      rows="10">{$list.advantage}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#content3',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                    <?php if(input('lang') == 'tc'){ ?>
+                    <tr>
+                        <th>主要特色(繁体)</th>
+                        <td style="padding:8px;">
+                            <textarea id="content" name="tc_feature" cols="30" style="width:500px;height:300px;" rows="10">{$list.tc_feature}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#content',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>不足之处(繁体)</th>
+                        <td style="padding:8px;">
+                            <textarea id="content2" name="tc_short" cols="30" style="width:500px;height:300px;" rows="10">{$list.tc_short}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#content2',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>综合优势(繁体)</th>
+                        <td style="padding:8px;">
+                            <textarea id="content3" name="tc_advantage" cols="30" style="width:500px;height:300px;"
+                                      rows="10">{$list.tc_advantage}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#content3',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                    <?php if(input('lang') == 'en'){ ?>
+                    <tr>
+                        <th>主要特色(英文)</th>
+                        <td style="padding:8px;">
+                            <textarea id="content" name="en_feature" cols="30" style="width:500px;height:300px;" rows="10">{$list.en_feature}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#content',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>不足之处(英文)</th>
+                        <td style="padding:8px;">
+                            <textarea id="content2" name="en_short" cols="30" style="width:500px;height:300px;" rows="10">{$list.en_short}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#content2',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>综合优势(英文)</th>
+                        <td style="padding:8px;">
+                            <textarea id="content3" name="en_advantage" cols="30" style="width:500px;height:300px;"
+                                      rows="10">{$list.en_advantage}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#content3',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                    <?php if(input('lang') == 'th'){ ?>
+                    <tr>
+                        <th>主要特色(泰文)</th>
+                        <td style="padding:8px;">
+                            <textarea id="content" name="en_feature" cols="30" style="width:500px;height:300px;" rows="10">{$list.th_feature}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#content',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>不足之处(泰文)</th>
+                        <td style="padding:8px;">
+                            <textarea id="content2" name="en_short" cols="30" style="width:500px;height:300px;" rows="10">{$list.th_short}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#content2',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>综合优势(泰文)</th>
+                        <td style="padding:8px;">
+                            <textarea id="content3" name="en_advantage" cols="30" style="width:500px;height:300px;"
+                                      rows="10">{$list.th_advantage}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#content3',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <?php } ?>
+
+                    <tr>
+                        <th></th>
+                        <td>
+                            {if condition="$pd==1"}
+                                <input type="submit" value="修改" class="btn btn-primary btn6 mr10"
+                                       style="margin-left:10px;">
+                                {else/}
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                {/if}
+
+                            <a href="{:url('Currency/index')}"><input type="button" value="返回" class="btn btn6"></a>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

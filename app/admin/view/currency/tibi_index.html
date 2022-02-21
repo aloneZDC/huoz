@@ -1,0 +1,202 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<link href="__PUBLIC__/static/admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script>
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+    $(function () {
+        $('#datePicker').date_input();
+        $('#datePicker2').date_input();
+    })
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">提积分记录</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('Currency/tibi_index')}" method="get" id="form">
+                <table class="search-tab">
+                    <tr>
+                        <th width="50">手机号:</th>
+                        <td><input class="common-text" placeholder="手机号" name="phone" value="{$temp['phone']}" type="text"></td>
+                        <th width="50">邮箱:</th>
+                        <td><input class="common-text" placeholder="邮箱" name="email" value="{$temp['email']}" type="text"></td>
+                        <th width="50">会员ID:</th>
+                        <td><input class="common-text" placeholder="会员ID" name="member_id" value="{$temp['member_id']}"  type="text"></td>
+                        <th width="70">接收地址:</th>
+                        <td><input class="common-text" placeholder="接收地址" name="url"  value="{$temp['url']}" type="text"></td>
+                        <th width="70">Hash:</th>
+                        <td><input class="common-text" placeholder="接收地址" name="hash"  value="{$temp['hash']}" type="text"></td>
+                        <th width="70">积分类型:</th>
+                        <td>
+                            <select name="cuid">
+                                <option value="">全部</option>
+                                {volist name="curr" id='vo'}
+                                {eq name="vo.currency_id" value="$temp.cuid"}
+                                <option value="{$vo.currency_id}" selected>{$vo.currency_name}</option>
+                                {else/}
+                                <option value="{$vo.currency_id}">{$vo.currency_name}</option>
+                                {/eq}
+                                {/volist}
+                            </select>
+                        </td>
+                        <th width="70">状态:</th>
+                        <td><select name="status">
+                            <option value="">全部</option>
+                            <option value="0" {if condition="$temp.status eq '0'"}selected{/if} >等待确认中</option>
+                            <option value="1" {if condition="$temp.status eq 1"}selected{/if} >已完成</option>
+                            <option value="-1" {if condition="$temp.status eq -1"}selected{/if} >审核中</option>
+                            <option value="-2" {if condition="$temp.status eq -2"}selected{/if} >已撤销</option>
+                        </select></td>
+                        <th width="70">申请时间:</th>
+                        <td><input type="text" id="datePicker" name="starttime" class="date_picker" value="{$temp['starttime']}"
+                                   placeholder="点击选择日期"/>
+                            <input type="text" name="endtime" id="datePicker2" value="{$temp['endtime']}"
+                                                                class="date_picker" placeholder="点击选择日期"/></td>
+                        <input type="hidden" name="daochu" id="daochu">
+                        <td><input class="btn btn-primary btn2" value="导出" id="submitDaochu" type="button"></td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+                昨日提币:<br>
+                {volist name="tibi_total" id="vo"}
+                {$curr[$vo['currency_id']]['currency_name']} - 总数量 ：{$vo.num} 实际到账：{$vo.actual}
+                {/volist}
+                <br>
+                昨日审核成功:<br>
+                {volist name="audit_total" id="vo"}
+                {$curr[$vo['currency_id']]['currency_name']} - 总数量 ：{$vo.num} 实际到账：{$vo.actual}
+                {/volist}
+                <br>
+                今日提币:<br>
+                {volist name="tibi_total_today" id="vo"}
+                {$curr[$vo['currency_id']]['currency_name']} - 总数量 ：{$vo.num} 实际到账：{$vo.actual}
+                {/volist}
+                <br>
+
+                XRP充币未到账：<br>
+                {volist name="xrp_currency_fail" id="vo"}
+                {$vo.ato1}:{$vo.amount}<br>
+                {/volist}
+
+                XRP充币总量：<br>
+                {volist name="xrp_currency_success" id="vo"}
+                {$vo.ato1}:{$vo.amount}<br>
+                {/volist}
+            </div>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>会员ID</th>
+                    <th>手机</th>
+                    <th>币类型名称</th>
+                    <th>转账地址</th>
+                    <th>接收标签</th>
+                    <th>转账编号</th>
+                    <th>转出数量</th>
+                    <th>到账数量</th>
+                    <th>审核时间</th>
+                    <th>状态</th>
+                    <th>申请时间</th>
+                    <th>接收钱包</th>
+                    <th>姓名</th>
+                    <th>会员邮箱</th>
+                </tr>
+                {volist name='list' id='vo'}
+                    <tr>
+                        <td>{$vo['id']}</td>
+
+                        <td><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo['member_id']}</a>
+                        </td>
+
+                        <td>{$vo['phone']}</td>
+                        <td>{$vo['currency_name']}</td>
+                        <td>{$vo['from_url']}</td>
+                        <td>{$vo['tag']}</td>
+                        <td>
+                            <?php if($vo['currency_type']=='eth' || $vo['currency_type']=='eth_token'):?>
+                            <a target="_blank" href="https://cn.etherscan.com/tx/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                            <?php elseif($vo['currency_type']=='xrp'):?>
+                            <a target="_blank" href="https://bithomp.com/explorer/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                            <?php elseif($vo['currency_type']=='btc'):?>
+                            <a target="_blank" href="https://btc.com/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                            <?php elseif($vo['currency_type']=='usdt'):?>
+                            <a target="_blank" href="https://omniexplorer.info/search/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                            <?php elseif($vo['currency_type']=='eos'):?>
+                            <a target="_blank" href="https://eospark.com/tx/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                            <?php else: ?>
+                            {$vo['ti_id']}
+                            <?php endif;?>
+                            </td>
+
+
+                        <td>{$vo['num']}</td>
+                        <td>{$vo['actual']}</td>
+
+                        <td><?php if(!empty($vo['check_time'])):?>
+                            {$vo['check_time']|date='Y-m-d H:i:s',###}
+                            <?php endif;?>
+                            </td>
+
+                        <td>
+                            {if condition="$vo['status'] eq 0"}
+                                等待确认中
+                            {/if}
+                            {if condition="$vo['status'] eq 1"}
+                                已完成
+                                {/if}
+                            {if condition="$vo['status'] eq -1"}
+                                审核中
+                                {/if}
+                            {if condition="$vo['status'] eq -2"}
+                                已撤销
+                                {/if}
+                        </td>
+                        <td>{$vo['add_time']|date='Y-m-d H:i:s',###}</td>
+                        <td>{$vo['to_url']}</td>
+                        <td>{$vo['name']}</td>
+                        <td>{$vo['email']}</td>
+                    </tr>
+                {/volist}
+
+            </table>
+
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $("#walletNav").show();
+            $("#walletNav").children("li").eq(2).addClass("on");
+          $("#submitDaochu").click(function () {
+              $("#daochu").val(2);
+              $("#form").submit();
+              $("#daochu").val(1);
+          })
+        </script>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+.tab_prizePage h2{
+	height: 60px;
+	line-height: 60px;
+	font-size: 22px;
+	color: #333;
+	padding-left: 20px;
+	position: relative;
+}
+.tab_prizePage h2>div{
+	padding-left: 40px;
+}
+.back_btn{
+	width: 40px;
+	text-align: center;
+	color: #066B98;
+	position: absolute;
+}
+.tab_box{
+	display: flex;
+	color: #333333;
+	font-size: 16px;
+	position: relative;
+}
+.tab_box div{
+	margin-left: 50px;
+}
+.tab_box div a{
+	color: #333;
+}
+.tab_box div.active a{
+	color: #B59D27;
+}
+.tab_box div:first-of-type{
+	margin-left: 0;
+}
+.table_head{
+	display: flex;
+	padding:12px 33px 20px 21px;
+	border-bottom: 1px solid #CCC;
+}
+.table_head li,.table_body li div{
+	width: 19%;
+	text-align: center;
+	color: #666;
+	font-size: 14px;
+}
+.table_head li:first-of-type,.table_body li div:first-of-type{
+	text-align: left;
+}
+.table_head li:last-of-type,.table_body li div:last-of-type{
+	text-align: right;
+}
+.table_head li.num,.table_body li div.num{
+	width: 24%;
+}
+.table_body{
+	max-height: 600px;
+	padding-bottom: 20px;
+}
+.table_body li{
+	display: flex;
+	padding:26px 33px 0px 21px;
+}
+.table_body li div{
+	color: #333;
+}
+.table_body li div.out{
+	color: #E96E44;
+}
+.table_body li div.income{
+	color: #03C086;
+}
+.table_body li div.cancel{
+	color: #333;
+}
+.no_data{
+	padding-top: 60px;
+}

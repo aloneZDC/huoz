@@ -1,0 +1,189 @@
+
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/user/invit.css" />
+<!--top end-->
+
+<script src="__PUBLIC__/static/home/js/user/clipboard.min.js"></script>
+
+<script>
+
+    var clipboard = new Clipboard('#copy');
+
+    clipboard.on('success', function (e) {
+
+        console.log(e);
+
+        layer.msg("{:lang('lan_has_replicated')}");
+
+        //$(".cpypt").show();
+
+        //setTimeout(function(){$(".cpypt").hide();},1000);
+
+    });
+
+
+    clipboard.on('error', function (e) {
+
+        //console.log(e);
+
+        layer.msg("{:lang('lan_browser_does_support')}");
+
+    });
+
+
+</script>
+
+<div id="main">
+	<div class="main_box" style="margin-bottom: 0;">
+		<div class="raise left clearfix" style="width:100%;background: transparent;">
+			<div class="tab_prizePage invit_banner">
+			</div>
+
+			<div class="ybc_list">
+				<div class="ybcoin invitecon" style="margin-bottom:20px;">
+
+					<h2 class="text_indent_jiali">{:lang('lan_user_Regular_yourFriend')} &nbsp;&nbsp; {:lang('lan_user_invitationcode')}:<span
+                            style="margin-left:20px;color:red;">{$invit_code}</span></h2>
+
+					<div>
+
+						<div class="invitelink">
+							<textarea name="url" id="url">{$qrcode_url}</textarea>
+							 <p class="copylink" style="text-indent:0;" id="copy" data-clipboard-action="copy" data-clipboard-target="#url">
+
+                                <a href="javascript:void(0);">{:lang('lan_copy_link')}</a>
+
+                                <div style="position: absolute; left: 1090px; top: 252px; width: 122px; height: 42px; z-index: 99;" id="zclip-ZeroClipboardMovie_1" class="zclip">
+                                </div>
+                            </p>
+							<img id="img" src="{:url('User/qrcode')}" style="width:120px;height:120px;position: absolute;right:180px;top: 0;" />            <span style="position: absolute;right:40px;color: #7582A4">{:lang('lan_invite_scan')}</span>
+						</div>
+                        <div class="clear"></div>
+					</div>
+
+				</div>
+
+
+				<div class="ybcoin invitecon">
+
+					<h2 class="text_indent_jiali">{:lang('lan_user_Inviting_rules')}</h2>
+
+					<ul class="rules text_indent_jiali">
+						<li>{:lang('lan_user_Inviting_rules3')}</li>
+						<div class="clear"></div>
+					</ul>
+
+				</div>
+			</div>
+            <div class="tab_prizePage invit_user">
+                <h2 class="yangwu_zhanghaozhongxin_rightTitle">
+                    <span>{:lang('lan_my_recommend')}</span>
+                    <span>{:lang('lan_recommendation')} {$pid_cout} {:lang('lan_Members')}</span>
+                </h2>
+                <ul class="table_head">
+                    <li>{:lang('lan_date_registration')}</li>
+                    <li>{:lang('lan_phone_email')}</li>
+                    <li>{:lang('lan_nickname')}</li>
+                </ul>
+                {if condition="empty($member_list)"}
+                <div class="no_data">
+                    <img src="__PUBLIC__/static/home/images/no_data.png" >
+                    <span>{:lang('lan_No_data')}</span>
+                </div>
+                {else/}
+                    <ul class="table_body">
+                        {volist name="member_list" id="vo"}
+                        <li>
+                            <div>{$vo.reg_time|date="Y-m-d",###}</div>
+                            <div>{$vo.phone}</div>
+                            <div>{$vo.nick}</div>
+                        </li>
+                        {/volist}
+                    </ul>
+               {/if}
+               {if condition="!empty($pages)"}
+                <div class="page">{$pages}</div>
+                {/if}
+            </div>
+            <div class=""></div>
+		</div>
+
+		<div class="clear"></div>
+	</div>
+</div>
+<script>
+    function sendmail() {
+
+        url = "{:url('User/invit')}";
+
+        var emailList = $('#emaillist').val();
+
+        if (emailList.replace(/\s/g, '') === '') {
+
+            layer.msg("{:lang('lan_fill_mailbox')}");
+
+            return false;
+
+        } else {
+
+            var arr = escape(emailList.replace(/(^\s*)|(\s*$)/g, "")).split('%3B'), error = '',
+                emailrule = /\w+((-w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+/;
+
+            if (arr.length > 5 && arr.length) {
+
+                layer.msg("{:lang('lan_fill_five_mailboxes')}");
+
+                return false;
+
+            } else {
+
+                for (var i = 0; i < arr.length; i++) {
+
+                    if (!emailrule.test(arr[i])) {
+
+                        var num = i + 1;
+
+                        error += num + "、";
+
+                    }
+                    ;
+
+                }
+
+            }
+            ;
+
+            if (error != '') {
+
+                error = error.substr(0, error.length - 1);
+
+                layer.msg("{:lang('lan_zhe')}" + error + "{:lang('lan_mailbox_correct')}");  
+
+                return false;
+
+            }
+            ;
+
+            $.post(url, {emails: emailList}, function (data) {
+
+                if (data.status == 0) {
+
+                    layer.msg(data.info);
+
+                }
+
+                else {
+
+                    layer.msg("{:lang('lan_invitation_success')}");
+
+                    window.location.reload();
+
+                }
+
+            }, "json");
+
+        }
+
+    }
+</script>
+      
+

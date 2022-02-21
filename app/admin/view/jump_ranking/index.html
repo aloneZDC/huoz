@@ -1,0 +1,109 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">矿池列表</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="ename" placeholder="请输入用户名" autocomplete="off" class="layui-input" value="{$Think.get.ename}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="user_phone" placeholder="请输入用户账户" autocomplete="off" class="layui-input" value="{$Think.get.user_phone}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="currency_id">
+                        <option value="">币种</option>
+                        {volist name="currency_list" id="vo"}
+                            <option value="{$vo.currency_id}" {if condition="$Think.get.currency_id eq $vo.currency_id"}selected{/if} >{$vo.currency_name}</option>
+                        {/volist}
+                    </select>
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>用户</th>
+                        <th>总收益</th>
+                        <th>总挖矿奖励</th>
+                        <th>总算力奖励</th>
+                        <td>今日挖矿奖励</td>
+                        <td>今日算力奖励</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.member_id})">
+                                {if condition="$v.users.phone"}
+                                {$v.users.phone}
+                                {else /}
+                                {$v.users.email}
+                                {/if}
+                                ({$v.member_id}) - {$v.users.ename}
+                            </a>
+                        </td>
+                        <td>
+                            {$v.total_income} {$v.currency.currency_name}
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('ranking_income')}?user_id={$v.member_id}&currency_id={$v.currency_id}" data-title="{$v.member_id}矿池收益记录">{$v.total_ranking_income} {$v.currency.currency_name}</a>
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('power_income')}?user_id={$v.member_id}&currency_id={$v.currency_id}" data-title="{$v.member_id}矿工收益记录">{$v.total_power_income} {$v.currency.currency_name}</a>
+                        </td>
+                        <td>
+                            {if condition="$v.today_ranking_time>0"}
+                            {:date('Y-m-d H:i:s',$v['today_ranking_time'])}<br>
+                            {/if}
+                            {$v.today_ranking_income} {$v.currency.currency_name}
+                        </td>
+                        <td>
+                            {if condition="$v.today_power_time>0"}
+                            {:date('Y-m-d H:i:s',$v['today_power_time'])}<br>
+                            {/if}
+                            {$v.today_power_income} {$v.currency.currency_name}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

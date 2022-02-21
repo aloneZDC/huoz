@@ -1,0 +1,209 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html style="width: 100%;height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<!--     <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/Home/css/base.css">
+ -->    
+    <script src="__PUBLIC__/static/api/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/api/layer/layer.js"></script>
+    <style>
+    	html,body{
+            width: 100%;
+            margin:0;
+            padding: 0;
+        }
+        #chat_wrap{position: absolute;width: 100%; z-index: 10;top: 0;bottom: 0; background: #fff;overflow:hidden;}
+        #chating{position: absolute;width: 100%;z-index: 50;top:0;bottom:60px;overflow-y: auto;-webkit-overflow-scrolling:auto;}
+        #chat-btn{position: fixed;bottom: 10px;width: 100%;height: 100%;}
+        .icon-send{
+            position: absolute; z-index: 999;font-size: 16px;color: #222222;width: 10%;height: 40px;line-height: 40px; display: inline-block;right: 1.25rem;text-align: center;
+        bottom: 0;}
+        .icon-send a{color: #222222;}
+    .message-input{
+    position: absolute;
+    background: none;
+    height: 40px;
+    line-height: 40px;
+    overflow: hidden;
+    z-index: 999;
+    border: 1px solid #CCCCCC;
+    font-size: 14px;
+    vertical-align: text-bottom;
+    bottom: 0;
+    left: 2%;
+    right: 2%;
+    text-indent: 10px;
+    padding-right:45px;
+  	box-sizing:border-box;
+    width: 75%;
+    color: #707589;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    outline-style: none;}
+
+        .chating-time {
+            text-align: center;
+            margin: 10px auto 10px auto;
+            height: 22px;
+            line-height: 22px;
+        }
+    
+        .sys-time{
+           margin: 10px auto 5px auto !important;
+        }
+
+        .chating-time span{
+            background: #999999;
+            color: #FFFFFF;
+            border-radius: 2px;
+            font-size: 11px;
+            padding: 5px;
+        }
+
+        .sys {
+            max-width: 70%;
+            text-align: center;
+            margin: 12px auto;
+            color: #707589;
+            font-size:12px;
+            border-radius: 2px;
+            line-height: 20px;
+            margin-bottom: 20px;
+        }
+
+        #chating .chat-message {
+            border-radius: 6px 6px 6px 6px;
+        }
+        /*#chating .ta-l .chat-message{
+            border-radius: 0 6px 6px 6px;
+        }*/
+        
+        .chat-message {
+            padding: 10px 20px;
+            font-size: 15px;
+            position: relative;
+            min-width: 42px;
+           	max-width: 60%;
+            display: inline-block;
+            vertical-align: text-top;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .ta-l .chat-message {
+            background-color: #6189C5;
+            border-top-left-radius: 0;
+            color: #FFFFFF;
+        }
+
+        .ta-r .chat-message {
+            background-color: #6189C5;
+            border-top-right-radius: 0;
+            color: #FFFFFF;
+        }
+        
+        .chat .user-logo {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+            display: inline-block;
+            vertical-align: text-top;
+            background: #6189C5;
+            border-radius: 100%;
+        }
+        
+        .ta-r .user-logo {
+            margin-right: 17px;
+            margin-left: 10px;
+        }
+        
+        .ta-l .user-logo {
+            margin-left: 17px;
+            margin-right: 10px;
+        }
+
+        .ta-c {
+            text-align: center!important;
+            font-size: 12px;
+            color: #707589;
+        }
+
+        .ta-l {
+            text-align: left!important
+        }
+
+        .ta-r {
+            text-align: right!important
+        }
+    </style>
+</head>
+<body style="width: 100%;height: 100%;">
+<div class="tab-chat" id="chat_wrap">
+	<div id="chat-btn" class="btn-cont">
+        <input class="message-input" type="text" name="" value="" placeholder="{:lang('lan_say_something')}...">
+        <div style="position: absolute;right:25%;z-index:999;width:1.83333rem;height: 1.625rem;overflow: hidden;background: url(__PUBLIC__/static/api/img/upload.png) no-repeat;bottom: 0.45rem; background-size: 100%;">
+            <input type="file" name="upload_img" style="position: absolute;left: 0;top: 0;opacity: 0;width: 37px;height: 32px;" />
+        </div>
+		<span class="icon-send" type="SELL" stage="EXPIRED"><a class="send">發送</a></span>
+	</div>
+    <div id="chating" class="chating" style="">
+        <div id=""></div>
+        
+    </div>
+    
+</div>
+
+<script>
+//即时聊天插件
+$(function() {
+    {notempty name='config'}
+        window.__deel = {
+            across_user: "{$config['user_id']}",
+            across_name: "{$config['user_name']}",
+            across_head: "{$config['user_head']}",
+            across_pass: "{$config['user_pass']}",
+            across_appkey: "{$config['appkey']}",
+            target_id: "{$config['target_id']}",
+            target_name: "{$config['target_name']}",
+            target_head: "{$config['target_head']}",
+            password: "{$config['target_pass']}",
+            access_key: "{$access_key}",
+            random_str: "{$config['random_str']}",
+            timestamp: "{$config['timestamp']}",
+            signature: "{$config['signature']}",
+            order_id: "{$config['send_id']}",
+            send_messages: "{:url('Jim/send_messages')}",
+            get_messages: "{:url('Jim/get_messages')}",
+            upload:"{:url('Jim/upload')}",
+            layer: "complex",
+            gid: 0
+        };
+    {else /}
+        window.__deel = {};
+    {/notempty}
+});
+</script>
+
+
+<script type="text/javascript">
+	$('input').on('click',function(event){      
+       //自动反弹 输入法高度自适应
+        var target = this;
+        setTimeout(function(){
+            target.scrollIntoView(true);
+        },100);
+    });
+</script>
+<script language=javascript src='__PUBLIC__/static/api/js/jmessage-sdk-web.2.3.1.min.js'></script>
+<script language=javascript src='__PUBLIC__/static/api/js/jim.js'></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+{include file="layout/header"}
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/plugins/prettify.js"></script>
+
+<div class="weadmin-nav layui-clear">
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <form class="layui-form form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="sa_name" placeholder="请输入标题" class="layui-input" lay-verify="required" value="{$info['sa_name']}">
+                <input type="hidden" name="id" value="{$info['sa_id']}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">电话号码</label>
+            <div class="layui-input-block">
+                <input type="text" name="sa_mobile" placeholder="请输入电话号码" class="layui-input" lay-verify="required" value="{$info['sa_mobile']}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否开启</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="sa_default" value="{$info['sa_default']}" lay-skin="switch" lay-text="ON|OFF" {if condition="$info.sa_default eq 1"}checked=""{/if}>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">省</label>
+            <div class="layui-input-block">
+                <select name="sa_province" lay-verify="required" onchange="ajax()" lay-filter="sa_province">
+                    {volist name="province" id="vo"}
+                    <option value="{$vo['area_id']}" {if condition="$info.sa_province eq $vo['area_id']"}selected=""{/if}>{$vo['area_name']}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">市</label>
+            <div class="layui-input-block">
+                <select name="sa_city" lay-verify="required" id="sa_city">
+                    {volist name="city" id="v"}
+                    <option value="{$v['area_id']}" {if condition="$info.sa_city eq $v['area_id']"}selected=""{/if}>{$v['area_name']}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">详细地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="sa_address" placeholder="请输入详细地址" class="layui-input" lay-verify="required" value="{$info['sa_address']}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="text-align: center;">
+                <button class="layui-btn submit" type="button" lay-submit="" lay-filter="submit" data-url="{:url('')}">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form','add'], function() {
+    });
+
+    layui.use(['layer', 'jquery', 'form'], function () {
+        var layer = layui.layer,
+            $ = layui.jquery,
+            form = layui.form;
+
+        form.on('select(sa_province)', function(data){
+            $.ajax({
+                type:"post",
+                url:"{:url('Shop/getArea', ['param' => 'pickedup'])}",
+                data:{pid:data.value},//这里data传递过去的是序列化以后的字符串
+                success:function(msg){
+                    $("#sa_city").empty();
+                    if(msg == ''){
+                        $("#sa_city").append("<option value=''>暂无</option>");
+                        form.render('select');
+                    }else{
+                        var res = msg.data;
+                        $.each(res, function(key, val) {
+                            $("#sa_city").append('<option value='+val.area_id+'>'+val.area_name+'</option>');
+                            form.render('select');
+                        });
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+{include file="layout/footer"}

@@ -1,0 +1,134 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#datePicker').date_input();
+        $('#datePicker2').date_input();
+    });
+
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">持币生息记录</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:url('')}" method="get" id="form">
+                        <input type="hidden" name="param" value="{$param|default=''}">
+
+                        <div class="layui-input-inline">
+                            <input type="text"  name="search[user_id]" placeholder="请输入用户ID" autocomplete="off" class="common-text" value="{present name='search.user_id'}{$search.user_id}{/present}" />
+                        </div>
+
+                        <div class="layui-input-inline">
+                            <input type="text" name="search[user_nick]" placeholder="请输入用户昵称" autocomplete="off" class="common-text" value="{present name='search.user_nick'}{$search.user_nick}{/present}" />
+                        </div>
+
+                        <div class="layui-input-inline">
+                            <input type="text" name="search[ucb_third_id]" placeholder="请输入交易所记录ID" autocomplete="off" class="common-text" value="{present name='search.ucb_third_id'}{$search.ucb_third_id}{/present}" />
+                        </div>
+
+                        <div class="layui-input-inline">
+                            <select name="search[ucb_type]">
+                                <option value="">请选择类型</option>
+                                <option value="in" {if condition="isset($search['ucb_type']) && $search['ucb_type']=='in '"}selected="selected"{/if} >从砝码所转入</option>
+                                <option value="out" {if condition="isset($search['ucb_type']) && $search['ucb_type']=='out '"}selected="selected"{/if} >转出到砝码</option>
+                            </select>
+                        </div>
+
+                        <div class="layui-input-inline">
+                            <select name="search[ucb_status]">
+                                <option value="">请选择状态</option>
+                                <option value="1" {if condition="isset($search['ucb_status']) && $search['ucb_status']=='1'"}selected="selected"{/if} >已到账</option>
+                                <option value="2" {if condition="isset($search['ucb_status']) && $search['ucb_status']=='2'"}selected="selected"{/if} >推送中</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary btn2" type="submit">
+                            查询
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>记录ID</th>
+                        <th>类型</th>
+                        <th>用户</th>
+                        <th>币种</th>
+                        <th>总金额</th>
+                        <th>手续费</th>
+                        <th>到账数量</th>
+                        <th>状态</th>
+                        <th>添加时间</th>
+                        <th>最后更新时间</th>
+                        <th>砝码记录ID</th>
+                    </tr>
+                    {volist name="list" id="v"}
+                    <tr data-id="{$v->ucb_id}">
+                        <td>{$v.ucb_id}</td>
+                        <td>
+                            {switch name="$v.ucb_type"}
+                            {case value="in"}从砝码所转入{/case}
+                            {case value="out"}转出到砝码{/case}
+                            {/switch}
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.ucb_user_id})">{$v.user.nick}( {$v.ucb_user_id} )</a>
+                        </td>
+                        <td>{$v.ucb_currency_mark}</td>
+                        <td>{:floattostr($v.ucb_num)}</td>
+                        <td>{:floattostr($v.ucb_fee)}</td>
+                        <td>{:floattostr($v.ucb_actual)}</td>
+                        <td>
+                            {switch name="$v.ucb_status"}
+                            {case value="1"}已到账{/case}
+                            {case value="2"}推送中{/case}
+                            {/switch}
+                        </td>
+                        <td>
+                            {if condition="$v.ucb_last_time gt 0"}
+                            {:date("Y-m-d H:i:s", $v.ucb_last_time)}
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$v.ucb_last_time gt 0"}
+                            {:date("Y-m-d H:i:s", $v.ucb_last_time)}
+                            {/if}
+                        </td>
+                        <td>
+                            {$v.ucb_third_id}
+                        </td>
+                    </tr>
+                    {/volist}
+                </table>
+                <div class="page">
+                    <div>
+                        {$page}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+<include file="App/Admin/View/Public/left.html"/>
+<style>
+    .yydb-up th {
+        text-align: center;
+    }
+
+    .yydb-down td {
+        text-align: center;
+    }
+</style>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">一元夺宝</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('Shopping/index')}" method="post">
+                <table class="search-tab">
+                    <tr>
+                        <!-- <th width="120">选择分类:</th>
+                        <td>
+                            <select name="category" id="category">
+                              <option value="">全部</option>
+                              <volist name="cat" id="vo">
+                                <option value="{$vo.id}"  <eq name="vo.id" value="$inquire.category">selected="selected"</eq>>{$vo.name}</option>
+                              </volist>
+                            </select>
+                        </td> -->
+                        <th width="70">商品编号:</th>
+                        <td><input class="common-text" placeholder="商品编号" name="goods_id" type="text"></td>
+                        <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <a href="{:U('Shopping/shopping')}" style="color:#8A2BE2;"><i class="icon-font"></i>添加商品 </a>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr class="yydb-up">
+                    <th>商品图片</th>
+                    <th>编号</th>
+                    <th width="400">商品名称</th>
+                    <th>总价格/总人次</th>
+                    <th>剩余价格</th>
+                    <th>参与价格</th>
+                    <th>期数</th>
+                    <th>活动ID</th>
+                    <th>上架</th>
+                    <th>活动时间</th>
+                    <th>一元购商品</th>
+                    <th width="250">关键字</th>
+                    <th>修改时间</th>
+                    <th>操作</th>
+                </tr>
+                <volist name="list" id="vo" empty="$empty">
+                    <tr class="yydb-down">
+                        <td><img src="{$vo.goods_img}" width="100"/></td>
+                        <td>{$vo.goods_id}</td>
+                        <td>{$vo.goods_name}</td>
+                        <td>{$vo.shop_price}</td>
+                        <td>{$vo.goods_number}</td>
+                        <td>{$vo.renshu}</td>
+                        <td>{$vo.qishu}</td>
+                        <td>{$vo.one_id}</td>
+                        <td>
+                            <eq name="vo.oneupdown" value="1">√
+                                <else/>
+                                x
+                            </eq>
+                        </td>
+                        <td>{$vo.acttime|date="Y-m-d",###}</td>
+                        <td>
+                            <eq name="vo.oneopen" value="1"><span style="color:#008000;">√</span>
+                                <else/>
+                                <span style="color:#f00;">x</span></eq>
+                        </td>
+                        <td>{$vo.keywords}</td>
+                        <td>{$vo.add_time|date="Y-m-d",###}</td>
+                        <td>
+                            <a class="link-update" href="{:U('Shopping/shopping_update'," id=$vo[goods_id]")}"
+                               style="margin-left:10px;">修改</a>
+                            &nbsp;&nbsp;
+                            <a class="link-del" href="{:U('Shopping/shopping_del'," id=$vo[goods_id]")}"
+                               onclick="return confirm('确认删除吗？')">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

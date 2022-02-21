@@ -1,0 +1,72 @@
+<div class="result-wrap " style="border-bottom:0;">
+    <div class="result-content"  style="margin-top: 20px;">
+        <form class="layui-form" >
+            <table class="layui-table" id="memberList">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>入金ID</th>
+                    <th>奖励用户ID</th>
+                    <th>入金用户ID</th>
+                    <th>入金数量</th>
+                    <td>烧伤数量</td>
+                    <th>奖励比例</th>
+                    <th>实际奖励数量</th>
+                    <th>手续费</th>
+                    <th>添加时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="v"}
+                <tr>
+                    <td>{$v.id}</td>
+                    <td>{$v.income_id}</td>
+                    <td>
+                        <a href="javascript:void(0);" onclick="member_details({$v.user_id})">
+                            {if condition="$v.user.phone"}
+                            {$v.user.phone}
+                            {else /}
+                            {$v.user.email}
+                            {/if}
+                            ({$v.user_id})
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="javascript:void(0);" onclick="member_details({$v.recommend_user_id})">
+                            {if condition="$v.recommendUser.phone"}
+                            {$v.recommendUser.phone}
+                            {else /}
+                            {$v.recommendUser.email}
+                            {/if}
+                            ({$v.recommend_user_id})
+                        </a>
+                    </td>
+
+                    <td>{:floattostr($v.number)} {$v.currency.currency_name}</td>
+                    <td>{:floattostr($v.min_number)}</td>
+                    <td>{:floattostr($v.award_radio)} %</td>
+                    <td>{:floattostr($v.award_number)} {$v.currency.currency_name}</td>
+                    <td>{:floattostr($v.fee)} {$v.currency.currency_name}</td>
+                    <td>
+                        {:date('Y-m-d H:i:s', $v['add_time'])}
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </form>
+        <div class="weadmin-block">
+            <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+        </div>
+        <div class="page">
+            <div>
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>

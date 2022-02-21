@@ -1,0 +1,90 @@
+ <link rel="stylesheet" href="__PUBLIC__/static/home/css/otc/my_order.css">
+ <div id="main">
+        <div class="main_box">
+            	<!--我的广告开始-->
+                <div class="advertising">
+					<div class="advert_head">
+						<div class="advert_title">{:lang('lan_header_otc_an')}</div>
+					</div>
+					<div class="filter-box">
+							<div class="left list-type">
+								<span>{:lang('lan_my_history_ad')}</span>
+								<a href='{:url("OrdersOtc/my_order")}'>{:lang('lan_my_ad')}</a>
+							</div>
+						</div>
+					<div class="advert_middle">
+						<div class="advert_middle_title">
+							{volist name="currencys" id="vo"}
+								<a href="{:url('',['currency_id'=>$vo['currency_id']])}">
+									<span {if condition="$currency_id eq $vo['currency_id']"}class="active"{/if} >{$vo.currency_name}</span>
+								</a>
+							{/volist}
+						</div>
+						<div id="otc_mainwrap">
+								<div class="my_dealheadr">
+										<span>{:lang('lan_ad_numbers')}</span>
+										<span>{:lang('lan_ad_type')}</span>
+										<span>{:lang('lan_number_ofs')}</span>
+										<span>{:lang('lan_order_limit')}</span>
+										<span>{:lang('lan_Unit_Price')}</span>
+										<span>{:lang('lan_creation_time')}</span>
+										<span>{:lang('lan_state')}</span>
+								</div>
+								<ul class="my_deal"> 
+										{if condition="!empty($list)"}
+											{foreach name="list" item="vo"}
+														<li class="list_con2" data-id="{$vo.orders_id}" style="background: white;">
+																<p>{$vo.orders_id}</p>
+																<p>
+																		<span style="color: #41db7f;">
+																				{if condition="$vo.type eq 'buy'"}
+																					{:lang('lan_buyes')}
+																				{else /}
+																						<span style="color: #e96e44;">{:lang('lan_selles')}</span>
+																				{/if}
+																		</span>
+																</p>
+																<p>{$vo.num} {$vo.currency_name}</p>
+																<p>{$vo.min_money}-{$vo.max_money} CNY</p>
+																<p>{$vo.price} CNY</p>
+																<p>{$vo.add_time}</p>
+																<p>
+																		{if condition="$vo.status lt 2"}
+                                      <span style="color: #03C086;">{:lang('lan_in_transaction')}</span>
+                                    {elseif condition="$vo.status eq 2" /}
+                                      <span style="color: #E96E44;">{:lang('lan_trade_otc_status3')}</span>
+                                    {elseif condition="$vo.status eq 3" /}
+                                      <span style="color: #2599E9;">{:lang('lan_rescinded')}</span>
+                                    {/if}   
+																</p>
+														</li>
+											{/foreach}
+										{else /}
+												<div class="isempty">{:lang('lan_event_registration29')}</div>
+										{/if}
+								</ul>
+								{if condition="!empty($pages)"}
+								<div class="addpage"  style="margin: 20px;display: flex;justify-content: center;"> 
+										<div class="page">
+												{$pages}
+									</div>
+									<div class="clear"></div>
+								</div>
+								{/if}
+								<div class="clear"></div>
+						</div> 
+					</div>
+				</div>	
+				<!--我的广告结束-->
+           <!-- </div>-->
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <script type="text/javascript">
+    	$(".list_con2").click(function(){
+    		var id = $(this).attr('data-id');
+    		window.location.href = "{:url('OrdersOtc/orders_info')}?orders_id="+id;
+    	})
+    </script>

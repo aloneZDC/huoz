@@ -1,0 +1,82 @@
+	/*otc银行添加收款方式*/
+	*{margin: 0;padding: 0;}
+	.advertising{width: 1200px; font-size: 14px;position:relative; margin: 50px auto ;}
+	.collection_head{width: 1200px;background: #fff;}
+	.collection_title{padding:20px 0 20px 20px;font-family: "microsoft yahei";color: #333;font-size: 20px;font-weight:400;}
+	.collection_middle{margin:auto;width: 1200px;background: #fff;font-family:MicrosoftYaHei;font-weight:400;}
+	.collection_f{padding-top:34px;padding-left: 22px; font-size:16px;color: #333333;}
+	.collection_w{padding-top:13px;padding-left: 22px;color: #999999;}
+	.collection_line{border-top: 1px solid #eee;margin: 20px 10px 0;}
+	.collection_add{padding-top: 220px;font-size: 14px;text-align: center;padding-bottom: 220px;}
+	.collection_add_top{color: #999;}
+	.collection_add_down{color: #4173C8;padding-top: 7px;}
+	.collection_add_down span:hover{color: #3284CA;cursor: pointer;}
+	.add_collect{margin:0 auto;position:fixed;top:100px;left:0;right:0;z-index: 1000; height: auto;width: 576px;background: #fff;display: none;}
+	.zhe{position: fixed;height: 100%;width: 100%;z-index: 999;opacity: 0.5;top: 0;left: 0;bottom:0;background: #000;display: none;}
+	.add_collect_title span{display:inline-block;padding-top: 24px;padding-left: 31px;font-size: 20px;color: #333;}
+	.fa-times{color: #999;position: absolute;top: 32px;right: 28px;cursor: pointer;}
+	.add_collect_title_two{padding-top: 25px;padding-left: 32px;color: #999;font-size: 14px;}
+	.collect_change{padding-top: 14px;}
+	.collect_select{width: 510px;height: 36px;margin:0 33px;padding-left: 2px;font-size: 14px;color: #333;}
+	.add_name{font-size: 14px;padding-left: 32px;color: #999;padding-top: 16px;padding-bottom: 14px;}
+	.change_state .add_name_in{width: 510px;height: 36px;margin:0 33px;padding-left: 6px;font-size: 14px;color: #333;background: #eee;border: 1px solid #ccc;box-sizing: border-box;}
+	.add_name_input{width: 510px;height: 36px;margin:0 33px;padding-left: 6px;font-size: 14px;color: #999;border: 1px solid #ccc;box-sizing: border-box;}
+	.add_line{border-top: 1px solid #ccc;margin-top: 50px;}
+	.add_down{height: 50px;line-height: 40px;font-size: 14px;margin-top: 20px;text-align: right;}
+	.add_down .down_close{color: #666666;margin-right: 41px;cursor: pointer;}
+	.add_down span:nth-child(2){color: #fff;margin-right: 25px;padding: 6px 10px;background: #3284CA;cursor: pointer;}
+	.add_picture{width: 510px;height: 124px;margin:0 33px;font-size: 14px;color: #999;border: 1px solid #ccc;text-align: center;position: relative;}
+	.add_picture_message{height: 100%;width: 100%;}
+	.add_picture_message img{height: 100%;}
+	
+	.add_picture_message p:last-child{padding-top: 18px;}
+	.change_state{display: none;}
+	a {text-decoration:none;out-line: none;color: #666666;}
+	.down_close:hover{color: #B59D27;}
+	.collection_cont{height: 68px;line-height:68px;border-bottom: 1px solid #eee;margin: 0 10px;font-size: 14px;}
+	.collection_cont_way{padding-left:11px; float: left;width: 15%;}
+	.collection_cont_number{padding-left: 155px;float: left;}
+	.collection_cont_name{padding-left: 10px;float: left;}
+	.collection_cont_change{padding-right: 40px;color: #4173C8;float: right;}
+	.collection_cont_change .cont_change_list{color: #4173C8;}
+	.collection_cont_change .cont_change_list:hover{cursor: pointer;color: #B59D27;}
+	.collection_cont_open{padding-right: 41px;display: inline-block;height: 40px;float: right;}
+	/*开关按钮*/
+	.collection_cont_switch{
+        width: 50px;
+        height: 26px;
+        border: 1px solid #e2e2e2;
+        border-radius: 20px;
+        -webkit-appearance: none;
+        user-select: none;
+        outline: none!important;
+        background-color: #ffffff;
+        box-shadow: #c2c2c2 0 0 0 0 inset;
+        position: relative;
+        transition:.5s;
+        vertical-align: middle;
+        margin: 0!important;
+    }
+    .collection_cont_switch:before{
+        content: '';
+        width: 22px;
+        height: 22px;
+        border-radius: 100%;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        position: absolute;
+        left:0;
+        top:1px;
+        transition:0.3s;
+    }
+    .collection_cont_switch:checked{
+        border-color: #1296db;
+        background-color: #1296db;
+    }
+    .collection_cont_switch:checked:before{
+        left:26px;
+    }
+	.collection_cont_switch:hover{cursor: pointer;}
+	.bname{width: 510px;height: 36px;margin:0 33px;padding-left: 2px;font-size: 14px;color: #333;}
+	.up_load_image{width: 100%;height: 100%;position: absolute;top: 0;left: 0;opacity: 0;z-index: 99;}
+	.up_load_image:hover{cursor: pointer;}

@@ -1,0 +1,63 @@
+.account_book{
+  
+}
+.currency_check{
+    display: flex;
+    padding: 40px 20px;
+}
+.currency_check>p{
+    height: 32px;
+    line-height: 32px;
+}
+.currency_check .currency_val{
+    height: 32px;
+    line-height: 32px;
+    width: 200px;
+    border: 1px solid #eee;
+    margin-left: 15px;
+    padding-left: 15px;
+    position: relative;
+}
+.currency_check .iconfont{
+    font-size: 8px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #666;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    cursor: pointer;
+    
+}
+.select_wrap{
+    position: relative;
+    z-index: 1;
+}
+.select_wrap select{
+    height: 100%;
+    width: 160px;
+    margin-left:10px; 
+    padding-left:10px; 
+}
+.select_box{
+    display: none;
+    background: white;
+    width: 215px;
+    position: absolute;
+    top: 34px;
+    left: 15px;
+    max-height: 150px;
+    overflow: auto;
+    background: rgba(255,255,255,1);
+    box-shadow: 0px -3px 8px 0px rgba(88,89,93,0.24);
+}
+.select_box li {
+    border-bottom:1px solid #eee; 
+    height: 32px;
+    line-height: 32px;
+    width: 200px;
+    padding-left: 15px;
+    box-sizing: border-box;
+} 

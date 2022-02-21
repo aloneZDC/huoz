@@ -1,0 +1,48 @@
+<div class="result-wrap " style="border-bottom:0;">
+    <div class="result-content"  style="margin-top: 20px;">
+        <p>计算比例： 奖励基数 * 奖励百分比 * (100-手续费百分比)</p>
+        <form class="layui-form" >
+            <table class="layui-table" id="memberList">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户</th>
+                    <th>奖励数量</th>
+                    <th>奖励基数</th>
+                    <td>奖励百分比</td>
+                    <td>手续费百分比</td>
+                    <th>时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="v"}
+                <tr>
+                    <td>{$v.id}</td>
+                    <td>
+                        <a href="javascript:void(0);" onclick="member_details({$v.user_id})">
+                            {if condition="$v.users.phone"}
+                            {$v.users.phone}
+                            {else /}
+                            {$v.users.email}
+                            {/if}
+                            ({$v.user_id})
+                        </a>
+                    </td>
+                    <td>{$v.num} {$v.currency.currency_name}</td>
+                    <td>{$v.base_num} {$v.currency.currency_name}</td>
+                    <td>{$v.percent}</td>
+                    <td>{$v.fee}</td>
+                    <td>
+                        {:date('Y-m-d H:i:s',$v['create_time'])}
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>

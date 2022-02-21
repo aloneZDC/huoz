@@ -1,0 +1,44 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">管理记录</span></div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>日志ID</th>
+                    <th>管理员ID</th>
+                    <th>管理员名称</th>
+                    <th>操作内容</th>
+                    <th>登陆IP</th>
+                    <th>时间</th>
+                </tr>
+                {volist name='list' id='vo'}
+                    <tr>
+                        <td>{$vo['id']}</td>
+                        <td>{$vo['admin_id']}</td>
+                        <td>{$vo['admin_name']}</td>
+                        <td>{$vo['info']}</td>
+                        <td>{$vo['ip_addresses']}</td>
+                        <td>{$vo['addtime']}</td>
+                    </tr>
+                {/volist}
+
+            </table>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

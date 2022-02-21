@@ -1,0 +1,251 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+	<span class="layui-breadcrumb">
+		<a href="javascript:;">首页</a> <a href="javascript:;">钱包管理</a>
+		<a href="javascript:;"> <cite>提币审核</cite></a>
+	</span>
+    <a class="layui-btn layui-btn-sm" style="margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);"
+       title="刷新">
+        <i class="layui-icon layui-icon-refresh"></i>
+    </a>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row" style="margin-bottom: 10px;">
+        <form class="">
+            数据搜索：
+            <div class="layui-inline">
+                <label for="user_id"></label>
+                <input type="text" class="layui-input" placeholder="请输入用户ID" name="user_id" id="user_id" value="{$Think.get.user_id}"/>
+            </div>
+            <div class="layui-inline">
+                <label for="to_address"></label>
+                <input type="text" class="layui-input" placeholder="请输入接收地址" name="to_address" id="to_address" value="{$Think.get.to_address}"/>
+            </div>
+            <div class="layui-inline">
+                <label for="currency_id">币种: </label>
+                <select style="display: inline; width: 100px;" class="layui-select" name="currency_id" id="currency_id">
+                    <option value="">全部</option>
+                    {volist name="currencys" id="currency"}
+                    <option {if $Think.get.currency_id== $currency.currency_id}selected{/if}
+                    value="{$currency.currency_id}">{$currency.currency_name}-{$currency.currency_mark}
+                    </option>
+                    {/volist}
+                </select>
+            </div>
+            <button class="layui-btn" type="submit" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>搜索
+            </button>
+        </form>
+    </div>
+
+    <div style="display: inline-block; width: 200px;">
+        <label for="captcha"></label>
+        <input type="text" name="captcha" id="captcha" placeholder="请输入验证码" class="layui-input layui-inline"/>
+    </div>
+    <img src="{:url('Open/captcha')}" alt="验证码" id="captcha_img"
+         onclick="$('#captcha_img').attr('src', '{:url(\'Open/captcha\')}?t=' + Math.random())"/>
+    <table class="layui-table" id="memberList" lay-filter="table-list">
+        <thead>
+        <tr>
+            <th lay-data="{field:'wt_id', width:80}">ID</th>
+            <th lay-data="{field:'user_id', width:100}">会员ID</th>
+            <th lay-data="{field:'user_nickname', width:150}">账号</th>
+            <th lay-data="{field:'wt_fee_currency_id', width:100}">币种名称</th>
+
+            <th lay-data="{field:'number', width:100}">数量</th>
+            <th lay-data="{field:'to_number', width:100}">到账数量</th>
+            <th lay-data="{field:'fees', width:100}">手续费</th>
+            <th lay-data="{field:'status', width:100}">状态</th>
+            <th lay-data="{field:'wt_first_instance', width:260}">一审</th>
+            <th lay-data="{field:'wt_second_instance', width:260}">二审</th>
+            <th lay-data="{field:'to_address', width:300}">接收地址</th>
+            <th lay-data="{field:'wt_total_money', width:180}">申请时间</th>
+            <th lay-data="{fixed: 'right',field:'tool', width:190}">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+        <tr data-id="{$v->id}">
+            <td>{$v.id}</td>
+            <td><a href="javascript:void(0)" onclick="window.openUser({$v.from_member_id})">{$v.from_member_id}</a></td>
+            <td>{$v.fromUser.ename}</td>
+            <td>{$v.currency.currency_name}</td>
+
+            <td>{:floattostr($v.num)}</td>
+            <td>{:floattostr($v.actual)}</td>
+            <td>{:floattostr($v.fee)}</td>
+            <td>
+                {if condition="$v['status'] eq 0"}
+                等待确认中
+                {/if}
+                {if condition="$v['status'] eq 1"}
+                已完成
+                {/if}
+                {if condition="$v['status'] eq -1"}
+                审核中
+                {/if}
+                {if condition="$v['status'] eq -2"}
+                已撤销
+                {/if}
+            </td>
+            <td>
+                <div>
+                    <input name="message" type="text" value="{$v.message1}"/>
+                    <button type="button" class="layui-btn layui-btn-normal layui-btn-sm wait-cash"
+                            data-id="{$v['id']}" data-mid="{$v['from_member_id']}" data-mit="mit"
+                            title="一审">
+                        <i class="layui-icon layui-icon-ok"></i>
+                    </button>
+                </div>
+            </td>
+            <td>
+                <div>
+                <input name="message" type="text" value="{$v.message2}" />
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm waitcash-btn wait-cash"
+                        data-id="{$v['id']}" data-mid="{$v['from_member_id']}" data-mit="mit2"
+                        title="二审">
+                    <i class="layui-icon layui-icon-ok"></i>
+                </button>
+                </div>
+            </td>
+            <td>{$v->to_url}</td>
+            <td>{$v.add_time|date="Y-m-d H:i",###}</td>
+            <td class="td-manage">
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" title="二维码"
+                        onclick="qrcode('{$v.id}')" style="margin-bottom: 10px;margin-left:0;">
+                    二维码
+                </button>
+
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" title="通过"
+                        onclick="pass('{$v.id}')" style="margin-bottom: 10px;margin-left:0;">
+                    通过
+                </button>
+
+                <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" title="拒绝"
+                        onclick="fail('{$v.id}')" style="margin-bottom: 10px;margin-left:0;">
+                    拒绝
+                </button>
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <span class="fr" style="line-height:40px">共有数据：{$count} 条</span>
+
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    layui.use(['form', 'global', 'index', 'table'], () => {
+        var table = layui.table;
+    });
+
+    window.onload = function () {
+        $(document).on("click", ".wait-cash", function () {
+            let obj = $(this);
+            let message = $(this).prev().val();
+            let id = obj.attr('data-id');
+            let mid = obj.attr('data-mid');
+            let mit = obj.attr('data-mit');
+            if (message == '' ||
+                id == '' || mid == '' || mit == ''
+            ) {
+                return layer.alert('参数错误')
+            }
+
+            $.post("/backend/Wallet/waitCash?param=waitcash", {message: message, id: id, mid: mid, mit: mit}, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.msg, {
+                        icon: 6
+                    }, () => {
+                        window.location.reload();
+                    });
+                }
+                return layer.alert(data.msg)
+            });
+        })
+    }
+
+    function pass(id) {
+        layer.confirm("确认通过提币?", {
+            btn: ["确认", "取消"]
+        }, () => {
+            let captcha = $('#captcha').val();
+            let loading = layer.msg("提交中请稍后...", {
+                icon: 16,
+                shade: 0.3,
+                time: 0,
+                scrollbar: false
+            });
+
+            $.post("{:url('Wallet/passTake')}?param=waitcash", {id, captcha}, data => {
+                layer.close(loading);
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, () => {
+                        layer.closeAll();
+                        window.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+        }, () => {
+            layer.msg("已取消");
+        });
+    }
+
+    function fail(id) {
+        layer.confirm("确认拒绝提币?", {
+            btn: ["确认", "取消"]
+        }, () => {
+            let captcha = $('#captcha').val();
+            if (captcha.length <= 0) {
+                return layer.alert("请输入验证码!", {
+                    icon: 5
+                });
+            }
+
+            $.post("{:url('Wallet/refuseTake')}?param=waitcash", {id, captcha}, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, () => {
+                        window.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+        }, () => {
+            layer.msg("已取消");
+        });
+    }
+
+    function qrcode(id) {
+        var url = "{:url('Wallet/qrcode',array('id'=>'_id'))}?param=waitcash"; //先将变量以字符串的形式带入U函数中
+        url = url.replace("_id", id); //将代替变量的字符串用真实变量替换
+        layer.open({
+            type: 2,
+            title: "二维码",
+            content: url,
+            area: ['800px', '600px'],
+            shade: 0, //不显示遮罩
+            //maxmin: true,
+            //scrollbar: false, //屏蔽浏览器滚动条
+            cancel: function () {
+                // location.reload();
+            }
+        });
+    }
+</script>
+{include file="layout/footer"}

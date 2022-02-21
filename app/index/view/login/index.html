@@ -1,0 +1,64 @@
+<script type="text/javascript" src="__PUBLIC__/static/home/js/layer/layer.js"></script>
+<script src="__PUBLIC__/static/home/js/login/index.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/reg/index.css">
+<section class="content">
+	<div class="reg_wrapper">
+		<div class="reg_box">
+			<div class="choose">
+				<a href="javascript:void(0);" style="color:#3076cc">{:lang('lan_header_login')}</a>
+
+			</div>
+			<div class="input_box" id="userBox">
+				<!-- 手机注册 -->
+				<div class="phone_reg">
+					<div class="form_box email_input">
+						<input type="text" name="user" id="user" placeholder="{:lang('lan_findpwd_user_name')}">
+						<!-- <div class="error blur_error">請輸入本人的電子郵箱，用於登錄和找回密碼</div> -->
+					</div>
+					<!-- 共用 -->
+					<div class="form_box">
+						<input type="password" name="pass" id="pass" placeholder="{:lang('lan_Login_password')}">
+						<div class="error blur_error">{:lang('lan_reg_find_pass2')}</div>
+					</div>
+					<div class="form_box img_code">
+                        <input type="text" name="img_code" id="img_code" placeholder="{:lang('lan_input_img_code')}">
+                        <img id="img_captch" onclick="$('#img_captch').attr('src','{:url(\'index/captcha\')}?v=' + Math.random())" src="{:url('index/captcha')}" alt="">
+                        <div class="error blur_error">{:lang('lan_reg_find_pass2')}</div>
+                    </div>
+            		<div class="Verification_code form_box">
+            			<input type="button" id="sure" class="next_one" style="width:90%;" value="{:lang('lan_account_login_login')}">
+            		</div>
+            		<div class="forget"><a href="{:url('reg/findpass')}">{:lang('lan_forgot_password')}</a></div>
+				</div>
+			</div>
+			<div class="input_box" id="authBox" style="display: none;">
+				<!-- 手机注册 -->
+				<div class="phone_reg">
+					<div class="form_box email_input">
+						<div class="userEx"><span>{:lang('lan_login_username')}：<span id="username"></span></div>
+						<!-- <div class="error blur_error">請輸入本人的電子郵箱，用於登錄和找回密碼</div> -->
+					</div>
+					<!-- 共用 -->
+					<div class="form_box email_input">
+						<input type="text" id="auth" name="auth" placeholder="{:lang('lan_user_please_enter_the_verification_code')}" maxlength="6" oninput="value=value.replace(/[^\d]/g,'')">
+						<div class="error blur_error">{:lang('lan_reg_find_pass2')}</div>
+					</div>
+					<div class="reset">
+						 <a onclick="location.reload();">{:lang('lan_login_reset')}</a>
+					</div>
+					<div class="Verification_code form_box">
+						<input type="button" id="authSure" class="next_one" style="width:90%;" value="{:lang('lan_determine')}">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	var checkUrl = "{:url('/index/Login/checkIp')}";
+	var loginUrl = "{:url('Login/is_login_code')}";
+	var authUrl = "{:url('/index/Login/checkLog')}"
+	var pwdReminder = "{:lang('lan_login_password_length')}";
+	var emptyAuth = "{:lang('lan_image_code_empty')}";
+</script>

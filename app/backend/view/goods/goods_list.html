@@ -1,0 +1,123 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">首页</a> <a href="javascript:;">商品管理</a> <a><cite>商品列表</cite></a>
+    </span>
+
+    <span class="fr">
+        <a class="layui-btn layui-open layui-btn-sm" data-url="{:url('goods_create',['param'=>'goods'])}" data-title="添加" data-width="80%" data-height="95%" href="javascript:;">添加</a>
+        <a class="layui-btn layui-open layui-btn-sm" data-url="{:url('upload_goods',['param'=>'goods'])}" data-title="获取星链商品" data-width="80%" data-height="95%" href="javascript:;">获取星链商品</a>
+        <a class="layui-btn layui-open layui-btn-sm" data-url="{:url('update_reward',['param'=>'goods'])}" data-title="更新火米赠送比例" data-width="60%" data-height="60%" href="javascript:;">更新火米赠送比例</a>
+        <a class="layui-btn layui-open layui-btn-sm" data-url="{:url('update_price',['param'=>'goods'])}" data-title="更新置换区优惠比例" data-width="60%" data-height="60%" href="javascript:;">更新置换区优惠比例</a>
+        <a class="layui-btn layui-open layui-btn-sm" data-url="{:url('pick_reward',['param'=>'pick'])}" data-title="更新赠送比例" data-width="60%" data-height="60%" href="javascript:;">更新赠送比例</a>
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class=" layui-col-md12 we-search">
+            搜索数据：
+            <div class="layui-inline">
+                <label for="goods_title"></label>
+                <input class="layui-input" placeholder="标题" name="goods_title" id="goods_title" value="{$Think.get.goods_title}" />
+            </div>
+<!--            <div class="layui-inline">-->
+<!--                <label for="category_id">分类: </label>-->
+<!--                <select style="display: inline; width: 150px;" class="layui-select" name="category_id">-->
+<!--                    <option value="">全部</option>-->
+<!--                    {volist name="category" id="vo"}-->
+<!--                    <option {if $Think.get.category_id == $vo['id']}selected{/if} value="{$vo['id']}">{$vo['name']}</option>-->
+<!--                    {/volist}-->
+<!--                </select>-->
+<!--            </div>-->
+            <div class="layui-inline">
+                <label>分类: </label>
+                <select style="display: inline; width: 150px;" class="layui-select" name="category_id">
+                    <option value="">请选择</option>
+                    {volist name="category" id="vo"}
+                    <optgroup label="{$vo.name}">
+                        {volist name="$vo.list" id="item"}
+                        <option value="{$item.id}" {if $Think.get.category_id == $item['id']}selected{/if}>{$item.name}</option>
+                        {/volist}
+                    </optgroup>
+                    {/volist}
+                </select>
+            </div>
+<!--            <div class="layui-inline">-->
+<!--                <label for="goods_is_hot">爆款: </label>-->
+<!--                <select style="display: inline; width: 150px;" class="layui-select" name="goods_is_hot">-->
+<!--                    <option value="">全部</option>-->
+<!--                    <option {if $Think.get.goods_is_hot == 2}selected{/if} value="2">爆款</option>-->
+<!--                    <option {if $Think.get.goods_is_hot == 1}selected{/if} value="1">否</option>-->
+<!--                </select>-->
+<!--            </div>-->
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+    <form class="layui-form" >
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>标题</th>
+                <th>分类</th>
+                <th>主图</th>
+                <th>价格</th>
+<!--                <th>折扣</th>-->
+                <th>库存</th>
+                <th>排序(倒序)</th>
+<!--                <th>是否爆款</th>-->
+                <th>管理员</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="v"}
+            <tr data-id="{$v->goods_id}">
+                <td>{$v->goods_id}</td>
+                <td>{$v->goods_title}</td>
+                <td>{$v.category_name}</td>
+                <td>
+                    <img src="{$v->goods_img}" alt="" style="max-height: 100px;max-width: 100px;">
+                </td>
+                <td>{$v->goods_price}</td>
+                <td>{$v->goods_stock}</td>
+                <td>{$v->goods_sort}</td>
+<!--                <td>-->
+<!--                    {if ($v->goods_is_hot==2)}-->
+<!--                    爆款-->
+<!--                    {else}-->
+<!--                    否-->
+<!--                    {/if}-->
+<!--                </td>-->
+                <td>{$v.admin_name}</td>
+                <td>
+                    <input lay-filter="layui-switch-field" data-url="{:url('quick_switch',['param'=>'goods','id'=>$v->goods_id])}" data-field="goods_status" type="checkbox" lay-skin="switch" lay-text="ON|OFF" value="1"  {if condition="$v.goods_status eq 1"}checked=""{/if} />
+                </td>
+                <td>
+<!--                    <a class="layui-btn layui-open" data-url="{:url('details',['id'=>$v->goods_id])}" data-title="商品详情" data-width="80%" data-height="95%"  href="javascript:;">详情</a>-->
+                    <a class="layui-btn layui-open" data-url="{:url('goods_update',['param'=>'goods','id'=>$v->goods_id])}" data-title="修改商品" data-width="80%" data-height="95%" href="javascript:;">编辑</a>
+                    <a class="layui-btn layui-open" data-url="{:url('format_list',['goods_id'=>$v->goods_id])}" data-title="商品规格列表" data-width="80%" data-height="95%" href="javascript:;">规格列表</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','global','index']);
+</script>
+{include file="layout/footer"}

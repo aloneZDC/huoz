@@ -1,0 +1,555 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">系统设置</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Config/updateCofig')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>网站财务设置</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>人工充值最低限额：</th>
+                            <td><input type="text" id="" value="{$config.pay_min_money}" size="85" name="pay_min_money"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>快捷支付充值手续费：</th>
+                            <td><input type="text" id="" value="{$config.quick_recharge_fee}" size="85"
+                                       name="quick_recharge_fee" class="common-text">%&nbsp;&nbsp;&nbsp;比例费用，无请填0
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>人工充值最高限额：</th>
+                            <td><input type="text" id="" value="{$config.pay_max_money}" size="85" name="pay_max_money"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>登录超时退出（分钟）：</th>
+                            <td><input type="num" id="" value="{$config.time_limit}" size="85" name="time_limit"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>人工充值手续费：</th>
+                            <td><input type="text" id="" value="{$config.pay_fee}" size="85" name="pay_fee"
+                                       class="common-text">元&nbsp;&nbsp;&nbsp;固定费用，无请填0
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>人工提现手续费：</th>
+                            <td><input type="text" id="" value="{$config.fee}" size="85" name="fee" class="common-text">%&nbsp;&nbsp;&nbsp;比例费用，无请填0
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>提积分手续费：</th>
+                            <td><input type="text" id="" value="{$config.tcoin_fee}" size="85" name="tcoin_fee"
+                                       class="common-text">%&nbsp;&nbsp;&nbsp;比例费用，无请填0
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>网站总交易额增加：</th>
+                            <td><input type="text" id="" value="{$config.transaction_false}" size="85"
+                                       name="transaction_false" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>解冻比例：</th>
+                            <td><input type="text" id="" value="{$config.jiedong_bili}" size="85" name="jiedong_bili"
+                                       class="common-text">%&nbsp;&nbsp;&nbsp;每日按照设置比例解冻
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>最小提现额：</th>
+                            <td><input type="text" id="" value="{$config.tixian_fee}" size="85" name="tixian_fee"
+                                       class="common-text">元
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>最大提现额：</th>
+                            <td><input type="text" id="" value="{$config.max_tixian_fee}" size="85" name="max_tixian_fee"
+                                       class="common-text">元
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th><i class="require-red">*</i>网站用户量：</th>
+                            <td><input type="text" id="" value="{$config.alluser}" size="85" name="alluser"
+                                       class="common-text">个
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>余额超多少提示：</th>
+                            <td><input type="text" id="" value="{$config.pay_maxmoney}" size="85" name="pay_maxmoney"
+                                       class="common-text">元
+                            </td>
+                        </tr>
+                        <tr>
+                            <!--   <th><i class="require-red">*</i>代理商名称：</th>
+                               <td><input type="text" id="" value="{$config.agents}" size="85" name="agents" class="common-text"></td>
+                           </tr>
+                           <tr>
+                               <th><i class="require-red">*</i>保证金：</th>
+                               <td><input type="text" id="" value="{$config.margin}" size="85" name="margin" class="common-text"></td>
+                           </tr>
+                           <tr>
+                               <th><i class="require-red">*</i>支付宝账号：</th>
+                               <td><input type="text" id="" value="{$config.alipay_id}" size="85" name="alipay_id" class="common-text"></td>
+                           </tr>
+                           <tr>
+                               <th><i class="require-red">*</i>微信账号：</th>
+                               <td><input type="text" id="" value="{$config.wechat_id}" size="85" name="wechat_id" class="common-text"></td>
+                           </tr>
+                           <tr>
+                               <th><i class="require-red">*</i>在线QQ号1：</th>
+                               <td><input type="text" id="" value="{$config.QQline1}" size="85" name="QQline1" class="common-text"></td>
+                           </tr>
+                           -->
+                        <tr>
+                            <th><i class="require-red">*</i>是否QQ在线</th>
+                            <td>关闭QQ在线：<input type="radio" name="is_QQline" value="0"
+                                <if condition="$config['is_QQline'] eq 0">checked="checked"</if>
+                                />
+                                开启QQ在线：<input type="radio" name="is_QQline" value="1"
+                                <if condition="$config['is_QQline'] eq 1">checked="checked"</if>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th style="float:left;">推荐奖励机制</th>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>是否开启奖励机制</th>
+                            <td>关闭奖励机制：<input type="radio" name="is_award" value="0"
+                                <if condition="$config['is_award'] eq 0">checked="checked"</if>
+                                />
+                                开启奖励机制：<input type="radio" name="is_award" value="1"
+                                <if condition="$config['is_award'] eq 1">checked="checked"</if>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>邀请赠送积分类型：</th>
+
+                            <td>
+                                <select name="coin_currency" id="">
+                                    <option value="{$config.coin_currency}">{$coin_name}</option>
+                                    <volist name="currency" id="vo">
+                                        <option value="{$vo['currency_id']}">{$vo['currency_name']}</option>
+                                    </volist>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>邀请赠送积分数：</th>
+                            <td><input type="text" id="" value="{$config.coin_number}" size="85" name="coin_number"
+                                       class="common-text">个
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>邀请赠送人数限制：</th>
+                            <td><input type="text" id="" value="{$config.coin_invit_num}" size="85" name="coin_invit_num"
+                                       class="common-text">个
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>上级奖励过期时间增加:</th>
+                            <td><input type="text" id="" value="{$config.pid_add_time}" size="85" name="pid_add_time"
+                                       class="common-text">天
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>一层百分比：</th>
+                            <td><input type="text" id="" value="{$config.one_percentage}" size="85"
+                                       name="one_percentage" class="common-text">%
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th><i class="require-red">*</i>二层百分比：</th>
+                            <td><input type="text" id="" value="{$config.two_percentage}" size="85"
+                                       name="two_percentage" class="common-text">%
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th><i class="require-red">*</i>三层百分比：</th>
+                            <td><input type="text" id="" value="{$config.three_percentage}" size="85"
+                                       name="three_percentage" class="common-text">%
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th><i class="require-red">*</i>四层百分比：</th>
+                            <td><input type="text" id="" value="{$config.four_percentage}" size="85"
+                                       name="four_percentage" class="common-text">%
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th><i class="require-red">*</i>五层百分比：</th>
+                            <td><input type="text" id="" value="{$config.five_percentage}" size="85"
+                                       name="five_percentage" class="common-text">%
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th><i class="require-red">*</i>六层百分比：</th>
+                            <td><input type="text" id="" value="{$config.six_percentage}" size="85"
+                                       name="six_percentage" class="common-text">%
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>是否节假日不给提现</th>
+                            <td>可提现：<input type="radio" name="is_withdraw" value="0"
+                                <if condition="$config['is_withdraw'] eq 0">checked="checked"</if>
+                                />
+                                不给提现：<input type="radio" name="is_withdraw" value="1"
+                                <if condition="$config['is_withdraw'] eq 1">checked="checked"</if>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>一层交易手续费奖励百分比：</th>
+                            <td><input type="text" id="" value="{$config.one_trade_fee_percentage}" size="85"
+                                       name="one_trade_fee_percentage" class="common-text">%
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>二层交易手续费奖励百分比：</th>
+                            <td><input type="text" id="" value="{$config.two_trade_fee_percentage}" size="85"
+                                       name="two_trade_fee_percentage" class="common-text">%
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>三层交易手续费奖励百分比：</th>
+                            <td><input type="text" id="" value="{$config.three_trade_fee_percentage}" size="85"
+                                       name="three_trade_fee_percentage" class="common-text">%
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>交易手续费奖励释放百分比：</th>
+                            <td><input type="text" id="" value="{$config.trade_fee_free_percentage}" size="85"
+                                       name="trade_fee_free_percentage" class="common-text">%
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>指数云红包年化率：</th>
+                            <td><input type="text" id="" value="{$config.red_packets_percentage}" size="85"
+                                       name="red_packets_percentage" class="common-text">%
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>指数云红包释放百分比：</th>
+                            <td><input type="text" id="" value="{$config.red_packets_free_percentage}" size="85"
+                                       name="red_packets_free_percentage" class="common-text">%
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>最小提奖金额：</th>
+                            <td><input type="text" id="" value="{$config.mini_withdrawal_amount}" size="85"
+                                       name="mini_withdrawal_amount" class="common-text">
+                            </td>
+                        </tr>
+                        
+                         <tr>
+                            <th><i class="require-red">*</i>是否开启注册奖励机制</th>
+                            <td>关闭奖励机制：<input type="radio" name="is_award_reg" value="0"
+                                <if condition="$config['is_award_reg'] eq 0">checked="checked"</if>
+                                />
+                                开启注册奖励机制：<input type="radio" name="is_award_reg" value="1"
+                                <if condition="$config['is_award_reg'] eq 1">checked="checked"</if>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>注册奖励积分类型：</th>
+
+                            <td>
+                                <select name="coin_currency_reg" id="">
+                                    
+                                    <volist name="currency" id="vo">
+                                       
+                                        <option value="{$vo['currency_id']|default=""}"  <if condition="$config.coin_currency_reg neq null and $config.coin_currency_reg eq $vo['currency_id']">
+                                                selected
+                                            </if>>{$vo['currency_id']|getCurrencynameByCurrency=###}</option>
+                                    </volist>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>注册积分数：</th>
+                            <td><input type="text" id="" value="{$config.coin_number_reg}" size="85" name="coin_number_reg"
+                                       class="common-text">个
+                            </td>
+                        </tr>
+
+                        
+                        <tr>
+                            <th><i class="require-red">*</i>赠送释放资产限制：</th>
+                            <td><input type="text" id="" value="{$config.award_release_xrp_num}" size="85" name="award_release_xrp_num"
+                                       class="common-text">个XRP
+                            </td>
+                        </tr>
+                            
+                        <tr>
+                            <th></th>
+                            <td style="color:#f00;">持币生息開始</td>
+                        </tr>
+    
+                        <tr>
+                            <th><i class="require-red">*</i>持币生息分红数量(KOK)：</th>
+                            <td><input type="text" id="" value="{$config.kok_interest_dividend}" size="85" name="kok_interest_dividend"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td style="color:#f00;">持币生息结束</td>
+                        </tr>
+                            
+                        <tr>
+                            <th></th>
+                            <td style="color:#f00;">GAC兑换释放开始</td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>是否显示奖励配比</th>
+                            <td>关闭：<input type="radio" name="is_percent_show" value="0"
+                                <if condition="$config['is_percent_show'] eq 0">checked="checked"</if>
+                                />
+                                开启：<input type="radio" name="is_percent_show" value="1"
+                                <if condition="$config['is_percent_show'] eq 1">checked="checked"</if>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>是否显示兑换专区</th>
+                            <td>关闭：<input type="radio" name="is_exchange_show" value="0"
+                                <if condition="$config['is_exchange_show'] eq 0">checked="checked"</if>
+                                />
+                                开启：<input type="radio" name="is_exchange_show" value="1"
+                                <if condition="$config['is_exchange_show'] eq 1">checked="checked"</if>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>是否显示糖果专区</th>
+                            <td>关闭：<input type="radio" name="is_reward_show" value="0"
+                                <if condition="$config['is_reward_show'] eq 0">checked="checked"</if>
+                                />
+                                开启：<input type="radio" name="is_reward_show" value="1"
+                                <if condition="$config['is_reward_show'] eq 1">checked="checked"</if>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>是否关闭创新区</th>
+                            <td>关闭：<input type="radio" name="is_percent_open" value="0"
+                                <if condition="$config['is_percent_open'] eq 0">checked="checked"</if>
+                                />
+                                开启：<input type="radio" name="is_percent_open" value="1"
+                                <if condition="$config['is_percent_open'] eq 1">checked="checked"</if>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>是否开启兑换释放</th>
+                            <td>关闭兑换释放：<input type="radio" name="is_gac_release" value="0"
+                                <if condition="$config['is_gac_release'] eq 0">checked="checked"</if>
+                                />
+                                开启兑换释放：<input type="radio" name="is_gac_release" value="1"
+                                <if condition="$config['is_gac_release'] eq 1">checked="checked"</if>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>GAC自定义人民币价格：</th>
+                            <td><input type="text" id="" value="{$config.gac_price_cny}" size="85" name="gac_price_cny"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>GAC释放比例：</th>
+                            <td><input type="text" id="" value="{$config.gac_forzen_release}" size="85" name="gac_forzen_release"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>GAC兑换溢价：</th>
+                            <td><input type="text" id="" value="{$config.gac_price_over}" size="85" name="gac_price_over"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>周六兑换</th>
+                            <td>
+                                可兑换：<input type="radio" name="exchange_day6" value="0"
+                                <if condition="$config['exchange_day6'] eq 0">checked="checked"</if>
+                                />
+                                不给兑换：<input type="radio" name="exchange_day6" value="1"
+                                <if condition="$config['exchange_day6'] eq 1">checked="checked"</if>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>周日兑换</th>
+                            <td>
+                                可兑换：<input type="radio" name="exchange_day7" value="0"
+                                <if condition="$config['exchange_day7'] eq 0">checked="checked"</if>
+                                />
+                                不给兑换：<input type="radio" name="exchange_day7" value="1"
+                                <if condition="$config['exchange_day7'] eq 1">checked="checked"</if>
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>GAC兑换开始时间：</th>
+                            <td><input type="text" id="" value="{$config.start_exchange_hour}" size="85" name="start_exchange_hour"
+                                       class="common-text"> 点
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>GAC兑换结束时间：</th>
+                            <td><input type="text" id="" value="{$config.end_exchange_hour}" size="85" name="end_exchange_hour"
+                                       class="common-text"> 点
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th><i class="require-red">*</i>是否开启赠送释放</th>
+                            <td>关闭赠送释放：<input type="radio" name="is_gac_reward__release" value="0"
+                                <if condition="$config['is_gac_reward__release'] eq 0">checked="checked"</if>
+                                />
+                                开启赠送释放：<input type="radio" name="is_gac_reward__release" value="1"
+                                <if condition="$config['is_gac_reward__release'] eq 1">checked="checked"</if>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>GAC赠送释放比例：</th>
+                            <td><input type="text" id="" value="{$config.gac_reward_forzen_release}" size="85" name="gac_reward_forzen_release"
+                                       class="common-text">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td style="color:#f00;">GAC锁仓释放结束</td>
+                        </tr>
+
+                        <tr>
+                            <th><i class="require-red">*</i>是否显示内购专区</th>
+                            <td>关闭：<input type="radio" name="is_internal_buy_show" value="0"
+                                <if condition="$config['is_internal_buy_show'] eq 0">checked="checked"</if>
+                                />
+                                开启：<input type="radio" name="is_internal_buy_show" value="1"
+                                <if condition="$config['is_internal_buy_show'] eq 1">checked="checked"</if>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>是否开启内购释放</th>
+                            <td>关闭赠送释放：<input type="radio" name="is_gac_internal_buy_release" value="0"
+                                <if condition="$config['is_gac_internal_buy_release'] eq 0">checked="checked"</if>
+                                />
+                                开启赠送释放：<input type="radio" name="is_gac_internal_buy_release" value="1"
+                                <if condition="$config['is_gac_internal_buy_release'] eq 1">checked="checked"</if>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>GAC内购开始日期：</th>
+                            <td><input type="text" id="" value="{$config.internal_buy_start_time}" size="85" name="internal_buy_start_time"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>GAC内购结束日期：</th>
+                            <td><input type="text" id="" value="{$config.internal_buy_stop_time}" size="85" name="internal_buy_stop_time"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>GAC内购人民币价格：</th>
+                            <td><input type="text" id="" value="{$config.internal_buy_gac_price_cny}" size="85" name="internal_buy_gac_price_cny"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>GAC内购释放比例：</th>
+                            <td><input type="text" id="" value="{$config.gac_internal_buy_release}" size="85" name="gac_internal_buy_release"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>v1内购限额：</th>
+                            <td><input type="text" id="" value="{$config.internal_buy_limit_v1}" size="85" name="internal_buy_limit_v1"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>v2内购限额：</th>
+                            <td><input type="text" id="" value="{$config.internal_buy_limit_v2}" size="85" name="internal_buy_limit_v2"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>v3内购限额：</th>
+                            <td><input type="text" id="" value="{$config.internal_buy_limit_v3}" size="85" name="internal_buy_limit_v3"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>v4内购限额：</th>
+                            <td><input type="text" id="" value="{$config.internal_buy_limit_v4}" size="85" name="internal_buy_limit_v4"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>v5内购限额：</th>
+                            <td><input type="text" id="" value="{$config.internal_buy_limit_v5}" size="85" name="internal_buy_limit_v5"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>30票内购限额：</th>
+                            <td><input type="text" id="" value="{$config.internal_buy_limit_votes30}" size="85" name="internal_buy_limit_votes30"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <input type="button" value="返回" onclick="history.go(-1)" class="btn btn6">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

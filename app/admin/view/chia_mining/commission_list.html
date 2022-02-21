@@ -1,0 +1,114 @@
+{if condition="!$Think.get.layui"}
+{include file="../app/admin/view/public/left.html" /}
+{else /}
+<style>
+    .main-wrap {
+        margin-left: 10px;
+    }
+</style>
+{/if}
+
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">提成配置列表</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="ename" placeholder="请输入用户名" autocomplete="off" class="layui-input" value="{$Think.get.ename}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="user_phone" placeholder="请输入用户账户" autocomplete="off" class="layui-input" value="{$Think.get.user_phone}" />
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+
+                <a href="javascript:" data-url="{:url('commission_add')}?" class="layui-open layui-btn" style="color:#fff;" data-width="1000px" data-title="新增提成记录">新增</a>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户</th>
+                        <th>代数</th>
+                        <th>下级账户</th>
+                        <th>提成比例</th>
+                        <th>添加时间</th>
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>
+                            {$v.id}
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.member_id})">
+                                {if condition="$v.users.phone"}
+                                {$v.users.phone}
+                                {else /}
+                                {$v.users.email}
+                                {/if}
+                                ({$v.member_id})
+                            </a>
+                        </td>
+                        <td>第 {$v.level_num} 代</td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.child_id})">
+                                {if condition="$v.cusers.phone"}
+                                {$v.cusers.phone}
+                                {else /}
+                                {$v.cusers.email}
+                                {/if}
+                                ({$v.child_id})
+                            </a>
+                        </td>
+                        <td>{$v.rate} %</td>
+                        <td>{:date('Y-m-d H:i:s',$v['add_time'])}</td>
+                        <td>
+                            <a href="javascript:" class="layui-open layui-btn" data-url="{:url('commission_edit', ['id' => $v['id']])}?" data-width="1000px" data-title="修改提成记录">编辑</a>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="weadmin-block">
+                <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+            </div>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'],function () {
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

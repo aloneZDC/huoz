@@ -1,0 +1,208 @@
+.content{
+    top: 0;
+    z-index: 8;
+}
+.contentwrap{
+    position: fixed;
+    top: 78px;
+    left: 0;
+    right: 0;
+    bottom: 12rem;
+    background: #f4f4f4;
+}
+.promt{
+    position: fixed;
+    top: 44px;
+    height: 34px;
+    left: 0;
+    right: 0;
+    line-height: 34px;
+    text-align: center;
+    color: #666; 
+    font-size: 1rem;
+    z-index: 99999;
+    background: #f4f4f4;
+}
+.send_message{
+    position: absolute;
+    bottom: 0rem;
+    height: 12rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 9;
+}
+.send_message textarea{
+    height: 5rem;
+    padding: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+.send_message>p{
+    color: #666;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+.send_btn{
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 0.7rem;
+}
+.send_btn>img{
+    width: 2.6rem;
+    height: 2.3rem;
+    background: url("../../images/message.png") no-repeat center ;
+    background-size:100% 100%; 
+}
+.send_btn>span{
+   padding: 0 1.5rem;
+   height: 2.3rem;
+   line-height: 2.3rem;
+   color: #fff;
+   background: #066B98;
+   margin-left: 1.5rem;
+   border-radius: 0.3rem 0.3rem 0.3rem 0;
+   font-size: 1.1rem;
+}
+.left_box>p,.right_box>p{
+    text-align: center;
+    color: #999999;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+.left_userinfo{
+    display: flex;
+    justify-content: flex-start;
+  
+}
+.leftuser{
+    position: relative;
+    display: inline-block;
+    background: #fff;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    color: #222;
+    font-size: 1rem;
+    /* min-height: 4rem; */
+    box-shadow:0px 3px 8px 0px rgba(0, 0, 0, 0.36);
+}
+.leftuser::before{
+    position: absolute;
+    display: inline-block;
+    top: -0.8rem;
+    left: 0rem;
+    width: 0;
+    height: 0px;
+    content: '';
+    border-style: solid;
+    border-width: 0 1rem 1rem 0;
+    border-color: #fff transparent;
+    box-shadow:0px 0px 0px 0px rgba(0, 0, 0, 0.36);
+
+}
+.leftuser>p{
+    font-size: 1.2rem;
+    word-break:break-word;
+}
+.left_userinfo>img{
+    align-content:center;
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: 3.5rem;
+}
+.left_userinfo>p{
+    align-content:center;
+    height: 3.5rem;
+    line-height: 3.5rem;
+    padding-left: 1rem;
+    color: #222222;
+    font-size: 1.2rem;
+}
+.right_box{
+    text-align: right;
+}
+.rightuser p {
+    word-break:break-word;
+    text-align: left;
+}
+.rightuser{
+    background: #066B98;
+    position: relative;
+    right: 0;
+    display: inline-block;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem  0.5rem 0 0.5rem;
+    color: #fff;
+    font-size: 1rem;
+    box-shadow:0px 3px 8px 0px rgba(0, 0, 0, 0.36);
+   
+} 
+.rightuser::before{
+    position: absolute;
+    display: inline-block;
+    bottom:-0.8rem;
+    right: 0rem;
+    width: 0;
+    height: 0px;
+    content: '';
+    border-style: solid;
+    border-width: 0 1rem 1rem 0;
+    border-color: transparent #066B98;
+    box-shadow:0px 0px 0px 0px rgba(0, 0, 0, 0.36);
+
+}
+.bigimg{
+    background: #222;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 100000;
+    display: none;
+}
+.bigimg>img{
+    position: absolute;
+    margin: auto;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 99999;
+    width: 70%;
+}
+.small{
+    height: 5rem;
+}
+.prize_list{
+    padding-bottom: 4rem;
+}
+@media screen and (max-width:700px) {
+	body{
+		overflow-x: scroll;
+	}
+	.contentlist {
+		width: 90%!important;
+		overflow-y: auto;
+		margin: 0 5%;
+	}
+	.layui-layer.layui-layer-iframe.layui-layer-border {
+		width: 90%!important;
+		height: 95%;
+		top: 14.5px;
+		left: 5%!important;
+		right: 5%!important;
+	}
+	.send_message {
+		width: 72%!important;
+		margin: 0px 10%!important;
+	}
+	.prize_list {
+		width: 75%;
+		/* margin: 0 5%; */
+		overflow-x: scroll;
+		/* text-align: center; */
+		padding: 0 12%;
+	}
+}

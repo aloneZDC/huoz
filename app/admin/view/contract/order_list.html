@@ -1,0 +1,322 @@
+{include file="../app/admin/view/public/left.html" /}
+<script type="text/javascript">
+window._deel = {
+    req_member_details_url: "{:U('member/member_details')}",
+}
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">合约订单</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:url('')}" method="get" id="form">
+                        <table class="search-tab">
+                            <tr>
+                                <th  width="60px">用户ID:</th>
+                                <td><input class="common-text" placeholder="用户ID" name="member_id" value="{$member_id}"  type="text"></td>
+                                <th  width="60px">订单编号:</th>
+                                <td><input class="common-text" placeholder="订单编号" name="number" value="{$number}"  type="text"></td>
+                                <th width="70px">账户类型:</th>
+                                <td>
+                                    <select name="money_type" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="moneyTypeList" id="vo"}
+                                            {if $key == $money_type}
+                                                <option value="{$key}" selected>{$vo}</option>
+                                            {else/}
+                                                <option value="{$key}">{$vo}</option>
+                                            {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">订单类型:</th>
+                                <td>
+                                    <select name="type" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="typeList" id="vo"}
+                                        {if $key == $type}
+                                        <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                        <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">买类型:</th>
+                                <td>
+                                    <select name="buy_type" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="buyTypeList" id="vo"}
+                                        {if $key == $buy_type}
+                                        <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                        <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">交易对:</th>
+                                <td>
+                                    <select name="trade_id" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="tradeList" id="vo"}
+                                        {if $key == $trade_id}
+                                        <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                        <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">平仓类型:</th>
+                                <td>
+                                    <select name="closeout_type" id="">
+                                        <option value="-1">全部</option>
+                                        {volist name="closeoutTypeList" id="vo"}
+                                        {if $key == $closeout_type}
+                                        <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                        <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">委托状态:</th>
+                                <td>
+                                    <select name="trust_status" id="">
+                                        <option value="-1">全部</option>
+                                        {volist name="trustStatusList" id="vo"}
+                                        {if $key == $trust_status}
+                                        <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                        <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">订单状态:</th>
+                                <td>
+                                    <select name="status" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="statusList" id="vo"}
+                                        {if $key == $status}
+                                        <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                        <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <br>
+                                <th width="70px">止盈类型:</th>
+                                <td>
+                                    <select name="stop_profit_type" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="stopTypeList" id="vo"}
+                                        {if $key == $stop_profit_type}
+                                        <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                        <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">止损类型:</th>
+                                <td>
+                                    <select name="stop_loss_type" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="stopTypeList" id="vo"}
+                                        {if $key == $stop_loss_type}
+                                        <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                        <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                                <td>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <ul class="list-menu">
+            <li>保证金总额：{$money_total}&nbsp;&nbsp;&nbsp;&nbsp;保险金总额：{$safe_total}&nbsp;&nbsp;&nbsp;&nbsp;手续费总额：{$fee_total}&nbsp;&nbsp;&nbsp;&nbsp;收益总额：{$income_total}&nbsp;&nbsp;&nbsp;&nbsp;到账总额：{$money_total1}</li>
+        </ul>
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="3500px">
+                    <tr>
+                        <th>订单ID</th>
+                        <th>订单编号</th>
+                        <th>用户ID</th>
+                        <th>账户类型</th>
+                        <th>订单类型</th>
+                        <th>交易对ID</th>
+                        <th>交易对</th>
+                        <th>买类型</th>
+                        <th>杠杆</th>
+                        <th>保证金数量</th>
+                        <th>保险金数量</th>
+                        <th>保险金比例</th>
+                        <th>币种数量</th>
+                        <th>成交价格</th>
+                        <th>实时价格</th>
+                        <th>委托价</th>
+                        <th>委托状态</th>
+                        <th>委托时间</th>
+                        <th>委托撤销时间</th>
+                        <th>平仓价格</th>
+                        <th>止盈类型</th>
+                        <th>止盈比例</th>
+                        <th>止盈平仓价</th>
+                        <th>止损类型</th>
+                        <th>止损比例</th>
+                        <th>止损平仓价</th>
+                        <th>平仓类型</th>
+                        <th>平仓时间</th>
+                        <th>平仓成功时间</th>
+                        <th>下次平仓时间</th>
+                        <th>收益金额</th>
+                        <th>到账金额</th>
+                        <th>手续费比例</th>
+                        <th>手续费</th>
+                        <th>订单状态</th>
+                        <th>期数</th>
+                        <th>结算时间</th>
+                        <th>成交时间</th>
+                        <th>操作</th>
+                    </tr>
+                    {volist name="list" id="vo" empty="$empty"}
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.number}</td>
+                            <td><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo.member_id}</a></td>
+                            <td>{$moneyTypeList[$vo.money_type.'_'.$vo.money_currency_id]}</td>
+                            <td>{$typeList[$vo.type]}</td>
+                            <td>{$vo.trade_id}</td>
+                            <td>{$tradeList[$vo.trade_id]}</td>
+                            <td>{$buyTypeList[$vo.buy_type]}</td>
+                            <td>{$vo.lever_num}</td>
+                            <td>{$vo.money_currency_num}&nbsp;{if $vo.money_type == 1}{$vo.money_currency.currency_name}{else/}{$vo.money_currency.currency_name}{$virtual_currency_name}{/if}</td>
+                            <td>{$vo.safe_currency_num}&nbsp;{if $vo.money_type == 1}{$vo.money_currency.currency_name}{else/}{$vo.money_currency.currency_name}{$virtual_currency_name}{/if}</td>
+                            <td>{$vo.safe_percent}%</td>
+                            <td>{$vo.currency_num} {$vo.currency.currency_name}</td>
+                            <td>{$vo.deal_price}</td>
+                            <td>{$vo.close_price}</td>
+                            <td>{$vo.trust_price}</td>
+                            <td>{$trustStatusList[$vo.trust_status]}</td>
+                            <td>{if $vo.trust_time gt 0}{$vo.trust_time|date="Y-m-d H:i:s",###}{/if}</td>
+                            <td>{if $vo.trust_cancel_time gt 0}{$vo.trust_cancel_time|date="Y-m-d H:i:s",###}{/if}</td>
+                            <td>{$vo.closeout_price}</td>
+                            <td>{$stopTypeList[$vo.stop_profit_type]}</td>
+                            <td>{$vo.stop_profit_percent}%</td>
+                            <td>{$vo.stop_profit_price}</td>
+                            <td>{$stopTypeList[$vo.stop_loss_type]}</td>
+                            <td>{$vo.stop_loss_percent}%</td>
+                            <td>{$vo.stop_loss_price}</td>
+                            <td>{$closeoutTypeList[$vo.closeout_type]}</td>
+                            <td>{if $vo.closeout_time gt 0}{$vo.closeout_time|date="Y-m-d H:i:s",###}{/if}</td>
+                            <td>{if $vo.last_closeout_time gt 0}{$vo.last_closeout_time|date="Y-m-d H:i:s",###}{/if}</td>
+                            <td>{if $vo.next_closeout_time gt 0}{$vo.next_closeout_time|date="Y-m-d H:i:s",###}{/if}</td>
+                            <td>{$vo.income_money}</td>
+                            <td>{:keepPoint($vo.money_currency_num + $vo.income_money - $vo.fee_value, 6)}</td>
+                            <td>{$vo.fee_rate}%</td>
+                            <td>{$vo.fee_value}</td>
+                            <td>{$statusList[$vo.status]}</td>
+                            <td>{if $vo.start_time gt 0}{$vo.start_time|date="Y-m-d H:i",###}-{$vo.end_time|date="m-d H:i",###}{/if}</td>
+                            <td>{if $vo.result_time gt 0}{$vo.result_time|date="Y-m-d H:i:s",###}{/if}</td>
+                            <td>{if $vo.add_time gt 0}{$vo.add_time|date="Y-m-d H:i:s",###}{/if}</td>
+                            <td>
+                                {if $vo.closeout_type eq 100 and $vo.status eq 3}
+                                    <a href="javascript:" class="layui-open layui-btn" data-url="{:url('closeout', ['id' => $vo['id']])}?" data-width="1000px">平仓</a>
+                                {/if}
+                                {if $vo.trust_status eq 1}
+                                    <a class="layui-open layui-btn" href="{:url('cancel_trust', ['id'=>$vo['id']])}" onclick="return confirm('确认撤销委托吗？')">撤销委托</a>
+                                {/if}
+                            </td>
+                        </tr>
+                    {/volist}
+                </table>
+                <div class="page">
+                    <div>
+                        {$page}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+<script>
+    $("#submitDaochu").click(function () {
+        $("#daochu").val(2);
+        $("#form").submit();
+        $("#daochu").val(1);
+    })
+$('.layer-open').click(function(){
+    var title = $(this).attr('data-title');
+    var url = $(this).attr('data-url');
+    if(!url) return;
+
+    //弹出即全屏
+    var index = layer.open({
+        type: 2,
+        title:title,
+        content: url,
+        area: ['820px', '495px'],
+        maxmin: true,
+        scrollbar: false, //屏蔽浏览器滚动条
+    });
+    layer.full(index);
+});
+
+function disband(id) {
+    var conf=confirm("确认解散房间？确认解散后所有用户都将推出房间，已上桌用户将退还上桌费用。");
+    if(conf==true){
+        $.post("{:U('disband')}",{"room_id":id},function (d) {
+                if(d.code==10000){
+                    layer.alert(d.message, {icon: 1});
+                    setTimeout(function () {
+                        window.parent.location.reload();
+                        parent.layer.close(mylay);
+                    },2000);
+                }else {
+                    layer.alert(d.message, {icon: 5});
+                }
+        },"json");
+    }
+}
+
+function lottery(id) {
+    var conf=confirm("确认给房间开奖？确认后房间将进行开奖，并发放所有用户奖励。");
+    if(conf==true){
+        $.post("{:U('lottery')}",{"room_id":id},function (d) {
+            if(d.code==10000){
+                layer.alert(d.message, {icon: 1});
+                setTimeout(function () {
+                    window.parent.location.reload();
+                    parent.layer.close(mylay);
+                },2000);
+            }else {
+                layer.alert(d.message, {icon: 5});
+            }
+        },"json");
+    }
+}
+</script>
+</body>
+
+</html>

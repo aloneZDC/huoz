@@ -1,0 +1,115 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<link href="__PUBLIC__/static/admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<style>
+    .th{
+        height: 55px;
+        line-height: 55px;
+        border-bottom: 1px solid #ddd;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .c_box{
+        display: flex;
+        height: 30px;
+        line-height: 30px;
+        border-bottom: 1px solid #ddd;
+    }
+    .c_box div:first-of-type{
+        border-left: none;
+    }
+    .time{
+        height: 30px;
+        line-height: 30px;
+        border-bottom: 1px solid #ddd;
+        text-indent: 30px;
+        font-size: 10px;
+        background: #eee;
+    }
+    .c_box div{
+        flex: 1;
+        text-align: center;
+        border-left: 1px solid #ddd;
+        font-size: 10px;
+    }
+
+</style>
+
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">每日提币统计</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form id="form" action="{:U('Currency/everydayTake')} "method="post">
+                        <table class="search-tab">
+                            <tr>
+                                <th width="70">时间:</th>
+                                <td>
+                                    <input type="text" id="datePicker" name="startTime" class="date_picker" placeholder="点击选择日期" value="{$startTime}" style="width: 100px;"/>-
+                                    <input type="text" name="endTime" id="datePicker2" class="date_picker" placeholder="点击选择日期" value="{$endTime}" style="width: 100px;"/>
+                                </td>
+                                <td><input class="btn btn-primary btn2"  value="查询" type="submit"></td>
+                                <input type="hidden" name="daochu" id="dao" value="">
+                                <td><input class="btn btn-primary btn2" id="daochu" value="导出数据" type="button"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+
+        </div>
+        <div class="result-content">
+            <ul class="result-tab">
+                <li class="th">
+                    <div class="c_box">
+                        <div>币种名称</div><div>日期</div><div>统计数量</div>
+                    </div>
+                </li>
+                <?php foreach((array)$list as $k=>$value):?>
+                <li>
+                    <div class="time"><?=$k?></div>
+                    <?php foreach((array)$value as $kk=>$vv):?>
+                    <div class="c_box">
+                        <div>{$vv['currency_mark']}</div>
+                        <div>{$vv['wet_time']}</div>
+                        <div>{$vv['wet_total']}</div>
+                    </div>
+                    <?php endforeach;?>
+                </li>
+                <?php endforeach;?>
+            </ul>
+            <p style="margin-top: 10px;font-size: 20px;">总量：{$total}</p>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+
+    $("#walletNav").show();
+    $("#walletNav").children("li").eq(18).addClass("on");
+    $('#datePicker').date_input();
+    $('#datePicker2').date_input();
+    $("#daochu").click(function () {
+        $("#dao").val(1);
+        $("#form").submit();
+        $("#dao").val(0);
+    })
+
+
+
+</script>

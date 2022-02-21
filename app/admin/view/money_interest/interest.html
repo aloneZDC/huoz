@@ -1,0 +1,96 @@
+<include file="App/Admin/View/Public/left.html" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+$(function() {
+    $('#datePicker').date_input();
+    $('#datePicker2').date_input();
+});
+
+window._deel = {
+    req_member_details_url: "{:U('member/member_details')}",
+}
+</script>
+<style>
+    .topbar-wrap{display: none;}
+    .sidebar-wrap{display: none;}
+     .main-wrap{margin-left: 0;margin-top: 20px;}
+</style>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:U('')}" method="post">
+                        <table class="search-tab">
+                            <tr>
+                                <th  width="60px">账户:</th>
+                                <td><input class="common-text" placeholder="手机号码/Email" name="phone" value="" id="" type="text"></td>
+                                <th  width="60px">用户ID:</th>
+                                <td><input class="common-text" placeholder="用户ID" name="member_id" value="" id="" type="text"></td>
+                                <th width="70px">积分类型:</th>
+                                <td>
+                                    <select name="currency_id" id="">
+                                        <option value="0">全部</option>
+                                        <volist name="currency" id="vo">
+                                            <option value="{$vo['currency_id']}">{$vo['currency_name']}</option>
+                                        </volist>
+                                    </select>
+                                </td>
+                                <th width="70px">状态:</th>
+                                <td>
+                                    <select name="status" id="">
+                                        <option value="">全部</option>
+                                        <option value="0">生息中</option>
+                                        <option value="1">已生息</option>
+                                    </select>
+                                </td>
+                                <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>记录ID</th>
+                        <th>会员ID</th>
+                        <th>姓名</th>
+                        <th>账户</th>
+                        <th>币种</th>
+                        <th>利息</th>
+                        <th>添加时间</th>
+                    </tr>
+                    <volist name="list" id="vo" empty="$empty">
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.member_id}</td>
+                            <td>{$vo['name']}</td>
+                            <td><notempty name="vo.phone">{$vo['phone']}<else />{$vo['email']}</notempty></td>
+                            <td>{$vo.currency_name}</td>
+                            <td>{$vo.num}</td>
+                            <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                        </tr>
+                    </volist>
+                </table>
+                <div class="list-page">
+                    <ul>{$page}</ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+
+</html>

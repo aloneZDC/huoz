@@ -1,0 +1,120 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">线下商家申请列表</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('stores_list')}" method="get">
+                <div class="layui-inline">
+                    <label for="status">订单状态</label>
+                    <select style="display: inline; width: 100px;" class="layui-select" name="status" id="status">
+                        <option value="">全部</option>
+                        <option value="1" {if $Think.get.status == 1}selected{/if}>通过审核</option>
+                        <option value="2" {if $Think.get.status == 2}selected{/if}>审核中</option>
+                        <option value="3" {if $Think.get.status == 3}selected{/if}>审核失败</option>
+                    </select>
+                </div>
+                <div class="layui-inline">
+                    <input type="text" class="layui-input" placeholder="用户ID" name="user_id"  value="{$Think.get.user_id}" />
+                </div>
+                <div class="layui-inline">
+                    <input type="text" class="layui-input" placeholder="账户" name="user_phone"  value="{$Think.get.user_phone}" />
+                </div>
+
+                <div class="layui-inline">
+                    <input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form class="layui-form">
+                <table class="layui-table" id="memberList" lay-filter="table-list">
+                    <thead>
+                    <tr>
+                        <th lay-data="{align:'center',field:'user_id', width:50}">用户ID</th>
+                        <th lay-data="{align:'center',field:'user_account', width:50}">账户</th>
+                        <th lay-data="{align:'center',field:'apply_image', width:500}">营业执照</th>
+                        <th lay-data="{align:'center',field:'legal_person_image', width:160}">法人照片</th>
+                        <th lay-data="{align:'center',field:'banner_image', width:160}">店铺banner</th>
+                        <th lay-data="{align:'center',field:'name', width:160}">姓名</th>
+                        <th lay-data="{align:'center',field:'phone', width:180}">手机</th>
+                        <th lay-data="{align:'center',field:'stores_name', width:80}">店铺名称</th>
+                        <th lay-data="{align:'center',field:'full_address', width:80}">地址</th>
+                        <th lay-data="{align:'center',field:'add_time', width:200}">添加时间</th>
+                        <th lay-data="{align:'center',field:'name', width:80}">状态</th>
+                        <th lay-data="{align:'center',field:'tool'}">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="vo"}
+                    <tr data-id="{$vo->user_id}">
+                        <td>{$vo.user_id}</td>
+                        <td>
+                            {notempty name="vo.users"}
+                                {empty name='vo.users.phone'}
+                                    {$vo.users.email}
+                                {else /}
+                                    {$vo.users.phone}
+                                {/empty}
+                            {/notempty}
+                        </td>
+                        <td><img style="max-height: 100px;max-width: 100px" src="{$vo.apply_image}" alt="" /></td>
+                        <td><img style="max-height: 100px;max-width: 100px" src="{$vo.legal_person_image}" alt="" /></td>
+                        <td><img style="max-height: 100px;max-width: 100px" src="{$vo.banner_image}" alt="" /></td>
+                        <td>{$vo.name}</td>
+                        <td>{$vo.phone}</td>
+                        <td>{$vo.stores_name}</td>
+                        <td>{$vo.full_address}</td>
+                        <td>{:date("Y-m-d H:i:s", $vo.add_time)}</td>
+                        <td>
+                            {if condition="$vo.status eq 1"}
+                            通过审核
+                            {elseif condition="$vo.status eq 2"}
+                            待审核
+                            {elseif condition="$vo.status eq 3"}
+                            审核失败
+                            {/if}
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="stores_audit" data-url="{:url('stores_audit')}" data-id="{$vo.user_id}" data-status="1">审核通过</a>
+                            <a href="javascript:;" class="stores_audit" data-url="{:url('stores_audit')}" data-id="{$vo.user_id}" data-status="3">审核失败</a>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'global'], function () {
+        layer = layui.layer,globals=layui.global;
+
+        $('.stores_audit').click(function () {
+            var url = $(this).data('url');
+            var id = $(this).data('id');
+            var status = $(this).data('status');
+            globals.loading();
+            globals.ajax(url,{id:id,status:status},function (res) {
+                layer.closeAll();
+                layer.msg(res.message);
+                 if(res.code=10000) {
+                    location.reload();
+                 }
+            });
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

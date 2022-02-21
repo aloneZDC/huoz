@@ -1,0 +1,282 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script type="text/javascript">
+    $(function () {
+        window._deel = {
+            req_member_details_url: "{:url('member/member_details')}",
+        }
+    })
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">待汇总管理</span></div>
+    </div>
+
+            <div class="search-wrap">
+                <div class="search-content">
+                        <table class="search-tab">
+<!--                            <tr>-->
+<!--                                <th width="100">待汇总BTC数:</th>-->
+<!--                                <td><span id="btcmoney">{btcmoney}</span></td>-->
+<!--                                <td width="100">汇总钱包地址:</td>-->
+<!--                                <td>-->
+<!--                                    <input type="hidden" id="btcaddress" value="{btcsummaryaddress}">-->
+<!--                                    <a target="_blank" href="https://btc.com/{btcsummaryaddress}">{btcsummaryaddress}</a>-->
+<!--                                </td>-->
+<!--                                <td><input class="btn btn-primary btn2"   onclick="btcsummary()" value="汇总" type="button"></td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <th width="100">待汇总XRP数:</th>-->
+<!--                                <td><span id="xrpmoney">{xrpmoney}</span></td>-->
+<!--                                <td width="100">汇总钱包地址:</td>-->
+<!--                                <td>-->
+<!--                                    <input type="hidden" id="xrpaddress" value="{xrpsummaryaddress}">-->
+<!--                                    <a target="_blank" href="https://bithomp.com/explorer/{xrpsummaryaddress}">{xrpsummaryaddress}</a>-->
+<!--                                </td>-->
+<!--                                <td width="100">XRP数字标签:</td>-->
+<!--                                <td id="xrptag">{qianbao_address_tag}</td>-->
+<!--                                <td><input class="btn btn-primary btn2"   onclick="xrpsummary()" value="汇总" type="button"></td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <th width="100">待汇总EOS数:</th>-->
+<!--                                <td><span id="eosmoney">{eosmoney}</span></td>-->
+<!--                                <td width="100">汇总钱包地址:</td>-->
+<!--                                <td>-->
+<!--                                    <input type="hidden" id="eosaddress" value="{eossummaryaddress}">-->
+<!--                                    <a target="_blank" href="https://eospark.com/account/{eossummaryaddress}">{eossummaryaddress}</a>-->
+<!--                                </td>-->
+<!--                                <td width="100">EOS数字标签:</td>-->
+<!--                                <td id="eostag">{eosmemo}</td>-->
+<!--                                <td><input class="btn btn-primary btn2"   onclick="eossummary()" value="汇总" type="button"></td>-->
+<!--                            </tr>-->
+                        </table>
+                </div>
+            </div>
+
+
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form id="form" action="{:url('Currency/summarylist')} "method="get">
+                        <table class="search-tab">
+                            <tr>
+                                <th width="70">用户ID:</th>
+                                <td><input class="common-text" placeholder="用户ID" name="uid" value="{$data.uid}"  type="text"></td>
+                                <th width="70">搜索:</th>
+                                <td><input class="common-text" placeholder="昵称、手机号" name="search" value="{$data.search}"  type="text"></td>
+                                <th width="120">币种:</th>
+                                <td>
+                                    <select name="currencyid">
+                                        <option value="0">全部</option>
+                                        {volist name="currency" id="vo"}
+                                            {eq name="vo.currency_id" value="$data.currencyid"}
+                                                <option value="{$vo.currency_id}" selected>{$vo.currency_mark}</option>
+                                                {else/}
+                                                <option value="{$vo.currency_id}">{$vo.currency_mark}</option>
+                                            {/eq}
+                                        {/volist}
+                                    </select>
+                                </td>
+
+                                <td><input class="btn btn-primary btn2"  value="查询" type="submit"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="result-wrap">
+
+        <div class="result-title">
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>列表ID</th>
+                    <th>手机号码</th>
+                    <th>用户uid</th>
+                    <th>昵称</th>
+                    <th>真实姓名</th>
+                    <th>数量</th>
+                    <th>币种</th>
+                    <th>地址</th>
+                    <th>操作</th>
+                </tr>
+                {volist name='list' id='vo'}
+                    <tr>
+                        <td style="width:60px">{$i}</td>
+
+                        <td style="width:300px">{$vo['phone']}</td>
+                        <td style="width:70px">
+                            <a href="javascript:member_details({$vo['member_id']});"
+                               class="shenhe_button">{$vo['member_id']}</a>
+
+                        </td>
+                        <td style="width:100px">{$vo['nick']}</td>
+                        <td style="width:100px">{$vo['name']}</td>
+                        <td style="width:300px">{$vo['real_num']}</td>
+                        <td style="width:300px">{$vo['currency_mark']}</td>
+                        <td style="width:300px">{$vo['chongzhi_url']}</td>
+                        <td style="width:300px">
+                            <a class="link-update"
+                               href="#" onclick="pass({$vo['cu_id']})">汇总</a>
+                             <a class="link-del" href="#"
+                               onclick="fail({$vo['cu_id']})">不汇总</a>
+                            <a class="link-del" href="#"
+                               onclick="fees({$vo['cu_id']})">充值手续费</a>
+                        </td>
+                    </tr>
+                {/volist}
+
+            </table>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+
+    $("#CurrencyNav").show();
+    $("#CurrencyNav").children("li").eq(2).addClass("on");
+
+
+    /**
+     * btc汇总
+     * @param wucid
+     */
+    function btcsummary() {
+        var btcmoney=$("#btcmoney").html();
+        var btcaddress=$("#btcaddress").val();
+        var url = "{:url('Currency/btcsummary')}?amount="+btcmoney+"&btcaddress="+btcaddress; //先将变量以字符串的形式带入U函数中
+
+        console.info(url);
+        layer.open({
+            type: 2,
+            title: "BTC汇总",
+            content: url,
+            area: ['500px', '500px'],
+            shade: 0, //不显示遮罩
+            //maxmin: true,
+            //scrollbar: false, //屏蔽浏览器滚动条
+            cancel: function () {
+                location.reload();
+            }
+        });
+    }
+
+    /**
+     * xrp汇总
+     * @param wucid
+     */
+    function xrpsummary() {
+        var xrpmoney=$("#xrpmoney").html();
+        var xrptag=$("#xrptag").html();
+        var xrpaddress=$("#xrpaddress").val();
+        var url = "{:url('Currency/xrpsummary')}?amount="+xrpmoney+"&xrptag="+xrptag+"&xrpaddress="+xrpaddress; //先将变量以字符串的形式带入U函数中
+        layer.open({
+            type: 2,
+            title: "XRP汇总",
+            content: url,
+            area: ['500px', '500px'],
+            shade: 0, //不显示遮罩
+            //maxmin: true,
+            //scrollbar: false, //屏蔽浏览器滚动条
+            cancel: function () {
+                location.reload();
+            }
+        });
+    }
+
+    //EOS弹出汇总
+    function eossummary() {
+        var eosmoney=$("#eosmoney").html();
+        var eostag=$("#eostag").html();
+        var eosaddress=$("#eosaddress").val();
+        var url = "{:url('Currency/eossummary')}?amount="+eosmoney+"&eostag="+eostag+"&eosaddress="+eosaddress; //先将变量以字符串的形式带入U函数中
+        layer.open({
+            type: 2,
+            title: "EOS汇总",
+            content: url,
+            area: ['500px', '500px'],
+            shade: 0, //不显示遮罩
+            //maxmin: true,
+            //scrollbar: false, //屏蔽浏览器滚动条
+            cancel: function () {
+                location.reload();
+            }
+        });
+    }
+
+   //弹出汇总页面
+    function pass(cu_id) {
+        var url = "{:url('Currency/summary',array('cu_id'=>'_wuc_id'))}"; //先将变量以字符串的形式带入U函数中
+        url = url.replace("_wuc_id", cu_id); //将代替变量的字符串用真实变量替换
+        console.info(url);
+        layer.open({
+            type: 2,
+            title: "汇总",
+            content: url,
+            area: ['500px', '500px'],
+            shade: 0, //不显示遮罩
+            //maxmin: true,
+            //scrollbar: false, //屏蔽浏览器滚动条
+            cancel: function () {
+                location.reload();
+            }
+        });
+    }
+
+    /**
+     * 取消汇总
+     * @param cu_id
+     */
+    function fail(cu_id) {
+        layer.confirm('确定不汇总吗', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            $.post("{:url('Currency/cancelsummary')}", {"cu_id": cu_id}, function (datas) {
+                layer.msg(datas.message);
+                if(datas.code==10000){
+                    location.reload();
+                }
+            },"json");
+            // layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+
+    //弹出手续费页面
+    function fees(wuc_id) {
+        var url = "{:url('Currency/fees',array('wuc_id'=>'_wuc_id'))}"; //先将变量以字符串的形式带入U函数中
+        url = url.replace("_wuc_id", wuc_id); //将代替变量的字符串用真实变量替换
+        console.info(url);
+        layer.open({
+            type: 2,
+            title: "转入手续费",
+            content: url,
+            area: ['500px', '500px'],
+            shade: 0, //不显示遮罩
+            //maxmin: true,
+            //scrollbar: false, //屏蔽浏览器滚动条
+            cancel: function () {
+                location.reload();
+            }
+        });
+    }
+</script>

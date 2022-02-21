@@ -1,0 +1,275 @@
+ul {
+    list-style: none;
+}
+
+li {
+    list-style: none;
+}
+
+#main {
+    width: 100%;
+   margin: 50px auto;
+}
+
+.main_box {
+    width: 1200px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+li h3 {
+    font-size: 22px;
+    color: #555;
+}
+
+.left {
+    float: left;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    height: 0;
+    overflow: hidden;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+#main .yangwu_zhanghaozhongxin_rightTitle {
+    padding: 20px 0 20px 20px;
+    background: #fff;
+    font-size:16px;
+    font-weight:400;
+    color:rgba(53,73,95,1);
+}
+
+.ybc_list {
+    width: 100%;
+    margin-top: 12px;
+    background: #fff;
+}
+
+.ybcoin {
+    line-height: 40px;
+    width: 100%;
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+.invitelink{
+    width:calc(100% - 40px );
+    height:120px;
+    background:rgba(250,250,250,1);
+    border:1px solid rgba(231, 236, 240, 1);
+    padding: 20px;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+
+}
+
+.invitelink #url {
+    font-size: 14px;
+    width: 580px;
+    height: 52px;
+    color: #FF6600;
+    font-family: "微软雅黑";
+    line-height: 52px;
+    text-align: center;
+    background:rgba(255,255,202,1);
+    border:1px solid rgba(251, 209, 99, 1);
+    resize:none;
+}
+
+.invitelink p {
+    line-height: 16px;
+    margin: 0;
+    text-indent: 0;
+    color: #999;
+
+}
+
+.copylink a:hover {
+    color: #fff !important;
+}
+
+.email_link {
+    border: 1px solid #e2e2e2;
+    padding: 0px 10px;
+    width: 650px;
+    height: 40px;
+    line-height: 30px;
+    color: #666;
+}
+
+.email_invite {
+    width: 122px;
+    font-size: 14px;
+    text-align: center;
+    height: 42px;
+    line-height: 42px;
+    background-color: #DBB668;
+    color: #fff;
+    border: 1px solid #DBB668;
+}
+
+.rules li {
+    color: #666;
+    line-height: 24px;
+}
+
+.ybc_hdxq {
+    color: #f60;
+}
+
+input, button, textarea, select {
+    vertical-align: middle;
+}
+
+a:visited {
+    text-decoration: none !important;
+}
+.copylink{
+    display: inline-block;
+}
+.copylink a {
+    display: block;
+    width: 120px;
+    font-size: 14px;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    background-color: #4294F7;
+    color: #fff;
+    margin-left: 20px;
+}
+
+
+
+a {
+    cursor: pointer;
+    text-decoration: none !important;
+    background: transparent;
+}
+
+.clear {
+    zoom: 1
+}
+
+.clear:after {
+    display: block;
+    content: "";
+    clear: both
+}
+
+.dimensional_code {
+    padding-left: 20px;
+}
+
+.coin_footer {
+    background-color: #f8f8f8;
+}
+
+.list-page a {
+    margin: 0 5px;
+    padding: 2px 7px;
+    border: 1px solid #ccc;
+    background: #f3f3f3;
+}
+
+.list-page {
+    padding: 20px 0;
+    text-align: center;
+}
+
+.list-page a {
+    width: 46px;
+    height: 30px;
+    display: block;
+    line-height: 30px;
+    float: left;
+    margin-top: 5px;
+}
+
+.page .current {
+    width: 47px;
+    height: 34px;
+}
+
+#shuru {
+    width: 141px;
+    height: 34px;
+    border: 1px solid #d5d5d5;
+    margin-top: 5px;
+    float: left;
+}
+
+.list-page a:hover {
+    background: #3076cc;
+    text-decoration: none;
+    color: #fff;
+}
+
+.text_indent_jiali li {
+    margin-top: 10px;
+
+}
+
+.text_indent_jiali li:nth-child(2) {
+    margin-bottom: 10px;
+    color: red;
+}
+
+.tab_con {
+    float: right;
+}
+
+.invit_banner {
+    overflow: hidden;
+    height: 146px;
+    background: url("../../images/invit_banner.png") no-repeat center;
+}
+
+.text_indent_jiali li:nth-child(2) {
+    color: #666 !important;
+}
+
+.table_head {
+    display: flex;
+    padding: 20px;
+}
+.table_head li {
+    flex: 1;
+    text-align: center;
+    font-size: 16px;
+    color: #35495F;
+    font-weight:bold;
+    height: 30px;
+    line-height: 30px;
+    background-color: #E7ECF0;
+}
+
+.table_body{
+    max-height: 650px;
+    padding-bottom: 20px;
+}
+.table_body li{
+    margin-top: 24px;
+    display: flex;
+    padding: 0 27px 0 20px;
+    text-align: center;
+}
+.table_body li div{
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+
+}
+.invit_user{
+    background: #fefefe;
+    margin-top: 20px;
+}

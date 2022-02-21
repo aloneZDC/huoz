@@ -1,0 +1,91 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="{:url('/admin/')}">首页</a> <a href="{:url('index')}">商品管理</a> <a><cite>预约排队</cite></a>
+    </span>
+
+    <span class="fr">
+<!--        <a class="layui-btn layui-open" data-url="{:url('add')}" data-title="添加" href="javascript:;">添加</a>-->
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class=" layui-col-md12 we-search">
+            <div class="layui-inline">
+                <label for="goods_id">主闯关: </label>
+                <select style="display: inline; width: 150px;" class="layui-select" name="goods_id">
+                    <option value="">全部</option>
+                    {volist name="goods" id="vo"}
+                    <option {if $Think.get.goods_id == $vo['id']}selected{/if} value="{$vo['id']}">{$vo['name']}</option>
+                    {/volist}
+                </select>
+            </div>
+            <div class="layui-inline">
+                <label for="level"></label>
+                <input class="layui-input" type="number" placeholder="请输入闯关数" name="level" id="level" value="{$Think.get.level}" />
+            </div>
+
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+    <p><b>预约池总额：</b><span>{$info.total_num | round=2}</span></p>
+    <br/>
+    <p><b>剩余预约池余额：</b><span>{$info.surplus_num | round=2}</span></p>
+    <br/>
+    <p><b>剩余预约池余额(排除不符合资格的)：</b><span>{$info.complete_num | round=2}</span></p>
+
+    <form class="layui-form" >
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>开舱时间</th>
+                <th>商品名称</th>
+                <th>闯关数</th>
+                <th>已自动金额</th>
+                <th>已自动人数</th>
+                <th>已排单金额</th>
+                <th>已排单人数</th>
+                <th>已抢单金额</th>
+                <th>已抢单人数</th>
+                <th>抢单队列金额</th>
+                <th>抢单队列人数</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="v"}
+            <tr data-id="{$v.id}">
+                <td>{$v.start_time}</td>
+                <td>{$v.name}</td>
+                <td>
+                    {$v.level}
+                </td>
+                <td>{$v.auto_num | round=2}</td>
+                <td>{$v.auto_people_num}</td>
+                <td>{$v.queue_num | round=2}</td>
+                <td>{$v.people_num}</td>
+                <td>{$v.buy_money | round=2}</td>
+                <td>{$v.buy_num}</td>
+                <td>{$v.list_money | round=2}</td>
+                <td>{$v.list_num}</td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','global']);
+</script>
+{include file="layout/footer"}

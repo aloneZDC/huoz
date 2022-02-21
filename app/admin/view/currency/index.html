@@ -1,0 +1,85 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">积分类型管理</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+                <a href="{:url('Currency/add')}"><i class="icon-font"></i>新增积分类型</a>
+            </div>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>货币LOGO</th>
+                    <th>上线状态</th>
+                    <th>交易状态</th>
+                    <th>货币名称</th>
+                    <th>英文标识</th>
+                    <th>总市值</th>
+                    <th>买入手续费</th>
+                    <th>卖出手续费</th>
+                    <th>修改时间</th>
+                    <th style="width:160px;">操作</th>
+                </tr>
+                {volist name="list" id="vo" empty=""}
+                    <tr>
+                        <td>
+                            {notempty name="vo.currency_logo"}<img style="height:100px;" src='{$vo.currency_logo}'/>
+                                {else/}
+                                暂无图片数据
+                            {/notempty}
+                        </td>
+                        <td>
+                            {eq name='vo.is_line' value='0'}未上线
+                                {else/}
+                                已上线
+                            {/eq}
+                        </td>
+                        <td>
+                            {eq name='vo.is_lock' value='0'}已开启
+                                {else/}
+                                未开启
+                            {/eq}
+                        </td>
+                        <td>{$vo.currency_name}</td>
+                        <td>{$vo.currency_mark}</td>
+                        <td>￥{$vo.currency_all_money}</td>
+                        <td>{$vo.currency_buy_fee}%</td>
+                        <td>{$vo.currency_sell_fee}%</td>
+                        <td>{$vo.add_time|date="Y-m-d",###}</td>
+                        <td>
+                            <a class="link-update" href="{:url('Trade/trade',array('currency_id'=>$vo['currency_id']))}">查看交易记录</a><br>
+                            <a class="link-update" href="{:url('Trade/orders',array('currency_id'=>$vo['currency_id']))}">查看委托记录</a><br>
+                            <a class="link-update" href="{:url('Currency/add',array('currency_id'=>$vo['currency_id']))}">修改</a>
+                            <a class="link-del"
+                               href="{:url('Currency/del',array('currency_id'=>$vo['currency_id']))}">删除</a>
+
+                            <a class="link-update" style="width:160px;"
+                               href="{:url('Currency/detail_para',array('currency_id'=>$vo['currency_id']))}">详细参数</a>
+
+                        </td>
+                    </tr>
+                {/volist}
+            </table>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    $("#walletNav").show();
+    $("#walletNav").children("li").eq(0).addClass("on");
+</script>

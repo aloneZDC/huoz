@@ -1,0 +1,39 @@
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="result-wrap ">
+    <div class="result-content"  style="margin-top: 20px;">
+        <form class="layui-form" >
+            <table class="layui-table" id="memberList">
+                <thead>
+                <tr>
+                    <th>上级ID</th>
+                    <th>上级手机</th>
+                    <th>上级邮箱</th>
+                    <th>层级</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="v"}
+                <tr>
+                    <td>
+                        <a href="javascript:void(0);" onclick="member_details({$v.member_id})">
+                            {$v.member_id}
+                        </a>
+                    </td>
+                    <td>{$v.phone}</td>
+                    <td>{$v.email}</td>
+                    <td>{$v.level}</td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

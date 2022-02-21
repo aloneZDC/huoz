@@ -1,0 +1,100 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">商品列表</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('Warrant/goods_list')}" method="get">
+                <table class="search-tab" style="margin-left: 15px;">
+                    <tr>
+                        <td><input class="common-text" placeholder="商品名称" name="title" value="{$Think.get.title}"  type="text"></td>
+                        <td>
+                            <select style="display: block; width: 150px;line-height: 23px;height: 29px;" class="common-text layui-select" name="category_id">
+                                <option value="">全部</option>
+                                {volist name="category" id="vo"}
+                                <option {if $Think.get.category_id == $vo['id']}selected{/if} value="{$vo['id']}">{$vo['name']}</option>
+                                {/volist}
+                            </select>
+                        </td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                        <td><a href="javascript:;" class="layui-open" data-url="{:url('Warrant/goods_add')}" data-title="添加商品">添加商品</a></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form class="layui-form">
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>商品名称</th>
+                        <th>分类</th>
+                        <th>总资产</th>
+                        <th>已兑换资产</th>
+                        <th>到期资产</th>
+                        <th>发布时间</th>
+                        <th>排序</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr data-id="{$v->id}">
+                        <td>{$v.id}</td>
+                        <td>{$v.title}</td>
+                        <td>{$v.category_name}</td>
+                        <td>{:floatval($v.price)} {$v.currency.currency_name}</td>
+                        <td>{:floatval($v.market)} {$v.currency.currency_name}</td>
+                        <td>{:floatval($v.return_num)} {$v.currency.currency_name}</td>
+                        <td>{:date("Y-m-d H:i:s", $v.time)}</td>
+                        <td>{$v.sort}</td>
+                        <td>
+                            {switch name="$v.status"}
+                            {case value="1"}上架中{/case}
+                            {case value="2"}已下架{/case}
+                            {/switch}
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="layui-open layui-btn layui-btn-normal layui-btn-sm" data-url="{:url('Warrant/goods_edit')}?id={$v.id}" data-title="编辑商品{$v.id}"><i class="layui-icon layui-icon-edit"></i></a>
+                            <button title="删除" class="layui-btn layui-btn-danger layui-btn-sm layui-confirm" data-id="{$v.id}" data-title="确认删除吗?" data-url="{:url('Warrant/goods_up_and_down',['status'=>3])}" type="button">
+                                <i class="layui-icon layui-icon-delete"></i>
+                            </button>
+                            {switch name="$v.status"}
+                            {case value="1"}
+                            <button title="下架" class="layui-btn layui-btn-danger layui-btn-sm layui-confirm" data-id="{$v.id}" data-title="确认要下架该商品吗?" data-url="{:url('Warrant/goods_up_and_down',['status'=>2])}" type="button">
+                                <i class="layui-icon layui-icon-down"></i>
+                            </button>
+                            {/case}
+                            {case value="2"}
+                            <button title="上架" class="layui-btn layui-btn-danger layui-btn-sm layui-confirm" data-id="{$v.id}" data-title="确认要上架该商品吗?" data-url="{:url('Warrant/goods_up_and_down',['status'=>1])}" type="button">
+                                <i class="layui-icon layui-icon-down"></i>
+                            </button>
+                            {/case}
+                            {/switch}
+                        </td>
+                    </tr>
+                    {/volist}
+
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'global'], function () {});
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

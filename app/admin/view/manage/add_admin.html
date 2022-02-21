@@ -1,0 +1,83 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">管理员管理</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Manage/addAdmin')}" method="post" id="myform" name="myform">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>管理员信息设置</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>管理员帐号：</th>
+                            <td><input name="username" id="" value="{$list.username}" type="text" {if condition="$list.admin_id >0 "}disabled="disabled"{/if}>
+                                <input name="admin_id" id="" value="{$list.admin_id}" type="hidden">
+                                <span id="showBug"  style=" margin-left:10px;color:#FF0000"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>姓名：</th>
+                            <td>
+                                <input name="nickname" id="" value="{$list.nickname}" type="text">
+                                <span id="showBug" style=" margin-left:10px;color:#FF0000"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>邮箱：</th>
+                            <td>
+                                <input name="email" value="{$list.email}" type="text">
+                                <span id="showBug" style=" margin-left:10px;color:#FF0000"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>备注：</th>
+                            <td>
+                                <textarea name="remarks" id="remarks" cols="120" rows="10">{$list.remarks}</textarea>
+                                <span id="showBug" style=" margin-left:10px;color:#FF0000"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>管理员密码：</th>
+                            <td><input name="password" id="" value="" type="password">
+                                <span id="showBug" style=" margin-left:10px;color:#FF0000"></span>
+                                {if condition="$list.admin_id >0 "}（为空则不修改）{/if}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>角色：</th>
+                            <td>
+                                <input type="radio" value="admin" name="rule" {if condition="empty($list) || $list.rule=='admin'"}checked="checked"{/if} /> 管理员
+                                <input type="radio" value="shenhe" name="rule" {if condition="$list && $list.rule=='shenhe'"}checked="checked"{/if} /> 财务撤销审核
+                                <input type="radio" value="caiwu" name="rule" {if condition="$list && $list.rule=='caiwu'"}checked="checked"{/if} /> 财务
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('Manage/index')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--/main-->
+</div>
+</body>
+</html>

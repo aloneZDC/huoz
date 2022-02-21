@@ -1,0 +1,63 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">汇总记录</span></div>
+    </div>
+
+
+    <div class="result-wrap ">
+        {if condition="$total && isset($total['total_release']) && $total['total_release']>0"}
+        <div style="line-height: 25px;margin: 10px 0;">
+            <p>总入金：{$total.total_num}
+                总奖励:{:keepPoint($total['total_release']+$total['total_recommand']+$total['total_power'],6)}
+                当前波比:{:keepPoint(($total['total_release']+$total['total_recommand']+$total['total_power'])/$total['total_num'],4)*100}%
+            </p>
+            <p>
+                总燃料：{$total.total_release} 总助力:{$total.total_recommand} 总动力：{$total.total_power}
+            </p>
+        </div>
+        {/if}
+    </div>
+    <div class="result-wrap ">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>总入金</th>
+                        <th>燃料</th>
+                        <th>助力</th>
+                        <th>动力</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name='list' id='vo'}
+                    <tr>
+                        <td>{$vo.today}</td>
+                        <td>{$vo.income_total}</td>
+                        <td>{$vo.release}</td>
+                        <td>{$vo.recommand}</td>
+                        <td>{$vo.power}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

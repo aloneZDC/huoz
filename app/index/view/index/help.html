@@ -1,0 +1,47 @@
+<script src="__PUBLIC__/static/home/js/common/swiper.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/common/swiper.min.css">
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/help/help.css">
+
+<div class="content">
+    <section class="section hero">
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="__PUBLIC__/static/home/images/index_bg.png" alt=""></div>
+            <div class="swiper-slide"><img src="//theme.zdassets.com/theme_assets/2147184/2e5246cbee850a53d15e4b77c0c6cb0fbdc31ed1.png" alt=""></div>
+          </div>
+        </div>
+    </section>
+    <div class="main">
+        <section class="section knowledge-base">
+            <section class="categories blocks">
+                <ul class="blocks-list">
+                    {volist name="list" id="vo"}
+                    <li class="blocks-item">
+                        <a href="{:url('index/new_guide')}?id={$vo.id}" class="blocks-item-link">
+                            <h4 class="blocks-item-title">{$vo.name}</h4>
+                        </a>
+                    </li>
+                    {/volist}
+                </ul>
+            </section>
+        </section>
+        <section class="articles min_hei">
+        <h3>{:lang('lan_top_questions')}</h3>
+        <ul class="article-list promoted-articles ">
+            {volist name="art_list" id="vo"}
+            <li class="promoted-articles-item">
+                <a href="{:url('help/index')}?id={$vo.article_id}">
+                {$vo.tc_title}
+                </a>
+            </li>
+            {/volist}
+
+        </ul>
+</section>
+    </div>
+</div>
+<script >
+var mySwiper = new Swiper('.swiper-container', {
+	autoplay: true,//可选选项，自动滑动
+})
+</script>

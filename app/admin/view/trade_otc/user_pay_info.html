@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        .ax_default {
+            font-family: 'Arial Normal', 'Arial';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 13px;
+            color: #333333;
+            line-height: normal;
+        }
+        #u1670_div {
+            border-width: 0px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            right: 0;
+            width: 1055px;
+            height: 848px;
+            background: inherit;
+            background-color: rgba(255, 255, 255, 1);
+            box-sizing: border-box;
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(121, 121, 121, 1);
+            border-radius: 0px;
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            margin: 0 auto;
+        }
+        .c_head_title{font-size: 18px;padding-top: 20px;padding-left: 20px;color: #333;display: inline-block;}
+        .c_head_trem{padding-top: 40px;padding-left: 20px;}
+        .c_main{padding-top: 20px;}
+        .c_main_left{float: left;width: 50%;padding-left: 20px;}
+        .c_main_right{width: 50%;}
+        .main_left_l{float: left;}
+        .main_left_l_title{float: right;padding-right: 20px;margin-bottom: 26px;}
+        .main_m_middle{height: 600px;float: left;border-right: 1px solid #999;}
+        .main_left_l_one{height: 30px;line-height: 30px;clear: both;}
+        .main_left_l_one span:nth-child(1){text-align: left;display: inline-block;width: 73px;}
+        .main_left_l_one span:nth-child(2){float: right;display: inline-block;padding-right: 20px;}
+        .main_left_l_one span:nth-child(3){float: right;display: inline-block;padding-right: 5px;}
+        .main_left_l_one img{width: 15px;height: 15px;float: right;margin-top: 7px;}
+        .main_left_r_title{padding-left: 20px;margin-bottom: 13px;display: inline-block;}
+        .main_left_r_one{height: 30px;line-height: 30px;}
+        .main_left_r p span{padding-left: 20px;}
+        .main_left_r_one img{width: 15px;height: 15px;vertical-align: middle;}
+
+        #u1722_div {
+            border-width: 0px;
+            position: absolute;
+            left: 560px;
+            top: 223px;
+            width: 465px;
+            height: 547px;
+            background: inherit;
+            background-color: rgba(255, 255, 255, 1);
+            box-sizing: border-box;
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(201, 201, 201, 1);
+            border-radius: 6px;
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+        .c_main_right_title{
+            color: #333;
+            font-size: 18px;
+            padding-left: 20px;
+            height: 60px;
+            line-height: 60px;
+            border-bottom: 1px solid rgba(201, 201, 201, 1);
+            margin: 0;
+        }
+        .c_main_cont{
+            height: 470px;
+            overflow: auto;
+            padding: 0 20px 0 16px;
+        }
+        .order_content_right_content_time, .order_content_right_content_tips {
+            margin: 10px auto;
+            display: flex;
+            justify-content: center;
+        }
+        .order_content_right_content_time .time {
+            height: 38px;
+            background: rgba(238, 238, 238, 1);
+            border-radius: 4px;
+            line-height: 38px;
+            padding: 0 10px;
+            font-size: 12px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: rgba(112, 117, 137, 1);
+            text-align: center;
+        }
+
+        .order_content_right_content_usertext {
+            width: 80%;
+            display: flex;
+            margin: 10px 0;
+            float: left;
+            font-size: 14px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: rgba(51, 51, 51, 1);
+            word-break: break-all;
+        }
+        .float_right {
+            float: right;
+            justify-content: flex-end;
+        }
+        .float_right > .order_content_right_content_usertext_img {
+            order: 1;
+        }
+        .order_content_right_content_usertext_img {
+            max-width: 37px;
+            min-width: 37px;
+            max-height: 37px;
+            min-height: 37px;
+            border-radius: 50%;
+            background: rgba(167, 95, 25, 1);
+            font-size: 18px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            text-align: center;
+            line-height: 37px;
+            cursor: pointer;
+        }
+        .order_content_right_content_usertext_text {
+            padding: 10px;
+            background: rgba(221, 221, 221, 1);
+            border-radius: 6px;
+            margin: 0 10px;
+        }
+        .order_content_right_content_user:after {
+            display: block;
+            clear: both;
+            content: "";
+            visibility: hidden;
+            height: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="u1670" class="ax_default box_1">
+    <div id="u1670_div" class="">
+        <span class="c_head_title">查看详情</span>
+        <div class="c_head_trem">
+            <p>
+                <span>会员ID：</span>
+                <span>{$info.member_id}</span>
+            </p>
+            <p>
+                <span>姓名：</span>
+                <span>{$info.name}</span>
+            </p>
+            <p>
+                <span>账户：</span>
+                <span>{$info.phone}</span>
+            </p>
+        </div>
+        <div class="c_main">
+            <div class="c_main_left">
+                <div class="main_left_l">
+                    <span class="main_left_l_title"></span>
+                    <notempty name="info.wechat">
+                    <volist name='info.wechat' id='vo' key="k">
+                        <p class="main_left_l_one">
+                            <span><if condition="$k==1">微信账户</if></span>
+                            <span><if condition="$vo[2]">默认       </if></span>
+                            <notempty name="vo['1']"> <span><a target="_blank" href="{$vo['1']}"><img src="{$vo['1']}" style="height: 50px;width: 50px"/></a></span>  </notempty>
+                            <span>{$vo[0]}&nbsp;&nbsp;&nbsp;</span>
+                        </p>
+                    </volist>
+                    <volist name='info.alipay' id='vo' key="k">
+                        <p class="main_left_l_one">
+                            <span><if condition="$k==1">支付宝账户</if></span>
+                            <span><if condition="$vo[2]">默认       </if></span>
+                            <notempty name="vo['1']"><span><a target="_blank" href="{$vo['1']}"><img src="{$vo['1']}" style="height: 50px;width: 50px"/></a></span></notempty>
+                            <span>{$vo[0]}&nbsp;&nbsp;&nbsp;</span>
+                        </p>
+                    </volist>
+                    <volist name='info.bank' id='vo' key="k">
+                        <p class="main_left_l_one">
+                            <span><if condition="$k==1">银行账户</if></span>
+                            <span><if condition="$vo[2]">默认</if></span>
+                            <span>{$vo[1]}&nbsp;&nbsp;&nbsp;</span>
+                            <span>{$vo[0]}&nbsp;&nbsp;&nbsp;</span>
+                        </p>
+                    </volist>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

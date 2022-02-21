@@ -1,0 +1,82 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+				<a href="javascript:;">首页</a> <a href="javascript:;">钱包管理</a>
+				<a href="javascript:;"> <cite>钱包地址管理</cite></a>
+			</span>
+    <a class="layui-btn layui-btn-sm" style="margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);"
+       title="刷新">
+        <i class="layui-icon layui-icon-refresh"></i>
+        <!-- <i class="layui-icon" style="line-height:30px">&#x1002;</i> -->
+    </a>
+</div>
+
+<div class="weadmin-body">
+    <form class="">
+        数据搜索：
+        <div class="layui-inline">
+            <label for="member_id"></label>
+            <input class="layui-input" placeholder="请输入用户ID" name="member_id" id="member_id" value="{$Think.get.member_id}" />
+        </div>
+        <div class="layui-inline">
+            <label for="ename"></label>
+            <input class="layui-input" placeholder="请输入用户名" name="ename" id="ename" value="{$Think.get.ename}" />
+        </div>
+        <div class="layui-inline">
+            <select name="currency_id" lay-filter="currency_id" class="layui-select">
+                <option value="">币种类型</option>
+                {volist name="currencys" id="vo"}
+                <option value="{$vo.currency_id}" {if(!empty($Think.get.currency_id) && $Think.get.currency_id==$vo['currency_id'])}selected{/if} > {$vo.name}</option>
+                {/volist}
+            </select>
+        </div>
+        <button class="layui-btn" type="submit" lay-submit="" lay-filter="sreach">
+            <i class="layui-icon layui-icon-search"></i>搜索
+        </button>
+    </form>
+
+    <table class="layui-table" id="memberList">
+        <thead>
+        <tr>
+            <th>用户ID</th>
+            <th>用户名称</th>
+            <th>手机/邮箱</th>
+            <th>币种名称</th>
+            <th>充币地址</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+        <tr data-id="{$v->cae_id}">
+            <td>{$v->users->member_id}</td>
+            <td>{$v->users->ename}</td>
+            <td>{if($v->users->phone)}{$v->users->phone}{else}{$v->users->email}{/if}</td>
+            <td>{$v->name}</td>
+            <td>{$v->cae_address}</td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <span class="fr" style="line-height:40px">共有数据：{$count} 条</span>
+
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+{include file="layout/footer"}
+
+<script>
+    layui.use(['laydate'], function () {
+        let laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+    });
+</script>

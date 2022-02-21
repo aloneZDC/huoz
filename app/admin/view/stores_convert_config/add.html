@@ -1,0 +1,104 @@
+<script>
+    function checkForm() {
+        document.getElementById('myform').submit();
+    }
+</script>
+<style>
+    .we-red {
+        color: red;
+    }
+</style>
+<form class="layui-form form" action="">
+    <div class="weadmin-body">
+        <div class="layui-form-item">
+            <label class="layui-form-label">币种</label>
+            <div class="layui-input-block">
+                <select name="currency_id">
+                    <option value=""></option>
+                    {volist name="currency" id="vo"}
+                    <option value="{$vo.currency_id}">{$vo.currency_name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-block">
+                <select name="currency_field">
+                    <option value=""></option>
+                    {volist name="type_list" id="vo"}
+                        <option value="{$key}">{$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">到账币种</label>
+            <div class="layui-input-block">
+                <select name="to_currency_id">
+                    <option value=""></option>
+                    {volist name="currency" id="vo"}
+                        <option value="{$vo.currency_id}">{$vo.currency_name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">到账类型</label>
+            <div class="layui-input-block">
+                <select name="to_currency_field">
+                    <option value=""></option>
+                    {volist name="type_list" id="vo"}
+                    <option value="{$key}">{$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">到账比例</label>
+            <div class="layui-input-block">
+                <input type="number" class="layui-date layui-input" name="to_currency_inc_percent" value=""> %
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">最低数量</label>
+            <div class="layui-input-block">
+                <input type="number" class="layui-date layui-input" name="min_num" value="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">最高数量</label>
+            <div class="layui-input-block">
+                <input type="number" class="layui-date layui-input" name="max_num" value="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">手续费百分比</label>
+            <div class="layui-input-block">
+                <input type="number" class="layui-date layui-input" name="fee" value=""> %
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <a class="layui-btn submit" data-url="{:url('add')}">立即提交</a>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use(['add', 'global','form'], function () {
+        globals=layui.global,form=layui.form;
+    });
+</script>
+</div>
+</body>
+</html>

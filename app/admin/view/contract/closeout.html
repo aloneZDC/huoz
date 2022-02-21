@@ -1,0 +1,228 @@
+<div class="weadmin-nav layui-clear">
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i
+                class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <form class="layui-form form">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单ID</label>
+            <div class="layui-input-block">
+                <input type="number" name="id" id="id" value="{$data.id}" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单编号</label>
+            <div class="layui-input-block">
+                <input type="text" id="number" value="{$data.number}" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户ID</label>
+            <div class="layui-input-block">
+                <input type="number" id="member_id" value="{$data.member_id}" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">账户类型</label>
+            <div class="layui-input-block">
+                <select id="money_type" disabled="disabled">
+                    {volist name="moneyTypeList" id="vo"}
+                    {if $key == $data.money_type.'_'.$data.money_currency_id}
+                    <option value="{$key}" selected>{$vo}</option>
+                    {else/}
+                    <option value="{$key}">{$vo}</option>
+                    {/if}
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单类型</label>
+            <div class="layui-input-block">
+                <select id="type" disabled="disabled">
+                    {volist name="typeList" id="vo"}
+                        {if $key == $data.type}
+                            <option value="{$key}" selected>{$vo}</option>
+                        {else/}
+                            <option value="{$key}">{$vo}</option>
+                        {/if}
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">交易对ID</label>
+            <div class="layui-input-block">
+                <input type="number" id="trade_id" value="{$data.trade_id}" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">交易对</label>
+            <div class="layui-input-block">
+                <select id="trade_id" disabled="disabled">
+                    {volist name="tradeList" id="vo"}
+                    {if $key == $data.trade_id}
+                    <option value="{$key}" selected>{$vo}</option>
+                    {else/}
+                    <option value="{$key}">{$vo}</option>
+                    {/if}
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">买类型</label>
+            <div class="layui-input-block">
+                <select id="buy_type" disabled="disabled">
+                    {volist name="buyTypeList" id="vo"}
+                    {if $key == $data.buy_type}
+                    <option value="{$key}" selected>{$vo}</option>
+                    {else/}
+                    <option value="{$key}">{$vo}</option>
+                    {/if}
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">杠杆</label>
+            <div class="layui-input-block">
+                <input type="number" id="lever_num" value="{$data.lever_num}" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">保证金数量</label>
+            <div class="layui-input-block">
+                <input type="text" id="money_currency_num" value="{$data.money_currency_num}&nbsp;{if $data.money_type == 1}{$data.money_currency.currency_name}{else/}{$virtual_currency_name}{/if}" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">保险金数量</label>
+            <div class="layui-input-block">
+                <input type="text" id="safe_currency_num" value="{$data.safe_currency_num}&nbsp;{if $data.money_type == 1}{$data.money_currency.currency_name}{else/}{$virtual_currency_name}{/if}" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">保险金比例</label>
+            <div class="layui-input-block">
+                <input type="text" id="safe_percent" value="{$data.safe_percent}%" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">成交价格</label>
+            <div class="layui-input-block">
+                <input type="number" id="deal_price" value="{$data.deal_price}" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">止盈类型</label>
+            <div class="layui-input-block">
+                <select id="stop_profit_type" disabled="disabled">
+                    {volist name="stopTypeList" id="vo"}
+                    {if $key == $data.stop_profit_type}
+                    <option value="{$key}" selected>{$vo}</option>
+                    {else/}
+                    <option value="{$key}">{$vo}</option>
+                    {/if}
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">止盈比例</label>
+            <div class="layui-input-block">
+                <input type="text" id="stop_profit_percent" value="{$data.stop_profit_percent}%" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">止盈平仓价</label>
+            <div class="layui-input-block">
+                <input type="number" id="stop_profit_price" value="{$data.stop_profit_price}" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">止损类型</label>
+            <div class="layui-input-block">
+                <select id="stop_loss_type" disabled="disabled">
+                    {volist name="stopTypeList" id="vo"}
+                    {if $key == $data.stop_loss_type}
+                    <option value="{$key}" selected>{$vo}</option>
+                    {else/}
+                    <option value="{$key}">{$vo}</option>
+                    {/if}
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">止损比例</label>
+            <div class="layui-input-block">
+                <input type="text" id="stop_loss_percent" value="{$data.stop_loss_percent}%" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">止损平仓价</label>
+            <div class="layui-input-block">
+                <input type="number" id="stop_loss_price" value="{$data.stop_loss_price}" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">当前价格(火币)</label>
+            <div class="layui-input-block">
+                <input type="text" id="close_price" value="{$data.close_price}" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">当前收益(当前价格计算)</label>
+            <div class="layui-input-block">
+                <input type="text" id="income_money" value="{$data.income_money}&nbsp;{if $data.money_type == 1}{$data.money_currency.currency_name}{else/}{$virtual_currency_name}{/if}" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">平仓价</label>
+            <div class="layui-input-block">
+                <input type="text" name="closeout_price" id="closeout_price" value="{$data.close_price}" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit" type="submit" lay-filter="add" lay-submit="">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'admin', 'layer'], function () {
+        let form = layui.form;
+
+        form.on("submit(add)", data => {
+            $.post("{:url('closeout')}", data.field, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, function () {
+                        // 获得frame索引
+                        let index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        window.parent.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+            return false;
+        });
+    });
+</script>
+
+
+</div>
+</body>
+</html>

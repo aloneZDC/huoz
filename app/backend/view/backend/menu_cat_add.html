@@ -1,0 +1,53 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">首页</a> <a href="javascript:;">菜单分类管理</a><a><cite>添加菜单分类</cite></a>
+    </span>
+    <span class="fr">
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <form class="layui-form form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="form[name]" placeholder="请输入名称" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">icon</label>
+            <div class="layui-input-block">
+                <input type="text" name="form[icon]" placeholder="请输入icon" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否开启</label>
+            <div class="layui-input-block">
+                <input type="checkbox" checked="" name="form[status]" value="1" lay-skin="switch" lay-text="ON|OFF">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="text" name="form[sort_id]" placeholder="请输入排序" class="layui-input" value="99">
+                <div class="layui-form-mid layui-word-aux">升序排序 即值小排在前面 默认99</div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit" type="button" lay-submit="" lay-filter="submit" data-url="{:url('menu_cat_add',['param'=>'menu_cat'])}">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form','add'], function() {});
+</script>
+
+{include file="layout/footer"}

@@ -1,0 +1,62 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">新增白名单</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:url('')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+            	<input type="hidden" name='rwl_id' value="{$list.rwl_id}">
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>用户ID：</th>
+                            <td><input type="text" id="rwl_member_id" value="{$list.rwl_member_id}" size="85" name="rwl_member_id" placeholder="用户ID" class="common-text" {if $list.rwl_id gt 0}disabled="disabled"{/if}></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>等级：</th>
+                            <td>
+                                <select name="rwl_level_id">
+                                    {volist name="levelList" id="vo"}
+                                    <option value="{$key}" {if $list.rwl_level_id == $key}selected{/if} >{$vo}</option>
+                                    {/volist}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>状态：</th>
+                            <td>
+                                <select name="rwl_status">
+                                    {volist name="statusList" id="vo"}
+                                    <option value="{$key}" {if $list.rwl_status == $key}selected{/if} >{$vo}</option>
+                                    {/volist}
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:url('Room/white_setting')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    $("#gameNav").show();
+    $("#gameNav").children("li").eq(7).addClass("on");
+</script>

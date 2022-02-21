@@ -1,0 +1,146 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">首页</a> <a href="javascript:;">财务管理</a> <a><cite>提现管理</cite></a>
+    </span>
+
+    <span class="fr">
+        <a class="layui-btn layui-open layui-btn-sm" data-url="{:url('withdraw_config',['param'=>'withdraw'])}" data-title="提现配置" data-width="60%" data-height="80%" href="javascript:;">编辑提现配置</a>
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class=" layui-col-md12 we-search">
+            <div class="layui-inline">
+                <label></label>
+                <input class="layui-input" placeholder="请输入用户ID" name="member_id" value="{$Think.get.member_id}" />
+            </div>
+
+            <div class="layui-inline">
+                <label>审核状态: </label>
+                <select style="display: inline; width: 100px;" class="layui-select" name="check_status">
+                    <option value="">全部</option>
+                    <option value="1" {if condition="$Think.get.check_status ==1"}selected{/if} >通过</option>
+                    <option value="2" {if condition="$Think.get.check_status ==2"}selected{/if} >拒绝</option>
+                </select>
+            </div>
+
+            <div class="layui-inline">
+                <label>支付状态: </label>
+                <select style="display: inline; width: 100px;" class="layui-select" name="pay_status">
+                    <option value="">全部</option>
+                    <option value="1" {if condition="$Think.get.pay_status ==1"}selected{/if} >未支付</option>
+                    <option value="2" {if condition="$Think.get.pay_status ==2"}selected{/if} >已支付</option>
+                </select>
+            </div>
+
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+
+            <input type="hidden" name="export" id="dao" value="0">
+            <button class="layui-btn" lay-submit="" lay-filter="export">
+                <i class="iconfont icon-export"></i>导出数据
+            </button>
+        </form>
+    </div>
+
+    <form class="layui-form" >
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>会员ID</th>
+                <th>真实姓名</th>
+<!--                <th>微信号/手机号</th>-->
+                <th>银行卡号</th>
+                <th>开户银行</th>
+                <th>实际扣款金额</th>
+                <th>手续费</th>
+                <th>实际到账金额</th>
+                <th>到账人民币</th>
+                <th>提现时间</th>
+                <th>审核状态</th>
+                <th>审核备注</th>
+                <th>支付状态</th>
+                <th>一审</th>
+                <th>二审</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="v"}
+            <tr data-id="{$v->member_id}">
+<!--                <td><a class="layui-open" data-url="{:url('CurrencyUser/accountbook',['member_id'=>$v->member_id])}" data-width="90%" -->
+<!--                       data-title="{$v->member_id}账本"  href="javascript:;">{$v->member_id}</a></td>-->
+                <td><a href="javascript:void(0)" onclick="window.openUser({$v.member_id})">{$v.member_id}</a></td>
+                <td>{if $v->wechatbind['actual_name']}{$v->wechatbind['actual_name']}{else} {$v->memberbank['actual_name']}{/if}</td>
+                <td>{$v->memberbank['bank_card']}</td>
+                <td>{$v->memberbank['open_bank']}</td>
+                <td>{$v->fee + $v->amount}</td>
+                <td>{$v->fee}</td>
+                <td>{$v->amount}</td>
+                <td>{$v->pay_num}</td>
+                <td>{:date('Y-m-d H:i:s',$v['add_time'])}</td>
+                <td>{$v->check_status}</td>
+                <td>{$v->desc}</td>
+                <td>{$v->pay_status_name}</td>
+                <form action="{:url('Currency/withdraw_list',['param'=>'withdraw'])}" method="post">
+                    <td>
+                        <input name="message1" type="text" value="{$v.message1}" style="height:40px;padding-left:5px;"/>
+                        <input type="hidden" value="{$v['member_id']}" name="m_id"/>
+                        <input type="hidden" value="{$v['id']}" name="id"/>
+                        <input name="mit" value="提&nbsp;&nbsp;交" type="submit" align="center"
+                               style="font-family:'微软雅黑'; width:50px; height:30px; font-size:14px; color:#fff; background:#711818; cursor:pointer;"/>
+                    </td>
+                </form>
+                <form action="{:url('Currency/withdraw_list',['param'=>'withdraw'])}" method="post">
+                    <td>
+                        <input name="message2" type="text" value="{$v.message2}" style="height:40px;padding-left:5px;">
+                        <input type="hidden" value="{$v['member_id']}" name="m_id">
+                        <input type="hidden" value="{$v['id']}" name="id">
+                        <input name="mit2" value="提&nbsp;&nbsp;交" type="submit" align="center"
+                               style="font-family:'微软雅黑'; width:50px; height:30px; font-size:14px; color:#fff; background:#711818; cursor:pointer;">
+                    </td>
+                </form>
+                <td class="td-manage">
+                    <div style="margin-bottom: 10px;">
+                    <a class="layui-btn layui-btn-sm layui-open" data-url="{:url('withdraw_review',['param'=>'withdraw','id'=>$v->id])}" data-title="转账审核"  href="javascript:;">审核</a>
+                    </div>
+                    {if ($v.pay_status == 0)}
+                    <div>
+                        <a class="layui-btn layui-btn-sm layui-ajax" data-url="{:url('withdraw_transfer',['param'=>'withdraw','id'=>$v->id])}" data-title="确认转账"  href="javascript:;">转账</a>
+                    </div>
+                    {/if}
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','global','index'], function () {
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(sreach)', function(data){
+            $("#dao").val("0");
+            data.field.daochu = 1;
+        });
+        form.on('submit(export)', function(data){
+            $("#dao").val("1");
+            data.field.daochu = 1;
+        });
+    });
+</script>
+{include file="layout/footer"}

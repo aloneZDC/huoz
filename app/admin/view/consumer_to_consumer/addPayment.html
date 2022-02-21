@@ -1,0 +1,65 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">支付方式管理</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('ConsumerToConsumer/addPayment')}" method="post" id="myform" name="myform"
+              enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>添加支付方式</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>支付方式：</th>
+                            <td><select name="type" id="type" data-value="{$admin_payment.type}">
+                                <option value="">请选择</option>
+                                <option value="2">支付宝</option>
+                                <option value="3">微信</option>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>账号：</th>
+                            <td><input id="username" name="username" type="text" value="{$admin_payment.username}"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>收款二维码：</th>
+                            <td><input id="qrcode" name="qrcode" type="file" value="{$admin_payment.bankadd}"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="button" onclick="subform()" value="提交" class="btn btn-primary btn6 mr10">
+                                <input name="id" type="hidden" value="{$admin_payment.id}">
+                                <a href="{:U('ConsumerToConsumer/paymentList')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(function () {
+        var id = $('#type').attr('data-value');
+        $('#type').children('option').each(function () {
+            if($(this).val() == id){
+                $(this).attr("selected","selected");
+            }
+        })
+    })
+    function subform() {
+        $('#myform').submit();
+    }
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

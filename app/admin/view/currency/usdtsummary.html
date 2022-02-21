@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>USDT汇总</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/iconfont/demo.css">
+    <style>
+        .user_profile {
+            padding: 10px;
+        }
+
+        .user_profile .nav {
+            z-index: 999;
+            background-color: #fff;
+        }
+
+        .user_profile .profile_content {
+            z-index: 1;
+        }
+
+        .user_profile .profile_content > div {
+            margin: 20px auto auto;
+            display: none;
+        }
+
+        .select_currency {
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            color: #333;
+            background-color: #ebebeb;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: #c6e0b4;
+        }
+    </style>
+</head>
+<body>
+<div class="user_profile">
+    <div class="profile_content">
+        <div class="row eth" style="display: inherit;">
+            <div class="col-md-8" style="padding-left: 0;padding-right: 0;">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading"></div>
+                    <form class="form-horizontal" id="form" style="margin-top: 20px;padding: 0 20px;">
+                        <input type="hidden" value="{$data.wuc_id}" name="wucid">
+                        <input type="hidden" value="{$data.wuc_wc_id}" name="wuc_wc_id">
+                        <input type="hidden" value="{$data.wuc_user_id}" name="wuc_user_id">
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label">USDT待汇总数量</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="money" disabled="disabled"  value="{$data.usdt}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label">BTC数量</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="btc" disabled="disabled"  value="{$data.btc}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label">汇总数量</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  id="summary" name="summary" value="{$data.usdt}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="button" class="btn btn-primary" data-content-id="get" id="button">确定</button>
+                                <!--<button type="button" class="btn btn-info cancle" data-content-id="send" style="margin-left: 15px;">取消</button>-->
+                                <span class="btn eth_fee hide" style="margin-left: 10px;"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var mylay = parent.layer.getFrameIndex(window.name);
+        $('#button').click(function () {
+            layer.confirm('确认汇总吗？', {
+                btn: ['是的','再想想'] //按钮
+            }, function(){
+                return submit();
+            }, function(){
+                layer.msg('取消了', {icon: 0});
+                return false;
+            });
+        })
+        function submit(){
+            var money=$("#summary").val();
+            var btc=$("#btc").val();
+            if(money<0){
+                layer.msg('汇总数量不能为负数', {icon: 0});
+                return false;
+            }
+            /* if(btc<0.00006){
+                layer.msg('btc手续费不足，最少为0.00006个btc', {icon: 0});
+                return false;
+            } */
+            var loading_text = "提交中，请稍等···",
+                url = "{:url('usdtsummary')}";
+            var loading = layer.msg(loading_text, {
+                icon: 16
+                , shade: 0.3
+                , time: 0
+                , scrollbar: false
+            });
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: $('#form').serialize(),
+                url: url,
+                success: function (callback) {
+                    if(callback.code == 10000){
+                        layer.alert(callback.message, {icon: 1});
+                        setTimeout(function () {
+                            window.parent.location.reload();
+                            parent.layer.close(mylay);
+                        },3000);
+                    }else{
+                        layer.alert(callback.message, {icon: 5});
+                    }
+                    layer.close(loading);
+                    return false;
+                }
+            })
+        }
+    });
+</script>
+</body>
+</html>

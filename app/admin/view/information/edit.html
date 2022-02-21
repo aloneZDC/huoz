@@ -1,0 +1,170 @@
+{include file="../app/admin/view/public/left.html" /}
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/plugins/prettify.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/uploadPreview.js"></script>
+<script>
+    function checkForm() {
+        editor1.sync();
+        // editor2.sync();
+        editor3.sync();
+    <?php if(empty($_GET['lang']) || $_GET['lang'] == 'zh'){ ?>
+            var name = document.getElementById('title').value;
+
+            if (name == "") {
+                alert('请填写标题');
+                return false;
+            }
+            let en_name = document.getElementById('en_title').value;
+            if (en_name == "") {
+                alert('请填写英文标题');
+                return false;
+            }
+        <?php } ?>
+        document.getElementById('myform').submit();
+    }
+</script>
+
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><a
+                class="crumb-name" href="{:url('index')}">资讯管理</a><span
+                class="crumb-step">&gt;</span><span>新增资讯</span></div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form action="{:url('edit')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <table class="insert-tab" width="100%">
+                    <tbody>
+                    <tr>
+                        <th width="120"><i class="require-red">*</i>分类：</th>
+                        <td>
+                            <select name="category_id" id="category_id" class="required">
+                                {volist name="categories" id="category"}
+                                <option {if $data.category_id==$category.id}{/if} value="{$category.id}">{$category.name}</option>
+                                {/volist}
+                            </select>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th>状态</th>
+                        <td>
+                            <label><input type="radio" name="status" value="1" {if $data.status == 1}checked="checked"{/if}> 正常</label>
+                            <label><input type="radio" name="status" value="2" {if $data.status == 2}checked="checked"{/if}> 禁用</label>
+                        </td>
+                    </tr>
+
+                    <!--
+                    <tr>
+                        <th><i class="require-red">*</i>排序：</th>
+                        <td><input class="common-text required" id="sort" name="sort" size="50" value=""
+                                   type="text" placeholder="请输入数字(升序排序)"></td>
+                    </tr>
+-->
+                    <tr>
+                        <th>缩略图：</th>
+                        <td>
+                            <div id="logodiv1">
+                                <img style="cursor: pointer; margin:10px;" id="logoShow1" width="200" height="150" src="{$data.pic}"  data-src="{$data.pic}"/>
+                                <input type="file" id="art_pic" name="art_pic"/>
+                            </div>
+                            <script type="text/javascript">
+                                $('#logodiv1').children('input[id="art_pic"]').hide();
+                                $('#logoShow1').on('click', function(e) {
+                                    e.preventDefault();
+                                    $('#logodiv1').children('input[id="art_pic"]').trigger('click');
+                                })
+                                $(function(){ new uploadPreview({ UpBtn: "art_pic", DivShow: "logodiv1", ImgShow: "logoShow1" })});
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>切换语言：</th>
+                        <td class="lang"><span class="active">中文</span><!--<span>泰语</span>--><span>英文</span></td>
+                    </tr>
+                    <tr class="lang-content lang-0" style="display: table-row;">
+                        <th><i class="require-red">*</i>中文标题：</th>
+                        <td><input class="common-text required" id="title" name="title" size="50" value="{$data.title}" type="text">
+                        </td>
+                    </tr>
+                    <tr class="lang-content lang-0" style="display: table-row;">
+                        <th>中文内容：</th>
+                        <td><textarea id="content" name="content" cols="30" style="width:800px;height:300px;"
+                                      rows="10">{$data.content}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor1 = K.create('#content',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <!-- <tr class="lang-content lang-1">
+                         <th><i class="require-red">*</i>泰语标题：</th>
+                         <td><input class="common-text required" id="title" name="title" size="50" value=""
+                                    type="text"></td>
+                     </tr>
+                     <tr class="lang-content lang-1">
+                         <th>泰语内容：</th>
+                         <td><textarea id="content" name="content" cols="30" style="width:800px;height:300px;" rows="10"></textarea>
+                             <script>
+                                 KindEditor.ready(function (K) {
+                                     window.editor2 = K.create('#content',{
+                                         uploadJson : '{:url("Art/oss_file_upload")}',
+                                         fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                     });
+                                 });
+                             </script>
+                         </td>
+                     </tr>-->
+                    <tr class="lang-content lang-1">
+                        <th><i class="require-red">*</i>英文标题：</th>
+                        <td><input class="common-text required" id="en_title" name="en_title" size="50" value="{$data.en_title}"
+                                   type="text"></td>
+                    </tr>
+                    <tr class="lang-content lang-1">
+                        <th>英文内容：</th>
+                        <td><textarea id="en_content" name="en_content" cols="30" style="width:800px;height:300px;" rows="10">{$data.en_content}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor3 = K.create('#en_content',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <tr class="lang-content lang-1">
+
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td>
+                            <input type="hidden" value="{$data.id}" name="id" />
+                            <input class="btn btn-primary btn6 mr10" value="提交" type="button" onclick="checkForm()">
+                            <input class="btn btn6" onclick="window.location='{:url("index")}'" value="返回" type="button"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<!--/main-->
+
+</div>
+</body></html>
+<script>
+    $('.lang span').click(function(){
+        var index = $('.lang span').index(this);
+        console.log(index)
+        $(this).addClass('active').siblings().removeClass('active')
+        $('.lang-content').hide();
+        $('.lang-'+index).show();
+    })
+</script>

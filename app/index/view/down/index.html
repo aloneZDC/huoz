@@ -1,0 +1,70 @@
+<script>
+    var browser={ versions:function(){
+        var u = navigator.userAgent, app = navigator.appVersion;
+        return {
+            trident: u.indexOf('Trident') > -1,
+            presto: u.indexOf('Presto') > -1,
+            webKit: u.indexOf('AppleWebKit') > -1,
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,
+            mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+            android: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1,
+            iPhone: u.indexOf('iPhone') > -1 ,
+            iPad: u.indexOf('iPad') > -1,
+            webApp: u.indexOf('Safari') == -1,
+            weixin: u.indexOf('MicroMessenger') > -1,
+            qq: u.match(/\sQQ/i) == " qq"
+        }; }(),
+        language:(navigator.browserLanguage || navigator.language).toLowerCase() }
+    if(browser.versions.mobile||browser.versions.android||browser.versions.ios){
+        location.href = "/index/down/mobile";
+    }
+</script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/down/index.css">
+<div id="banner_wrap">
+    <img class="erwei_code" src="__PUBLIC__/static/home/images/qrcode.png" alt="">
+</div>
+<div id="down_wrap" hidden>
+    <div class="download_left">
+        <h2>{:lang('lan_dow_Purse_downloads')}</h2>
+        <ul>
+            {volist name="list" id="vo"}
+            <li>
+                <img src="{$vo.currency_logo}" >
+                <span>{$vo.currency_mark|default=''}</span>
+                <a href="{$vo.qianbao_url}">
+                    {:lang('lan_dow_Purse_downloads')}
+                </a>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    <div class="download_right">
+        <h2>{:lang('lan_dow_Browser_download')}</h2>
+        <ul>
+            <li>
+                <img src="__PUBLIC__/static/home/images/d-chrome.png" >
+                <span>Chrome</span>
+                <a href="https://www.google.cn/chrome/" target="_blank">{:lang('lan_dow_Official_down')}</a>
+            </li>
+            <li>
+                <img src="__PUBLIC__/static/home/images/d-firefox.png" >
+                <span>FireFox</span>
+                <a href="http://www.firefox.com.cn/" target="_blank">{:lang('lan_dow_Official_down')}</a>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $(".download_btn").on("mouseenter","a",function(){
+            $(this).siblings().show();
+        })
+        $(".download_btn").on("mouseout","a",function(){
+            $(this).siblings().hide()
+        })
+    })
+</script>
+

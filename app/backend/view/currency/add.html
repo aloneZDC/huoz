@@ -1,0 +1,129 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">财务管理</a> <a href="javascript:;">币种管理</a>
+        <a href="javascript:;"> <cite>添加币种</cite></a>
+    </span>
+    <span class="fr">
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <form class="layui-form form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label" title="货币LOGO">货币LOGO</label>
+            <div class="layui-input-block">
+                <div class="image_list">
+                    <div class="img_box">
+                        <div class="layui-upload-drag image_file" data-field="form[currency_logo]">
+                            <i class="layui-icon"></i>
+                            <p>点击上传，或将文件拖拽到此处</p>
+                        </div>
+                        <input type="hidden" name="form[currency_logo]" value="">
+                        <div class="img_data"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">货币名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="form[currency_name]" placeholder="请输入货币名称" value="" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">英文标识</label>
+            <div class="layui-input-block">
+                <input type="text" name="form[currency_mark]" placeholder="请输入英文标识" value="" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="text" name="form[sort]" placeholder="请输入排序" value="" class="layui-input">
+                <div class="layui-form-mid layui-word-aux">升序排序 即值小排在前面</div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="is_line" class="layui-form-label">
+                <span class="we-red">*</span>是否上线
+            </label>
+            <div class="layui-input-block" id="is_line">
+                <input type="radio" name="form[is_line]" value="1" title="上线" />
+                <input type="radio" name="form[is_line]" value="2" title="下线"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="currency_min_tibi" class="layui-form-label">
+                <span class="we-red"></span>最小提币数
+            </label>
+            <div class="layui-input-block">
+                <input type="number" id="currency_min_tibi" name="form[currency_min_tibi]" autocomplete="off" class="layui-input" value="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="recharge_switch" class="layui-form-label">
+                <span class="we-red"></span>充币开关
+            </label>
+            <div class="layui-input-block" id="recharge_switch">
+                <input type="radio" name="form[recharge_switch]" value="1" title="开启" />
+                <input type="radio" name="form[recharge_switch]" value="2" title="关闭" />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="take_switch" class="layui-form-label">
+                <span class="we-red"></span>提币开关
+            </label>
+            <div class="layui-input-block" id="take_switch">
+                <input type="radio" name="form[take_switch]" value="1" title="开启" />
+                <input type="radio" name="form[take_switch]" value="2" title="关闭" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="fee_less" class="layui-form-label">
+                <span class="we-red"></span>内转手续费
+            </label>
+            <div class="layui-input-block">
+                <input type="number" id="tcoin_fee" name="form[tcoin_fee]" autocomplete="off" class="layui-input" value=""/>
+                <div class="layui-form-mid layui-word-aux">单位：%</div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="fee_less" class="layui-form-label">
+                <span class="we-red"></span>固定手续费
+            </label>
+            <div class="layui-input-block">
+                <input type="number" id="fee_less" name="form[fee_less]" autocomplete="off" class="layui-input" value=""/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="fee_greater" class="layui-form-label">
+                <span class="we-red"></span>手续费%
+            </label>
+            <div class="layui-input-block">
+                <input type="number" id="fee_greater" name="form[fee_greater]" autocomplete="off" class="layui-input" value=""/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit" type="button" lay-submit="" lay-filter="submit" data-url="{:url('add',['param'=>'currency'])}">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var uploadUrl = "<?php echo url('index/img_upload'); ?>";
+    layui.use(['form','wpupload','add'], function() {});
+</script>
+
+{include file="layout/footer"}

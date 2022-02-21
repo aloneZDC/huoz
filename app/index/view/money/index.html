@@ -1,0 +1,279 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/wallet/index.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/money/index.css">
+<div id="content">
+    <!-- <h2>钱包</h2> -->
+    <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="first" data_url="tab/1"><a href="{:url('wallet/index',['tab'=>1])}">{:lang('lan_user_menu_assets')}</a></li>
+                <li data_url="tab/2"><a href="{:url('wallet/index',['tab'=>2])}">{:lang('lan_user_menu_financial_journal')}</a></li>
+                 <li data_url="tab/3"><a href="{:url('wallet/index',['tab'=>3])}">{:lang('x_xzhaunzhan')}</a></li>
+                <li class="layui-this" data_url="tab/4"><a href="{:url('Money/index',['tab'=>4])}">{:lang('lan_deposit_coin')}</a></li>
+            </ul>
+            <div class="layui-tab-content">
+                <div data_url="tab/4" class="show">
+                	<!--持币生息头部 start-->
+					<div class="header_t">
+					    <span>{:lang('lan_deposit_coin')}</span>
+					    <a href="{:url('Money/recond')}"> <span>{:lang('lan_Deposit_record')}</span></a>
+					</div>
+					<!--转入操作start-->
+					<div id="transfer_operation">
+
+					     <div class="transfer_operation">
+					             <p>{:lang('lan_Transfer_currency')}:</p>
+					             <div class="operation_r">
+					                 <p class="operation_a"><img src="{$current_currency.currency_logo}" >{$current_currency.currency_mark}</p>
+					                 <span class="operation_btn operation_a"><i></i></span>
+									 <ul class="operation_cur operation_cur_a">
+										 {if !empty($list)}
+										 {foreach $list as $vo}
+					                         <li data-id="{$vo.currency_id}"><img src="{$vo.currency_logo}">{$vo.currency_mark}</li>
+										 {/foreach}
+										 {/if}
+					                 </ul>
+					             </div>
+					         </div>
+
+					         <div class="transfer_operation">
+					             <p>{:lang('lan_Management_cycle')}:</p>
+					             <div class="operation_r">
+					                 <p class="Management_time operation_b">{$current_month.months}{:lang('lan_month')}</p>
+					                 <span class="operation_btn operation_b"><i></i></span>
+					                 <ul class="operation_cur operation_cur_b" >
+										 {if !empty($current_month_list)}
+										 {foreach $current_month_list as $vo}
+					                         <li data-json='{:json_encode($vo)}'>{$vo.months}{:lang('lan_month')}</li>
+										 {/foreach}
+										 {/if}
+					                 </ul>
+					             </div>
+					         </div>
+
+					         <div class="transfer_operation">
+					             <p>{:lang('lan_Estimated_annualized_income')}:</p>
+					             <div class="operation_r">
+					                 <span class="rate">{$current_month.rate}%</span>
+					             </div>
+					         </div>
+					         <div  class="transfer_operation ">
+					             <button>{:lang('lan_Transfer_to_deposit')}</button>
+					         </div>
+					</div>
+					<!-- 產品簡介 -->
+					<div id="product_description">
+					     <div class="product_description">
+					         <p>{:lang('lan_Features')}:</p>
+					         <p>{:lang('lan_money_interest_feature')}</p>
+					     </div>
+					     <div class="product_description">
+					         <p>{:lang('lan_Product_introduction')}:</p>
+					        <div class="product_description_r">
+					            <p>{:lang('lan_Product_introduction_text1')}</p>
+					            <p>{:lang('lan_Product_introduction_text2')}</p>
+					            <p>{:lang('lan_Product_introduction_text3')}</p>
+					            <p>{:lang('lan_Product_introduction_text4')}</p>
+					        </div>
+					     </div>
+					</div>
+					<!-- 转入定存弹框 -->
+					<div id="transfer">
+					    <span class="close_btn iconfont">&#xe64c;</span>
+					    <h2>{:lang('lan_Transfer_to_deposit')}</h2>
+					     <div class="management_period">
+					         <p>{:lang('lan_Management_cycle')}:</p>
+					         <p class="Management_time">{$current_month.months}{:lang('lan_month')}</p>
+					     </div>
+					     <div class="management_period">
+					         <p>{:lang('lan_Transfer_currency')}:</p>
+					         <p><img src="{$current_currency.currency_logo}" >{$current_currency.currency_mark}</p>
+					     </div>
+					     <div class="management_period">
+					             <p>{:lang('lan_Account_balance')}:</p>
+					             <p class="Balance">{$currency_user_num}</p>
+					             <a href="{:url('Pay/coin',['currency_id'=>$current_currency.currency_id])}">{:lang('lan_chongbi')}</a>
+					     </div>
+					     <div class="management_period">
+					             <p>{:lang('lan_Account_min_e')}:</p>
+					             <p class="min">{$current_month.min_num}</p>
+					     </div>
+					     <div class="management_period">
+					             <p>{:lang('lan_expected_return')}:</p>
+					             <p class="money"></p>
+					     </div>
+					     <div class="management_period">
+					             <p>{:lang('lan_Estimated_annualized_income')}:</p>
+					             <p class="rate">{$current_month.rate}%</p>
+					     </div>
+					     <div class="trade_i">
+					             <input class="trade_sum" type="text" autocomplete="off"  onkeyup="clearNoNum(this)" oninput="clearNoNum(this)" placeholder="{:lang('lan_Product_introduction_text5')}" value="" />
+					             <div>
+					                 <span>{$currency_user_num}</span>
+					                 <span class="allcny">{:lang('lan_whole')}</span>
+					             </div>
+					     </div>
+					     <div class="trade_i pass_box">
+					            <input  class="pass" type="password" autocomplete="new-password" maxlength="6" placeholder="{:lang('lan_enter_your_transaction_password')}" value="" />
+					     </div>
+					     <div class="submit_btn">
+					         <p class="cancel">{:lang('lan_cancel')}</p>
+					         <p class="determine" data-id="{$current_month.id}">{:lang('lan_determine_transfer')}</p>
+					     </div>
+					</div>
+					<div class="shade"></div>
+                </div>
+            </div>
+        </div>
+</div>
+<script>
+	    var flag1=true;
+	    var flag2=true;
+	    var Transfer_currency = ""; //转入币种ID
+	    var min_number =Number("{$current_month.min_num}"); //最小转入数
+	    var max_number ="{$currency_user_num}"; //最大转入数 余额
+	    var number =""; //转入的数量
+	    var rate = "{$current_month.rate}" ;//年化收益
+	    var dataId = "{$current_month.id}";
+	    var days = "{$current_month.days}";
+	    // 只能输入数字，且保留6位小数
+		function clearNoNum(obj){ 
+			    obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+			    obj.value = obj.value.replace(/\.{4,}/g,"."); //只保留第一个. 清除多余的  
+			    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$","."); 
+			    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d\d\d\d\d).*$/,'$1$2.$3');//只能输入6位小数  
+			    if(obj.value.indexOf(".")< 0 && obj.value !=""){
+			        obj.value= parseFloat(obj.value); 
+			    } 
+	            transferNumber();
+		};
+	    //输入的数量
+	    function transferNumber(){
+	        number = $(".trade_sum").val();
+	        if(max_number==0){
+	            number = 0;
+	            $(".trade_sum").val(max_number)
+	            layer.msg("{:lang('lan_expired_ts')}");
+	            return ;
+	        }else if(number > max_number){
+	            number = max_number;
+	            $(".trade_sum").val(max_number)
+	        }
+	    }
+
+	    //选择币种
+	    $('.operation_cur_a li').click(function(){
+	        window.location.href = "{:url()}?currency_id="+$(this).attr('data-id');
+	    });
+	    //选择管理周期
+	    $('.operation_cur_b li').click(function(){
+	        var data_json =JSON.parse($(this).attr("data-json"));
+	         $(".Management_time").html(data_json.months +"{:lang('lan_month')}");
+	         months = data_json.months;
+	         if(data_json.max_num != 0){
+	         	max_number = data_json.max_num;
+	         };
+	         $(".rate").html(data_json.rate + "%");
+	         $(".min").html(data_json.min_num);
+	         dataId = data_json.id;
+	         days = data_json.days;
+	         rate = data_json.rate;
+	    	 flag2=true;
+
+	    });
+	    //点击全部
+	    $(".allcny").click(function(){
+	        $(".trade_sum").val(max_number);
+	        number = max_number;
+	    });
+	    // 计算实际到账
+	    $(".trade_sum").on("input change",function(){
+	    	var num;
+	    	if($(this).val()){
+	    		var dayRate = Math.floor((rate/100/365)*1000000)/1000000;
+	    		var day = Math.floor((dayRate * $(this).val() * days)*1000000)/1000000;
+	    		num = Number($(this).val())+day;
+	    	}else{
+	    		num = "";
+	    	}
+	    	$(".money").html(num);
+	    });
+	    //提交转入
+	    var lock = true;
+	    $(".determine").click(function(){
+	    	if(lock){
+	    		lock = false;
+	    		if($(".trade_sum").val()==""){
+	    			layer.msg("{:lang('lan_chi_empty')}");
+	    			lock = true;
+	    			return;
+	    		}
+	    		if($(".pass").val()==""){
+	    			layer.msg("{:lang('lan_user_Transaction_password_empty1')}");
+	    			lock = true;
+	    			return;
+	    		}
+	    		$.ajax({
+	    			"url":'{:url("Money/addMoneyInterest")}',
+	    			"type":"POST",
+	    			"data":{
+	    		        id:dataId,//选中的期数id
+	    		        num:$(".trade_sum").val(),//存入数量
+	    		        paypwd:$(".pass").val(),//支付密码
+	    			},
+	    			success: function (data) {
+	    				if(data.code==10000){
+	    			        layer.msg(data.message);
+	    					setInterval(function(){
+	    			   		    location.href = "{:url('Money/recond')}";
+	    			   			lock = true;
+	    			   		},2000);
+	    				}else{
+	    					layer.msg(data.message);
+	    					lock = true;
+	    				}
+	    				
+	    			}
+	    		});
+	    	}
+		});
+	    $(".operation_a").click(function(e){
+	        e.stopPropagation ?  e.stopPropagation() : e.cancelBubble = true;
+	        $(".operation_b").parent().find(".operation_cur").hide();
+	        flag2=true;
+
+	        if(flag1){
+	            $(this).parent().find(".operation_cur").show()
+	            flag1=false;
+	        }else{
+	            $(this).parent().find(".operation_cur").hide()
+	            flag1=true;
+	        }
+	    })
+
+	    $(".operation_b").click(function(e){
+	        e.stopPropagation ?  e.stopPropagation() : e.cancelBubble = true;
+	        $(".operation_a").parent().find(".operation_cur").hide()
+	        flag1=true;
+	        if(flag2){
+	            $(this).parent().find(".operation_cur").show()
+	            flag2=false;
+	        }else{
+	            $(this).parent().find(".operation_cur").hide()
+	            flag2=true;
+	        }
+	    })
+	    $("body").click(function(){
+	        $(".operation_cur").hide();
+	    })
+
+	    $(".transfer_operation button").click(function(){
+	        $("#transfer").show();
+	        $(".shade").show();
+		    $(".trade_sum").val("");
+		    $(".pass").val("");
+	    })
+	    $(".close_btn,.cancel").click(function(){
+	        $("#transfer").hide();
+	        $(".shade").hide();
+	    })
+
+</script>

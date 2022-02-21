@@ -1,0 +1,236 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">首页</a> <a href="javascript:;">财务管理</a> <a><cite>充值管理</cite></a>
+    </span>
+
+    <span class="fr">
+        <a class="layui-btn layui-btn-sm layui-open" data-url="{:url('recharge_admin',['param'=>'recharge'])}" data-title="充值" data-width="800px"  href="javascript:;">充值</a>
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class=" layui-col-md12 we-search">
+            <div class="layui-inline">
+                <label>用户ID</label>
+                <input style="display: inline; width: 150px;"  class="layui-input" placeholder="请输入用户ID" name="user_id" value="{$Think.get.user_id}" />
+            </div>
+
+            <div class="layui-inline">
+                <label>选择状态: </label>
+                <select style="display: inline; width: 100px;" class="layui-select" name="status">
+                    <option value="">全部</option>
+                    {volist name="enum" id="item"}
+                    <option {if $Think.get.status == $key}selected{/if} value="{$key}">{$item}</option>
+                    {/volist}
+                </select>
+            </div>
+
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+    <form class="layui-form" >
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>充值用户ID</th>
+                <th>充值数量</th>
+                <th>订单编号</th>
+                <th>实际到账</th>
+                <th>转账凭证</th>
+                <th>申请时间</th>
+                <th>状态</th>
+                <th>审核时间</th>
+                <th>操作</th>
+                <th>一审</th>
+                <th>一审提交</th>
+                <th>二审</th>
+                <th>二审提交</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name='list' id='vo'}
+            <tr data-id="{$vo['id']}">
+                <td><a href="javascript:member_details({$vo.user_id});">{$vo.user_id}</a></td>
+                <td>{:floatval($vo.number)} <span style="color: red">{$vo.currency.currency_name}</span></td>
+                <td>{$vo.tx}</td>
+                <td>
+                    {if $vo.verify_number > 0}
+                    {:floatval($vo.verify_number)} {$vo.currency.currency_name}
+                    {/if}
+                </td>
+                <td><a href="javascript:;"  class="recharge_img" data-img="{$vo.img}" ><img src="{$vo.img}" alt="转账凭证" width="50" height="50" /></a></td>
+                <td>{$vo.add_time|date="Y-m-d H:i", ###}</td>
+                <td>{$enum[$vo.status]}</td>
+                <td>
+                    {if $vo.verify_time}
+                    {$vo.verify_time|date="Y-m-d H:i", ###}
+                    {/if}
+                </td>
+                <td>
+                    {if $vo.status eq 1}
+                    <a href="javascript:" class="layui-btn layui-btn-sm orders_down-success" data-url="{:url('review_success',['param'=>'review'])}" data-id="{$vo.id}" data-admin1="{$vo.admin_id1}" data-admin2="{$vo.admin_id2}">通过</a>
+                    <a href="javascript:" class="layui-btn layui-btn-sm layui-btn-danger orders_down-fail" data-url="{:url('review_fail',['param'=>'review'])}" data-id="{$vo.id}">拒绝</a>
+                    {/if}
+                </td>
+                <td><input class="review_first{$vo.id}" type="text" value="{$vo.message1}" style="height:24px;padding-left:5px;"></td>
+                <td><input value="提交" type="button" class="layui-btn layui-btn-sm review_first" data-url="{:url('review_first',['param'=>'review'])}" data-id="{$vo.id}"></td>
+                <td><input class="review_second{$vo.id}" type="text" value="{$vo.message2}" style="height:24px;padding-left:5px;"></td>
+                <td><input value="提交" type="button" class="layui-btn layui-btn-sm review_second" data-url="{:url('review_second',['param'=>'review'])}" data-id="{$vo.id}"></td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','global','index'],function (){
+        let $ = layui.jquery,layer = layui.layer,globals=layui.global;
+
+        $('.recharge_img').click(function () {
+            let img = $(this).data('img');
+            if(img) {
+                layer.open({
+                    title: '转账凭证'
+                    ,area: ['700px', '450px']
+                    ,content: '<div style="height: 100%;overflow: scroll;">' +
+                        '<img style="width: 100%" src="'+img+'" />' +
+                        '</div>'
+                });
+            }
+        });
+
+        // 一审
+        $('.review_first').click(function () {
+            let url = $(this).data('url');
+            let id = $(this).data('id');
+            let message = $('.review_first'+id).val();
+            if(message == '') {
+                layer.msg('请输入审核内容');
+            }
+            globals.ajax(url, {id: id, message1: message}, function (res) {
+                if (10000 === Number(res.code)) {
+                    layer.msg(res.message);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        })
+
+        // 二审
+        $('.review_second').click(function () {
+            let url = $(this).data('url');
+            let id = $(this).data('id');
+            let message = $('.review_second'+id).val();
+            if(message == '') {
+                layer.msg('请输入审核内容');
+            }
+            globals.ajax(url, {id: id, message2: message}, function (res) {
+                if (10000 === Number(res.code)) {
+                    layer.msg(res.message);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        })
+
+        // 拒绝通过审核
+        $('.orders_down-fail').click(function () {
+            let that = $(this);
+            layer.open({
+                id: 2,
+                type: 1,
+                title: '确认拒绝通过审核？',
+                style: 'width:80%;height:auto;',
+                area: ["250px", "150px"],
+                content: '',
+                btn: ["确定", "取消"],
+                yes: function (index, layero) {
+                    let url = $(that).data('url');
+                    let id = $(that).data('id');
+
+                    globals.ajax(url, {id: id}, function (res) {
+                        if (10000 === Number(res.code)) {
+                            layer.msg(res.message);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000);
+                        } else {
+                            layer.msg(res.message);
+                        }
+                    });
+                }
+            });
+
+        });
+
+        // 成功通过审核
+        $('.orders_down-success').click(function () {
+            let that = $(this);
+            let admin1 = $(that).data('admin1');
+            let admin2 = $(that).data('admin2');
+            if (admin1 == 0 || admin2 == 0) {
+                layer.msg("请先完成一审二审");
+                return false;
+            }
+            let money = that.data('money');
+            layer.open({
+                id: 1,
+                type: 1,
+                title: "请完善充币信息",
+                style: 'width:80%;height:auto;',
+                area: ["500px", "350px"],
+                content: "<div style='display:flex;justify-content:center;padding-top: 30px; width: 480px;'><label class='layui-form-label' for=\"tx\">订单编号：</label><input class='layui-input layui-input-inline' placeholder='请输入订单编号' id='tx' name='tx' /></div><div style='display:flex;justify-content:center;padding-top: 30px; width: 480px;'><label class='layui-form-label' for=\"verify_number\">审核数量(用户到账数量)：</label><input class='layui-input layui-input-inline' placeholder='请输入审核数量' id='verify_number' name='verify_number' /></div>",
+                btn: ["确定", "取消"],
+                yes: function (index, layero) {
+
+                    let url = $(that).data('url');
+                    let id = $(that).data('id');
+                    let tx = $('#tx').val() || top.$('#tx').val();
+                    let verify_number = $('#verify_number').val() || top.$('#verify_number').val();
+                    if (!tx) {
+                        layer.msg("请输入哈希值");
+                        return false;
+                    }
+                    if (!verify_number || verify_number < 0) {
+                        layer.msg("请输入审核数量");
+                        return false;
+                    }
+                    globals.ajax(url, {id: id, tx: tx,  verify_number: verify_number}, function (res) {
+                        if (10000 === Number(res.code)) {
+                            layer.msg(res.message);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000);
+                        } else {
+                            layer.msg(res.message);
+                        }
+                    });
+
+                },
+                no: function (index, layero) {
+                    layer.close(index)
+                }
+            });
+        })
+    });
+</script>
+{include file="layout/footer"}

@@ -1,0 +1,57 @@
+<include file="App/Admin/View/Public/left.html" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+$(function() {
+    $('#datePicker').date_input();
+    $('#datePicker2').date_input();
+});
+
+window._deel = {
+    req_member_details_url: "{:U('member/member_details')}",
+}
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">积分汇总统计</span></div>
+    </div>
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>积分类型ID</th>
+                        <th>积分类型</th>
+                        <th>总量</th>
+                        <th>可用</th>
+                        <th>冻结</th>
+                        <th>锁仓</th>
+                        <th>互转</th>
+                        <th>赠送</th>
+                    </tr>
+                    <volist name="list" id="vo" empty="$empty">
+                        <tr>
+                            <td>{$vo.currency_id}</td>
+                            <td>{$vo.currency_name}</td>
+                            <td>{:keepPoint($vo['num']+$vo['forzen_num']+$vo['lock_num']+$vo['exchange_num']+$vo['num_award'],6);}</td>
+                            <td>{$vo.num}</td>
+                            <td>{$vo.forzen_num}</td>
+                            <td>{$vo.lock_num}</td>
+                            <td>{$vo.exchange_num}</td>
+                            <td>{$vo.num_award}</td>
+                        </tr>
+                    </volist>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</body>
+
+</html>

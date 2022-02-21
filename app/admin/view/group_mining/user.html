@@ -1,0 +1,204 @@
+{include file="../app/admin/view/public/left.html" /}
+<script type="text/javascript">
+window._deel = {
+    req_member_details_url: "{:url('member/member_details')}",
+}
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">拼团挖矿用户</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="" method="get" id="form">
+                        <table class="search-tab">
+                            <tr>
+                                <th  width="60px">用户ID:</th>
+                                <td><input class="common-text" placeholder="用户ID" name="user_id" value="{$Request.param.user_id}"  type="text"></td>
+                                <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="5000px" >
+                    <tr>
+                        <th>ID</th>
+                        <th>用户ID</th>
+                        <th>矿源等级</th>
+
+                        <th>累积拼团券奖励</th>
+                        <th>累积矿工费奖励</th>
+                        <th>累积拼团金奖励</th>
+                        <th>累积联创红利奖励</th>
+                        <th>累积开拓奖1 币种1</th>
+                        <th>总奖励</th>
+
+                        <th>开拓奖比例</th>
+
+                        <th>今日挖矿次数</th>
+                        <th>累积挖矿次数</th>
+                        <th>累积赢次数</th>
+                        <th>累积输次数</th>
+                        <th>累积赢奖励金额</th>
+                        <th>累积输奖励金额</th>
+                        <th>累积冻结数量</th>
+                        <th>累积释放数量</th>
+                        <th>累积门票数量</th>
+                        <th>累积输矿工费数量</th>
+
+                        <th>奖励等级</th>
+                        <th>有效直推数量</th>
+                        <th>有效团队数量</th>
+
+                        <th>燃烧币种数量</th>
+                        <th>燃烧支付币种数量</th>
+
+                        <th>开拓奖1 币种id</th>
+                        <th>累积ABF空投奖励</th>
+                        <th>累积开拓奖2 币种2</th>
+                        <th>开拓奖2币种id</th>
+                        <th>联创红利奖励资格状态</th>
+
+                        <th>最后挖矿时间</th>
+                        <th>奖励等级更新时间</th>
+                        <th>联创红利奖励资格开始时间</th>
+                        <th>联创红利奖励资格结束时间</th>
+
+                        <th>添加时间</th>
+                    </tr>
+                    {volist name="list" id="vo"}
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td><a href="javascript:member_details({$vo.user_id});" class="shenhe_button">
+                                {if condition="$vo.user.phone"}
+                                {$vo.user.phone}
+                                {elseif condition="$vo.user.email"}
+                                {$vo.user.email}
+                                {else /}
+                                {$vo.user.ename}
+                                {/if}
+                                ({$vo.user_id})</a></td>
+                            <td>{$vo.sourceLevel.level_name} {$vo.level_id>0?'('.$vo.level_id.')':''}</td>
+
+                            <td><a href="javascript:;" class="layui-open" data-url="{:url('mining_income_log',['user_id'=>$vo.user_id,'type'=>1])}" data-title="{$vo.user_id}累积拼团券奖励">{$vo.total_tickets_reward}</a></td>
+                            <td><a href="javascript:;" class="layui-open" data-url="{:url('mining_income_log',['user_id'=>$vo.user_id,'type'=>2])}" data-title="{$vo.user_id}累积矿工费奖励">{$vo.total_fee_reward}</a></td>
+                            <td><a href="javascript:;" class="layui-open" data-url="{:url('mining_income_log',['user_id'=>$vo.user_id,'type'=>3])}" data-title="{$vo.user_id}累积拼团金奖励">{$vo.total_gold_reward}</a></td>
+                            <td><a href="javascript:;" class="layui-open" data-url="{:url('mining_income_log',['user_id'=>$vo.user_id,'type'=>4])}" data-title="{$vo.user_id}累积联创红利奖励">{$vo.total_dividend_reward}</a></td>
+                            <td><a href="javascript:;" class="layui-open" data-url="{:url('mining_income_log',['user_id'=>$vo.user_id,'type'=>6])}" data-title="{$vo.user_id}累积开拓奖">{$vo.total_pioneer_reward1}</a></td>
+                            <td>{$vo.total_reward}</td>
+
+                            <td><input class="common-text" style="width: 80px;" type="text" value="{$vo.pioneer_reward_rate}" data-id="{$vo.id}" /> <a href="javascript:;" class="pioneer_reward_rate">修改</a></td>
+
+                            <td>{$vo.today_num}</td>
+                            <td>{$vo.total_num}</td>
+                            <td>{$vo.total_win_num}</td>
+                            <td>{$vo.total_lose_num}</td>
+                            <td>{$vo.total_win_reward}</td>
+                            <td>{$vo.total_lose_reward}</td>
+                            <td>{$vo.total_forzen_num}</td>
+                            <td>{$vo.total_free_num}</td>
+                            <td>{$vo.total_tickets_num}</td>
+                            <td>{$vo.total_lose_fee_num}</td>
+
+                            <td>{$vo.reward_level}</td>
+                            <td>{$vo.zhitui_num}</td>
+                            <td>{$vo.team_num}</td>
+
+                            <td>{$vo.burn_num}</td>
+                            <td>{$vo.burn_money_num}</td>
+
+                            <td>{$vo.pioneer_reward_currency_id1}</td>
+                            <td><a href="javascript:;" class="layui-open" data-url="{:url('mining_income_log',['user_id'=>$vo.user_id,'type'=>5])}" data-title="{$vo.user_id}累积ABF空投奖励">{$vo.total_airdrop_reward}</a></td>
+                            <td>{$vo.total_pioneer_reward2}</td>
+                            <td>{$vo.pioneer_reward_currency_id2}</td>
+                            <td>{$vo.dividend_auth_status}</td>
+
+                            <td>{if $vo.last_mining_time gt 0}{$vo.last_mining_time|date="Y-m-d H:i:s",###}{/if}</td>
+                            <td>{if $vo.level_update_time gt 0}{$vo.level_update_time|date="Y-m-d H:i:s",###}{/if}</td>
+                            <td>{if $vo.dividend_start_time gt 0}{$vo.dividend_start_time|date="Y-m-d H:i:s",###}{/if}</td>
+                            <td>{if $vo.dividend_end_time gt 0}{$vo.dividend_end_time|date="Y-m-d H:i:s",###}{/if}</td>
+                            <td>{if $vo.add_time gt 0}{$vo.add_time|date="Y-m-d H:i:s",###}{/if}</td>
+                        </tr>
+                    {/volist}
+                </table>
+            </div>
+        </form>
+        <div class="weadmin-block">
+            <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+        </div>
+        <div class="page">
+            {$page}
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+<script>
+$('.layer-open').click(function(){
+    var title = $(this).attr('data-title');
+    var url = $(this).attr('data-url');
+    if(!url) return;
+
+    //弹出即全屏
+    var index = layer.open({
+        type: 2,
+        title:title,
+        content: url,
+        area: ['820px', '495px'],
+        maxmin: true,
+        scrollbar: false, //屏蔽浏览器滚动条
+    });
+    layer.full(index);
+});
+
+$('.pioneer_reward_rate').click(function (){
+    var id = $(this).prev('.common-text').attr('data-id');
+    if(id < 0) {
+        layer.msg('参数错误', {icon: 0});
+        return false;
+    }
+    var value = $(this).prev('.common-text').val();
+    if(value<0){
+        layer.msg('开拓奖不能为负数', {icon: 0});
+        return false;
+    }
+
+    var loading_text = "提交中，请稍等···",
+        url = "{:url('GroupMining/pioneer_reward_rate')}";
+    var loading = layer.msg(loading_text, {
+        icon: 16
+        , shade: 0.3
+        , time: 0
+        , scrollbar: false
+    });
+    $.ajax({
+        type: "post",
+        dataType: "json",
+        data: {"id": id, "reward_rate": value},
+        url: url,
+        success: function (callback) {
+            if(callback.code == 10000){
+                layer.alert(callback.message, {icon: 1});
+            }else{
+                layer.alert(callback.message, {icon: 5});
+            }
+            layer.close(loading);
+            return false;
+        }
+    })
+})
+
+</script>
+</body>
+</html>

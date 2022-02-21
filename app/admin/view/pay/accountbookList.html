@@ -1,0 +1,167 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+<script>
+    $("#walletNav").show();
+    $("#walletNav").children("li").eq(1).addClass("on");
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">帐本记录</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('Pay/accountbookList')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <th width="70">列表ID:</th>
+                        <td><input class="common-text" placeholder="列表ID" name="id" value="{$data['id']}" type="text"></td>
+                        <th width="70">手机号码:</th>
+                        <td><input class="common-text" placeholder="手机号码" name="phone" value="{$data['phone']}" type="text"></td>
+                        <th width="70">邮箱:</th>
+                        <td><input class="common-text" placeholder="邮箱" name="email" value="{$data['email']}" type="text"></td>
+                        <th width="70">会员ID:</th>
+                        <td><input class="common-text" placeholder="会员ID" name="member_id" value="{$data['member_id']}" type="text"></td>
+
+                        <th width="70">币种:</th>
+                        <td><select name="currency_id">
+                            <option value="">全部</option>
+                            <volist name="cList" id='vo'>
+                                <eq name="vo.currency_id" value="$data.currency_id">
+                                    <option value="{$vo.currency_id}" selected>{$vo.currency_mark}</option>
+                                    <else/>
+                                    <option value="{$vo.currency_id}">{$vo.currency_mark}</option>
+                                </eq>
+
+                                <!--<option value="{$vo.currency_id}"  >{$vo.currency_mark}</option>-->
+                            </volist>
+                        </select></td>
+
+                        <th width="70">资产流向:</th>
+                        <td><select name="type">
+                            <option value="">全部</option>
+                            <volist name="typeList" id='vo'>
+                                <eq name="vo.id" value="$data.type">
+                                    <option value="{$vo.id}" selected>{$vo.name_tc}</option>
+                                    <else/>
+                                    <option value="{$vo.id}">{$vo.name_tc}</option>
+                                </eq>
+                            </volist>
+                        </select></td>
+                        <th width="70">变动类型:</th>
+                        <td><select name="number_type">
+                            <option value="">全部</option>
+                            <volist name="numberTypeList" id='vo'>
+                                <eq name="key" value="$data.number_type">
+                                    <option value="{$key}" selected>{$vo}</option>
+                                    <else/>
+                                    <option value="{$key}">{$vo}</option>
+                                </eq>
+                            </volist>
+                        </select></td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+            </div>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+
+                    <th width="50px">列表ID</th>
+                    <th>币种类型</th>
+                    <th width="50px">用户ID</th>
+                    <th>用户手机</th>
+                    <th>用户邮箱</th>
+                    <th>资产流向</th>
+                    <th>币种交易对</th>
+                    <th>相对用户ID</th>
+                    <th>相对用户手机</th>
+                    <th>相对用户邮箱</th>
+                    <th>变动类型</th>
+                    <th>变动前</th>
+                    <th>变动数量</th>
+                    <th>变动后</th>
+                    <th>变动时间</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                <volist name='list' id='vo'>
+                    <tr>
+
+                        <td>{$vo['id']}</td>
+                        <td>{$vo['currency_name']}</td>
+                        <td><a href="javascript:member_details({$vo.from_member_id});" class="shenhe_button">{$vo['from_member_id']}</a>
+                        </td>
+                        <td>{$vo['from_phone']}</td>
+                        <td>{$vo['from_email']}</td>
+                        <td>{$vo['type']}</td>
+                        <td>{$vo['currency_pair']}</td>
+                        <td>
+                            <a href="javascript:member_details({$vo.to_member_id});" class="shenhe_button">{$vo['to_member_id']}</a>
+
+                            </td>
+                        <td>{$vo['to_phone']}</td>
+                        <td>{$vo['to_email']}</td>
+                        <td>
+                            {$vo['change']}
+                        </td>
+                        <td>{$vo['current']}</td>
+                        <td>  <?php if($vo['number']<0):?>
+                            <b style="color: #f60;">{$vo['number']}</b>
+                            <?php else:?>
+                            {$vo['number']}
+                            <?php endif;?>
+                            </td>
+                        <td>{$vo['after']}</td>
+                        <td>{$vo['add_time']}</td>
+                        <td>{$vo['ad_remark']}</td>
+                        <td><a class="link-del" href="#"
+                               onclick="updateRemark({$vo['id']})">修改备注</a></td>
+
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+
+    function updateRemark(id) {
+        var url = "{:U('Pay/updateRemark')}"+"?id="+id;
+        layer.open({
+            type: 2,
+            title: "修改备注",
+            content: url,
+            area: ['500px', '500px'],
+            shade: 0, //不显示遮罩
+            //maxmin: true,
+            //scrollbar: false, //屏蔽浏览器滚动条
+            cancel: function () {
+                location.reload();
+            }
+        });
+    }
+</script>

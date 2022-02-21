@@ -1,0 +1,65 @@
+<style>
+    .main-wrap {
+        margin-left: 10px;
+    }
+</style>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">卡包记录</span></div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form class="layui-form">
+                <table class="layui-table" id="memberList" lay-filter="table-list">
+                    <thead>
+                    <tr>
+                        <th lay-data="{align:'center',field:'id', width:50}">ID</th>
+                        <th lay-data="{align:'center',field:'user_id', width:50}">用户ID</th>
+                        <th lay-data="{align:'center',field:'user_account', width:50}">账户</th>
+                        <th lay-data="{align:'center',field:'type', width:160}">类型</th>
+                        <th lay-data="{align:'center',field:'number', width:160}">数量</th>
+                        <th lay-data="{align:'center',field:'create_time', width:200}">添加时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="vo"}
+                    <tr>
+                        <td>
+                            {if condition="$vo.type eq 'transfer_financial'"}
+                            <a href="javascript:;" class="layui-open" data-url="{:url('financial_log_list',['third_id'=>$vo['id']])}" data-title="{$vo.id}推荐奖">{$vo.id}</a>
+                            {else /}
+                            {$vo.id}
+                            {/if}
+                        </td>
+                        <td>{$vo.user_id}</td>
+                        <td>
+                            {notempty name="vo.users"}
+                            {empty name='vo.users.phone'}
+                            {$vo.users.email}
+                            {else /}
+                            {$vo.users.phone}
+                            {/empty}
+                            {/notempty}
+                        </td>
+                        <td>{$vo.title}</td>
+                        <td>{$vo.number}</td>
+                        <td>{$vo.create_time}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'global'], function () {
+        layer = layui.layer,globals=layui.global;
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

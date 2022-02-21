@@ -1,0 +1,62 @@
+<include file="App/Admin/View/Public/left.html"/>
+<style>
+    .yydb-up th {
+        text-align: center;
+    }
+
+    .yydb-down td {
+        text-align: center;
+    }
+
+    .red {
+        color: #f00;
+        font-weight: bolder;
+    }
+</style>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">地址管理</span></div>
+    </div>
+
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%" style="margin-top:30px;">
+                <tr class="yydb-up">
+                    <th>用户ID</th>
+                    <th>用户昵称</th>
+                    <th>用户地址</th>
+                    <th>地址状态</th>
+                    <th>收件人</th>
+                    <th>固定电话</th>
+                </tr>
+                <volist name="list" id="vo" empty="$empty">
+                    <tr class="yydb-down">
+                        <td>{$vo.member_id}</td>
+                        <td>{$vo.nick}</td>
+                        <td>
+                            {$vo.city_picker} - {$vo.address}
+                        </td>
+                        <td>
+                            <eq name="vo.status" value="0">
+                                <else/>
+                                <span class="red">默认地址</span></eq>
+                        </td>
+                        <td>{$vo.consignee}</td>
+                        <td>{$vo.tel}</td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

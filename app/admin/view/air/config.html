@@ -1,0 +1,429 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">云梯配置</span></div>
+    </div>
+
+    <div class="result-wrap ">
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <div class="config-title">
+                <h1>
+                   云梯配置
+                </h1>
+            </div>
+            <form class="layui-form" method="post">
+                <table class="layui-table" id="memberList">
+                    <tbody>
+                    <tr>
+                        <th>
+                            <label for="dc_up_ratio">
+                            DNC最大上涨比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.dc_up_ratio}" id="dc_up_ratio" name="dc_up_ratio" /> %
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="dc_min_ratio">
+                            DNC最小上涨比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.dc_min_ratio}" id="dc_min_ratio" name="dc_min_ratio" /> %
+                            (每日上涨比例 = mt_rand(dc_up_ratio, dc_min_ratio)) 每日随机上涨, 下跌请设置为负数)
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="dc_init_price">
+                                DNC初始化价格
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.dc_init_price}" id="dc_init_price" name="dc_init_price" /> CNY
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th>
+                            <label for="dc_init_timestamp">
+                                DNC初始化时间戳
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.dc_init_timestamp}" id="dc_init_timestamp" name="dc_init_timestamp" /> {:date("Y-m-d H:i:s", $config['dc_init_timestamp'])}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="dc_is_init">
+                                DNC价格是否已经初始化
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.dc_is_init}" id="dc_is_init" name="dc_is_init" /> 0为初始化 1已初始化
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="dc_convert_fee_ratio">
+                                共振手续费比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.dc_convert_fee_ratio}" id="dc_convert_fee_ratio" name="dc_convert_fee_ratio" /> %
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="dc_convert_max_num">
+                                最大共振数量
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.dc_convert_max_num}" id="dc_convert_max_num" name="dc_convert_max_num" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="dc_convert_min_num">
+                                最小共振数量
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.dc_convert_min_num}" id="dc_convert_min_num" name="dc_convert_min_num" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="price_line_currency">
+                                DNC币种ID
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.price_line_currency}" id="price_line_currency" name="price_line_currency" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_currency_id">
+                                云梯入金币种ID
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_currency_id}" id="air_currency_id" name="air_currency_id" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_recommend_fee">
+                                云梯直推奖手续费比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_recommend_fee}" id="air_recommend_fee" name="air_recommend_fee" />%
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_diff_fee">
+                                云梯级差奖手续费比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_diff_fee}" id="air_diff_fee" name="air_diff_fee" />%
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_jackpot_fee">
+                                云梯周分红手续费比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_jackpot_fee}" id="air_jackpot_fee" name="air_jackpot_fee" />%
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_income_max_level">
+                                入金可升级到最高等级ID
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_income_max_level}" id="air_income_max_level" name="air_income_max_level" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_activated_give_number">
+                                激活赠送共振数量
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_activated_give_number}" id="air_activated_give_number" name="air_activated_give_number" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_D7_jackpot_radio">
+                                D7周分红比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_D7_jackpot_radio}" id="air_D7_jackpot_radio" name="air_D7_jackpot_radio" /> %
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="air_D8_jackpot_radio">
+                                D8周分红比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_D8_jackpot_radio}" id="air_D8_jackpot_radio" name="air_D8_jackpot_radio" /> %
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="air_D9_jackpot_radio">
+                                D9周分红比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_D9_jackpot_radio}" id="air_D9_jackpot_radio" name="air_D9_jackpot_radio" /> %
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="air_D10_jackpot_radio">
+                                D10周分红比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_D10_jackpot_radio}" id="air_D10_jackpot_radio" name="air_D10_jackpot_radio" /> %
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_activity_level_start_time">
+                                激活赠送等级活动开始时间
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_activity_level_start_time}" id="air_activity_level_start_time" name="air_activity_level_start_time" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_activity_level_end_time">
+                                激活赠送等级活动结束时间
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_activity_level_end_time}" id="air_activity_level_end_time" name="air_activity_level_end_time" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="dc_release_min_radio">
+                                DNC释放最小比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.dc_release_min_radio}" id="dc_release_min_radio" name="dc_release_min_radio" />%
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="dc_release_max_radio">
+                                DNC释放最大比例（暂时无用）
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.dc_release_max_radio}" id="dc_release_max_radio" name="dc_release_max_radio" />%
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_recommend_wait_time">
+                                暂不结算直推奖日期
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_recommend_wait_time}" id="air_recommend_wait_time" name="air_recommend_wait_time" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_start_count_time">
+                                云梯结算开始时间
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_start_count_time}" id="air_start_count_time" name="air_start_count_time" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_end_count_time">
+                                云梯结算结束时间
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_end_count_time}" id="air_end_count_time" name="air_end_count_time" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_dnc_gift_radio">
+                                DNC礼包赠送最小比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_dnc_gift_radio}" id="air_dnc_gift_radio" name="air_dnc_gift_radio" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_dnc_gift_max_radio">
+                                DNC礼包赠送最大比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_dnc_gift_max_radio}" id="air_dnc_gift_max_radio" name="air_dnc_gift_max_radio" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_dnc_gift_switch">
+                                DNC礼包开关（1开启，2关闭）
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_dnc_gift_switch}" id="air_dnc_gift_switch" name="air_dnc_gift_switch" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_dnc_airdrop_switch">
+                                DNC空投开关（1开启，2关闭）
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_dnc_airdrop_switch}" id="air_dnc_airdrop_switch" name="air_dnc_airdrop_switch" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_everyday_airdrop_switch">
+                                DNC每日登陆空投开关（1开启，2关闭）
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_everyday_airdrop_switch}" id="air_everyday_airdrop_switch" name="air_everyday_airdrop_switch" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_dnc_airdrop_radio">
+                                DNC空投奖励最小比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_dnc_airdrop_radio}" id="air_dnc_airdrop_radio" name="air_dnc_airdrop_radio" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_dnc_airdrop_max_radio">
+                                DNC空投奖励最大比例
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_dnc_airdrop_max_radio}" id="air_dnc_airdrop_max_radio" name="air_dnc_airdrop_max_radio" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_everyday_airdrop_num">
+                                每日登陆云梯空投最少数量
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_everyday_airdrop_num}" id="air_everyday_airdrop_num" name="air_everyday_airdrop_num" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="air_everyday_airdrop_max_num">
+                                每日登陆云梯空投最多数量
+                            </label>
+                        </th>
+                        <td>
+                            <input type="text" value="{$config.air_everyday_airdrop_max_num}" id="air_everyday_airdrop_max_num" name="air_everyday_airdrop_max_num" />
+                        </td>
+                    </tr>
+
+
+
+                    <tr>
+                        <th></th>
+                        <td>
+                            <input type="submit" value="提交"
+                                   class="btn btn-primary btn6 mr10">
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

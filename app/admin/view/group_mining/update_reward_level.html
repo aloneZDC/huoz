@@ -1,0 +1,102 @@
+<style>
+    .layui-unselect.layui-form-select{width: 153px;}
+</style>
+<div class="result-wrap">
+    <form class="layui-form form">
+        <div class="config-items">
+            <div class="result-content">
+                <table width="100%" class="insert-tab">
+                    <tbody>
+                    <tr>
+                        <th>等级id：</th>
+                        <td>
+                            <input type="number"  value="{$data.level_id}" size="85" class="common-text" disabled="disabled">
+                            <input type="hidden"  value="{$data.level_id}" size="85" name="level_id" class="common-text">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>等级名称：</th>
+                        <td><input type="text"  value="{$data.level_name}" name="level_name" class="common-text">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>有效直推数量：</th>
+                        <td>
+                            <input type="number"  value="{$data.zhitui_num}" size="85" name="zhitui_num" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>有效团队数量：</th>
+                        <td>
+                            <input type="number"  value="{$data.team_num}" size="85" name="team_num" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>燃烧币种数量：</th>
+                        <td>
+                            <input type="number"  value="{$data.burn_num}" size="85" name="burn_num" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>矿工费奖励比例：</th>
+                        <td><input type="number"  value="{$data.fee_reward_rate}" size="85" name="fee_reward_rate" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>拼团金奖励比例：</th>
+                        <td>
+                            <input type="number"  value="{$data.gold_reward_rate}" size="85" name="gold_reward_rate" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>联创红利奖励延长时间：</th>
+                        <td>
+                            <input type="number"  value="{$data.dividend_reward_time}" size="85" name="dividend_reward_time" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <td>
+                            <!--<input type="submit" value="提交" class="btn btn-primary btn6 mr10" onclick="tijiao()">-->
+                            <input type="submit" value="提交" class="btn btn-primary btn6 mr10" lay-filter="add" lay-submit="">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'admin', 'layer'], function () {
+        let form = layui.form;
+
+        form.on("submit(add)", data => {
+            $.post("{:url('update_reward_level')}", data.field, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, function () {
+                        // 获得frame索引
+                        let index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        window.parent.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+            return false;
+        });
+    });
+</script>

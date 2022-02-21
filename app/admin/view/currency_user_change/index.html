@@ -1,0 +1,76 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">资产变化统计</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <select name="currency_id">
+                        <option value="">币种</option>
+                        {volist name="currency_list" id="vo"}
+                            <option value="{$vo.currency_id}" {if condition="$Think.get.currency_id eq $vo['currency_id']"}selected{/if} >{$vo.currency_name}</option>
+                        {/volist}
+                    </select>
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>币种</th>
+                        <th>可用资产</th>
+                        <th>交易冻结资产</th>
+                        <th>统计时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>
+                            {$v.id}
+                        </td>
+                        <td>
+                            {$v.currency_name}
+                        </td>
+                        <td>
+                            {$v.num}
+                        </td>
+                        <td>{$v.forzen_num}</td>
+                        <td>{:date('Y-m-d H:i:s',$v['add_time'])}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

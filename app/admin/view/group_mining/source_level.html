@@ -1,0 +1,88 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<style>
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 0 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">拼团挖矿矿源等级</span></div>
+    </div>
+
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="get">
+            <div class="result-content">
+                <div class="list-body">
+                    <table class="result-tab" width="100%">
+                        <tr>
+                            <th>ID</th>
+                            <th>等级名称</th>
+                            <th>类型</th>
+                            <th>价格</th>
+                            <th>价格币种</th>
+                            <th>挖矿天数</th>
+                            <th>每日挖矿次数</th>
+                            <th>中奖比例</th>
+                            <th>奖励数量最小值</th>
+                            <th>奖励数量最大值</th>
+                            <th>释放比例最小值</th>
+                            <th>释放比例最大值</th>
+                            <th>关闭时释放比例</th>
+                            <th>操作</th>
+                        </tr>
+                        {volist name="list" id="vo" empty=""}
+                            <tr>
+                                <td>{$vo.level_id}</td>
+                                <td>{$vo.level_name}</td>
+                                <td>{$vo.type}</td>
+                                <td>{$vo.price}</td>
+                                <td>{$vo.currency.currency_name}</td>
+                                <td>{$vo.days}</td>
+                                <td>{$vo.daily_num}</td>
+                                <td>{$vo.win_percent}</td>
+                                <td>{$vo.reward_num_min}</td>
+                                <td>{$vo.reward_num_max}</td>
+                                <td>{$vo.free_rate_min}</td>
+                                <td>{$vo.free_rate_max}</td>
+                                <td>{$vo.close_free_rate}</td>
+                                <td>
+                                    <a href="javascript:" class="layui-open link-update" data-url="{:url('source_level_update', ['id' => $vo['level_id']])}?" data-width="1000px" data-time="矿源等级编辑">编辑</a>&nbsp;&nbsp;
+                                </td>
+                            </tr>
+                        {/volist}
+                    </table>
+                </div>
+            </div>
+        </form>
+        <div class="weadmin-block">
+            <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+        </div>
+        <div class="page">
+            <div>
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+{include file="layout/header"}
+<style>
+    .layui-table-tips-main {
+        max-height: 500px
+    }
+</style>
+<div class="weadmin-nav">
+    <span class="layui-breadcrumb" style="visibility: visible;">
+        <a href="javascript:;">首页</a><a href="javascript:;">用户管理</a>
+        <a href="javascript:;"><cite>实名认证审核</cite></a>
+    </span>
+    <span class="fr">
+<!--        <a class="layui-btn layui-btn-sm layui-open" data-url="/backend/Mining/common_config_add?param=common_config" data-title="添加" data-width="800px" href="javascript:;">添加</a>-->
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+<div class="weadmin-body">
+    <table class="layui-hide" id="table-list" lay-filter="table-list"></table>
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="adopt">通过</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="refuse">拒绝</a>
+</script>
+
+{include file="layout/footer"}
+<script type="text/javascript">
+    layui.use(['table', 'global'], () => {
+        let table = layui.table,
+            global = layui.global;
+
+        table.render({
+            elem: '#table-list'
+            , url: '/backend/Member/member_verify?param=verify'
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                {field: 'member_id', width: 100, title: '用户id', sort: true}
+                , {field: 'name',width: 100, title: '会员姓名'}
+                , {field: 'phone',width: 200, title: '手机号/会员邮箱'}
+                , {field: 'country_code',width: 100, title: '国家'}
+                , {field: 'idcard',width: 200, title: '证件号'}
+                , {field: 'cardtype',width: 100, title: '证件类型'}
+                , {field: 'nation_id',width: 100, title: '民族'}
+                , {field: 'sex',width: 100, title: '性别'}
+                , {field: 'pic1',width: 100, title: '身份证正面'}
+                , {field: 'pic2',width: 100, title: '身份证背面'}
+                , {field: 'pic3',width: 100, title: '身份证手持'}
+                , {field: 'addtime',width: 200, title: '提交时间'}
+                , {field: 'verify_state',width: 100, title: '认证状态'}
+                , {fixed: 'right',width: 150, title: '操作', toolbar: '#barDemo'}
+            ]]
+            , page: true //是否显示分页
+            , limits: [10, 15, 20]
+            , limit: 10 //每页默认显示的数量
+        });
+
+        //监听行工具事件
+        table.on('tool(table-list)', function (obj) {
+            let data = obj.data;
+            if (obj.event === 'adopt') {
+                layer.confirm('真的审核通过么', function (index) {
+                    global.ajax('/backend/Member/member_verify_adopt?param=verify', {member_id: data.member_id, type: 1}, function (res) {
+                        layer.close(index);
+                        if (res.code == 1) {
+                            table.reload('table-list',{page:{curr:$(".layui-laypage-em").next().html()}})
+                            return false;
+                        }
+                        global.msg(res.Msg);
+                    });
+                });
+            } else if (obj.event === 'refuse') {
+                layer.confirm('真的审核拒绝么', function (index) {
+                    global.ajax('/backend/Member/member_verify_adopt?param=verify', {member_id: data.member_id, type: 0}, function (res) {
+                        layer.close(index);
+                        if (res.code == 1) {
+                            table.reload('table-list',{page:{curr:$(".layui-laypage-em").next().html()}})
+                            return false;
+                        }
+                        global.msg(res.Msg);
+                    });
+                });
+            }
+        });
+    });
+</script>

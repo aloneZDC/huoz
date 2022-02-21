@@ -1,0 +1,155 @@
+<include file="App/Admin/View/Public/left.html"/>
+
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href=":U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><a
+                class="crumb-name" href="{:U('Zhongchou/index')}">手工认购</a></div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form action="{:U('Zhongchou/manual')}" method="post">
+                <table class="insert-tab" width="100%">
+                    <tbody>
+                    <tr>
+                        <th><i class="require-red">*</i>账户ID：</th>
+                        <td><input class="common-text required" name="userid" size="30" value="{$userid}" type="text"
+                            <notempty name="userid">readonly="readonly"</notempty>
+                            ><span style="color:#f05;margin-left:10px;">＃请先输入账户ID并提交后，再进行下一步操作＃</span></td>
+                        <input type="hidden" value="{$first_id}" name="second_id"/>
+                    </tr>
+                    <notempty name="userid">
+                        <tr>
+                            <th>用户姓名：</th>
+                            <td><span style="margin-right:10px;">{$users.name}</span></td>
+                        </tr>
+                        <tr>
+                            <th>用户手机：</th>
+                            <td><span style="margin-right:10px;">{$users.phone}</span></td>
+                        </tr>
+                        <tr>
+                            <th>账户余额：</th>
+                            <td><span style="margin-right:10px;">{$buy_num|floatval="###"}</span>{$list.buy_mark}</td>
+                        </tr>
+                        <tr>
+                            <th>众筹后台操作总量：</th>
+                            <td><span style="margin-right:10px;">{$list.admin_num}</span>个</td>
+                        </tr>
+                        <tr>
+                            <th>众筹后台操作剩余量：</th>
+                            <td><span style="margin-right:10px;">{$list.admin_deal}</span>个</td>
+                        </tr>
+                        <tr>
+                            <th>最小认筹数量：</th>
+                            <td><span style="margin-right:10px;">{$list.min_limit}</span>个</td>
+                        </tr>
+                        <tr>
+                            <th>最大认筹数量：</th>
+                            <td><span style="margin-right:10px;">{$list.limit}</span>个</td>
+                        </tr>
+                        <tr>
+                            <th>购买频率：</th>
+                            <td><span style="margin-right:10px;">{$list.buy_count|default='0'}</span>次</td>
+                        </tr>
+                        <tr>
+                            <th>已购数量：</th>
+                            <td><span style="margin-right:10px;">{$num_buy|default='0.00'}</span>个</td>
+                        </tr>
+                        <tr>
+                            <th>认购数量：</th>
+                            <td><input value="0" class="common-text required" id="num" name="num" type="text"
+                                       onkeyup="sjmoney();">&nbsp;&nbsp;个
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>实际支付金额：</th>
+                            <td><span id="manjianhou" style="margin-right:10px;">0</span>{$list.buy_mark}</td>
+                        </tr>
+                        <tr>
+                            <th>原始价：</th>
+                            <td><input value="0" class="common-text required" id="original_price" name="original_price"
+                                       type="text">&nbsp;&nbsp;元
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>备注说明：</th>
+                            <td><input class="common-text required" id="remarks" type="text" size="150"/></td>
+                        </tr>
+                    </notempty>
+                    <tr>
+                        <th></th>
+                        <td>
+                            <empty name="userid">
+                                <input class="btn btn-primary btn6 mr10" value="提交" type="submit">
+                                <else/>
+                                <input class="btn btn-primary btn6 mr10" value="提交" type="button"
+                                       onclick="zhongchou();"/>
+                            </empty>
+                            <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<!--/main-->
+
+</div>
+</body></html>
+<script>
+    function sjmoney() {
+        var price = {$list.price
+    }
+        ;
+        $("#manjianhou").text($("#num").val() * price);
+    }
+    function zhongchou() {
+        var limit = {$list.limit
+    }
+        ;//限购（最大认筹数量）
+        var deal = {$list.admin_deal
+    }
+        ;//剩余
+        var price = {$list.price
+    }
+        ;//单价
+        var min_limit = {$list.min_limit
+    }
+        ;//最小认筹数量
+        var id = {$id};//众筹id
+        var buy_currency_id = {$list.buy_currency_id
+    }
+        ;//购买积分类型
+        var userid = {$userid};
+        var remarks = $("#remarks").val();
+        var num = $('#num').val();
+        var original_price = $('#original_price').val();
+
+        if ($("#num").val() < min_limit) {
+            layer.msg("认筹数量不能小于最小认筹数量");
+            $("#num").val("");
+        }
+        if ($("#num").val() > deal) {
+            layer.msg("认筹数量不能超过后台操作剩余量");
+            $("#num").val("");
+        }
+        if ($("#num").val() > limit) {
+            layer.msg("认筹数量不能超过限购数量");
+            $("#num").val("");
+        }
+        $.post("{:U('Zhongchou/subscribe')}", {
+            num: num,
+            original_price: original_price,
+            id: id,
+            buy_currency_id: buy_currency_id,
+            userid: userid,
+            remarks: remarks
+        }, function (data) {
+            layer.msg(data.info);
+            setTimeout(function () {
+                window.location.reload();
+            }, 2000);
+
+        })
+    }
+</script>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改账本备注</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/iconfont/demo.css">
+
+
+    <style>
+        .user_profile {
+            padding: 10px;
+        }
+
+        .user_profile .nav {
+            z-index: 999;
+            background-color: #fff;
+        }
+
+        .user_profile .profile_content {
+            z-index: 1;
+        }
+
+        .user_profile .profile_content > div {
+            margin: 20px auto auto;
+            display: none;
+        }
+
+        .select_currency {
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            color: #333;
+            background-color: #ebebeb;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: #c6e0b4;
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+<div class="user_profile">
+    <div class="profile_content">
+        <div class="row eth" style="display: inherit;">
+            <div class="col-md-8" style="padding-left: 0;padding-right: 0;">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading"></div>
+                    <form class="form-horizontal" id="form" style="margin-top: 20px;padding: 0 20px;">
+                        <input type="hidden" value="{$id}" name="id">
+
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  name="ad_remark"  value="{$accountbook['ad_remark']}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="button" class="btn btn-primary" data-content-id="get" id="button">确定</button>
+                                <!--<button type="button" class="btn btn-info cancle" data-content-id="send" style="margin-left: 15px;">取消</button>-->
+                                <span class="btn eth_fee hide" style="margin-left: 10px;"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var mylay = parent.layer.getFrameIndex(window.name);
+        $('#button').click(function () {
+            var loading_text = "提交中，请稍等···";
+            var loading = layer.msg(loading_text, {
+                icon: 16
+                , shade: 0.3
+                , time: 0
+                , scrollbar: false
+            });
+
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: $('#form').serialize(),
+                url: "{:url('updateRemark')}",
+                success: function (callback) {
+                    if(callback.code == 10000){
+                        layer.alert(callback.message, {icon: 1});
+                        setTimeout(function () {
+                            window.parent.location.reload();
+                            parent.layer.close(mylay);
+                        },3000);
+                    }else{
+                        layer.alert(callback.message, {icon: 5});
+                    }
+                    layer.close(loading);
+                    return false;
+                }
+            })
+        })
+    });
+</script>
+</body>
+</html>

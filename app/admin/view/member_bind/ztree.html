@@ -1,0 +1,205 @@
+{include file="../app/admin/view/public/left.html" /}
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/static/admin/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/static/admin/ztree/js/jquery.ztree.core.min.js"></script>
+
+<style>
+	div.content_wrap {height:380px;}
+	div.content_wrap div.left{float: left;}
+	div.zTreeDemoBackground {width:99%;height:362px;text-align:left;}
+	ul.ztree {
+		margin-top: 10px;
+		/*height: 360px;*/
+		overflow-x: auto;
+		margin: 1px 1px 1px 5px;
+	}
+	ul.log li {color: #666666;list-style: none;padding-left: 10px;}
+</style>
+<script>
+	var _treeid = "ztree",
+			curMenu = null,
+			zTree_Menu = null;
+	window._deel = {
+		url_info: "{:U('getUserInfo')}",
+		url_child: "{:U('getChildNode')}",
+		checked: "1",
+		//data:[{"id":"1","pId":0,"name":"oneone","open":false,"isParent":true}]
+		data:{$users}
+	}
+	$(document).ready(function () {
+		init();
+	});
+
+	/**
+	 * 初始化组织数
+	 */
+	function init() {
+		var setting = {
+					data: {
+						simpleData: {
+							enable: true
+						}
+					},
+					view: {
+						selectedMulti: false,
+						dblClickExpand: dblClickExpand
+					},
+					async: {
+						enable: true,
+						url: _deel.url_child,
+						autoParam: ["id", "name=name", "level=lv"]
+					},
+					callback: {
+						//beforeClick: beforeClick,
+						onClick: zTreeOnClick,
+						onAsyncError: onAsyncError,
+						onAsyncSuccess: onAsyncSuccess
+					}
+				},
+				zNodes = _deel.data;
+
+		$.fn.zTree.init($("#"+_treeid), setting, zNodes);
+
+		//默认选中
+		var treeObj = $.fn.zTree.getZTreeObj(_treeid);
+		var node = treeObj.getNodeByParam("id", _deel.checked);
+		treeObj.selectNode(node);
+	}
+
+	function dblClickExpand(treeId, treeNode) {
+		return treeNode.level > 0;
+	}
+
+	function beforeClick(treeId, treeNode) {
+		if (treeNode.isParent) {
+			if (treeNode.level === 0) {
+				var pNode = curMenu;
+				while (pNode && pNode.level !==0) {
+					pNode = pNode.getParentNode();
+				}
+				if (pNode !== treeNode) {
+					var a = $("#" + pNode.tId + "_a");
+					a.removeClass("cur");
+					zTree_Menu.expandNode(pNode, false);
+				}
+				a = $("#" + treeNode.tId + "_a");
+				a.addClass("cur");
+
+				var isOpen = false;
+				for (var i=0,l=treeNode.children.length; i<l; i++) {
+					if(treeNode.children[i].open) {
+						isOpen = true;
+						break;
+					}
+				}
+				if (isOpen) {
+					zTree_Menu.expandNode(treeNode, true);
+					curMenu = treeNode;
+				} else {
+					zTree_Menu.expandNode(treeNode.children[0].isParent?treeNode.children[0]:treeNode, true);
+					curMenu = treeNode.children[0];
+				}
+			} else {
+				zTree_Menu.expandNode(treeNode);
+			}
+		}
+		return !treeNode.isParent;
+	}
+
+	function onAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
+		alert("请求失败。");
+	}
+	function onAsyncSuccess(event, treeId, treeNode, msg) {
+		//console.info(msg);
+	}
+
+	//节点点击加载用户资料
+	function zTreeOnClick(event, treeId, treeNode) {
+		if(treeNode.name == undefined || !(treeNode.name.length > 0)){
+			return false;
+		}
+		var tree_info = $('.tree_info tr:eq(1)');
+
+		if(tree_info.find("._username").html() == treeNode.name){
+			return false;
+		}
+
+		$.ajax({
+			type: 'post',
+			dataType: 'json',
+			url: _deel.url_info,
+			data: {user_id: treeNode.name},
+			success: function (callback) {
+				$('#member_id').html(callback.member_id);
+				$('#phone').html(callback.phone);
+				$('#email').html(callback.email);
+				$('#total_child_one').html(callback.total_child_one);
+				$('#next_leve_num').html(callback.next_leve_num);
+			},
+			error: function (e) {
+				alert("请求失败。");
+			}
+		});
+	}
+</script>
+
+<div class="main-wrap">
+	<div class="crumb-wrap">
+		<div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+				class="crumb-name">树形结构</span></div>
+	</div>
+	<div class="search-wrap">
+		<div class="search-content">
+			<div class="search-wrap">
+				<div class="search-content">
+					<form action="{:U('',array('sea'=>1))} "method="post">
+						<table class="search-tab">
+							<tr>
+								<th width="70">用户ID:</th>
+								<td><input class="common-text" placeholder="用户ID" name="member_id" value="{$where['member_id']}" id="" type="text"></td>
+								<td width="70">会员电话:</td>
+								<td><input class="common-text" placeholder="会员电话" name="phone" value="{$where['phone']}"  type="text"></td>
+								<td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="result-wrap">
+		<div class="result-content" style="overflow: scroll;">
+			<table class="result-tab" width="100%">
+				<tr>
+					<th>用户ID</th>
+					<th>手机</th>
+					<th>邮箱</th>
+					<th>直推人数</th>
+					<th>下级总人数</th>
+				</tr>
+				<tr>
+					{notempty name='userinfo'}
+						<td id="member_id">{$userinfo.member_id}</td>
+						<td id="phone">{$userinfo.phone}</td>
+						<td id="email">{$userinfo.email}</td>
+						<td id="total_child_one">{$userinfo.total_child_one}</td>
+						<td id="next_leve_num">{$userinfo.next_leve_num}</td>
+					{/notempty}
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="content_wrap">
+		<div class="zTreeDemoBackground left">
+			<ul id="ztree" class="ztree"></ul>
+		</div>
+	</div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

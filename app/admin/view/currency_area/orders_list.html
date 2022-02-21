@@ -1,0 +1,165 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">专区订单列表</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('')}" method="get">
+                <div class="layui-inline">
+                    <label for="status">订单状态</label>
+                    <select style="display: inline; width: 100px;" class="layui-select" name="status" id="status">
+                        <option value="">全部</option>
+                        <option value="1" {if $Think.get.status == 1}selected{/if}>已付款</option>
+                        <option value="2" {if $Think.get.status == 2}selected{/if}>待付款</option>
+                        <option value="3" {if $Think.get.status == 3}selected{/if}>已发货</option>
+                        <option value="4" {if $Think.get.status == 4}selected{/if}>已确认货</option>
+                    </select>
+                </div>
+
+                <div class="layui-inline">
+                    <label for="status">专区币种</label>
+                    <select style="display: inline; width: 100px;" class="layui-select" name="currency_id" id="currency_id">
+                        <option value="">全部</option>
+                        {volist name="currency_area" id="vo"}
+                            <option value="{$vo.currency_id}" {if $Think.get.currency_id == $vo.currency_id}selected{/if}>{$vo.currency.currency_name}</option>
+                        {/volist}
+                    </select>
+                </div>
+
+                <div class="layui-inline">
+                    <label for="start"></label>
+                    <input type="text" class="layui-input" placeholder="订单编号" name="cao_code"  value="{$Think.get.cao_code}" />
+                </div>
+                <div class="layui-inline">
+                    <label for="start"></label>
+                    <input type="text" class="layui-input" placeholder="用户id" name="user_id"  value="{$Think.get.user_id}" />
+                </div>
+                <div class="layui-inline">
+                    <label for="start"></label>
+                    <input type="text" class="layui-input" placeholder="下单开始日期" name="start" id="start" value="{$Think.get.start}" />
+                </div>
+                <div class="layui-inline">
+                    <label for="end"></label>
+                    <input type="text" class="layui-input" placeholder="下单结束日期" name="end" id="end" value="{$Think.get.end}" />
+                </div>
+
+                <div class="layui-inline">
+                    <input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="layui-table" lay-filter="table-li">
+                <thead>
+                <tr>
+                    <th lay-data="{align:'center',field:'cao_id', width:50}">ID</th>
+                    <th lay-data="{align:'center',field:'cao_user_id', width:150}">用户ID/昵称</th>
+                    <th lay-data="{align:'center',field:'cao_title', width:150}">商品</th>
+                    <th lay-data="{align:'center',field:'cao_num', width:150}">数量</th>
+                    <th lay-data="{align:'center',field:'cao_code', width:180}">订单编号</th>
+                    <th lay-data="{align:'center',field:'cao_total_price', width:160}">支付金额</th>
+                    <th lay-data="{align:'center',field:'cao_status', width:100}">订单状态</th>
+                    <th width="100px" lay-data="{align:'center',field:'cao_receive_name', width:200}">收货人信息</th>
+                    <th lay-data="{align:'center',field:'cao_express_name', width:150}">发货信息</th>
+                    <th lay-data="{align:'center',field:'cao_add_time', width:170}">下单时间</th>
+                    <th lay-data="{align:'center',field:'cao_sure_time', width:170}">确认收货时间</th>
+                    <th lay-data="{align:'center',field:'cao_tools', width:150}">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="v"}
+                <tr>
+                    <td>{$v['cao_id']}</td>
+                    <td>
+                        {$v['cao_user_id']}
+                    </td>
+                    <td>{$v.cao_title}</td>
+                    <td>{$v.cao_num}</td>
+                    <td>{$v['cao_code']}</td>
+                    <td>{$v.cao_total_price}</td>
+                    <td>
+                        {switch name="$v['cao_status']"}
+                            {case value="1"}已付款{/case}
+                            {case value="2"}待付款{/case}
+                            {case value="3"}
+                                {if condition="$v.cao_self_mention eq 1"}
+                                    自提中
+                                {else /}
+                                    已发货
+                                {/if}
+                            {/case}
+                            {case value="4"}已确认收货{/case}
+                        {/switch}
+                    </td>
+                    <td>{$v['cao_receive_name']}，{$v['cao_mobile']}，{$v['cao_address']}</td>
+                    <td>
+                        {if $v['cao_express_name']}
+                            {$v['cao_express_name']}，{$v['cao_express_code']}
+                        {else/}
+                            无
+                        {/if}
+                    </td>
+                    <td>
+                        {:date("Y-m-d H:i:s", $v['cao_add_time'])}
+                    </td>
+                    <td>
+                        {if $v['cao_sure_time']}
+                            {:date("Y-m-d H:i:s", $v['cao_sure_time'])}
+                        {/if}
+                    </td>
+                    <td>
+                        {if ($v['cao_self_mention']!=1) }
+                            <a href="javascript:;"  class="layui-open" data-url="{:url('deliver_goods')}?cao_id={$v.cao_id}" data-width="700px" data-height="500px" >发货</a>
+                        {/if}
+
+                        {if ( ($v.cao_status eq 3) &&($v['cao_self_mention']==1) )}
+                            <a href="javascript:;" class="success_goods" data-id="{$v.cao_id}" data-url="{:url('success_goods')}" >自提成功</a>
+                        {/if}
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+            <div class="page">
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use(['laydate'],function (){
+        laydate = layui.laydate;
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+    });
+
+    layui.use(['jquery','form', 'global','index'], function () {
+        $ = jquery = layui.jquery, layer = layui.layer,globals=layui.global;
+
+        $('.success_goods').click(function () {
+            var url = $(this).data('url');
+            var id = $(this).data('id');
+            if(url && id) {
+                var index = globals.loading();
+                globals.ajax(url,{cao_id:id},function(res){
+                    layer.close(index);
+                    globals.msg(res.message);
+                    location.reload();
+                });
+            }
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

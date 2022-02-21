@@ -1,0 +1,72 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>{:lang('lan_help_center')}</title>
+    <link rel="stylesheet" href="__PUBLIC__/static/moblie/css/common/reset.css">
+    <link rel="stylesheet" href="__PUBLIC__/static/moblie/css/common/iconfont.css">
+    <link rel="stylesheet" href="__PUBLIC__/static/moblie/css/news/helps.css">
+    <script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/utensil.js"></script>
+</head>
+
+<body>
+    <script>
+        htmlFontSize();
+    </script>
+    <header class="header">
+        <div class="left_btn back">
+            <img src="__PUBLIC__/static/moblie/images/login_fanhui_icon_b.png" alt="">
+        </div>
+        <!-- <div class="title">{:lang('lan_help_center')}</div> -->
+        <div class="title">帮助中心</div>
+
+        
+    </header>
+    <div class="content">
+        <div class="content_header">
+            {volist name='cats' id='cat'}
+            {notempty name='cat.articles'}
+            <a href="{:url('detail',['id'=>$cat['articles'][0]['article_id'],'refer'=>'helps'])}">
+                <div class="content_cont">
+                    <!-- <span class="content_picture"></span> -->
+                    <!-- <span>{$cat.name}</span> -->
+                </div>
+            </a>
+            {else /}
+            <div class="content_cont">
+                <!-- <span class="content_picture"></span> -->
+                 <!-- <span>{$cat.name}</span> -->
+            </div>
+            {/notempty}
+            <div class="content_list">
+                <ul class="list">
+                    {volist name="cat.articles" id="vo"}
+                    <a href="{:url('detail',['id'=>$vo['article_id'],'refer'=>'helps'])}">
+                        <li>{$vo.title}</li>
+                    </a>
+                    {/volist}
+                </ul>
+            </div>
+            {/volist}
+        </div>
+    </div>
+</body>
+<script>
+    var client = getCookie('platform');//客户端
+    var lang = getCookie("odrthink_language");
+    $(".back").on("click", function () {
+        if (client == 'android') {
+            apps.exit();
+        } else if (client == 'ios') {
+            window.webkit.messageHandlers.iosAction.postMessage('exit');
+        } else {
+            history.go(-1);
+        }
+    });
+</script>
+
+</html>

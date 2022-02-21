@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户资料信息</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/iconfont/demo.css">
+
+    <script type="text/javascript" src="__PUBLIC__/static/admin/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/js/layer/layer.js"></script>
+    <script src="__PUBLIC__/static/js/laydate/laydate.js"></script>
+    <style>
+
+        .user_profile {
+            padding: 20px;
+        }
+
+        .user_profile .nav {
+            z-index: 999;
+            background-color: #fff;
+        }
+
+        .user_profile .profile_content {
+            z-index: 1;
+        }
+
+        .user_profile .profile_content > div {
+            margin: 20px auto auto;
+            display: none;
+        }
+
+        .select_currency {
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            color: #333;
+            background-color: #ebebeb;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: #c6e0b4;
+        }
+        #laydate_ys{width: 120px;}
+    </style>
+    <script>
+        window._deel = {
+            method: "details",
+            module: "{$module}",
+            user_id: "{$user_id}",
+        }
+    </script>
+    <script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+</head>
+<body>
+<div class="user_profile">
+    <ul class="nav nav-tabs nav-justified">
+        <li data-name="hyxx" class="active"><a href="javascript:">会员信息</a></li>
+        <li data-name="cbjl"><a href="javascript:">充积分记录</a></li>
+        <li data-name="czjl"><a href="javascript:">充值记录</a></li>
+        <!--<li data-name="rgjl"><a href="javascript:;">认购记录</a></li>-->
+        <li data-name="jyjl"><a href="javascript:">交易记录</a></li>
+        <li data-name="tbjl"><a href="javascript:">提积分记录</a></li>
+        <!--<li data-name="txsh"><a href="javascript:;">提现审核</a></li>-->
+        <li data-name="nbhz"><a href="javascript:">平台充提币内部互转</a></li>
+        <li data-name="otc"><a href="javascript:">OTC</a></li>
+<!--        <li data-name="zsjl"><a href="javascript:;">赠送记录</a></li>-->
+<!--        <li data-name="cbsx"><a href="javascript:;">持币生息</a></li>-->
+        <li data-name="yhzb"><a href="javascript:">用户帐本</a></li>
+<!--        <li data-name="xrp"><a href="javascript:;">瑞波钻（金）记录</a></li>-->
+    </ul>
+    <div class="profile_content">
+        <div class="row hyxx" style="display: inherit;">
+            <div class="col-md-10" style="padding-left: 0;">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">会员信息</div>
+
+<!--                    <p>-->
+<!--                        红包待返还数量：{$hongbao_wait_back}<br /><br />-->
+<!--                        合约锁仓数量：{$contract_order}<br /><br />-->
+<!--                        云攒金数量：{$air_num}<br /><br />-->
+<!--                    </p>-->
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover user_info">
+                        <thead>
+                        <tr>
+                            <th>会员ID</th>
+                            <th>会员账号</th>
+                            <th>会员姓名</th>
+                            <th>会员手机</th>
+                            <th>账户余额</th>
+                            <th>冻结金钱</th>
+                            <th>注册时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">积分信息</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover user_currency">
+                        <thead>
+                        <tr>
+                            <th>积分类型名称</th>
+<!--                            <th>总量</th>-->
+                            <th>持有数量</th>
+                            <th>冻结数量</th>
+                            <th>赠送额</th>
+<!--                            <th>DNC锁仓</th>-->
+                            <th>锁仓数量</th>
+                            <th>产出冻结数量</th>
+<!--                            <th>内购数量</th>-->
+<!--                            <th>福利数量</th>-->
+<!--                            &lt;!&ndash;<th>分红(总累计)</th>&ndash;&gt;-->
+<!--                            <th>充积分数量</th>-->
+<!--                            <th>管理员充积分</th>-->
+<!--                            <th>购买量</th>-->
+<!--                            <th>卖出量</th>-->
+<!--                            <th>提积分数量</th>-->
+<!--                            <th>互转充积分数量</th>-->
+<!--                            <th>互转提积分数量</th>-->
+<!--                            <th>余额</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2" style="padding-right: 0;">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        实际充值钱
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        管理员充值钱
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        提现钱
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        余额
+                    </li>
+                    <li class="list-group-item">
+                        暂无用户备注
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row czjl">
+            <div class="col-md-10" style="padding-left: 0;">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">充值记录</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>汇款人账号</th>
+                            <th>汇款人</th>
+                            <th>汇款人ID号</th>
+                            <th>银行卡号</th>
+                            <th>充值钱数</th>
+                            <th>实际打款</th>
+                            <th>状态</th>
+                            <th>充值类型</th>
+                            <th>时间</th>
+                            <th>收款行</th>
+                            <th>交易流水号</th>
+                            <th>实收资金</th>
+                            <th>提交账号</th>
+                            <th>备注</th>
+                            <!--<th>提交时间</th>-->
+                            <!--<th>审核账号</th>-->
+                            <!--<th>审核时间</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2" style="padding-right: 0;">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        充值合计
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        充积分合计
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        实际打款合计
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row txsh">
+            <div class="col-md-10" style="padding-left: 0;">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">提现记录</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover withdraw_list">
+                        <thead>
+                        <tr>
+                            <th>记录编号</th>
+                            <th>提现人</th>
+                            <th>会员编号</th>
+                            <th>银行</th>
+                            <th>银行账号</th>
+                            <th>银行开户地</th>
+                            <th>提现金额</th>
+                            <th>手续费（{$config.fee}%）</th>
+                            <th>实际金额</th>
+                            <th>订单号</th>
+                            <th>提交时间</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">财务日志</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover finance_list">
+                        <thead>
+                        <tr>
+                            <th>记录编号</th>
+                            <th>用户名</th>
+                            <th>财务类型</th>
+                            <th>内容</th>
+                            <th>金额</th>
+                            <th>积分类型</th>
+                            <th>收支类型</th>
+                            <th>时间</th>
+                            <th>ip</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2" style="padding-right: 0;">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        实际金额合计
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row rgjl">
+            <div class="col-md-10" style="padding-left: 0;">
+                <div class="form-inline select_currency">
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">选择积分类型：</p>
+                    </div>
+                    <div class="form-group">
+                        <select name="currency_list" class="form-control">
+                            <option>请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">认购记录</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>记录编号</th>
+                            <th>众筹编号</th>
+                            <th>众筹名称</th>
+                            <th>购买人</th>
+                            <th>购买人ID</th>
+                            <th>购买数量</th>
+                            <th>冻结数量</th>
+                            <th>单价</th>
+                            <th>购买总额</th>
+                            <th>时间</th>
+                            <th>购买使用积分类型类型</th>
+                            <th>备注说明</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2" style="padding-right: 0;">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        购买数量合计
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        冻结数量合计
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        购买总额合计
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row jyjl">
+            <div class="col-md-10" style="padding-left: 0;">
+                <div class="form-inline select_currency">
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">选择积分类型：</p>
+                    </div>
+                    <div class="form-group">
+                        <select name="currency_list" class="form-control">
+                            <option>请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">交易记录</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>成交编号</th>
+                            <th>订单号</th>
+                            <th>买家ID</th>
+                            <th>买家邮箱</th>
+                            <th>买家手机</th>
+                            <th>积分类型</th>
+                            <th>数量</th>
+                            <th>单价</th>
+                            <th>总量</th>
+                            <th>手续费</th>
+                            <th>类型</th>
+                            <th>成交时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2" style="padding-right: 0;">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        买入量合计
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        买入金额合计
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        卖出量合计
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        卖出金额合计
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row tbjl">
+            <div class="col-md-10" style="padding-left: 0;">
+                <div class="form-inline select_currency">
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">选择积分类型：</p>
+                    </div>
+                    <div class="form-group">
+                        <select name="currency_list" class="form-control">
+                            <option>请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">提积分记录</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>记录编号</th>
+                            <th>会员邮箱</th>
+                            <th>积分类型名称</th>
+                            <th>转出钱包地址</th>
+                            <th>交易编号</th>
+                            <th>转出数量</th>
+                            <th>实际数量</th>
+                            <th>操作时间</th>
+                            <th>状态</th>
+                            <th>一审</th>
+                            <th>二审</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2" style="padding-right: 0;">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        实际数量合计
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row cbjl">
+            <div class="col-md-10" style="padding-left: 0;">
+                <div class="form-inline select_currency">
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">选择积分类型：</p>
+                    </div>
+                    <div class="form-group">
+                        <select name="currency_list" class="form-control">
+                            <option>请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">充积分记录</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>记录编号</th>
+                            <th>会员邮箱</th>
+                            <th>积分类型名称</th>
+                            <th>转入钱包地址</th>
+                            <th>交易编号</th>
+                            <th>转入数量</th>
+                            <th>实际数量</th>
+                            <th>操作时间</th>
+                            <th>状态</th>
+                            <th>一审</th>
+                            <th>二审</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2" style="padding-right: 0;">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        转出数量合计
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        实际数量合计
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row otc">
+            <div class="col-md-10" style="padding-left: 0;">
+                <div class="form-inline select_currency">
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">选择积分类型：</p>
+                    </div>
+                    <div class="form-group">
+                        <select name="currency_list" class="form-control">
+                            <option>请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">挂单记录</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover order_list">
+                        <thead>
+                        <tr>
+                            <th>成交编号</th>
+                            <th>买家email</th>
+                            <th>会员ID</th>
+                            <th>姓名</th>
+                            <th>手机</th>
+                            <th>币种</th>
+                            <th>数量</th>
+                            <th>手续费</th>
+                            <th>剩余</th>
+                            <th>单价</th>
+                            <th>限价</th>
+                            <th>类型</th>
+                            <th>添加时间</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">交易记录</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover trade_list">
+                        <thead>
+                        <tr>
+                            <th>买卖对</th>
+                            <th>订单号</th>
+                            <th>会员ID</th>
+                            <th>姓名</th>
+                            <th>账户</th>
+                            <th>币种</th>
+                            <th>数量</th>
+                            <th>单价</th>
+                            <th>总价格</th>
+                            <th>手续费</th>
+                            <th>资产变动</th>
+                            <th>类型</th>
+                            <th>收付款类型</th>
+                            <th>卖家收付款账号</th>
+                            <th>买家收付款账号</th>
+                            <th>添加时间</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--<div class="col-md-2" style="padding-right: 0;">-->
+            <!--<ul class="list-group">-->
+            <!--<li class="list-group-item">-->
+            <!--<span class="badge">0.0000</span>-->
+            <!--实际金额合计-->
+            <!--</li>-->
+            <!--</ul>-->
+            <!--</div>-->
+        </div>
+        <div class="row zsjl">
+            <div class="col-md-10" style="padding-left: 0;">
+                <div class="form-inline select_currency">
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">选择积分类型：</p>
+                    </div>
+                    <div class="form-group">
+                        <select name="currency_list" class="form-control">
+                            <option>请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">赠送记录</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>记录编号</th>
+                            <th>赠送积分类型</th>
+                            <th>赠送数量</th>
+                            <th>赠送类型</th>
+                            <th>时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2" style="padding-right: 0;">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        可用数量
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        冻结数量
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        锁仓数量
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        互转数量
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        赠送数量
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        累计赠送数量
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row cbsx">
+            <div class="col-md-10" style="padding-left: 0;">
+                <div class="form-inline select_currency">
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">选择积分类型：</p>
+                    </div>
+                    <div class="form-group">
+                        <select name="currency_list" class="form-control">
+                            <option>请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">持币生息记录</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>记录ID</th>
+                            <th>会员ID</th>
+                            <th>姓名</th>
+                            <th>账户</th>
+                            <th>币种</th>
+                            <th>月份</th>
+                            <th>数量</th>
+                            <th>年收益率</th>
+                            <th>每日生息量</th>
+                            <th>添加时间</th>
+                            <th>到期时间</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2" style="padding-right: 0;">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        生息中数量
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="row nbhz">
+            <div class="col-md-20" style="padding-left: 0;">
+                <div class="form-inline select_currency">
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">选择积分类型：</p>
+                    </div>
+                    <div class="form-group">
+                        <select name="currency_list" class="form-control">
+                            <option>请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">积分互转记录</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>转账人邮箱</th>
+                            <th>转账人ID</th>
+                            <th>转账人姓名</th>
+                            <th>转账人手机</th>
+                            <th>币类型名称</th>
+                            <th>转账地址</th>
+                            <th>转账编号</th>
+                            <th>接收人邮箱</th>
+                            <th>接收人ID</th>
+                            <th>接收人姓名</th>
+                            <th>接收人手机</th>
+                            <th>接收地址</th>
+                            <th>转账总数</th>
+                            <th>实际到账数量</th>
+                            <th>开始时间</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--<div class="col-md-2" style="padding-right: 0;">-->
+                <!--<ul class="list-group">-->
+                    <!--<li class="list-group-item">-->
+                        <!--<span class="badge">0.0000</span>-->
+                        <!--转出数量合计-->
+                    <!--</li>-->
+                    <!--<li class="list-group-item">-->
+                        <!--<span class="badge">0.0000</span>-->
+                        <!--实际数量合计-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        </div>
+
+
+        <div class="row yhzb">
+        <div class="col-md-20" style="padding-left: 0;">
+            <div class="form-inline select_currency">
+                <div class="form-group">
+                    <label class="sr-only">Title</label>
+                    <p class="form-control-static" style="font-weight: 700;">选择积分类型：</p>
+                </div>
+                <div class="form-group">
+                    <select name="currency_list" class="form-control">
+                        <option>请选择</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="sr-only">Title</label>
+                    <p class="form-control-static" style="font-weight: 700;">选择账本类型：</p>
+                </div>
+                <div class="form-group">
+                    <select name="type_list" class="form-control">
+                        <option>请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="panel panel-default" style="margin-bottom: 100px;">
+                <!-- Default panel contents -->
+                <div class="panel-heading">帐本记录</div>
+
+                <!-- Table -->
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>币种类型</th>
+                        <th>用户ID</th>
+                        <th>用户手机</th>
+                        <th>用户邮箱</th>
+                        <th>资产流向</th>
+                        <th>币种交易对</th>
+                        <th>相对用户ID</th>
+                        <th>相对用户手机</th>
+                        <th>相对用户邮箱</th>
+                        <th>变动类型</th>
+                        <th>变动前</th>
+                        <th>变动数量</th>
+                        <th>变动后</th>
+                        <th>变动时间</th>
+                        <th>备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--<div class="col-md-2" style="padding-right: 0;">-->
+        <!--<ul class="list-group">-->
+        <!--<li class="list-group-item">-->
+        <!--<span class="badge">0.0000</span>-->
+        <!--转出数量合计-->
+        <!--</li>-->
+        <!--<li class="list-group-item">-->
+        <!--<span class="badge">0.0000</span>-->
+        <!--实际数量合计-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+    </div>
+
+        <div class="row xrp">
+            <div class="col-md-10" style="padding-left: 0;">
+                <div class="form-inline select_currency" style="width: 100%">
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">Xrp类型：</p>
+                    </div>
+                    <div class="form-group">
+                        <select name="state" class="form-control">
+                            <option>请选择</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">类型：</p>
+                    </div>
+                    <div class="form-group">
+                        <select name="type" class="form-control">
+                            <option>请选择</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">支付状态：</p>
+                    </div>
+                    <div class="form-group">
+                        <select name="status" class="form-control">
+                            <option>请选择</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">开始时间：</p>
+                    </div>
+                    <div class="form-group">
+                            <input class="common-text laydate-icon" placeholder="请选择日期" id="start_laydate" name="start_time" value="" type="text" style="cursor: pointer;">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">结束时间：</p>
+                    </div>
+                    <div class="form-group">
+
+                            <input class="common-text laydate-icon" placeholder="请选择日期" id="end_laydate" name="end_time" value="" type="text" style="cursor: pointer;">
+
+                    </div>
+                </div>
+                <div class="form-inline select_currency" style="width: 100%">
+                    <p style="color: red">“用户当前金额”与“用户变动金额”针对资金流动，从2019年1月25日开始才有显示数据！</p>
+                </div>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">xrp帐本记录</div>
+
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>记录ID</th>
+                            <th>类型</th>
+                            <th>标题</th>
+                            <th>用户ID</th>
+                            <th>用户帐号</th>
+                            <th>支付状态</th>
+                            <th>用户当前金额</th>
+                            <th>手续费</th>
+                            <th>(收入或支出)金额</th>
+                            <th>用户变动金额</th>
+                            <th>接收用户ID</th>
+                            <th>接收用户帐号</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2" style="padding-right: 0;">
+            <ul class="list-group">
+            <li class="list-group-item">
+                <span class="badge">0.0000</span>
+                收入数量合计
+            </li>
+            <li class="list-group-item">
+            <span class="badge">0.0000</span>
+            支出数量合计
+            </li>
+            <li class="list-group-item">
+                <span class="badge">0.0000</span>
+                基础分红瑞波钻收益数量合计
+            </li>
+            <li class="list-group-item">
+                <span class="badge">0.0000</span>
+                增加分红瑞波钻收益数量合计
+            </li>
+            <li class="list-group-item">
+                <span class="badge">0.0000</span>
+                一级分红瑞波钻收益数量合计
+            </li>
+            <li class="list-group-item">
+                <span class="badge">0.0000</span>
+                幸运赠送瑞波钻收益数量合计
+            </li>
+            <li class="list-group-item">
+                <span class="badge">0.0000</span>
+                推薦獎勵瑞波钻收益数量合计
+            </li>
+            <li class="list-group-item">
+                <span class="badge">0.0000</span>
+                社區獎勵瑞波钻收益数量合计
+            </li>
+            <li class="list-group-item">
+                <span class="badge">0.0000</span>
+                平級獎勵瑞波钻收益数量合计
+            </li>
+            <li class="list-group-item">
+                <span class="badge">0.0000</span>
+                管理獎勵瑞波钻收益数量合计
+            </li>
+            <li class="list-group-item">
+                <span class="badge">0.0000</span>
+                分红总收益数量合计
+            </li>
+            <li class="list-group-item">
+                <span class="badge">0.0000</span>
+                实际瑞波钻数量合计
+            </li>
+            <li class="list-group-item">
+                <span class="badge">0.0000</span>
+                实际瑞波金数量合计
+            </li>
+            <li class="list-group-item">
+                <span class="badge">0.0000</span>
+                实际创新区瑞波钻数量合计
+            </li>
+            </ul>
+            </div>
+        </div>
+        <div class="row c2c">
+            <table class="table table-striped table-bordered table-hover">
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+//    laydate({
+//        elem: '#start_laydate'
+//    });
+//    laydate({
+//        elem: '#end_laydate'
+//    });
+//laydate({
+//    elem: '#start_laydate'
+//    ,change: function(value, date, endDate){
+//        console.log(11111);
+//        console.log(value); //得到日期生成的值，如：2017-08-18
+//        console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+//        console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+//    }
+//});
+
+
+</script>

@@ -1,0 +1,122 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="{:url('/admin/')}">首页</a> <a href="{:url('index')}">奖励管理</a> <a><cite>奖励汇总</cite></a>
+    </span>
+
+    <span class="fr">
+<!--        <a class="layui-btn layui-open" data-url="{:url('add')}" data-title="添加" href="javascript:;">添加</a>-->
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class=" layui-col-md12 we-search">
+            <div class="layui-inline">
+                <label for="member_id"></label>
+                <input class="layui-input" placeholder="请输入用户ID" name="member_id" id="member_id" value="{$Think.get.member_id}" />
+            </div>
+
+            <div class="layui-inline">
+                <label for="ename"></label>
+                <input class="layui-input" placeholder="请输入用户名" name="ename" id="ename" value="{$Think.get.ename}" />
+            </div>
+
+            <div class="layui-inline">
+                <label for="phone"></label>
+                <input class="layui-input" placeholder="请输入手机号" name="phone" id="phone" value="{$Think.get.phone}" />
+            </div>
+
+            <div class="layui-input-inline">
+                <select name="level"  class="layui-select">
+                    <option value="0">请选择等级</option>
+                    {volist name="levels" id="vo"}
+                    <option value="{$vo.level}"> {$vo.level}</option>
+                    {/volist}
+                </select>
+            </div>
+
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+
+    <form class="layui-form" >
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>会员ID</th>
+                <th>用户名</th>
+                <th>等级</th>
+                <th>个人数量</th>
+                <th>团队数量</th>
+                <th>总数量</th>
+                <th>静态总收益</th>
+                <th>分享总收益</th>
+                <th>团队总收益</th>
+                <th>服务中心</th>
+                <th>预约池余额</th>
+                <th>区县合伙人</th>
+                <th>注册时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="v"}
+            <tr data-id="{$v->member_id}">
+                <td><a href="" onclick="window.openUser({$v.member_id})">{$v->member_id}</a></td>
+                <td>{$v.users.ename}
+<!--                    -{$v.users.phone}-->
+                </td>
+                <td>H
+                    {if $v.rocketLevel.level}
+                        {$v.rocketLevel.level}
+                    {else}
+                        0
+                    {/if}
+                </td>
+                <td>{$v.total_num | round=6}</td>
+                <td>{$v.team_total | round=6}</td>
+                <td>{$v.count_num | round=6}</td>
+                <td><a class="layui-open" data-url="{:url('profit_list',['param'=>'index','member_id'=>$v->member_id, 'type' => 1])}" data-width="90%" data-title="{$v->member_id}静态收益"  href="javascript:;">{$v.statics_reward | round=6}</a></td>
+                <td><a class="layui-open" data-url="{:url('profit_list',['param'=>'index','member_id'=>$v->member_id, 'type' => 2])}" data-width="90%" data-title="{$v->member_id}分享收益"  href="javascript:;">{$v.share_reward | round=6}</a></td>
+                <td><a class="layui-open" data-url="{:url('profit_list',['param'=>'index','member_id'=>$v->member_id, 'type' => 3])}" data-width="90%" data-title="{$v->member_id}团队收益"  href="javascript:;">{$v.team_reward | round=6}</a></td>
+                <td>
+                    {if $v.is_centre == 1}
+                        <span style="color: #00a600">是</span>
+                    {else}
+                        <span style="color: red">否</span>
+                    {/if}
+                </td>
+                <td>{$v.subscribe_num | round=6}</td>
+                <td>
+                    {if $v.is_area == 1}
+                    <span style="color: #00a600">是</span>
+                    {else}
+                    <span style="color: red">否</span>
+                    {/if}
+                </td>
+                <td>{:date('Y-m-d H:i',$v['users']['reg_time'])}</td>
+                <td>
+                    <a class="layui-btn layui-open" data-url="{:url('edit',['id'=>$v->member_id])}" data-title="编辑"  href="javascript:;">编辑</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','global']);
+</script>
+{include file="layout/footer"}

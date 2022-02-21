@@ -1,0 +1,58 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list">
+            <i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span class="crumb-name">创业奖励配置</span>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('BossPlan/updateConfig')}" method="post" id="myform" name="myform">
+            <input type="hidden" name="key" value="entrepreneur" />
+            
+            <div class="config-items">
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>停止等级：</th>
+                            <td><input type="text" value="{$config_values['stop_level']}" style='width: 200px;' name="stop_level" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>奖励：</th>
+                            <td><input type="text" value="{$config_values['bouns']}" style='width: 200px;' name="bouns" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" id="submit" value="修改" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('BossPlan/updateConfigList')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td><i class="require-red">请勿随意修改参数</i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+$("#submit").click(function () {
+    var r=confirm("确定要修改参数吗?");
+    if(r==true){
+       return true;
+    }
+    return false;
+})
+</script>

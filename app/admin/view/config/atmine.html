@@ -1,0 +1,84 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+<script>
+    window._deel = {
+        req_member_details_url: "{:U('Config/atdetailed')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">挖矿统计</span></div>
+    </div>
+<!--     <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('Member/index')}" method="post">
+                <table class="search-tab">
+                    <tr>
+                        <td width="70">会员账号:</td>
+                        <td><input class="common-text" placeholder="关键字" name="email" type="text"></td>
+                        <td width="70">会员姓名:</td>
+                        <td><input class="common-text" placeholder="关键字" name="name" type="text"></td>
+                        <td width="70">会员电话:</td>
+                        <td><input class="common-text" placeholder="关键字" name="phone" type="text"></td>
+                        <td width="70">会员ID:</td>
+                        <td><input class="common-text" placeholder="ID" name="member_id" type="text"></td>
+                        <td width="70">推荐人ID:</td>
+                        <td><input class="common-text" placeholder="ID" name="pid" type="text"></td>
+                        <td width="70">过滤奖励：</td>
+                        <td><input class="common-text" placeholder="输1可过滤可奖励的人" name="status" type="text"></td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div> -->
+    <div class="result-wrap">
+
+        <!-- <div class="result-title">
+            <div class="result-list">
+                <a href="{:U('Member/addMember')}"><i class="icon-font"></i>新增会员</a>
+            </div>
+        </div> -->
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+
+                    <th>ID</th>
+                    <th>日期</th>
+                    <th>平台交易手续费数</th>
+                    <th>平台交易手续费折合KOK数</th>
+                    <th>当日挖矿奖励数</th>
+                    <th>累计挖矿数</th>
+                    <th>比例</th>
+                    <th>操作</th>
+                </tr>
+                <volist name='list' id='vo'>
+                    <tr>
+                        <td style="width:60px">{++$startnum}</td>
+                        <td style="width:110px">{$vo['datetime']|date="Y-m-d H:i",###}</td>
+                        <td style="width:150px">{$vo['fee_num']}</td>
+                        <td style="width:150px">{$vo['num']}</td>
+                        <td style="width:150px">{$vo['daysnum']}</td>
+                        <td style="width:60px">{$vo['total_num']}</td>
+                        <td style="width:60px"><?php echo number_format($vo['daysnum']*100/($vo['num']+$vo['fee_num']),6)?>%</td>
+                        <td style="width:60px">
+                            <a href="javascript:member_ab_details(1,'{$vo['datetime']|date="Y-m-d",###}','挖矿');" class="shenhe_button">查看</a>
+                        </td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

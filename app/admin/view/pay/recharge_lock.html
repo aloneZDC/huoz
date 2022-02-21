@@ -1,0 +1,150 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#datePicker').date_input();
+        $('#datePicker2').date_input();
+    });
+
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list">
+            <i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span class="crumb-name">锁仓充值</span>
+        </div>
+    </div>
+
+    <div class="result-wrap">
+
+
+        <div style="float: left; width: 30%; margin-right: 20px;">
+            <div class="config-title">
+
+                <h1>
+                    <i class="icon-font">&#xe00a;</i>添加管理员充值
+                </h1>
+            </div>
+            <form action="{:U('')}" method="post" id="myform"
+                  name="myform">
+                <div class="config-items">
+                    <div class="result-content">
+                        <table width="100%" class="insert-tab">
+                            <tbody>
+                            <tr>
+                                <th style="width: 35%;"><i class="require-red">*</i>充值用户ID：</th>
+                                <td><input name="member_id" id="member_id" type="text" onkeyup="getname();"><span
+                                        id="showBug" style="margin-left: 10px; color: #FF0000"></span></td>
+                            </tr>
+                            <tr>
+                                <th style="width: 35%;"><i class="require-red"></i>用户名：</th>
+
+                                <td><span id="showname" class="showname"
+                                          style="color: #FF0000"></span></td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>充值积分类型：</th>
+                                <td><select name="currency_id" id="category">
+                                    <foreach name="currency" item="vo">
+                                        <option value="{$vo.currency_id}">{$vo.currency_name}</option>
+                                    </foreach>
+                                    <option value="0">人民币</option>
+                                </select></td>
+
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>充值金额：</th>
+                                <td><input name="money" type="text"></td>
+                            </tr>
+                            <tr>
+                                <th><i class="require-red">*</i>充值备注：</th>
+                                <td><input name="message" type="text"></td>
+                            </tr>
+
+                            <th></th>
+                            <td><input type="submit" value="提交"
+                                       class="btn btn-primary btn6 mr10"></td>
+                            <tr>
+                                <th><i class="require-red">*</i>说明：</th>
+                                <td>此处充值的全部到可用资产里</td>
+                            </tr>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+
+            <script>
+                function getname() {
+
+                    if ($("#member_id").val() != "" && $("#member_id").val() != 0) {
+                        $.post('getnamebyid', {"id": $("#member_id").val()}, function (data) {
+
+                            $(".showname").text(data);
+                        });
+
+                    } else {
+                        $(".showname").text(0);
+                    }
+                }
+            </script>
+        </div>
+        <div style="float: left; width: 100%;">
+            <div class="config-title">
+                <h1>
+                    <i class="icon-font">&#xe00a;</i>管理员充值列表
+                </h1>
+            </div>
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>充值用户ID</th>
+                    <th>充值用户</th>
+                    <th>姓名</th>
+                    <th>手机</th>
+                    <th>充值积分类型</th>
+                    <th>充值金额</th>
+                    <th>时间</th>
+                    <th>备注</th>
+                    <th>管理员</th>
+                </tr>
+                <volist name='list' id='vo'>
+                    <tr>
+                        <td><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo['member_id']}</a>
+                        </td>
+                        <td>{$vo['member_id']|getMemberEmailByMember_id=###}</td>
+                        <td>{$vo['name']}</td>
+                        <td>{$vo['phone']}</td>
+                        <td>{$vo['currency_id']|getCurrencynameByCurrency=###}</td>
+                        <td>{$vo['money']|default=0}</td>
+                        <td>{$vo['add_time']|date='Y-m-d H:i:s',###}</td>
+                        <td>{$vo['message']}</td>
+                        <td>{$vo['username']}</td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+
+</div>
+
+
+<!--/main-->
+</div>
+</body>
+</html>

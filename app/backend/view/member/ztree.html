@@ -1,0 +1,208 @@
+{include file="layout/header"}
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/static/admin/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/static/admin/ztree/js/jquery.ztree.core.min.js"></script>
+
+<style>
+	div.content_wrap {height:380px;}
+	div.content_wrap div.left{float: left;}
+	div.zTreeDemoBackground {width:99%;height:362px;text-align:left;}
+	ul.ztree {
+		margin-top: 10px;
+		/*height: 360px;*/
+		overflow-x: auto;
+		margin: 1px 1px 1px 5px;
+	}
+	ul.log li {color: #666666;list-style: none;padding-left: 10px;}
+</style>
+<script>
+	var _treeid = "ztree",
+			curMenu = null,
+			zTree_Menu = null;
+	window._deel = {
+		url_info: "{:url('getuserinfo')}",
+		url_child: "{:url('getchildnode')}",
+		checked: "1",
+		//data:[{"id":"1","pId":0,"name":"oneone","open":false,"isParent":true}]
+		data:{$users}
+	}
+	$(document).ready(function () {
+		init();
+	});
+
+	/**
+	 * 初始化组织数
+	 */
+	function init() {
+		var setting = {
+					data: {
+						simpleData: {
+							enable: true
+						}
+					},
+					view: {
+						selectedMulti: false,
+						dblClickExpand: dblClickExpand
+					},
+					async: {
+						enable: true,
+						url: _deel.url_child,
+						autoParam: ["id", "name=name", "level=lv"]
+					},
+					callback: {
+						//beforeClick: beforeClick,
+						onClick: zTreeOnClick,
+						onAsyncError: onAsyncError,
+						onAsyncSuccess: onAsyncSuccess
+					}
+				},
+				zNodes = _deel.data;
+
+		$.fn.zTree.init($("#"+_treeid), setting, zNodes);
+
+		//默认选中
+		var treeObj = $.fn.zTree.getZTreeObj(_treeid);
+		var node = treeObj.getNodeByParam("id", _deel.checked);
+		treeObj.selectNode(node);
+	}
+
+	function dblClickExpand(treeId, treeNode) {
+		return treeNode.level > 0;
+	}
+
+	function beforeClick(treeId, treeNode) {
+		if (treeNode.isParent) {
+			if (treeNode.level === 0) {
+				var pNode = curMenu;
+				while (pNode && pNode.level !==0) {
+					pNode = pNode.getParentNode();
+				}
+				if (pNode !== treeNode) {
+					var a = $("#" + pNode.tId + "_a");
+					a.removeClass("cur");
+					zTree_Menu.expandNode(pNode, false);
+				}
+				a = $("#" + treeNode.tId + "_a");
+				a.addClass("cur");
+
+				var isOpen = false;
+				for (var i=0,l=treeNode.children.length; i<l; i++) {
+					if(treeNode.children[i].open) {
+						isOpen = true;
+						break;
+					}
+				}
+				if (isOpen) {
+					zTree_Menu.expandNode(treeNode, true);
+					curMenu = treeNode;
+				} else {
+					zTree_Menu.expandNode(treeNode.children[0].isParent?treeNode.children[0]:treeNode, true);
+					curMenu = treeNode.children[0];
+				}
+			} else {
+				zTree_Menu.expandNode(treeNode);
+			}
+		}
+		return !treeNode.isParent;
+	}
+
+	function onAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
+		alert("请求失败。");
+	}
+	function onAsyncSuccess(event, treeId, treeNode, msg) {
+		//console.info(msg);
+	}
+
+	//节点点击加载用户资料
+	function zTreeOnClick(event, treeId, treeNode) {
+		if(treeNode.name == undefined || !(treeNode.name.length > 0)){
+			return false;
+		}
+		var tree_info = $('.tree_info tr:eq(1)');
+
+		if(tree_info.find("._username").html() == treeNode.name){
+			return false;
+		}
+
+		$.ajax({
+			type: 'post',
+			dataType: 'json',
+			url: _deel.url_info,
+			data: {user_id: treeNode.name},
+			success: function (callback) {
+				$('#member_id1').html(callback.member_id);
+				$('#phone1').html(callback.phone);
+				$('#email').html(callback.email);
+				$('#total_child_one').html(callback.total_child_one);
+				$('#next_leve_num').html(callback.next_leve_num);
+			},
+			error: function (e) {
+				alert("请求失败。");
+			}
+		});
+	}
+</script>
+
+<div class="main-wrap"  style="padding: 20px">
+	<div class="search-wrap" style="margin-top: 10px;">
+		<div class="layui-row">
+			<form class=" layui-col-md12 we-search">
+				<div class="layui-inline">
+					<label for="ename"></label>
+					<input class="layui-input" placeholder="请输入用户名" name="ename" id="ename" value="{$Think.get.ename}" />
+				</div>
+
+				<div class="layui-inline">
+					<label for="member_id"></label>
+					<input class="layui-input" placeholder="请输入用户ID" name="member_id" id="member_id" value="{$Think.get.member_id}" />
+				</div>
+
+				<div class="layui-inline">
+					<label for="phone"></label>
+					<input class="layui-input" placeholder="请输入手机号" name="phone" id="phone" value="{$Think.get.phone}" />
+				</div>
+
+				<button class="layui-btn" lay-submit="" lay-filter="sreach">
+					<i class="layui-icon layui-icon-search"></i>
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="result-wrap">
+		<div class="result-content">
+			<table width="100%"  class="layui-table">
+				<thead>
+				<tr>
+					<th>用户ID</th>
+					<th>手机</th>
+					<th>邮箱</th>
+					<th>直推人数</th>
+					<th>下级总人数</th>
+				</tr>
+				</thead>
+				<tbody>
+					<tr>
+						{notempty name='userinfo'}
+							<td id="member_id1">{$userinfo.member_id}</td>
+							<td id="phone1">{$userinfo.phone}</td>
+							<td id="email">{$userinfo.email}</td>
+							<td id="total_child_one">{$userinfo.total_child_one}</td>
+							<td id="next_leve_num">{$userinfo.next_leve_num}</td>
+						{/notempty}
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="content_wrap">
+		<div class="zTreeDemoBackground left">
+			<ul id="ztree" class="ztree"></ul>
+		</div>
+	</div>
+</div>
+
+{include file="layout/footer"}

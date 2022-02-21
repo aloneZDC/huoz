@@ -1,0 +1,391 @@
+<script type="text/javascript" src="__PUBLIC__/static/home/js/layer/layer.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/user/safe.css" />
+<div id="main">
+    <div class="main_right" style="background: transparent;">
+                <div class="user_info">
+                    <div class="user_info_top">
+                        <div class="icon">
+                            <img src="__PUBLIC__/static/home/images/user_info_img1.png" alt="">
+                            <span>{$member_info.nick}</span>
+                        </div>
+                        <div class="user_info_r_b">
+                            <a href='javascript:void(0)' onclick="onVerify()"  data_uc="/Bank/index">{:lang("lan_payment_methods")}</a>
+                            <a href='{:url("User/senior_verify")}'  data_uc="/User/senior_verify">{:lang("lan_user_menu_authentication")}</a>
+                        </div>
+                    </div>
+                    <p>ID：<span>{$member_info.member_id}</span></p>
+                    <p>{:lang('lan_registration_time')}：<span>{$member_info.reg_time}</span></p>
+                    <p>{:lang('lan_nickname')}：<span>{$member_info.nick}</span></p>
+                </div>
+                <section class="info_bottom">
+                   <h4>{:lang('lan_personal_center')}</h4>
+                   <div class="info_pro" hidden>
+                        <div class="info_pro_icon"><img src="__PUBLIC__/static/home/images/user_info_img2.png" alt=""></div>
+                        <div class="info_pro_data">
+                            <p>{:lang('lan_security_level')} <span>高</span></p>
+                            <p>{:lang('lan_level_h_m_l')}</p>
+                        </div>
+                   </div>
+                   <div class="info_pro">
+                       <div class="info_pro_icon"><img src="__PUBLIC__/static/home/images/user_info_img3.png" alt=""></div>
+                       <div class="info_pro_data">
+                           <p>{:lang('lan_binding_email')} <span>{$member_info['email']}</span></p>
+                           <p>{:lang('lan_binding_email_p')}</p>
+                       </div>
+                       <div class="info_pro_btn user_info_r_b">
+                            {notempty name="member_info['email']"}
+                               {$member_info['email']}&nbsp;
+                               {:lang('lan_bind_exists')}
+                               <a class="replace" href="{:url('User/modifyemail')}">{:lang('lan_simple_change_email')}</a>
+                              {else/}
+                               <a href="{:url('User/EMvalidation')}">{:lang('lan_binding')}</a>
+
+                           {/notempty}
+                       </div>
+                  </div>
+                  <div class="info_pro">
+                       <div class="info_pro_icon"><img src="__PUBLIC__/static/home/images/user_info_img4.png" alt=""></div>
+                       <div class="info_pro_data">
+                           <p>{:lang('lan_binding_mobile_phone')} <span> {$member_info['phone']|substr=0,3}****{$member_info['phone']|substr=9,2}</span></p>
+                           <p>{:lang('lan_binding_mobile_phone_p')}</p>
+                       </div>
+                       <div class="info_pro_btn user_info_r_b">
+                            {notempty name="member_info['phone']"}
+                                {$member_info['phone']|substr=0,3}****{$member_info['phone']|substr=9,2}&nbsp;
+                                {:lang('lan_bind_exists')}
+                                <a class="replace" href="{:url('User/modifyphone')}">{:lang('lan_simple_change_phone')}</a>
+                            {else/}
+                                <a href="{:url('User/phoneBinding')}">{:lang('lan_binding')}</a>
+
+                            {/notempty}
+                       </div>
+                  </div>
+                  <div class="info_pro" hidden>
+                       <div class="info_pro_icon"><img src="__PUBLIC__/static/home/images/user_info_img5.png" alt=""></div>
+                       <div class="info_pro_data">
+                           <p>谷歌验证</p>
+                           <p>绑定后，登录、提现、支付时需要谷歌二次验证</p>
+                       </div>
+                       <div class="info_pro_btn user_info_r_b">
+                            <a href="">绑定</a>
+                       </div>
+                  </div>
+                  <div class="info_pro">
+                       <div class="info_pro_icon"><img src="__PUBLIC__/static/home/images/user_info_img6.png" alt=""></div>
+                       <div class="info_pro_data">
+                           <p>{:lang('lan_set_safe')} </p>
+                           <p>{:lang('lan_safe_whenTradepassword')}</p>
+                       </div>
+                       <div class="info_pro_btn user_info_r_b">
+                            <a href='{:url("User/updatePassword")}'  id="modify_tradPass">{:lang('lan_safe_ChangeCodes')}</a>
+                       </div>
+                  </div>
+                  <div class="info_pro">
+                       <div class="info_pro_icon"><img src="__PUBLIC__/static/home/images/user_info_img7.png" alt=""></div>
+                       <div class="info_pro_data">
+                           <p>{:lang('lan_set_password')}</p>
+                           <p>{:lang('lan_set_pass_remind')}</p>
+                       </div>
+                       <div class="info_pro_btn user_info_r_b">
+                            <a href='{:url("User/updatePassword")}' id="modify_loginPass">{:lang('lan_modify_login_password')}</a>
+                       </div>
+                  </div>
+
+                </section>
+                <div class="sc_info_list" id="sc_info_list" hidden>
+                    <dl>
+                        <dd>{:lang('lan_set_password')}</dd>
+                        <dd>
+                            <p>{:lang('lan_set_pass_remind')}</p>
+                        </dd>
+                        <dd>
+                            <div class="changepw">
+                                    <a href="{:url('User/updatePassword')}" id="modify_loginPass">
+                                <!-- <a href="{:url('User/updatePassword',array('mima'=>1))}"> -->
+                                    {:lang('lan_modify_login_password')}
+                                </a>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dd>{:lang('lan_set_safe')}</dd>
+                        <dd>
+                            <p>{:lang('lan_safe_whenTradepassword')}</p>
+                        </dd>
+                        <dd>
+                            <div class="changepw">
+                                <a href="{:url('User/updatePassword')}" id="modify_tradPass">{:lang('lan_safe_ChangeCodes')}</a>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dd>{:lang('lan_user_menu_authentication')}</dd>
+                        <dd>
+                            <p>{:lang('lan_safe_financial_security')}</p>
+                        </dd>
+                        <dd>
+                            <div class="changepw">
+                                {if condition="$verify_state eq 1 "}
+                                    {:lang('lan_user_authenticated')}<a href="{:url('User/senior_verify')}">{:lang('lan_did_view')}</a>
+                                {elseif condition="$verify_state eq 2 " /}
+                                    {:lang('lan_in_audit')}<a href="{:url('User/senior_verify')}">{:lang('lan_did_view')}</a>
+                                {else/}
+                                    {:lang('lan_user_not_certified')}<a href="{:url('User/senior_verify')}"> {:lang('lan_user_authentication')}</a>
+                                {/if}
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="vo_all">
+					<p class="vo_all_close"><span class="vo_all_close_x">x</span></p>
+					<div class="vo_all_cont">
+						<p>{:lang('lan_set_nickname')}</p>
+						<div class="vo_all_cont_ins">
+							<span>{:lang('lan_nickname')}</span>
+							<input type="text" class="vo_all_cont_ni" minlength="4" maxlength="30" placeholder="{:lang('lan_please_enter_nickname')}" autocomplete="off"/>
+						</div>
+					</div>
+					<div class="vo_all_button">
+						<input type="button" value="{:lang('lan_cancel')}" class="vo_all_button_o"/>
+						<input type="button" value="{:lang('lan_determine')}" class="vo_all_button_t"/>
+					</div>
+				</div>
+				<div class="vo_all_zh"></div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/js/uploadify/uploadify.css"/>
+<script src="__PUBLIC__/static/home/js/uploadify/jquery.uploadify.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__PUBLIC__/static/home/js/webuploader/webuploader.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+         function onVerify() {
+                var collection_url="{:url('Bank/index')}";
+                var verify_url="{:url('User/senior_verify')}";
+                $.ajax({
+                    type:'post',
+                    url:"{:url('User/idcard_verify')}",
+                    success:function (d) {
+                        if(d.status==1){
+                            window.location.href = collection_url;
+                        }else{
+                            layer.msg("{:lang('lan_user_authentication_first')}");
+                            setTimeout(function(){
+                                window.location.href = verify_url;
+                            },1000);
+                        }
+                    }
+
+                })
+            }
+    	// 设置昵称
+    	$(".vo_all_close_x").click(function(){
+			$(".vo_all").hide();
+			$(".vo_all_zh").hide();
+			$(".vo_all_cont_ni").val("");
+		})
+		
+		$(".vo_all_button_o").click(function(){
+			$(".vo_all").hide();
+			$(".vo_all_zh").hide();
+			$(".vo_all_cont_ni").val("");
+		});
+		
+		$(".member_set").click(function(){
+			$(".vo_all").show();
+			$(".vo_all_zh").show();
+		})
+		
+        var setBool = true;
+    	$(".vo_all_button_t").click(function(){
+            if(setBool){
+                setBool = false;
+                if($(".vo_all_cont_ni").val() == ""){
+                    setBool = true;
+                    layer.msg("昵稱不能為空");
+                }else if($(".vo_all_cont_ni").val().length < "4" || $(".vo_all_cont_ni").val().length > "30"){
+                    setBool = true;
+                    layer.msg("{:lang('lan_nickname_format_error')}");
+                }else{
+                    var nick = $(".vo_all_cont_ni").val();
+                    $.ajax({
+                        type:"POST",
+                        url:"{:url('User/modifynick')}",
+                        data:{
+                            nick:nick
+                        },
+                        success: function (d) {
+                            if (d.status != 1) {
+                                layer.msg(d.info);
+                                setBool = true;
+                            } else {
+                                layer.msg(d.info);
+                                $(".member_set").html(nick);
+                                setTimeout("window.location.reload()", 1000);
+                            }
+                        }
+                    });
+                }
+            }
+    	});
+    	
+    	
+    	
+        $(".menu11").addClass("uc-current");
+
+        function showTips(id, msg) {
+            var tips = layer.tips(msg, id, {
+                tips: [1, '#fff8db'],
+                area: ['400px', '35px']
+            });
+            $(id).on('mouseout', function () {
+                layer.close(tips);
+            });
+        }
+
+        $("#modify_loginPass").click(function(){
+            sessionStorage.setItem("modify_Pass", "1");
+        })
+        $("#modify_tradPass").click(function(){
+            sessionStorage.setItem("modify_Pass", "2");
+        })
+
+
+    $(function () {
+        var $ = jQuery,
+            $list = $('#fileList'),
+            // 优化retina, 在retina下这个值是2
+            ratio = window.devicePixelRatio || 1,
+
+            // 缩略图大小
+            thumbnailWidth = 100 * ratio,
+            thumbnailHeight = 100 * ratio,
+
+            // Web Uploader实例
+            uploader;
+
+        // 初始化Web Uploader
+        uploader = WebUploader.create({
+
+            // 自动上传。
+            auto: true,
+            // swf文件路径
+            swf: '__PUBLIC__/js/webuploader/Uploader.swf', //这里引入swf,根据你实际放置的位置
+
+            // 文件接收服务端。
+            server: "{:url('User/addPicForAjax')}",
+
+            // [默认值：'file']  设置文件上传域的name。
+            fileVal: 'Filedata',
+
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: {
+                id: '#filePicker',
+                multiple: false,
+            },
+
+
+            // 只允许选择文件，可选。
+            accept: {
+
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/jpg,image/jpeg,image/png', //这里默认是 image/*,但是会导致很慢
+            }
+        });
+
+        // uploader.on('error', function (handler) {
+        //     /*if (handler == "Q_EXCEED_NUM_LIMIT") {
+        //         alert("只能上传一张图片");
+        //     }*/
+        // });
+
+
+        // 当有文件添加进来的时候
+        uploader.on('fileQueued', function (file) {
+            $("#fileList").empty();
+            var $li = $(
+                    '<div id="' + file.id + '" class="file-item thumbnail">' +
+                    '<img name="head">' +
+                    '<div class="info">' + file.name + '</div>' +
+                    '</div>'
+                ),
+                $img = $li.find('img');
+
+            $list.append($li);
+
+            // 创建缩略图
+            uploader.makeThumb(file, function (error, src) {
+                if (error) {
+                    $img.replaceWith("<span>不能預覽</span>");
+                    return;
+                }
+
+                $img.attr('src', src);
+                $("#head_img").addClass("imgOcity");
+				$("#fileList img").removeClass("imgOcity");
+
+            }, thumbnailWidth, thumbnailHeight);
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on('uploadSuccess', function (file, response) {
+//          debugger;
+            if (response.status == 1) {
+//              console.log(response)
+                $('#' + file.id).addClass('upload-state-done');
+
+                //$('input[name="file"]').attr('value', response.info);
+                //$('#'+file.id ).find('img').attr('src', response.info);
+
+                var _input = "<input type='hidden' id='head' name='head' value='" + response.info +
+                    "' />",
+                    _obj = $('#' + file.id).parents('#uploader').parent();
+
+                _obj.find('#head').remove();
+                _obj.append(_input);
+                window.location.reload();
+            } else {
+                var $li = $('#' + file.id),
+                    $error = $li.find('div.error');
+
+                // 避免重复创建
+                if (!$error.length) {
+                    $error = $('<div class="error"></div>').appendTo($li);
+                }
+                $error.text("圖片上傳失敗");
+            }
+        });
+
+
+        $("#filePicker").hide();
+        $("#head_img").click(function(){
+            $("#filePicker input").click();
+			$(this).css("position","absolute");
+			$(this).css("z-index","100");
+        })
+
+         function onVerify() {
+                var collection_url="{:url('Bank/index')}";
+                var verify_url="{:url('User/senior_verify')}";
+                $.ajax({
+                    type:'post',
+                    url:"{:url('User/idcard_verify')}",
+                    success:function (d) {
+                        if(d.status==1){
+                            window.location.href = collection_url;
+                        }else{
+                            layer.msg("{:lang('lan_user_authentication_first')}");
+                            setTimeout(function(){
+                                window.location.href = verify_url;
+                            },1000);
+                        }
+                    }
+
+                })
+            }
+    });
+</script>

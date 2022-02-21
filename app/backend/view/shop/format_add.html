@@ -1,0 +1,69 @@
+{include file="layout/header"}
+
+<div class="weadmin-nav layui-clear">
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="layui-main">
+    <form class="layui-form form" action="" method='POST'>
+        <input type="hidden" name="goods_id" value="{$goodsInfo.goods_id}">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" title="名称">名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="form[name]" class="layui-input" value="" required  lay-verify="required">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" title="市场价">市场价</label>
+            <div class="layui-input-block">
+                <input type="number" name="form[goods_market]" class="layui-input" value="" required><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">人民币</span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" title="折扣价">折扣价</label>
+            <div class="layui-input-block">
+                <input type="number" name="form[goods_price]" class="layui-input" value="" required><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">人民币</span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" title="排序">排序(倒序)</label>
+            <div class="layui-input-block">
+                <input type="number" name="form[sort]" class="layui-input" value="" required>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <select name="form[status]">
+                    <option value="">请选择</option>
+                    {volist name="statusList" id="vo"}
+                    <option value="{$key}">{$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit" type="button" lay-submit lay-filter="submit" data-url="{:url('')}" >立即提交</button>
+            </div>
+        </div>
+        <div class="">
+
+        </div>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    layui.use(['form','add'], function() {});
+</script>
+
+{include file="layout/footer"}

@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/user/simple_verify.css" />
+<div id="main">
+	{include file="public/left" /}
+	 <div class="main_box">
+     <!--<div class="main_right">   -->
+        <div class="fr">
+            <div id="my_child">
+                <h1>{:lang('lan_security_settings')}</h1>
+                <ul class="safe-list">
+                    <li class="safe-item mail-check">
+                        <div class="icon-mail-check"></div>
+                        <div class="fl">
+                            <div class="opt-title">{:lang('lan_binding_email')}</div>
+                            <div class="opt-decs">{:lang('lan_binding_email_p')}</div>
+                        </div>
+                        <div class="fr binding">
+                            {notempty name="member_info['email']"}
+                                {$member_info['email']}&nbsp;
+                                {:lang('lan_bind_exists')}
+                                <a class="replace" href="{:url('User/modifyemail')}">{:lang('lan_simple_change_email')}</a>
+                               {else/}
+                                <a href="{:url('User/EMvalidation')}">{:lang('lan_binding')}</a>
+
+                            {/notempty}
+
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li class="safe-item bind-phone">
+                        <div class="icon-bind-phone"></div>
+                        <div class="fl">
+                            <div class="opt-title">{:lang('lan_binding_mobile_phone')}</div>
+                            <div class="opt-decs">{:lang('lan_binding_mobile_phone_p')}</div>
+                        </div>
+                        <div class="fr binding">
+                            {notempty name="member_info['phone']"}
+                                {$member_info['phone']|substr=0,3}****{$member_info['phone']|substr=9,2}&nbsp;
+                                {:lang('lan_bind_exists')}
+                                <a class="replace" href="{:url('User/modifyphone')}">{:lang('lan_simple_change_phone')}</a>
+                            {else/}
+                                <a href="{:url('User/phoneBinding')}">{:lang('lan_binding')}</a>
+
+                            {/notempty}
+
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="clear"></div>
+</div>

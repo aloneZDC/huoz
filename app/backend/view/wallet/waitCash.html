@@ -1,0 +1,155 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+				<a href="javascript:;">首页</a> <a href="javascript:;">钱包管理</a>
+				<a href="javascript:;"> <cite>提币审核</cite></a>
+			</span>
+    <a class="layui-btn layui-btn-sm" style="margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);"
+       title="刷新">
+        <i class="layui-icon layui-icon-refresh"></i>
+    </a>
+</div>
+
+<div class="weadmin-body">
+    <div style="display: inline-block; width: 200px;">
+        <label for="captcha"></label>
+        <input type="text" name="captcha" id="captcha" placeholder="请输入验证码" class="layui-input layui-inline"/>
+    </div>
+    <img src="{:url('Open/captcha')}" alt="验证码" id="captcha_img"
+         onclick="$('#captcha_img').attr('src', '{:url(\'Open/captcha\')}?t=' + Math.random())"/>
+    <table class="layui-table" id="memberList" lay-filter="table-list">
+        <thead>
+        <tr>
+            <th lay-data="{align:'center',field:'id', width:50}">ID</th>
+            <th lay-data="{align:'center',field:'user_id', width:100}">用户ID</th>
+            <th lay-data="{align:'center',field:'user_nickname', width:120}">用户昵称</th>
+            <th lay-data="{align:'center',field:'user_email', width:200}">用户邮箱</th>
+            <th lay-data="{align:'center',field:'mark', width:120}">备注</th>
+            <th lay-data="{align:'center',field:'wt_fee_currency_id', width:100}">币种名称</th>
+            <th lay-data="{align:'center',field:'wt_from_address', width:320}">提币地址</th>
+            <th lay-data="{align:'center',field:'to_address', width:320}">接收地址</th>
+            <th lay-data="{align:'center',field:'number', width:180}">数量</th>
+            <th lay-data="{align:'center',field:'to_number', width:100}">到账数量</th>
+            <th lay-data="{align:'center',field:'fees', width:100}">手续费</th>
+            <th lay-data="{align:'center',field:'fees_currency', width:120}">手续费币种</th>
+            <th lay-data="{align:'center',field:'wt_total_money', width:150}">申请时间</th>
+            <th lay-data="{align:'center',fixed: 'right',field:'tool', width:150}">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+        <tr data-id="{$v->id}">
+            <td>{$v.id}</td>
+            <td>
+                <a href="javascript:void(0)" onclick="window.openUser({$v.from_member_id})">{$v.from_member_id}</a>
+            </td>
+            <td>
+                {$v.fromUser.ename}
+            </td>
+            <td>{$v.fromUser.email}</td>
+            <td>{$v.remark}</td>
+            <td>{$v.currency.currency_name}</td>
+            <td><a href="" target="_blank">{$v->to_url}</a>
+            </td>
+            <td><a href="" target="_blank">{$v->from_url}</a>
+            </td>
+            <td>{:floattostr($v.num)}</td>
+            <td>{:floattostr($v.actual)}</td>
+            <td>{:floattostr($v.fee)}</td>
+            <td>{$v.feeCurrency.currency_name}</td>
+            <td>{$v.add_time|date="Y-m-d H:i",###}</td>
+            <td class="td-manage">
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" title="二维码"
+                        onclick="qrcode('{$v.id}')">
+                    <i class="layui-icon layui-icon-auz"></i>
+                </button>
+
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" title="通过"
+                        onclick="pass('{$v.id}')">
+                    <i class="layui-icon layui-icon-ok"></i>
+                </button>
+
+                <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" title="拒绝"
+                        onclick="fail('{$v.id}')">
+                    <i class="layui-icon layui-icon-close"></i>
+                </button>
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <span class="fr" style="line-height:40px">共有数据：{$count} 条</span>
+
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    layui.use(['form', 'global', 'index'], () => {
+
+    });
+
+    function pass(id) {
+        layer.confirm("确认通过提币?", {
+            btn: ["确认", "取消"]
+        }, () => {
+            let captcha = $('#captcha').val();
+            let loading = layer.msg("提交中请稍后...", {
+                icon: 16,
+                shade: 0.3,
+                time: 0,
+                scrollbar: false
+            });
+
+            $.post("{:url('Wallet/passTake')}?param=waitcash", {id, captcha}, data => {
+                layer.close(loading);
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, () => {
+                        layer.closeAll();
+                        window.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+        }, () => {
+            layer.msg("已取消");
+        });
+    }
+
+    function fail(id) {
+        layer.confirm("确认拒绝提币?", {
+            btn: ["确认", "取消"]
+        }, () => {
+            let captcha = $('#captcha').val();
+            if (captcha.length <= 0) {
+                return layer.alert("请输入验证码!", {
+                    icon: 5
+                });
+            }
+
+            $.post("{:url('Wallet/refuseTake')}?param=waitcash", {id, captcha}, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, () => {
+                        window.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+        }, () => {
+            layer.msg("已取消");
+        });
+    }
+</script>
+{include file="layout/footer"}

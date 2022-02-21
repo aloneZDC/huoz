@@ -1,0 +1,159 @@
+{include file="layout/header"}
+<style>
+    .layui-btn + .layui-btn {
+        /*margin-left: 0;*/
+        /*margin-bottom: 5px;*/
+    }
+</style>
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">首页</a> <a href="javascript:;">商品管理</a> <a><cite>订单列表</cite></a>
+    </span>
+
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class="layui-col-md12 we-search">
+            搜索数据：
+            <div class="layui-inline">
+                <label for="gmo_code"></label>
+                <input class="layui-input" placeholder="订单编号" name="gmo_code" value="{$Think.get.gmo_code}" />
+            </div>
+            <div class="layui-inline">
+                <label for="gmo_code"></label>
+                <input class="layui-input" placeholder="用户ID" name="gmo_user_id" value="{$Think.get.gmo_user_id}" />
+            </div>
+            <div class="layui-inline">
+                <label for="gmo_status">分类: </label>
+                <select style="display: inline; width: 150px;" class="layui-select" name="gmo_status">
+                    <option value="">全部</option>
+                    {volist name="statusList" id="vo"}
+                        <option {if $Think.get.gmo_status == $key}selected{/if} value="{$key}">{$vo}</option>
+                    {/volist}
+                </select>
+                <div class="layui-input-inline">
+
+                </div>
+            </div>
+<!--            <div class="layui-inline">-->
+<!--                <label for="gmo_code"></label>-->
+<!--                <input class="layui-input" placeholder="预约码" name="subscribe_code" value="{$Think.get.subscribe_code}" />-->
+<!--            </div>-->
+
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+            <input type="hidden" name="daochu" id="dao" value="0">
+            <button class="layui-btn" lay-submit="" lay-filter="export">
+                <i class="iconfont icon-export"></i>导出数据
+            </button>
+        </form>
+    </div>
+    <form class="layui-form" >
+        <table class="layui-table" >
+            <thead>
+            <tr>
+                <th>订单ID</th>
+                <th>用户ID</th>
+                <th>商品详情</th>
+                <th>商品总数</th>
+                <th>订单总价</th>
+                <th>实付款</th>
+                <th>支付方式</th>
+                <th>发货信息（提货信息）</th>
+                <th>配送方式</th>
+                <th>订单状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="vo"}
+            <tr data-id="{$vo['gmo_id']}">
+                <td>{$vo['gmo_id']}</td>
+                <td>{$vo['gmo_user_id']}</td>
+                <td style="display: flex;">
+                    <span><img src="{$vo.goods_img}" alt="" style="height: 60px;width: 60px;"></span>
+                    <span style="margin-left: 10px;">
+                        订单编号:{$vo['gmo_code']}<br>
+                        支付时间:{if($vo['gmo_pay_time'] > 0)}{$vo['gmo_pay_time']|date='Y-m-d H:i:s',###}{/if}<br>
+                        商品名称:{$vo.goods_title}
+                        {if($vo.goods_format)}
+                        <br>商品规格:{$vo.goods_format}
+                        {/if}
+                    </span>
+                </td>
+
+                <td>{$vo['gmo_num']}</td>
+                <td>{:floattostr($vo['gmo_total_price'])}</td>
+                <td>{:floattostr($vo['gmo_pay_num'])}</td>
+                <td>{$payTypeList[$vo.gmo_pay_type]}</td>
+                <td>
+                    {if ($vo['gmo_receive_name'])}
+                    <span>
+                        姓名:{$vo['gmo_receive_name']}<br>
+                        电话:{$vo['gmo_mobile']}<br>
+                        地址:{$vo['gmo_address']}<br>
+                    </span>
+                    {/if}
+                </td>
+                <td style="color: red;">{$vo.type_name}</td>
+                <td>{$statusList[$vo.gmo_status]}</td>
+                <td>
+                    <a class="layui-btn layui-open" data-url="{:url('order_details',['param'=>'order','gmo_id'=>$vo['gmo_id']])}" data-title="订单详情" data-width="60%" data-height="95%" href="javascript:;">详情</a>
+                    {if ($vo['gmo_status'] == 1)}
+                        {if ($vo['gmo_express_type'] == 1)}
+<!--                            <a class="layui-btn layui-open" data-url="{:url('order_ship',['param'=>'order','gmo_id'=>$vo['gmo_id'],'gmo_status'=>$vo['gmo_status']])}" data-title="确认发货" data-width="600px" data-height="600px" href="javascript:;">确认发货</a>-->
+                        {else}
+                            <a class="layui-btn layui-ajax" data-url="{:url('picked_up',['param'=>'order','gmo_id'=>$vo['gmo_id']])}" data-title="确认自提" href="javascript:;">确认自提</a>
+                        {/if}
+                    {elseif($vo['gmo_express_type'] == 1 && $vo['gmo_status'] == 3)}
+<!--                    <a class="layui-btn layui-open" data-url="{:url('order_ship',['param'=>'order','gmo_id'=>$vo['gmo_id'],'gmo_status'=>$vo['gmo_status']])}" data-title="修改物流" data-width="600px" data-height="600px" href="javascript:;">修改物流</a>-->
+                    <a class="layui-btn layui-open" data-url="{:url('order_logistics',['param'=>'order','gmo_id'=>$vo['gmo_id']])}" data-title="物流详情" data-width="600px" data-height="800px" href="javascript:;">物流详情</a>
+                    {elseif($vo['gmo_express_type'] == 1 && $vo['gmo_status'] == 4)}
+                    <a class="layui-btn layui-open" data-url="{:url('order_logistics',['param'=>'order','gmo_id'=>$vo['gmo_id']])}" data-title="物流详情" data-width="600px" data-height="800px" href="javascript:;">物流详情</a>
+                    {elseif($vo['gmo_status'] == 6)}
+<!--                    <a class="layui-btn layui-ajax" data-url="{:url('store_approve',['param'=>'order','gmo_id'=>$vo['gmo_id']])}" data-title="核销" href="javascript:;">核销</a>-->
+                    {/if}
+<!--                    {if($vo['gmo_express_type'] == 3 && in_array($vo['gmo_status'], [4,6]))}-->
+<!--                    <a class="layui-btn layui-open" data-url="{:url('store_log',['param'=>'order','gmo_id'=>$vo['gmo_id']])}" data-title="预约记录" data-width="1200px" data-height="800px" href="javascript:;">预约记录</a>-->
+<!--                    {/if}-->
+                    <a class="layui-btn layui-open" data-url="{:url('order_child',['param'=>'order','gmo_id'=>$vo['gmo_id']])}" data-title="总订单" data-width="1500px" href="javascript:;">子订单</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'global', 'index', 'table'], () => {
+        var table = layui.table;
+    });
+
+    layui.use(['form','global','index'], function () {
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(sreach)', function(data){
+            $("#dao").val("0");
+            data.field.daochu = 1;
+        });
+        form.on('submit(export)', function(data){
+            $("#dao").val("1");
+            data.field.daochu = 1;
+        });
+    });
+</script>
+{include file="layout/footer"}

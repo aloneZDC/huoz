@@ -1,0 +1,128 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+
+<script type="text/javascript">
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<style>
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 0 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">币币交易免手续费列表</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:url('')}" method="get">
+                        <table class="search-tab">
+                            <tr>
+                                
+                                <th width="70">用户ID:</th>
+                                <td><input class="common-text" placeholder="用户ID" name="member_id"
+                                           value="{if condition=" $member_id neq null"}{$member_id}{/if}" id=""
+                                    type="text">
+                                </td>
+
+                                <th width="70">账户:</th>
+                                <td><input class="common-text" placeholder="账户" name="phone"
+                                           value="{if condition=" $phone neq null"}{$phone}{/if}" id=""
+                                    type="text">
+                                </td>
+
+                                <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                                <td><a href="{:url('orders_free_fee_add')}">添加</a></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <div class="list-body">
+                    <table class="result-tab" width="100%">
+                        <tr>
+                            <th>编号</th>
+                            <th>用户邮箱</th>
+                            <th>会员ID</th>
+                            <th>姓名</th>
+                            <th>手机</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                        {volist name="list" id="vo" empty=""}
+                            <tr>
+                                <td>{$vo.id}</td>
+                                <td>{$vo.email}</td>
+                                <td><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo['member_id']}</a>
+                                </td>
+                                <td>{$vo['name']}</td>
+                                <td>{$vo['phone']}</td>
+                                
+                                <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="cancel({$vo.id})">删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    </table>
+                </div>
+                <div class="page">
+                    <div>
+                        {$page}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+function cancel(_this){
+	layer.confirm('确定删除？', {
+	  btn: ['确定','取消'], //按钮
+	  title: '确定删除？'
+	}, function(){
+	  $.post('{:url('orders_free_fee_del')}',{id:_this},function(data){
+			   if(data['code'] == 1){
+				   layer.msg(data['message']);
+				   setTimeout(function(){location.reload();},1000);
+			   }else{
+				   layer.msg(data['message']);
+			   }
+		});
+	}, function(){
+	  layer.msg('已取消');
+	});
+
+}
+</script>

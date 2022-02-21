@@ -1,0 +1,170 @@
+<neq name="gettype" value="ajax">
+    <include file="App/Admin/View/Public/left.html"/>
+    <else/>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/css/main.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/css/common.css">
+    <style>
+        .main-wrap {
+            margin-left: inherit;
+            min-height: 100%;
+        }
+    </style>
+</neq>
+
+<!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>-->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<!--<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>-->
+<!--<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>-->
+<script type="text/javascript">
+//    $(function () {
+//        $('#datePicker').date_input();
+//        $('#datePicker2').date_input();
+//    });
+//
+//    window._deel = {
+//        req_member_details_url: "{:U('member/member_details')}",
+//    }
+</script>
+<!--<script src="__PUBLIC__/Admin/js/member_details.js"></script>-->
+<!--/sidebar-->
+<div class="main-wrap">
+    <neq name="gettype" value="ajax">
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                    class="crumb-name">C2C订单管理</span></div>
+        </div>
+    </neq>
+   <!-- <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:U('ConsumerToConsumer/orderList')}" method="post">
+                        <table class="search-tab">
+                            <tr>
+                                &lt;!&ndash;<th width="120">选择积分类型:</th>&ndash;&gt;
+                                &lt;!&ndash;<td>&ndash;&gt;
+                                    &lt;!&ndash;<select name="currency_id" id="">&ndash;&gt;
+                                        &lt;!&ndash;<option value="0">全部</option>&ndash;&gt;
+                                        &lt;!&ndash;<volist name="currency" id="vo">&ndash;&gt;
+                                            &lt;!&ndash;<option value="{$vo['currency_id']}">{$vo['currency_name']}</option>&ndash;&gt;
+                                        &lt;!&ndash;</volist>&ndash;&gt;
+                                    &lt;!&ndash;</select>&ndash;&gt;
+                                &lt;!&ndash;</td>&ndash;&gt;
+                                <th width="120">选择类型:</th>
+                                <td>
+                                    <select name="type" id="type">
+                                        <option value="-1">全部</option>
+                                        <option value="1">买入</option>
+                                        <option value="2">卖出</option>
+                                    </select>
+                                </td>
+                                <th width="80">状态:</th>
+                                <td>
+                                    <select name="status" id="status">
+                                        <option value="-1">全部</option>
+                                        <option value="0">待处理</option>
+                                        <option value="1">收款成功</option>
+                                        <option value="2">打款成功</option>
+                                        <option value="3">已撤销</option>
+                                    </select>
+                                </td>
+                                <th width="70">订单号:</th>
+                                <td><input class="common-text" placeholder="订单号" name="order_sn" value="" id="order_sn" type="text"></td>
+                                <th width="70">用户id:</th>
+                                <td><input class="common-text" placeholder="用户id" name="member_id" value="" id="member_id" type="text"></td>
+                                <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                                <td><input class="btn btn-primary btn2" value="导出" type="button" id="export"></td>
+                            </tr>
+                        </table>
+                        <eq name="gettype" value="ajax">
+                            <input type="hidden" name="gettype" value="{$gettype}" />
+                        </eq>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>编号</th>
+                        <th>订单号</th>
+                        <th>会员ID</th>
+                        <th>积分类型</th>
+                        <th>数量</th>
+                        <th>单价</th>
+                        <th>总金额</th>
+                        <th>类型</th>
+                        <th>状态</th>
+                        <th>添加时间</th>
+                        <th>操作时间</th>
+                    </tr>
+                    <volist name="order_list" id="vo" empty="暂无数据">
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.order_sn}</td>
+                            <td>{$vo.member_id}</td>
+                            <td>{$vo.currency_mark}</td>
+                            <td>{$vo.number}</td>
+                            <td>{$vo.price}</td>
+                            <td>{$vo.money}</td>
+                            <td>{$vo.type}</td>
+                            <td>{$vo._status}</td>
+                            <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                            <td>{$vo.admin_time|date="Y-m-d H:i:s",###}</td>
+                            <!--<td>
+                            <a class="link-update" href="{:U('ConsumerToConsumer/orderDetail',array('id'=>$vo['id']))}">详情|</a>
+                                <if condition="$vo.status eq 0">
+                                    &lt;!&ndash;<a class="link-update" href="{:U('ConsumerToConsumer/cancelOrder',array('id'=>$vo['id']))}" onclick="cancel_order($vo['id'])">取消</a>&ndash;&gt;
+                                    <a class="link-update" style="cursor: pointer" onclick="cancel_order({$vo['id']})">取消</a>
+                                    <elseif condition="$vo.status eq -1"/>
+                                    <a class="link-update">已取消</a>
+                                    <else/>
+                                    <a class="link-update">已完成</a>
+                                </if>
+                            </td>-->
+                        </tr>
+                    </volist>
+                </table>
+                <div class="list-page">
+                    <ul>{$page}</ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    function cancel_order(id) {
+        if(confirm('确定取消吗？')) {
+            $.post('{:U("ConsumerToConsumer/cancelOrder")}', {id: id}, function (data) {
+                if (data.status == 1) {
+                    alert(data.info);
+                } else {
+                    alert(data.info);
+                }
+            }, 'json');
+        }
+    }
+    $('#export').click(function () {
+        var type = $('#type').val();
+        var status = $('#status').val();
+        var member_id = $('#member_id').val();
+        if(member_id == '') member_id = -1;
+        var order_sn = $('#order_sn').val();
+        if(order_sn == '') order_sn = -1;
+        var str = "{:U('ConsumerToConsumer/exportOrder',array('type'=>'_type','status'=>'_status','member_id'=>'_member_id','order_sn'=>'_order_sn'))}"; //先将变量以字符串的形式带入U函数中
+            str =  str.replace("_type",type); //将代替变量的字符串用真实变量替换
+            str = str.replace("_status", status);
+            str = str.replace("_member_id", member_id);
+            str = str.replace("_order_sn", order_sn);
+            console.log(str);
+        window.location.href = str;
+    })
+</script>
+<!--<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/datetime.js"></script>-->

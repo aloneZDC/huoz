@@ -1,0 +1,120 @@
+ <link rel="stylesheet" href="__PUBLIC__/static/home/css/otc/my_order.css">
+ <script src="__PUBLIC__/static/home/js/otc/my_order.js"></script>
+ <div id="main">
+        <div class="main_box">
+            	<!--我的广告开始-->
+                <div class="advertising">
+					<div class="advert_head">
+						<div class="advert_title">{:lang('lan_header_otc_an')}</div>
+					</div>
+					<div class="filter-box">
+							<div class="left list-type">
+								<span>{:lang('lan_my_ad')}</span>
+								<a href='{:url("OrdersOtc/myhistory_order")}'>{:lang('lan_my_history_ad')}</a>
+							</div>
+						</div>
+					<div class="advert_middle">
+						<div class="advert_middle_title">
+							{volist name="currencys" id="vo"}
+								<a href="{:url('',['currency_id'=>$vo['currency_id']])}">
+									<span {if condition="$currency_id eq $vo['currency_id']"}class="active"{/if} >{$vo.currency_name}</span>
+								</a>
+							{/volist}
+						</div>
+						<div id="otc_mainwrap">
+								<div class="my_dealheadr">
+										<span>{:lang('lan_ad_numbers')}</span>
+										<span>{:lang('lan_ad_type')}</span>
+										<span>{:lang('lan_number_ofs')}</span>
+										<span>{:lang('lan_order_limit')}</span>
+										<span>{:lang('lan_Unit_Price')}</span>
+										<span>{:lang('lan_creation_time')}</span>
+										<span>{:lang('lan_operation')}</span>
+								</div>
+								<ul class="my_deal"> 
+										{if condition="!empty($list)"}
+											{foreach name="list" item="vo"}
+														<li class="active_ads" data-id="{$vo.orders_id}" style="background: white;">
+																<p>{$vo.orders_id}</p>
+																<p>
+																		<span style="color: #41db7f;">
+																				{if condition="$vo.type eq 'buy'"}
+																					{:lang('lan_buyes')}
+																				{else /}
+																						<span style="color: #e96e44;">{:lang('lan_selles')}</span>
+																				{/if}
+																		</span>
+																</p>
+																<p>{$vo.num} {$vo.currency_name}</p>
+																<p>{$vo.min_money}-{$vo.max_money} CNY</p>
+																<p>{$vo.price} CNY</p>
+																<p>{$vo.add_time}</p>
+																<p>
+																		{if condition="$vo.status neq 3"}
+																			<span class="content_box_th" data-id="{$vo.orders_id}" data-type="{$vo.type}">{:lang('lan_undo_ads')}</span>
+																		{/if}
+																</p>
+														</li>
+											{/foreach}
+										{else /}
+												<div class="isempty">{:lang('lan_event_registration29')}</div>
+										{/if}
+								</ul>
+								{if condition="!empty($pages)"}
+								<div class="addpage"  style="margin: 20px;display: flex;justify-content: center;"> 
+										<div class="page">
+												{$pages}
+									</div>
+									<div class="clear"></div>
+								</div>
+								{/if}
+								<div class="clear"></div>
+						</div> 
+						 <!--提示信息-->
+						 <div class="cover_cont">
+							<p class="cover_cont_title">{:lang('lan_attention')}</p>
+							<div class="cover_cont_main">
+								<p>1. {:lang('lan_Undo_switch_status')};</p>
+								<p>2. {:lang('lan_since_cancel_advertising')}{$cancel_fee}{:lang('lan_handling_fee')};</p>
+								<p>3. {:lang('lan_advertisement_system_fee')};</p>
+								<p>4. {:lang('lan_after_advertisement_revoked_outstanding')};</p>
+								<p>5. {:lang('lan_are_sure_undo')}</p>
+							</div>
+							<div class="cover_cont_line"></div>
+							<div class="cover_cont_footer">
+								<span><a class="issue_footer_close issue_footer_close_th">{:lang('lan_cancel')}</a></span>
+								<input type="button" name="" value="{:lang('lan_determine')}" class="cover_footer_button" />
+							</div>
+						</div>
+
+
+						<!--提示信息-->
+						<div class="cover_cont1" style="display: none;">
+							<p class="cover_cont_title">{:lang('lan_attention')}</p>
+							<div class="cover_cont_main">
+								<p>{:lang('lan_cancellation_advertising_reached')}</p>
+							</div>
+							<div class="cover_cont_line"></div>
+							<div class="cover_cont_footer">
+								<span><a class="issue_footer_close issue_footer_close_th">{:lang('lan_cancel')}</a></span>
+								<input type="button" name="" value="{:lang('lan_determine')}" class="cover_footer_button" />
+							</div>
+						</div>
+						<div class="cover"></div>
+					</div>
+				</div>	
+				<!--我的广告结束-->
+           <!-- </div>-->
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <script>
+		var msg = "{:lang('lan_cancellation_advertising_reached')}";
+    	let url = "{:url('OrdersOtc/cancel')}";
+    	$(".active_ads").click(function(){
+    		var id = $(this).attr('data-id')
+    		window.location.href = "{:url('OrdersOtc/orders_info')}?orders_id="+id;
+    	})
+    </script>

@@ -1,0 +1,183 @@
+{include file="../app/admin/view/public/left.html" /}
+
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/plugins/prettify.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/uploadPreview.js"></script>
+<!--/sidebar-->
+<script>
+    function checkForm() {
+        editor1.sync();
+        // editor2.sync();
+        editor3.sync();
+        var tc_name = document.getElementById('tc_title').value;
+        // var name = document.getElementById('title').value;
+        var en_name = document.getElementById('en_title').value;
+
+        if (tc_name == "") {
+            alert('请填写繁体标题');
+            return false;
+        }
+        /*if (name == "") {
+            alert('请填写泰语标题');
+            return false;
+        }*/
+        if (en_name == "") {
+            alert('请填写英文标题');
+            return false;
+        }
+        document.getElementById('myform').submit();
+    }
+</script>
+
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><a
+                class="crumb-name" href="{:url('Art/index')}">文章管理</a><span
+                class="crumb-step">&gt;</span><span>修改文章</span></div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form action="{:url('Art/update')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <table class="insert-tab" width="100%">
+                    <tbody>
+                    <tr>
+                        <th width="120"><i class="require-red">*</i>分类：</th>
+                        <input type="hidden" value="{$id}" name="id">
+                        <td>
+                            <select name="category" id="category" class="required">
+                                {volist name="cat" id="vo"}
+                                    <option value="{$vo.id}"
+                                    {eq name="info.position_id" value="$vo['id']"}selected="selected"{/eq}
+                                    > {$vo.name_tc}</option>
+                                {volist name="vo.children" id="voo"}
+                                        <option value="{$voo.id}"
+                                                {eq name="info.position_id" value="$voo['id']"}selected="selected"{/eq}
+                                        >--{$voo.name_tc}</option>
+                                {volist name="voo.childrens" id="vooo">
+                                            <option value="{$vooo.id}"
+                                                    {eq name="info.position_id" value="$vooo['id']"}selected="selected"{/eq}
+                                            >----{$vooo.name_tc}</option>
+                                {/volist}
+                                {/volist}
+                                {/volist}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>是否标红</th>
+                        <td>
+                            <label><input type="radio" name="sign" value="1"
+                                {eq name="info.sign" value="1"}checked="checked"{/eq}
+                                /> 是</label>
+                            <label><input type="radio" name="sign" value="0"
+                                          {eq name="info.sign" value="0"}checked="checked"{/eq}
+                                /> 否</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>排序：</th>
+                        <td><input class="common-text required" id="sort" name="sort" size="50" value="{$info.sort}"
+                                   type="text" placeholder="请输入数字(升序排序)"></td>
+                    </tr>
+
+                    <tr>
+                        <th>缩略图：</th>
+                        <td>
+                            <div id="logodiv1">
+                                <img style="cursor: pointer; margin:10px;" id="logoShow1" width="200" height="150" src="<?php if(!empty($info['art_pic'])){ ?><?php echo $info['art_pic']; ?><?php }else{ ?>__PUBLIC__/Home/images/add_pics.jpg<?php } ?>"  data-src=""/>
+                                <input type="file" id="art_pic" name="art_pic"/>
+                            </div>
+                            <script type="text/javascript">
+                                $('#logodiv1').children('input[id="art_pic"]').hide();
+                                $('#logoShow1').on('click', function(e) {
+                                    e.preventDefault();
+                                    $('#logodiv1').children('input[id="art_pic"]').trigger('click');
+                                })
+                                $(function(){ new uploadPreview({ UpBtn: "art_pic", DivShow: "logodiv1", ImgShow: "logoShow1" })});
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>切换语言：</th>    
+                        <td class="lang"><span class="active">繁体</span><!--<span>泰语</span>--><span>英语</span></td>
+                    </tr>
+                    <tr class="lang-content lang-0" style="display: table-row;">
+                        <th><i class="require-red">*</i>繁体标题：</th>
+                        <td><input class="common-text required" id="tc_title" name="tc_title" size="50" value="{$info.tc_title}"
+                                   type="text"></td>
+                    </tr>
+                    <tr class="lang-content lang-0" style="display: table-row;">
+                        <th>繁体内容：</th>
+                        <td><textarea id="tc_content" name="tc_content" cols="30" style="width:800px;height:300px;" rows="10">{$info.tc_content}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor1 = K.create('#tc_content',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <!--<tr class="lang-content lang-1">
+                        <th><i class="require-red">*</i>泰语标题：</th>
+                        <td><input class="common-text required" id="title" name="title" size="50" value="{$info.title}"
+                                   type="text"></td>
+                    </tr>
+                    <tr class="lang-content lang-1">
+                        <th>泰语内容：</th>
+                        <td><textarea id="content" name="content" cols="30" style="width:800px;height:300px;" rows="10">{$info.content}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor2 = K.create('#content',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>-->
+                    <tr class="lang-content lang-1">
+                        <th><i class="require-red">*</i>英文标题：</th>
+                        <td><input class="common-text required" id="en_title" name="en_title" size="50" value="{$info.en_title}"
+                                   type="text"></td>
+                    </tr>
+                    <tr class="lang-content lang-1">
+                        <th>英文内容：</th>
+                        <td><textarea id="en_content" name="en_content" cols="30" style="width:800px;height:300px;" rows="10">{$info.en_content}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor3 = K.create('#en_content',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <td><input class="btn btn-primary btn6 mr10" value="提交" type="button" onclick="checkForm()">
+                            <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body></html>
+<script>
+    $('.lang span').click(function(){
+        var index = $('.lang span').index(this);
+        console.log(index)
+        $(this).addClass('active').siblings().removeClass('active')
+        $('.lang-content').hide();
+        $('.lang-'+index).show();
+    })
+</script>

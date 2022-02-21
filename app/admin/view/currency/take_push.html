@@ -1,0 +1,88 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">提币推送</span></div>
+    </div>
+    <div class="result-wrap">
+        <form class="layui-form we-search" method="GET" action="{:url('')}">
+            <div class="layui-input-inline">
+                <input type="text"  name="afrom" placeholder="发送地址" autocomplete="off" class="layui-input" value="{$Think.get.afrom}" />
+            </div>
+            <div class="layui-input-inline">
+                <input type="text"  name="ato" placeholder="接收地址" autocomplete="off" class="layui-input" value="{$Think.get.ato}" />
+            </div>
+            <div class="layui-input-inline">
+                <input type="text"  name="token" placeholder="Token/Tag" autocomplete="off" class="layui-input" value="{$Think.get.token}" />
+            </div>
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+        <div class="result-content" style="margin-top: 20px;">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>用户ID</th>
+                    <th>币种</th>
+                    <th>类型</th>
+                    <th>发送地址</th>
+                    <th>接收地址</th>
+                    <th>Token / Tag</th>
+                    <th>数量</th>
+                    <th>是否已推送</th>
+                    <th>推送时间</th>
+                    <th>添加时间</th>
+                    <th>真实提币地址</th>
+                    <th style="width:160px;">操作</th>
+                </tr>
+                {volist name="list" id="vo" empty=""}
+                <tr>
+                    <td>
+                        {$vo.id}
+                    </td>
+                    <td>
+                        {$vo.user_id}
+                    </td>
+                    <td>{$vo.currency.currency_name}</td>
+                    <td>
+                        {$vo.type}
+                    </td>
+                    <td>{$vo.afrom}</td>
+                    <td>{$vo.ato}</td>
+                    <td>{$vo.token}</td>
+                    <td>{$vo.amount}</td>
+                    <td>
+                        {if $vo.is_push}
+                        <span style="color: blue">已推送</span>
+                        {else/}
+                        <span style="color: red">未推送</span>
+                        {/if}
+                    </td>
+                    <td>{$vo.push_time|date="Y-m-d H:i",###}</td>
+                    <td>{$vo.add_time|date="Y-m-d H:i",###}</td>
+                    <td>{$vo.real_from}</td>
+                    <td>
+
+                    </td>
+                </tr>
+                {/volist}
+            </table>
+            <div class="page">
+                {$page}
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    $("#walletNav").show();
+    $("#walletNav").children("li").eq(0).addClass("on");
+    layui.use(['form','global']);
+</script>

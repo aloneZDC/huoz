@@ -1,0 +1,69 @@
+html,body {height:100%; margin:0px; font-size:12px;}
+.mydiv {
+background-color: #FFCC66;
+/* border: 1px solid #f00; */
+border-radius:10px;
+text-align: center;
+line-height: 40px;
+font-size: 12px;
+font-weight: bold;
+z-index:999;
+width: 1800px;
+height: 800px;
+left:50%;
+top:50%;
+margin-left:-900px!important;/*FF IE7 该值为本身宽的一半 */
+margin-top:-400px!important;/*FF IE7 该值为本身高的一半*/
+margin-top:0px;
+position:fixed!important;/* FF IE7*/
+position:absolute;/*IE6*/
+_top:       expression(eval(document.compatMode &&
+            document.compatMode=='CSS1Compat') ?
+            documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2 :/*IE6*/
+            document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);/*IE5 IE5.5*/
+
+}
+
+.bg,.popIframe {
+background-color: #666; display:none;
+width: 100%;
+height: 100%;
+left:0;
+top:0;/*FF IE7*/
+filter:alpha(opacity=50);/*IE*/
+opacity:0.5;/*FF*/
+z-index:1;
+position:fixed!important;/*FF IE7*/
+position:absolute;/*IE6*/
+_top:       expression(eval(document.compatMode &&
+            document.compatMode=='CSS1Compat') ?
+            documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2 :/*IE6*/
+            document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);/* www.codefans.net IE5 IE5.5*/
+}
+.popIframe {
+filter:alpha(opacity=0);/*IE*/
+opacity:0;/*FF*/
+}
+
+
+
+/* 表格 */
+.pend_wrapper {height:800px;overflow:auto;}
+.result-wrap2,.result-wrap3,.result-wrap5,.result-wrap6,.result-wrap7,.result-wrap8{padding:10px 20px;border-bottom: 1px solid #e5e5e5;overflow:auto;height:600px;}
+.result-wrap2_inner,.result-wrap3_inner,.result-wrap4_inner,.result-wrap5_inner,.result-wrap6_inner,.result-wrap7_inner,.result-wrap8_inner {text-align:center;font-size:30px;font-weight:bolder;margin-bottom:5px;color:#f00;}
+.result-tab2,.result-tab3,.result-tab4,.result-tab5,.result-tab6,.result-tab7,.result-tab8{border-collapse:collapse;border: 1px solid #ddd;}
+.result-tab2 th,.result-tab3 th,.result-tab4 th,.result-tab5 th,.result-tab6 th,.result-tab7 th,.result-tab8 th{font-weight: normal;font-size: 15px;text-align: center;background: url(../images/tab-thbg.png) #f9f9f9 0 bottom repeat-x;}
+.result-tab2 th,.result-tab2 td,.result-tab3 th,.result-tab3 td,.result-tab4 th,.result-tab4 td,.result-tab5 th,.result-tab5 td,.result-tab6 th,.result-tab6 td,.result-tab7 th,.result-tab7 td,.result-tab8 th,.result-tab8 td{padding:5px;border-bottom: 1px solid #ddd;border-right: 1px solid #e1e1e1;}
+.result-tab2 tr,.result-tab3 tr,.result-tab4 tr,.result-tab5 tr,.result-tab6 tr,.result-tab7 tr,.result-tab8 tr{line-height:23px;}
+.result-tab2 th.tc,.result-tab2 td.tc,.result-tab3 th.tc,.result-tab3 td.tc,.result-tab4 th.tc,.result-tab4 td.tc,.result-tab5 th.tc,.result-tab5 td.tc,.result-tab6 th.tc,.result-tab6 td.tc,.result-tab7 th.tc,.result-tab7 td.tc,.result-tab8 th.tc,.result-tab8 td.tc{text-align: center;}
+.result-tab2 tr:nth-child(odd),.result-tab3 tr:nth-child(odd),.result-tab4 tr:nth-child(odd),.result-tab5 tr:nth-child(odd),.result-tab6 tr:nth-child(odd),.result-tab7 tr:nth-child(odd),.result-tab8 tr:nth-child(odd){/* background: #f9f9f9; */background: #CE7E03;}
+.result-tab2 tr:hover,.result-tab3 tr:hover,.result-tab4 tr:hover,.result-tab5 tr:hover,.result-tab6 tr:hover,.result-tab7 tr:hover,.result-tab8 tr:hover{/* background: #f1f1f1; */background: #81869B;}
+.result-tab2 tr.even-tr,.result-tab3 tr.even-tr,.result-tab4 tr.even-tr,.result-tab5 tr.even-tr,.result-tab6 tr.even-tr,.result-tab7 tr.even-tr,.result-tab8 tr.even-tr{background: #e9fff2;}
+.result-wrap4{padding:10px 20px;border-bottom: 1px solid #e5e5e5;overflow:auto;height:500px;}
+.result-wrap4 .result-wrap4_bottom { float: left; margin: 30px 0 0 40px; }
+.choose_cur {width:400px;height:40px;}
+.choose_cur div{float:left;margin-left:20px;}
+/* 提现审核下加财务日志 */
+.result-cwrz-content6 {width:1350px;text-align:center;margin:0 auto;margin-top:80px;}
+.cwrz {margin-left:-1300px;font-size:15px;font-weight:bolder;color:#400080;font-family:Microsoft YaHei;letter-spacing:2px; }
+.result-cwrz-tab6 tr th {color:#555;font-size:13px;}

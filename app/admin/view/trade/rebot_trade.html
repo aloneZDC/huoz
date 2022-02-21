@@ -1,0 +1,142 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<style>
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 0 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">机器人配置列表</span></div>
+    </div>
+
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="get">
+            <div class="result-content">
+                <div class="list-body">
+                    <table class="result-tab" width="100%">
+                        <tr>
+                            <th>ID</th>
+                            <th>交易对</th>
+                            <th>机器人开关</th>
+                            <th>机器人操作类型</th>
+                            <th>机器人横盘趋势</th>
+                            <th>机器人自动充值开关</th>
+                            <th>买单机器人开关</th>
+                            <th>买单机器人用户id</th>
+                            <th>买单机器人开关</th>
+                            <th>卖单机器人用户id</th>
+                            <th>操作</th>
+                        </tr>
+                        {volist name="list" id="vo" empty=""}
+                            <tr>
+                                <td>{$vo.id}</td>
+                                <td>{notempty  name="vo['b_name']"}{$vo.b_name}/{$vo.b_trade_name}{/notempty}</td>
+                                <td>{$switchList[$vo.rebot_switch]}</td>
+                                <td>{$operateList[$vo.rebot_operate_type]}</td>
+                                <td>{$trendList[$vo.rebot_heng_trend]}</td>
+                                <td>{$switchList[$vo.rebot_auto_recharge_switch]}</td>
+                                <td>{$switchList[$vo.buy_rebot_switch]}</td>
+                                <td>{if condition="$vo['buy_rebot_user_id'] gt 0"}<a href="javascript:member_details({$vo.buy_rebot_user_id});" class="shenhe_button">{$vo['buy_rebot_user_id']}</a>{else/}{$vo['buy_rebot_user_id']}{/if}
+                                </td>
+                                <td>{$switchList[$vo.sell_rebot_switch]}</td>
+                                <td>{if condition="$vo['sell_rebot_user_id'] gt 0"}<a href="javascript:member_details({$vo.sell_rebot_user_id});" class="shenhe_button">{$vo['sell_rebot_user_id']}</a>{else/}{$vo['sell_rebot_user_id']}{/if}
+                                </td>
+                                <td>
+                                    <a class="link-update" href="{:url('Trade/rebot_config',array('id'=>$vo['id']))}">编辑</a>&nbsp;&nbsp;
+                                    <a class="link-update" href="{:url('Trade/orders',array('currency_id'=>$vo['currency_id'],'currency_trade_id'=>$vo['trade_currency_id'],'member_id'=>$vo['buy_rebot_user_id']))}">委托记录</a>&nbsp;&nbsp;
+                                    <a class="link-update" href="{:url('Trade/trade',array('currency_id'=>$vo['currency_id'],'currency_trade_id'=>$vo['trade_currency_id'],'member_id'=>$vo['buy_rebot_user_id']))}">交易记录</a>&nbsp;&nbsp;
+                                    <a href="javascript:void(0)" onclick="pan({$vo.id}, 1)">拉盘</a>&nbsp;&nbsp;
+                                    <a href="javascript:void(0)" onclick="pan({$vo.id}, 2)">砸盘</a>&nbsp;&nbsp;
+                                    <a href="javascript:void(0)" onclick="heng({$vo.id}, 0)">横盘(正常)</a>&nbsp;&nbsp;
+                                    <a href="javascript:void(0)" onclick="heng({$vo.id}, 1)">横盘(向上)</a>&nbsp;&nbsp;
+                                    <a href="javascript:void(0)" onclick="heng({$vo.id}, 2)">横盘(向下)</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    function pan(id, type){
+        var text = '';
+        if (type == 1) {
+            text = '拉盘'
+        }
+        else {
+            text = '砸盘'
+        }
+        layer.confirm('确定将机器人设置为:' + text + '？', {
+            btn: ['确定','取消'], //按钮
+            title: '拉盘'
+        }, function(){
+            $.post('{:url('Trade/pan')}',{id:id,type:type},function(data){
+                if(data['status'] == 1){
+                    layer.msg(data['info']);
+                    setTimeout(function(){location.reload();},1000);
+                }else{
+                    layer.msg(data['info']);
+                }
+            })
+        }, function(){
+            layer.msg('已取消');
+        });
+    }
+
+    function heng(id, trend){
+        var text = '';
+        if (trend == 0) {
+            text = '横盘(正常)';
+        }
+        else if (trend == 1) {
+            text = '横盘(向上)';
+        }
+        else if (trend == 2) {
+            text = '横盘(向下)';
+        }
+        layer.confirm('确定将机器人设置为:' + text + '？', {
+            btn: ['确定','取消'], //按钮
+            title: '拉盘'
+        }, function(){
+            $.post('{:url('Trade/heng')}',{id:id,trend:trend},function(data){
+                if(data['status'] == 1){
+                    layer.msg(data['info']);
+                    setTimeout(function(){location.reload();},1000);
+                }else{
+                    layer.msg(data['info']);
+                }
+            })
+        }, function(){
+            layer.msg('已取消');
+        });
+    }
+
+    $(function () {
+        var list_menu = $(".result-content .list-menu li"),
+            list_body = $(".list-body");
+    });
+</script>

@@ -1,0 +1,96 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">文章分类管理</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('Arttype/index')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <th width="70">关键字:</th>
+                        <td><input class="common-text" placeholder="关键字" name="keywords" value="{$inquire.name}"
+                                   id="keywords" type="text"></td>
+                        <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+                <a href="{:url('Arttype/insert')}"><i class="icon-font"></i>新增文章分类</a>
+<!--                <a href="javascript:;" onclick="return trans();"><i class="icon-font"></i>更新分类名词库</a>-->
+            </div>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>分类名</th>
+                    <th>英文名</th>
+                    <th>繁体名</th>
+                    <th>上级id</th>
+                    <th>关键字</th>
+                    <th>操作</th>
+                </tr>
+                {volist name='info' id='vo'}
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.name}</td>
+                        <td>{$vo.name_en}</td>
+                        <td>{$vo.name_tc}</td>
+                        <td>{$vo.parent_id}</td>
+                        <td>{$vo.keywords}</td>
+                        <td>
+                            <a class="link-update" href="{:url('Arttype/update'," id=$vo[id]")}">修改</a>
+                            &nbsp;&nbsp;
+                            <a class="link-del" href="{:url('Arttype/delete', array('id'=>$vo['id']))}"
+                               onclick="return confirm('确认删除吗？')">删除</a>
+                        </td>
+                    </tr>
+                {/volist}
+
+            </table>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+
+    /**
+     * 语言转换
+     * @returns {boolean}
+     */
+    function trans() {
+        $.ajax({
+            url: "{:url('Arttype/update_name')}",
+            dataType: 'json',
+            type: 'post',
+            success: function (e) {
+                if(e.Code === 1){
+                    layer.alert(e.Msg, {icon: 6});
+                }else{
+                    layer.alert(e.Msg, {icon: 5});
+                }
+            },
+            error: function (e) {
+                layer.alert("网络请求失败", {icon: 5});
+            }
+        });
+        return false;
+    }
+</script>

@@ -1,0 +1,186 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+				<a href="javascript:;">首页</a> <a href="javascript:;">钱包管理</a>
+				<a href="javascript:;"> <cite>提币待确认列表</cite></a>
+			</span>
+    <a class="layui-btn layui-btn-sm" style="margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);"
+       title="刷新">
+        <i class="layui-icon layui-icon-refresh"></i>
+    </a>
+</div>
+
+<div class="weadmin-body">
+    <div style="display: inline-block; width: 200px;">
+        <label for="captcha"></label>
+        <input type="text" name="captcha" id="captcha" placeholder="请输入验证码" class="layui-input layui-inline"/>
+    </div>
+    <img src="{:url('Open/captcha')}" alt="验证码" id="captcha_img"
+         onclick="$('#captcha_img').attr('src', '{:url(\'Open/captcha\')}?t=' + Math.random())"/>
+    <table class="layui-table" id="memberList" lay-filter="table-list">
+        <thead>
+        <tr>
+            <th lay-data="{align:'center',field:'id', width:50}">ID</th>
+            <th lay-data="{align:'center',field:'user', width:100}">用户ID</th>
+            <th lay-data="{align:'center',field:'nickname', width:160}">用户昵称</th>
+            <th lay-data="{align:'center',field:'currency', width:100}">币种</th>
+            <th lay-data="{align:'center',field:'number', width:160}">数量</th>
+            <th lay-data="{align:'center',field:'user_email', width:350}">交易编号</th>
+            <th lay-data="{align:'center',field:'wt_from_address', width:330}">提币地址</th>
+            <th lay-data="{align:'center',field:'to_address', width:330}">接收地址</th>
+            <th lay-data="{align:'center',field:'user_nickname', width:200}">审核时间</th>
+            <th lay-data="{align:'center',fixed: 'right',field:'tool', width:180}">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+        <tr data-id="{$v->wtc_id}">
+            <td>{$v.wtc_id}</td>
+            <td>
+                <a href="javascript:void(0);" onclick="window.openUser({$v.transfer.wt_from_user_id})">{$v.transfer.wt_from_user_id}
+                </a>
+            </td>
+            <td>
+                {$v.transfer.fromUser.user_nickname}
+            </td>
+            <td>{$v.currency.currency_name}</td>
+            <td>{:floattostr($v.wtc_money)}</td>
+            <td>
+                <a target="_blank" href="{:coinUrl($v.wtc_txhash, $v.currency.currency_bt_id)}">{$v.wtc_txhash}</a>
+            </td>
+
+            <td>
+                <a target="_blank" href="{:coinUrl($v.wtc_from_address, $v.currency.currency_bt_id, 1)}">{$v.wtc_from_address}</a>
+            </td>
+
+            <td>
+                <a target="_blank" href="{:coinUrl($v.wtc_to_address, $v.currency.currency_bt_id, 1)}">{$v.wtc_to_address}</a>
+            </td>
+
+            <td>{$v.wtc_starttime|date="Y-m-d H:i", ###}</td>
+
+            <td class="td-manage">
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" title="确认成功"
+                        onclick="pass('{$v->wtc_id}')">
+                    <i class="layui-icon layui-icon-ok"></i>
+                </button>
+
+                <button type="button" class="layui-btn layui-btn-warm layui-btn-sm" title="重新审核"
+                        onclick="restart('{$v->wtc_id}')">
+                    <i class="layui-icon layui-icon-refresh-1"></i>
+                </button>
+
+                <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" title="确认失败"
+                        onclick="fail('{$v->wtc_id}')">
+                    <i class="layui-icon layui-icon-close"></i>
+                </button>
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <span class="fr" style="line-height:40px">共有数据：{$count} 条</span>
+
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    layui.use(['form', 'global', 'index'], () => {
+
+    });
+
+    function pass(id) {
+        layer.confirm("是否提币成功？请多查询几次确认后再操作，否则用户钱包的币没有提出去，但用户的资产已经扣除。", {
+            btn: ["确认", "取消"]
+        }, () => {
+            // let captcha = $('#captcha').val();
+            layer.open({
+                type: 2,
+                title: "提币成功",
+                content: "{:url('Wallet/successTake')}?param=confirmcashlist&id=" + id,
+                area: ['720px', '500px'],
+                cancel: () => {
+                    layer.closeAll();
+                }
+            });
+        }, () => {
+            layer.msg("已取消");
+        });
+    }
+
+    function fail(id) {
+        layer.confirm("是否提币失败？请多查询几次确认后再操作，否则用户钱包的币已提出去，但用户资产没有扣除", {
+            btn: ["确认", "取消"]
+        }, () => {
+            let captcha = $('#captcha').val();
+            if (captcha.length <= 0) {
+                return layer.alert("请输入验证码!", {
+                    icon: 5
+                });
+            }
+            let loading = layer.msg("提交中 请稍后...", {
+                icon: 16,
+                shade: 0.3,
+                time: 0,
+                scrollbar: false
+            });
+
+            $.post("{:url('Wallet/failTake')}?param=confirmcashlist", {wtc_id: id, captcha}, data => {
+                layer.close(loading);
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, () => {
+                        window.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+        }, () => {
+            layer.msg("已取消");
+        });
+    }
+
+    function restart(id) {
+        layer.confirm("是否重新审核？请多查询几次确认后再操作，否则数据会出错", {
+            btn: ["确认", "取消"]
+        }, () => {
+            let captcha = $('#captcha').val();
+            if (captcha.length <= 0) {
+                return layer.alert("请输入验证码!", {
+                    icon: 5
+                });
+            }
+            let loading = layer.msg("提交中 请稍后...", {
+                icon: 16,
+                shade: 0.3,
+                time: 0,
+                scrollbar: false
+            });
+
+            $.post("{:url('Wallet/restartTake')}?param=confirmcashlist", {wtc_id: id, captcha}, data => {
+                layer.close(loading);
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, () => {
+                        window.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                });
+            });
+        }, () => {
+            layer.msg("已取消");
+        });
+    }
+</script>
+{include file="layout/footer"}

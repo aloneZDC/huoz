@@ -1,0 +1,124 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">翻牌交易列表</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="user_phone" placeholder="请输入用户账户" autocomplete="off" class="layui-input" value="{$Think.get.user_phone}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="is_super">
+                        <option value="">是否超级发布</option>
+                        <option value="1" {if condition="$Think.get.is_super eq 1"}selected{/if} >是</option>
+                    </select>
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户</th>
+                        <th>类型</th>
+                        <th>价格</th>
+                        <th>数量</th>
+                        <th>手续费</th>
+                        <th>实际支出(到账)</th>
+                        <th>实际释放</th>
+                        <th>红包</th>
+                        <th>超级发布</th>
+                        <th>创建时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>
+                            {$v.trade_id}
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.member_id})">
+                                {if condition="$v.users.phone"}
+                                    {$v.users.phone}
+                                {else /}
+                                    {$v.users.email}
+                                {/if}
+                                ({$v.member_id})
+                            </a>
+                        </td>
+                        <td>
+                            {if condition="$v.type eq 'buy'"}
+                                购买
+                            {else /}
+                                出售
+                            {/if}
+                        </td>
+                        <td>{$v.price} {$v.paycurrency.currency_name}</td>
+                        <td>{$v.num} {$v.currency.currency_name}</td>
+                        <td>{$v.fee} {$v.paycurrency.currency_name}</td>
+                        <td>
+                            {if condition="$v.type eq 'buy'"}
+                            支出
+                            {else /}
+                            到账
+                            {/if}
+                            {$v.pay_money} {$v.paycurrency.currency_name}
+                        </td>
+                        <td>
+                            {if condition="$v.is_release eq 1"}
+                                <a href="javascript:;" class="layui-open"  data-url="{:url('release_log',['trade_id'=>$v['trade_id']])}" data-title="{$v.trade_id}释放记录">{$v.release_num} {$v.currency.currency_name}</a>
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$v.type eq 'buy'"}
+                                {$v.hongbao.num}
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$v.super_num gt 0"}
+                                {$v.super_num}
+                            {/if}
+                        </td>
+                        <td>{:date('Y-m-d H:i:s',$v['add_time'])}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

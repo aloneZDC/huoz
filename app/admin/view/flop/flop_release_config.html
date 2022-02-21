@@ -1,0 +1,88 @@
+{if condition="!$Think.get.layui"}
+    {include file="../app/admin/view/public/left.html" /}
+{else /}
+    <style>
+        .main-wrap {
+            margin-left: 10px;
+        }
+    </style>
+{/if}
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">翻牌释放设置</span></div>
+    </div>
+
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>数量</th>
+                    <th>最小释放比例</th>
+                    <th>释放比例</th>
+                    <th>团队层级</th>
+                    <th>团队层级释放比例</th>
+                    <th>超级发布释放比例</th>
+                    <th>释放到可用百分比</th>
+                </tr>
+                {volist name='list' id='vo'}
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>
+                        <input type="text" style="width: 200px;line-height: 25px;padding: 5px;" value="{$vo.num}">
+                        <a href="javascript:;" class="modify" data-field="num" data-id="{$vo.id}">修改</a>
+                    </td>
+                    <td>
+                        <input type="text" style="width: 200px;line-height: 25px;padding: 5px;" value="{$vo.min_percent}">%
+                        <a href="javascript:;" class="modify" data-field="min_percent" data-id="{$vo.id}">修改</a>
+                    </td>
+                    <td>
+                        <input type="text" style="width: 200px;line-height: 25px;padding: 5px;" value="{$vo.percent}">%
+                        <a href="javascript:;" class="modify" data-field="percent" data-id="{$vo.id}">修改</a>
+                    </td>
+                    <td>
+                        <input type="text" style="width: 200px;line-height: 25px;padding: 5px;" value="{$vo.levels}">
+                        <a href="javascript:;" class="modify" data-field="levels" data-id="{$vo.id}">修改</a>
+                    </td>
+                    <td>
+                        <input type="text" style="width: 200px;line-height: 25px;padding: 5px;" value="{$vo.levels_percent}">%
+                        <a href="javascript:;" class="modify" data-field="levels_percent" data-id="{$vo.id}">修改</a>
+                    </td>
+                    <td>
+                        <input type="text" style="width: 200px;line-height: 25px;padding: 5px;" value="{$vo.super_percent}">%
+                        <a href="javascript:;" class="modify" data-field="super_percent" data-id="{$vo.id}">修改</a>
+                    </td>
+                    <td>
+                        <input type="text" style="width: 200px;line-height: 25px;padding: 5px;" value="{$vo.num_percent}">%
+                        <a href="javascript:;" class="modify" data-field="num_percent" data-id="{$vo.id}">修改</a>
+                    </td>
+                </tr>
+                {/volist}
+
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['layer','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.modify').click(function () {
+            var field = $(this).data('field');
+            var id =  $(this).data('id');
+            var value = $(this).parent().find('input',0).val();
+            globals.ajax('{:url("flop_release_config_update")}',{id:id,field:field,value:value},function (res) {
+                if(res.code==10000){
+                    layer.msg(res.message);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

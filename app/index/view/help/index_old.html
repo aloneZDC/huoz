@@ -1,0 +1,80 @@
+<!-- <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/common/help.css"> -->
+<style>
+    #content{
+        width: 1200px;
+        margin: 40px auto;
+        min-height: 600px;
+        background: white;
+        border: 1px solid #d5d5d5;
+        overflow: hidden;
+    }
+    .left_nav{
+        width: 210px;
+        height: 100%;
+        float: left;
+        box-sizing: border-box;
+    }
+    .left_nav>li {
+        padding-left: 20px;
+        border-bottom:  1px solid #d5d5d5;
+        height: 50px;
+        line-height: 50px;
+    }
+    .left_nav>li.active{
+        background: #3284ca;
+        color: #fff;
+    }
+    .left_nav>li>a{
+        color: #222 !important;
+
+    }
+    .left_nav>li.active a{
+        color: #fff !important;
+    }
+    .left_nav>li>a:hover{
+        color: #3284ca !important;
+    }
+    .left_nav>li.active a:hover{
+        color: #fff !important;
+    }
+    .right_wrap{
+        float: right;
+        width: 990px;
+        min-height: 600px;
+        border-left:1px solid #d5d5d5;
+        box-sizing: border-box;
+    }
+    .right_main{
+        width: 700px;
+        margin: 0 auto;
+    }
+    .right_main>h2{
+        text-align: center;
+        font-size: 20px;
+        height: 60px;
+        line-height: 60px;
+        border-bottom:  1px solid #d5d5d5;
+    }
+    .content{
+       padding: 30px 0;
+    }
+</style>
+
+<div id="content">
+    <ul  class="left_nav">
+        {volist name='cates' id='vo'}
+            <li {if condition="$info.position_id eq $vo.id"}class="active"{/if} ><a href="{:url('',['id'=>$vo['id']])}">{$vo.name}</a></li>
+        {/volist}
+    </ul>
+    <div class="right_wrap">
+        <div class="right_main">
+            {notempty name='info'}
+                <h2>{$info.title}</h2>
+                <div class="content">
+                    {$info.content}
+                </div>
+            {/notempty}
+        </div>
+    </div>
+    <div style="clear:both"></div>
+</div>

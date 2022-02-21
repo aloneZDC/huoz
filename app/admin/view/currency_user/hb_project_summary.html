@@ -1,0 +1,65 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">汇总记录</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>红包入金</th>
+                        <th>红包拆开</th>
+                        <th>方舟交易</th>
+                        <th>方舟释放</th>
+                        <th>转入币币账户</th>
+                        <th>转入钱包</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name='list' id='vo'}
+                    <tr>
+                        <td>{$vo.today}</td>
+                        <td>{$vo.hb_num}</td>
+                        <td>{$vo.hb_open_num}</td>
+                        <td>{$vo.flop_trade_num}</td>
+                        <td>{$vo.flop_release_num}</td>
+                        <td>
+                            {php}
+                                foreach($vo['to_bb'] as $bb) {
+                                    echo $bb['currency_id'] . ' - '.$bb['num'].'<br />';
+                                }
+                            {/php}
+                        </td>
+                        <td>
+                            {php}
+                                foreach($vo['to_bb'] as $bb) {
+                                    echo $bb['currency_id'] . ' - '.$bb['num'].'<br />';
+                                }
+                            {/php}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

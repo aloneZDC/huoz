@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="__PUBLIC__/static/admin/kf/css/common/reset.css">
+    <link rel="stylesheet" href="__PUBLIC__/static/admin/kf/css/common/iconfont.css">
+    <link rel="stylesheet" href="__PUBLIC__/static/admin/kf/css/meeting/attend_list.css">
+    <link rel="stylesheet" href="__PUBLIC__/static/admin/kf/css/chat/index.css">
+    <script type="text/javascript" src="__PUBLIC__/static/admin/kf/js/common/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/admin/kf/js/common/utensil.js"></script>
+    <!-- <script type="text/javascript" src="__PUBLIC__/kf/js/common/iscroll-probe.js"></script> -->
+    <script type="text/javascript" src="__PUBLIC__/static/admin/kf/js/layer/layer.js"></script>
+</head>
+<body>
+    <script>
+        htmlFontSize();
+        var commonURL = "__PUBLIC__/static/moblie/images/"
+    </script>
+    <header class="header">
+        <span class="left_btn iconfont icon-fanhui exit"></span>
+        <div class="title">客服留言</div>
+    </header>
+    <div class="contentwrap">
+        <!-- 滚动视图 -->
+        <div class="content">
+            <!-- 滚动容器 -->
+            <div class="wrapper">
+                <!-- 需要滚动的内容 -->
+                <div class="downpush">
+                </div>
+                <div class="contentlist" style="position: absolute;
+    width: 100%;
+    z-index: 50;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;">
+                    <ul class="prize_list" style="display: block;">
+                        <div id="myprize_seize" style="height:2000px"></div>
+                    </ul>
+
+                </div>
+                <div class="loadmore">
+                </div>
+            </div>
+            <div class="shade isShow"></div>
+        </div>
+    </div>
+    <!-- 留言 -->
+    <div class="send_message">
+        <textarea name="" id="message_val" cols="30" rows="10" placeholder="请输入..."></textarea>
+        <div class="send_btn">
+            <img src="" alt="">
+          <span>留言</span>
+        </div>
+        <input type="file" class="upload" hidden accept="image/*" >
+    </div>
+    <div class="bigimg">
+            <img src="__PUBLIC__/static/admin/kf/images/copybtn.png" alt="" width="100%">
+    </div>
+</body>
+<script>
+	function loading() {
+    layer.load(1, {
+        shade: [0.3, '#000'] //0.1透明度的白色背景
+    });
+}
+
+var default_head = "//io-app.oss-cn-shanghai.aliyuncs.com/abf/avatar.png";
+var default_nick = /*"XRP小助手";*/"{:lang('lan_system')}";
+var default_time = "{:date('Y-m-d H:i:s')}";
+
+    //翻译 
+    var translation1 = "";//最後更新
+    var translation2 = "";//今天
+    var translation3 = "";//下拉可以刷新
+    var translation4 = "";//鬆開立即刷新
+    var translation5 = "";//正在刷新
+    var translation6 = "";//上拉可以加載
+    var translation7 = "";//松开立即加载
+    var translation8 = "";//正在加載
+    var translation14 = "";//暫無更多數據
+    $("#message_val").blur(function(){
+        setTimeout(function() {
+                var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+                window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+                
+            }, 100);
+    })
+    $(".send_btn>img").click(function(){
+        $(".upload").click();
+    })
+</script>
+<script>
+    $(function(){
+        $(".small").click(function(e){
+            if ( e && e.stopPropagation ){
+                e.stopPropagation(); 
+            }else{
+                window.event.cancelBubble = true; 
+            }
+            if(e.preventDefault){
+                e.preventDefault();
+            }else{
+                window.event.returnValue == false;
+            }
+            $(".bigimg").show();
+            return false;
+        })
+        $(".bigimg").on("click",function(e){
+             $(this).hide();
+        })
+    })
+
+    $(function(){
+    
+    function getmyprize(){
+        //加载时渲染页面
+        $.ajax({
+             type: "post",
+             url: "{:url('Chat/get_messages',['member_id'=>$member_id])}",
+             data: {
+                 member_id:"{$member_id}",
+             },
+             async: true,
+             success: function (d) {
+                $(".prize_list").empty();
+                $(".loadmore").hide(); 
+                 if (d.code = 10000) {
+                     var prizelisthtml = '';
+                     var content = '';
+                    for(var i=0;i<d.result.length;i++){
+                    	prizelisthtml += createTxt(d.result[i]['_position'],d.result[i]);
+                    }
+                    $(".prize_list").html(prizelisthtml);
+                    load_height();
+                 }
+             },
+        });
+    }
+
+    function load_height() {
+    	if($(".prize_list li:last").length>0) {
+    		var offsetTop = $(".prize_list li:last")[0].offsetTop + 20000000;
+        	$(".contentlist").animate({scrollTop: offsetTop+ "px"}, 500);
+    	} 
+    }
+
+    function createTxt(position,data) {
+    	var prizelisthtml = '';
+    	if(data.type=='image'){
+            data.msg_content =  "<img src='"+data.msg_content+"' class='small' />"
+        }else{
+            data.msg_content =   "<p>"+data.msg_content+"</p>"
+        }
+    	if(position=="l"){
+            prizelisthtml += "<li class='left_box'>"+
+                "<div class='left_userinfo'>"+
+                    "<img src='"+data.head +"' style='max-width:100%;' />"+
+                    "<p>"+data.nick+"</p>"+
+                    "</div>"+
+                    "<p>"+data.msg_time+"</p>"+
+                "<div class='leftuser'>"+
+                    data.msg_content+
+                "</div>"+
+            "</li>";
+        } else {
+            prizelisthtml += "<li class='right_box'>"+
+                "<p>"+data.msg_time+"</p>"+
+                "<div class='rightuser'>"+
+                    data.msg_content+
+                "</div>"+
+            " </li>";
+        }
+
+        return prizelisthtml;
+    }
+
+    //获取首次加载时的数据
+    getmyprize();
+    function isempty(){
+       if($("#message_val").val()=="") {
+           layer.msg("请输入留言信息");
+           return false;
+       }
+       return true;
+    }
+    $(".send_btn span").click(function(){
+       if(isempty()){
+       	loading();
+       	var msg_body = $("#message_val").val();
+        $.ajax({
+            "url": "{:url('Chat/send_messages',['member_id'=>$member_id])}",
+            "type": "POST",
+            "data": {
+            	member_id:"{$member_id}",
+                msg_body:msg_body,
+            },
+            success: function (data) {
+            	var prizelisthtml = createTxt('l',{msg_content:msg_body,head:default_head,nick:default_nick,msg_time:default_time,type:'txt'});
+                $(".prize_list").append(prizelisthtml);
+                $("#message_val").val('');
+                load_height();
+                layer.closeAll();
+            },
+            error: function () {
+                layer.closeAll();
+            },
+        });
+       }
+    })
+    
+    // 上传图片
+    $(".upload").on("change",function(){
+        var file = this.files[0];
+        if((file.type).indexOf("image") != -1){
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+                var dx = (e.total / 1024) / 1024;
+                if(this.result){
+                	loading();
+                    $.ajax({
+                        url: "{:url('Chat/uploads')}",
+                        type: 'post',
+                        dataType: 'json',
+                        data: {img:this.result,member_id:"{$member_id}"},
+                        success: function (callback) {
+                        	if(callback.code==1) {
+                        		var prizelisthtml = createTxt('l',{msg_content:callback.result.src,head:default_head,nick:default_nick,msg_time:default_time,type:'image'});
+    			                $(".prize_list").append(prizelisthtml);
+    			                load_height();
+                        	}
+                        	
+    		                layer.closeAll();
+                        },
+                        error: function (e) {
+                        	layer.closeAll();
+                            layer.alert("网络异常,请重试", {icon: 5});
+                            return false;
+                        }
+                    });
+                }
+            };
+        } else {
+            layer.msg("只能上传图片");
+        }
+    })
+    })
+</script>
+</html>

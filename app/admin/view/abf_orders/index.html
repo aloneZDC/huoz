@@ -1,0 +1,164 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">挂单列表</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="ename" placeholder="请输入用户名" autocomplete="off" class="layui-input" value="{$Think.get.ename}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="user_phone" placeholder="请输入用户账户" autocomplete="off" class="layui-input" value="{$Think.get.user_phone}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="currency_id">
+                        <option value="">币种</option>
+                        {volist name="currency_list" id="vo"}
+                            <option value="{$vo.currency_id}/{$vo.currency_trade_id}" {if condition="$Think.get.currency_id eq $vo['currency_id'].'/'.$vo['currency_trade_id']"}selected{/if} >{$vo.currency_name}/{$vo.currency_trade_name}</option>
+                        {/volist}
+                    </select>
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="status">
+                        <option value="">状态</option>
+                        <option value="0" {if condition="$Think.get.status == 0 && $Think.get.status !='' "}selected{/if} >挂单中</option>
+                        <option value="1" {if condition="$Think.get.status eq 1"}selected{/if}>成交</option>
+                        <option value="2" {if condition="$Think.get.status eq 2"}selected{/if} >撤销</option>
+                    </select>
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="type">
+                        <option value="">类型</option>
+                        <option value="buy" {if condition="$Think.get.type eq 'buy' "}selected{/if} >购买</option>
+                        <option value="sell" {if condition="$Think.get.type eq 'sell'"}selected{/if}>出售</option>
+                    </select>
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>挂单ID</th>
+                        <th>用户</th>
+                        <th>交易对</th>
+                        <th>类型</th>
+                        <th>价格</th>
+                        <th>总数量</th>
+                        <td>剩余数量</td>
+                        <td>添加时间</td>
+                        <td>最后成交时间</td>
+                        <td>状态</td>
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>{$v.orders_id}</td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.member_id})">
+                                {if condition="$v.users.phone"}
+                                {$v.users.phone}
+                                {else /}
+                                {$v.users.email}
+                                {/if}
+                                ({$v.member_id}) - {$v.users.ename}
+                            </a>
+                        </td>
+                        <td>
+                            {$v.currency.currency_name} / {$v.currencytrade.currency_name}
+                        </td>
+                        <td>
+                            {if condition="$v.type eq 'buy'"}
+                            购买
+                            {else /}
+                            出售
+                            {/if}
+                        </td>
+                        <td>
+                            {$v.price}
+                        </td>
+                        <td>
+                            {$v.num}
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('trade')}?orders_id={$v.orders_id}" data-title="{$v.orders_id}成交记录">{$v.avail_num}</a>
+                        </td>
+                        <td>
+                            {:date('Y-m-d H:i:s',$v['add_time'])}
+                        </td>
+                        <td>
+                            {:date('Y-m-d H:i:s',$v['trade_time'])}
+                        </td>
+                        <td>
+                            {if condition="$v.status eq 0"}
+                                挂单中
+                            {elseif condition="$v.status eq 1" /}
+                                成交
+                            {elseif condition="$v.status eq 2" /}
+                                撤销
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$v.status eq 0"}
+                                <a href="javascript:;" class="orders_cancel layui-btn" data-url="{:url('orders_cancel',['orders_id'=>$v['orders_id']])}" >撤销</a>
+                            {/if}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.orders_cancel').click(function () {
+            var url = $(this).data('url');
+            var that = $(this);
+            globals.ajax(url,{},function (res) {
+                if(res.code==10000){
+                    layer.msg(res.message);
+                    location.reload();
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

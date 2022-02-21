@@ -1,0 +1,73 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">兑换配置</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:url('add')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>添加兑换配置</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>币种：</th>
+                            <td>
+                                <label for="currency_id"></label><select id="currency_id" name="currency_id">
+                                    <option value="">-- 请选择 --</option>
+                                    {volist name="currency_list" id="vo"}
+                                    <option value="{$vo.currency_id}">{$vo.currency_mark}</option>
+                                    {/volist}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>兑换币种：</th>
+                            <td>
+                                <select id="to_currency_id" name="to_currency_id">
+                                    <option value="">-- 请选择 --</option>
+                                    {volist name="currency_list" id="vo"}
+                                    <option value="{$vo.currency_id}">{$vo.currency_mark}</option>
+                                    {/volist}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>手续费：</th>
+                            <td>
+                                <input type="text" name="fee" id="fee" placeholder="请输入手续费 (默认: 0)"
+                                       class="layui-input" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>每日最大限制 (枚)：</th>
+                            <td>
+                                <input type="number" name="day_max_num" id="day_max_num" placeholder="请输入每日最大限制(单位: 枚)"
+                                       class="layui-input" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:url('index')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

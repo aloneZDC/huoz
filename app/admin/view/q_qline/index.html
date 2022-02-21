@@ -1,0 +1,57 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href=":U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">幻灯管理</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-title">
+                <div class="result-list">
+                    <a href="{:U('QQline/add')}"><i class="icon-font"></i>新增客服</a>
+                </div>
+            </div>
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+
+                        <th>QQ</th>
+                        <th>代理商名称</th>
+                        <th>保证金</th>
+                        <th>支付宝账号</th>
+                        <th>微信账号</th>
+                        <th>排序</th>
+
+                        <th>操作</th>
+                    </tr>
+                    <volist name="Qqline" id="vo" empty="$empty">
+                        <tr>
+
+                            <td>{$vo.qq}</td>
+                            <td>{$vo.agents}</td>
+                            <td>{$vo.margin}</td>
+                            <td>{$vo.alipay_id}</td>
+                            <td>{$vo.wechat_id}</td>
+                            <td>{$vo.sort}</td>
+
+                            <td>
+                                <a class="link-update" href="{:U('QQline/add',array('id'=>$vo['id']))}">修改</a>
+                                <a class="link-del" href="{:U('QQline/del',array('id'=>$vo['id']))}">删除</a>
+                            </td>
+                        </tr>
+                    </volist>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

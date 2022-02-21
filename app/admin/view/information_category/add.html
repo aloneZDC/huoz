@@ -1,0 +1,77 @@
+{include file="../app/admin/view/public/left.html" /}
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/plugins/prettify.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/uploadPreview.js"></script>
+<script>
+    function checkForm() {
+
+        let name = document.getElementById('name').value;
+        if (name == "") {
+            alert('请输入分类名称');
+            return false;
+        }
+        document.getElementById('myform').submit();
+    }
+</script>
+
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><a
+                class="crumb-name" href="{:url('index')}">分类管理</a><span
+                class="crumb-step">&gt;</span><span>新增分类</span></div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form action="{:url('add')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+                <table class="insert-tab" width="100%">
+                    <tbody>
+
+                    <tr>
+                        <th><i class="require-red">*</i>分类名称：</th>
+                        <td><input class="common-text required" id="name" name="name" size="50" value=""
+                                   type="text" placeholder="请输入分类名称"></td>
+                    </tr>
+
+                    <tr>
+                        <th>缩略图(可上传多张图片)：</th>
+                        <td>
+                            <div id="logodiv1">
+                                <img style="cursor: pointer; margin:10px;" id="logoShow1" width="200" height="150" src="/static/home/images/info_upload.png"  data-src=""/>
+                                <input type="file" id="art_pic" name="art_pic[]" multiple="multiple"/>
+                            </div>
+                            <script type="text/javascript">
+                                $('#logodiv1').children('input[id="art_pic"]').hide();
+                                $('#logoShow1').on('click', function(e) {
+                                    e.preventDefault();
+                                    $('#logodiv1').children('input[id="art_pic"]').trigger('click');
+                                });
+                                $(function(){ new uploadPreview({ UpBtn: "art_pic", DivShow: "logodiv1", ImgShow: "logoShow1" })});
+                            </script>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <td><input class="btn btn-primary btn6 mr10" value="提交" type="button" onclick="checkForm()">
+                            <a class="btn btn6" href="{:url('index')}"  type="button">返回</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<!--/main-->
+
+</div>
+</body></html>
+<script>
+    $('.lang span').click(function(){
+        var index = $('.lang span').index(this);
+        console.log(index)
+        $(this).addClass('active').siblings().removeClass('active')
+        $('.lang-content').hide();
+        $('.lang-'+index).show();
+    })
+</script>

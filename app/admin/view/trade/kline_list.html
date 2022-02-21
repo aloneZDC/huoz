@@ -1,0 +1,82 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">K线刷单设置管理</span></div>
+    </div>
+
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+                <a href="{:url('trade/kline_add_update')}"><i class="icon-font"></i>新增币种对</a>
+            </div>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>左边币种</th>
+                    <th>右边币种</th>
+                    <th>是否开启</th>
+                    <th>初始价格</th>
+                    <th>交易价格浮动百分比</th>
+                    <th>自动交易数量</th>
+                    <th>交易数量浮动百分比</th>
+                    <th>交易最后价格</th>
+                    <th>价格变动方向</th>
+                    <th>数量变动方向</th>
+                    <th>操作</th>
+                </tr>
+                {volist name='list' id='vo'}
+                    <tr>
+                        <td>{$vo.currency_name}</td>
+                        <td>{$vo.trade_name}</td>
+                        <td> {eq name="vo.is_autotrade" value="1"}是
+                            {else/}
+                            否
+                            {/eq}</td>
+                        <td>{$vo.price}</td>
+                        <td>
+                       {$vo.price_limits}%
+                        </td>
+                        <td>{$vo.num}</td>
+                        <td>{$vo.num_limits}%</td>
+                        <td>{$vo.last_price}</td>
+                        <td>
+                            {eq name="vo.price_direction" value="1"}只增
+                            {elseif condition="$vo.price_direction eq 2"/}只减
+                            {else/}
+                            随机
+                            {/eq}
+                            </td>
+                        <td>
+                            {eq name="vo.num_direction" value="1"}只增
+                            {elseif condition="$vo.price_direction eq 2"/}只减
+                            {else/}
+                            随机
+                            {/eq}
+                            </td>
+                        <td>
+                            <a class="link-update" href="{:url('trade/kline_add_update'," id=$vo[id]")}">修改</a>
+                            &nbsp;&nbsp;
+                            <a class="link-del" href="{:url('trade/kline_delete', array('id'=>$vo['id']))}"
+                               onclick="return confirm('确认删除吗？')">删除</a>
+                        </td>
+                    </tr>
+                    {/volist}
+
+            </table>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    //全选和反选
+    $("#checkAll").click(function () {
+        $('input[name="subBox[]"]').attr("checked", this.checked);
+    });
+</script>

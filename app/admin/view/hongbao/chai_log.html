@@ -1,0 +1,43 @@
+<div class="result-wrap " style="border-bottom:0;">
+    <div class="result-content"  style="margin-top: 20px;">
+        <form class="layui-form" >
+            <table class="layui-table" id="memberList">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户</th>
+                    <th>拆红包数量</th>
+                    <td>拆红包百分比</td>
+                    <th>时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="v"}
+                <tr>
+                    <td>{$v.id}</td>
+                    <td>
+                        <a href="javascript:void(0);" onclick="member_details({$v.user_id})">
+                            {if condition="$v.users.phone"}
+                            {$v.users.phone}
+                            {else /}
+                            {$v.users.email}
+                            {/if}
+                            ({$v.user_id})
+                        </a>
+                    </td>
+                    <td>{$v.num} {$v.currency.currency_name}</td>
+                    <td>{$v.percent}</td>
+                    <td>
+                        {:date('Y-m-d H:i:s',$v['create_time'])}
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>

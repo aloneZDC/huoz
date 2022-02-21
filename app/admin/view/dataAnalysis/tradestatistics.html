@@ -1,0 +1,128 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#datePicker').date_input();
+        $('#datePicker2').date_input();
+    })
+</script>
+<div class="main-wrap">
+
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">交易成功统计表</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:U('DataAnalysis/tradestatistics')}" method="post">
+                        <table class="search-tab">
+                            <tr>
+
+                                <!--   <th width="120">汇款人ID号:</th>
+                                  <td><input class="common-text" placeholder="汇款人ID号" name="member_id" value="<?php echo $member_id;?>" id="" type="text"></td>
+                                  -->
+
+                                <th width="120">选择积分类型:</th>
+                                <td>
+                                    <select name="currency_id" id="currency_id">
+                                        <option value="0">全部</option>
+                                        <volist name="currency" id="vo">
+                                            <option value="{$vo['currency_id']}"
+                                            <if condition="$currency_id neq null and $currency_id eq $vo['currency_id']">
+                                                selected
+                                            </if>
+                                            >{$vo['currency_name']}</option>
+                                        </volist>
+                                    </select>
+                                </td>
+                                <th width="120">类型:</th>
+                                <td>
+                                    <select name="type" id="type">
+                                        <option value="0"
+                                        <if condition="$type neq null and $type eq 0">selected</if>
+                                        >全部</option>
+                                        <option value="buy"
+                                        <if condition="$type neq null and $type eq buy">selected</if>
+                                        >买入</option>
+                                        <option value="sell"
+                                        <if condition="$type neq null and $type eq sell">selected</if>
+                                        >卖出</option>
+
+                                    </select>
+                                </td>
+
+
+                                <th width="120">选择时间：</th>
+                                <td>
+                                    <input type="text" id="datePicker" name="datePicker1" class="date_picker"
+                                           placeholder="点击选择日期" value="<?php echo $datePicker1;?>"/>
+                                    <input type="text" name="datePicker2" id="datePicker2" class="date_picker"
+                                           placeholder="点击选择日期" value="<?php echo $datePicker2;?>"/>
+                                </td>
+
+                                <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+
+                            </tr>
+                            <tr>
+                                <td width="180">总计：<?php echo $sum_money_all; ?></td>
+                                <td width="180">数量：<?php echo $sum_num; ?></td>
+                                <td width="180">手续费：<?php echo $withdraw_fee; ?></td>
+
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab">
+                <tr>
+                    <th width="180">日期</th>
+                    <th width="180">积分类型</th>
+                    <th width="180">数量</th>
+                    <th width="180">金额</th>
+
+                    <th width="180">手续费</th>
+                    <th width="180">类型</th>
+
+
+                </tr>
+                <volist name="list" id="vo" empty="$empty">
+                    <tr>
+                        <td width="180">{$vo.year}年{$vo.month}月{$vo.day}日</td>
+
+                        <td width="180">{$vo.b_name}</td>
+                        <td width="180">{$vo.num}</td>
+                        <td width="180">{$vo.money}</td>
+
+
+                        <td width="180">{$vo.fee}</td>
+                        <td width="180">
+                            <eq name="vo.type" value="buy">买入
+                                <else/>
+                                卖出
+                            </eq>
+                        </td>
+
+                    </tr>
+                </volist>
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

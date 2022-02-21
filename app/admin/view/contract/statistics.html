@@ -1,0 +1,217 @@
+{include file="../app/admin/view/public/left.html" /}
+<link href="__PUBLIC__/static/admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+window._deel = {
+    req_member_details_url: "{:U('member/member_details')}",
+}
+$(function () {
+    $('#datePicker').date_input();
+    $('#datePicker2').date_input();
+});
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">合约统计</span></div>
+    </div>
+
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:url('')}" method="get" id="form">
+                        <table class="search-tab">
+                            <tr>
+                                <th width="70px">账户类型:</th>
+                                <td>
+                                    <select name="money_type" id="">
+                                        {volist name="moneyTypeList" id="vo"}
+                                        {if $key == $money_type}
+                                            <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                            <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">订单类型:</th>
+                                <td>
+                                    <select name="type" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="typeList" id="vo"}
+                                        {if $key == $type}
+                                            <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                            <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">买类型:</th>
+                                <td>
+                                    <select name="buy_type" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="buyTypeList" id="vo"}
+                                        {if $key == $buy_type}
+                                            <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                            <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">交易对:</th>
+                                <td>
+                                    <select name="trade_id" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="tradeList" id="vo"}
+                                        {if $key == $trade_id}
+                                            <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                            <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">订单状态:</th>
+                                <td>
+                                    <select name="status" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="statusList" id="vo"}
+                                        {if $key == $status}
+                                            <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                            <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">用户类型:</th>
+                                <td>
+                                    <select name="user_type" id="">
+                                        {volist name="userTypeList" id="vo"}
+                                        {if $key == $user_type}
+                                            <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                            <option value="{$key}">{$vo}</option>
+                                        {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70">日期:</th>
+                                <td>
+                                    <input type="text" id="datePicker" name="starttime" class="date_picker" value="{$starttime}" placeholder="点击选择日期"/>
+                                    <input type="text" name="endtime" id="datePicker2" value="{$endtime}" class="date_picker" placeholder="点击选择日期"/>
+                                </td>
+                                <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                                <td>
+                                    <input type="hidden" name="daochu" id="dao" value="">
+                                    <input class="btn btn-primary btn2" id="daochu" value="导出数据" type="button">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>日期</th>
+                        <th>总保证金</th>
+                        <th>总交易额(杠杆放大)</th>
+                        <th>总保险金</th>
+                        <th>买入手续费总额</th>
+                        <th>手续费总额</th>
+                        <th>赢总额</th>
+                        <th>输总额</th>
+                        <th>锁仓总额</th>
+                        <th>平台输赢总额</th>
+                    </tr>
+                    {volist name="list" id="vo" empty="$empty"}
+                        <tr>
+                            <td>{$vo.date}</td>
+                            <td>{$vo.money_total}</td>
+                            <td>{$vo.money_total1}</td>
+                            <td>{$vo.safe_total}</td>
+                            <td>{$vo.buy_fee_total}</td>
+                            <td>{$vo.fee_total}</td>
+                            <td>{$vo.win_total}</td>
+                            <td>{$vo.loss_total}</td>
+                            <td>{$vo.lock_total}</td>
+                            <td>{$vo.platform_total}</td>
+                        </tr>
+                    {/volist}
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+<script>
+$("#daochu").click(function () {
+    $("#dao").val("1");
+    $("#form").submit();
+})
+$('.layer-open').click(function(){
+    var title = $(this).attr('data-title');
+    var url = $(this).attr('data-url');
+    if(!url) return;
+
+    //弹出即全屏
+    var index = layer.open({
+        type: 2,
+        title:title,
+        content: url,
+        area: ['820px', '495px'],
+        maxmin: true,
+        scrollbar: false, //屏蔽浏览器滚动条
+    });
+    layer.full(index);
+});
+
+function disband(id) {
+    var conf=confirm("确认解散房间？确认解散后所有用户都将推出房间，已上桌用户将退还上桌费用。");
+    if(conf==true){
+        $.post("{:U('disband')}",{"room_id":id},function (d) {
+                if(d.code==10000){
+                    layer.alert(d.message, {icon: 1});
+                    setTimeout(function () {
+                        window.parent.location.reload();
+                        parent.layer.close(mylay);
+                    },2000);
+                }else {
+                    layer.alert(d.message, {icon: 5});
+                }
+        },"json");
+    }
+}
+
+function lottery(id) {
+    var conf=confirm("确认给房间开奖？确认后房间将进行开奖，并发放所有用户奖励。");
+    if(conf==true){
+        $.post("{:U('lottery')}",{"room_id":id},function (d) {
+            if(d.code==10000){
+                layer.alert(d.message, {icon: 1});
+                setTimeout(function () {
+                    window.parent.location.reload();
+                    parent.layer.close(mylay);
+                },2000);
+            }else {
+                layer.alert(d.message, {icon: 5});
+            }
+        },"json");
+    }
+}
+</script>
+</body>
+
+</html>

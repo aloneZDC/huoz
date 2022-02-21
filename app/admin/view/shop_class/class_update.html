@@ -1,0 +1,100 @@
+<include file="App/Admin/View/Public/left.html"/>
+<script>
+    function checkForm() {
+        var name = document.getElementById('cat_name').value;
+        var sort = document.getElementById('sort').value;
+        if (name != "") {
+            if (!isNaN(sort)) {
+                document.getElementById('myform').submit();
+            } else {
+                alert("排序请输入数字");
+            }
+        } else {
+            alert('请填写分类名称');
+        }
+    }
+</script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">分类管理</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('ShopClass/class_update')}" method="post" id="myform" name="myform"
+              enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>修改商品分类信息</h1>
+                </div>
+                <div class="result-content">
+                    <input type="hidden" name="id" value="{$list.cat_id}">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th width="120">分类类型：</th>
+                            <td>
+                                <select name="parent_id" id="parent_id" class="required">
+                                    <option value="">默认增加一级分类</option>
+                                    <volist name="cat" id="vo">
+                                        <eq name="parent.cat_name" value="">
+                                            <!-- 有子级分类的商品就有父级分类名称，没有子级分类的商品就得不到父级商品名称，所以此处需要判断 -->
+                                            <option value="{$vo.cat_id}"
+                                            <eq name="vo.cat_name" value="$list['cat_name']">selected</eq>
+                                            > {$vo.cat_name}</option>
+                                            <else/>
+                                            <option value="{$vo.cat_id}"
+                                            <eq name="vo.cat_name" value="$parent['cat_name']">selected</eq>
+                                            > {$vo.cat_name}</option>
+                                        </eq>
+                                    </volist>
+                                </select>
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>分类名称：</th>
+                            <td><input class="common-text required" id="cat_name" name="cat_name" size="50"
+                                       value="{$list.cat_name}" type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>关键字：</th>
+                            <td><input class="common-text required" id="keywords" name="keywords" size="50"
+                                       value="{$list.keywords}" type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>分类描述：</th>
+                            <td><input class="common-text required" id="cat_desc" name="cat_desc" size="50"
+                                       value="{$list.cat_desc}" type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>排序(输入数字)：</th>
+                            <td>
+                                <input class="common-text required" id="sort" name="sort" size="50" value="{$list.sort}" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>上传图片：</th>
+                            <td>
+                                <input type="file" name="image" class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input class="btn btn-primary btn6 mr10" value="修改" type="button" onclick="checkForm()">
+                                <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

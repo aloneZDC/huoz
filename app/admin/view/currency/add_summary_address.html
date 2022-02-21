@@ -1,0 +1,81 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">添加汇总地址</span></div>
+    </div>
+    <div class="result-wrap">
+
+        <form action="{:U('')}" method="post" enctype="multipart/form-data" id="form">
+            <div class="config-items">
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th>币种名称：</th>
+                            <td>
+                                <select name="sa_currency_id" id="sa_currency_id">
+                                    {volist name="list" id='vo'}
+                                        <option value="{$vo.currency_id}">{$vo.currency_mark}</option>
+                                    {/volist}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>地址名称：</th>
+                            <td><input name="sa_name" id="sa_name"  type="text" ></td>
+                        </tr>
+                        <tr>
+                            <th>汇总钱包地址：</th>
+                            <td><input name="sa_address" id="sa_address"  type="text" ></td>
+                        </tr>
+                        <tr>
+                            <th>钱包地址标签：</th>
+                            <td><input name="sa_tag" id="sa_tag"  type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>是否默认：</th>
+                            <td>
+                                是：<input name="sa_is_default" value="1" type="radio" >
+                                否：<input name="sa_is_default" value="2"  type="radio" >
+                            </td>
+                        </tr>
+                        <tr>
+                        <th></th>
+                        <td>
+                            <input type="submit" id="submit" value="提交" class="btn btn-primary btn6 mr10">
+                            <a href="{:U('summary_address_list')}"><input type="button" value="返回" class="btn btn6"></a>
+                        </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $("#submit").click(function () {
+       var sa_currency_id=$("#sa_currency_id").val();
+       var sa_name=$("#sa_name").val();
+       var sa_address=$("#sa_address").val();
+       if(sa_currency_id==""||sa_currency_id==null){
+           alert("请选择币种");
+           return false;
+       }else if(sa_name==""||sa_name==null){
+            alert("请填写地址名称");
+            return false;
+        }else if(sa_address==""||sa_address==null){
+            alert("请填写钱包地址");
+            return false;
+        }
+       return true;
+    })
+</script>
+
+<!--/main-->
+</div>
+</body>
+</html>

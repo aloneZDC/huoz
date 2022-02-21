@@ -1,0 +1,200 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script>
+    $("#walletNav").show();
+    $("#walletNav").children("li").eq(22).addClass("on");
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">内部互转记录</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('Currency/mutualTransfer')}" method="get">
+                <table class="search-tab">
+                    <tr>
+<!--                        <th width="70">转出手机号:</th>-->
+<!--                        <td><input class="common-text" placeholder="手机号码" name="phone" value="{$temp['phone']}" type="text"></td>-->
+<!--                        <th width="70">转出邮箱:</th>-->
+<!--                        <td><input class="common-text" placeholder="邮箱" name="email" value="{$temp['email']}" type="text"></td>-->
+                        <th width="70">转出会员ID:</th>
+                        <td><input class="common-text" placeholder="会员ID" name="member_id" value="{$temp['member_id']}" type="text"></td>
+                        <th width="70">转出地址:</th>
+                        <td><input class="common-text" placeholder="转入地址" name="url" value="{$temp['url']}" type="text"></td>
+<!--                        <th width="70"><label for="status_sel">状态</label></th>-->
+<!--                        <td>-->
+<!--                            <select name="status" id="status_sel">-->
+<!--                                <option value="100" selected>全部</option>-->
+<!--                                {foreach name="status_enum" item="v" key="k"}-->
+<!--                                <option value="{$k}" data-key="{$k}" data-get="{$Think.get.status}" {if $k eq $Think.get.status}selected{/if} >{$v}</option>-->
+<!--                                {/foreach}-->
+<!--                            </select>-->
+<!--                        </td>-->
+                    </tr>
+                    <tr>
+<!--                        <th width="70">接收手机号:</th>-->
+<!--                        <td><input class="common-text" placeholder="接收手机号" name="tphone" value="{$temp['tphone']}" type="text"></td>-->
+<!--                        <th width="70">接收邮箱:</th>-->
+<!--                        <td><input class="common-text" placeholder="接收邮箱" name="temail" value="{$temp['temail']}" type="text"></td>-->
+                        <th width="70">接收会员ID:</th>
+                        <td><input class="common-text" placeholder="接收会员ID" name="tmember_id" value="{$temp['tmember_id']}" type="text"></td>
+                        <th width="70">接收地址:</th>
+                        <td><input class="common-text" placeholder="接收地址" name="turl" value="{$temp['turl']}" type="text"></td>
+<!--                        <td>-->
+<!--                            <select name="cuid">-->
+<!--                                <option value="">全部</option>-->
+<!--                                {volist name="curr" id='vo'}-->
+<!--                                    <option value="{$vo.currency_id}">{$vo.currency_name}</option>-->
+<!--                                {/volist}-->
+<!--                            </select>-->
+<!--                        </td>-->
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-title">
+            <div class="result-list">
+                昨日总数量：{$tibi_total.num} 实际到账：{$tibi_total.actual}<br>
+                今日总数量：{$tibi_total_today.num} 实际到账：{$tibi_total_today.actual} <br>
+            </div>
+        </div>
+
+        <div class="result-title">
+            <div class="result-list">
+            </div>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+
+                    <th width="40px">ID</th>
+                    <th>转账人邮箱</th>
+                    <th width="50px">转账人ID</th>
+                    <th>转账人姓名</th>
+                    <th>转账人手机</th>
+                    <th>币类型名称</th>
+                    <th>转账地址</th>
+                    <th>转账编号</th>
+                    <th>接收人邮箱</th>
+                    <th width="50px">接收人ID</th>
+                    <th>接收人姓名</th>
+                    <th>接收人手机</th>
+                    <th>接收地址</th>
+                    <th>转账总数</th>
+                    <th>实际到账数量</th>
+                    <th>开始时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                {volist name='list' id='vo'}
+                    <tr>
+
+                        <td>{$vo['id']}</td>
+                        <td>{$vo['email']}</td>
+                        <td><a href="javascript:member_details({$vo.from_member_id});" class="shenhe_button">{$vo['from_member_id']}</a>
+                        </td>
+                        <td>{$vo['name']}</td>
+                        <td>{$vo['phone']}</td>
+                        <td>{$vo['currency_name']}</td>
+                        <td>{$vo['from_url']}</td>
+                        <td>
+                            <?php if($vo['currency_type']=='eth' || $vo['currency_type']=='eth_token'):?>
+                            <a target="_blank" href="https://cn.etherscan.com/tx/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                            <?php elseif($vo['currency_type']=='xrp'):?>
+                            <a target="_blank" href="https://bithomp.com/explorer/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                            <?php elseif($vo['currency_type']=='btc'):?>
+                            <a target="_blank" href="https://btc.com/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                            <?php elseif($vo['currency_type']=='usdt'):?>
+                            <a target="_blank" href="https://omniexplorer.info/search/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                            <?php else: ?>
+                            {$vo['ti_id']}
+                            <?php endif;?>
+                            </td>
+                        <td>{$vo['temail']}</td>
+                        <td><a href="javascript:member_details({$vo.to_member_id});" class="shenhe_button">{$vo['to_member_id']}</a>
+                        </td>
+                        <td>{$vo['tname']}</td>
+                        <td>{$vo['tphone']}</td>
+                        <td>{$vo['to_url']}</td>
+                        <td>{$vo['num']}</td>
+                        <td>{$vo['actual']}</td>
+                        <td>{$vo['add_time']|date='Y-m-d H:i:s',###}</td>
+                        <td>
+                            {$status_enum[$vo['status']]}
+                        </td>
+                        <td>
+                            {if $vo['status'] eq -1}
+                            <a class="link-update" href="javascript:void(0);" onclick="pass({$vo.id});">通过</a>
+                            &nbsp;&nbsp;
+                            <a class="link-del" href="javascript:void(0);" onclick="fail({$vo.id})">不通过</a>
+                            {/if}
+                        </td>
+                    </tr>
+                {/volist}
+
+            </table>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+<script>
+    function pass(id) {
+        layer.confirm('确定通过审核', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            var captcha = $("#captcha").val();
+            var loading = layer.msg('提币中，请稍等···', {
+                icon: 16
+                , shade: 0.3
+                , time: 0
+                , scrollbar: false
+            });
+            $.post("{:url('successByid')}", {"id": id, "captcha": captcha}, function (datas) {
+                layer.close(loading);
+                if (datas.code == 10000) {
+                    layer.msg(datas['message']);
+                    setTimeout("location.reload()", 3000);
+                } else {
+                    layer.msg(datas['message']);
+                    setTimeout("location.reload()", 3000);
+                }
+            });
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+
+    function fail(id) {
+        layer.confirm('确定不通过审核', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            $.post("{:url('falseByid')}", {"id": id}, function (datas) {
+                layer.msg(datas['message']);
+                setTimeout("location.reload()", 2000);
+            });
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+</script>
+</div>
+</body>
+</html>

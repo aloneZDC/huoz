@@ -1,0 +1,196 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+				<a href="javascript:;">首页</a> <a href="javascript:;">钱包管理</a>
+				<a href="javascript:;"> <cite>待汇总列表</cite></a>
+			</span>
+    <a class="layui-btn layui-btn-sm" style="margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);"
+       title="刷新">
+        <i class="layui-icon layui-icon-refresh"></i>
+        <!-- <i class="layui-icon" style="line-height:30px">&#x1002;</i> -->
+    </a>
+</div>
+
+<div class="weadmin-body">
+    <div class="weadmin-block" style="display: none; border-bottom: 1px solid #ccc">
+        <span>待汇总BTC数: <span id="btc_money">{$btcMoney}</span></span>
+        <span style="margin-left: 10px;">
+            汇总钱包地址:
+            <a style="color: #428bca;outline:0;" target="_blank" href="https://btc.com/{$btcSummaryAddress}">{$btcSummaryAddress}</a>
+        </span>
+
+        <button type="button" class="layui-btn layui-btn-warm layui-btn-sm" onclick="btcSummary()">
+            <i class="layui-icon layui-icon-release"></i>汇总
+        </button>
+    </div>
+
+    <fieldset style="margin-top: 20px" class="layui-elem-field layui-field-title">
+        <legend>汇总地址</legend>
+        <div class="layui-field-box">
+            {volist name="currencyAll" id="v"}
+            {if $v.currency_summary_address and $v.currency_id != 1}
+            <p style="margin-top: 5px;">
+                {$v.currency_name} 汇总地址:
+                <a href="{:coinUrl($v.currency_summary_address, $v.currency_bt_id, 1)}"
+                   style="color: #428bca;outline:0;" target="_blank">{$v.currency_summary_address}</a>
+            </p>
+            {/if}
+            {/volist}
+        </div>
+    </fieldset>
+
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 we-search" method="GET">
+            搜索数据：
+            <div class="layui-inline">
+                <label for="user_id"></label>
+                <input class="layui-input" placeholder="请输入用户ID" name="user_id" id="user_id"
+                       value="{$Think.get.user_id}"/>
+            </div>
+
+            <div class="layui-inline">
+                <label for="user_nickname"></label>
+                <input class="layui-input" placeholder="请输入昵称" name="user_nickname" id="user_nickname"
+                       value="{$Think.get.user_nickname}"/>
+            </div>
+
+            <div class="layui-inline">
+                <label for="currency_id">币种: </label>
+                <select style="display: inline; width: 100px;" class="layui-select" name="currency_id" id="currency_id">
+                    <option value="">全部</option>
+                    {volist name="currencys" id="currency"}
+                    <option {if $Think.get.currency_id== $currency->currency_id}selected{/if}
+                        value="{$currency->currency_id}">{$currency->currency_name}
+                    </option>
+                    {/volist}
+                </select>
+            </div>
+
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+    <div class="weadmin-block">
+
+        <a class="layui-btn layui-btn-normal" href="{:url('exportSummaryExcel')}?param=summarylist">
+            <i class="layui-icon layui-icon-file"></i>导出excel
+        </a>
+        <!-- <button class="layui-btn layui-btn-danger" onclick="delAll()">
+             <i class="layui-icon layui-icon-delete"></i>批量删除
+         </button>
+         <button class="layui-btn" onclick="WeAdminShow('添加用户','./add.html',600,400)">
+             <i class="layui-icon layui-icon-add-circle-fine"></i>添加
+         </button>-->
+        <span class="fr" style="line-height:40px">共有数据：{$count} 条</span>
+    </div>
+
+    <table class="layui-table" id="memberList">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>币种</th>
+            <th>数量</th>
+            <th>用户ID</th>
+            <th>邮箱</th>
+            <th>用户昵称</th>
+            <th>汇总地址</th>
+            <th>用户地址</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+        <tr data-id="{$v->us_id}">
+            <td>{$v->us_id}</td>
+            <td>{$v->currency->currency_name}</td>
+            <td>{:floattostr($v->us_num)}</td>
+            <td>
+                <a href="javascript:void(0)" onclick="window.openUser({$v->user->user_id})">{$v->user->user_id}</a>
+            </td>
+            <td>{$v->user->user_email}</td>
+            <td>
+                {$v->user->user_nickname}
+            </td>
+            <td>
+                <a href="{:coinUrl($v.currency.currency_summary_address, $v.currency.currency_bt_id, 1)}"
+                   target="_blank">{$v.currency.currency_summary_address}</a>
+            </td>
+            <td>
+                <a href="{:coinUrl($v->user->getAddress($v->currency->currency_bt_id)->wa_address, $v.currency.currency_bt_id, 1)}"
+                   target="_blank">{$v->user->getAddress($v->currency->currency_bt_id)->wa_address}</a></td>
+            <td>
+                <a onclick="openSummary(this, {$v->us_id})" href="javascript:void(0);" title="汇总"
+                   style="margin-right: 10px;">
+                    <i class="layui-icon layui-icon-auz"></i>
+                </a>
+                <a title="不汇总" onclick="cancelSummary({$v->us_id})" href="javascript:void(0);">
+                    <i class="layui-icon layui-icon-close-fill" style="font-size: 18px;"></i>
+                </a>
+            </td>
+        </tr>
+        {/volist}
+
+        </tbody>
+    </table>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+
+{include file="layout/footer"}
+<script type="text/javascript">
+    function openSummary(e, us_id) {
+        layer.open({
+            type: 2,
+            title: "汇总",
+            content: "{:url('wallet/summary')}?param=summarylist&us_id=" + us_id,
+            area: ['500px', '500px'],
+            shade: 0, //不显示遮罩
+            // maxmin: true,
+            // scrollbar: true, //屏蔽浏览器滚动条
+            cancel: function () {
+                location.reload();
+            }
+        });
+    }
+
+    function cancelSummary(us_id) {
+        layer.confirm('确定不汇总吗', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            return $.post("{:url('Wallet/cancelSummary')}?param=summarylist", {us_id}, function (data) {
+                layer.msg(data.message);
+                if (Number(data.code) === 10000) {
+                    location.reload();
+                }
+            }, "json");
+
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+
+    function btcSummary() {
+        // BTC汇总页面
+        let amount = $('#btc_money').text();
+
+        layer.open({
+            type: 2,
+            title: "BTC汇总",
+            content: "{:url('wallet/BTCSummary')}?param=summarylist&amount=" + amount,
+            area: ['500px', '500px'],
+            shade: 0, //不显示遮罩
+            //maxmin: true,
+            //scrollbar: false, //屏蔽浏览器滚动条
+            cancel: function () {
+                location.reload();
+            }
+        });
+    }
+</script>
+
+

@@ -1,0 +1,232 @@
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/reg/findpass.css">
+<script charset="UTF-8" type="text/javascript" src="//cstaticdun.126.net/load.min.js"></script>
+<div id="main">
+    <div class="main_box" style="overflow: hidden;">
+        <div id="my_child">
+            <div id="step1">
+                <h1 class="h1">
+                    {:lang('lan_password_retrieval')}
+                </h1>
+                <div class="form-cont" id="step1" style="display:block;">
+                    <div class="explanation">
+                        {:lang('lan_findpass_user')}
+                    </div>
+                    <div class="input-cont">
+                        <input class="input" type="text" id="phone" placeholder="{:lang('lan_Please_enter_the_correct')}" >
+                        <div class="form-tips"></div>
+                        <div class="error-msg">{:lang('lan_please_enter_the_correct_mobile_number')}</div>
+                    </div>
+                     <div class="explanation">
+                        图形验证码
+                    </div>
+                    <div class="input-cont">
+                        <input class="input" type="text" id="img_code" placeholder="{:lang('lan_input_img_code')}" >
+                        <img id="img_captch" onclick="$('#img_captch').attr('src','{:url(\'index/captcha\')}?v=' + Math.random())" src="{:url('index/captcha')}" alt="">
+                        <div class="form-tips"></div>
+                    </div>
+                    <div class="explanation">
+                        {:lang('lan_findpass_auth')}
+                    </div>
+                    <div class="input-cont">
+                        <input class="input" validate="" check-type="one_time_code" type="text" name="phone_code" id="phone_code"  placeholder="{:lang('lan_user_please_enter_the_verification_code')}" maxlength="6">
+                        <a class="link get-token change" id="msgt">{:lang('lan_send_authentication_code')}</a>
+                        <div id="captcha_div"></div>
+                            <div class="form-tips"></div>
+                                <!--         <div class="error-msg">验证码为6位数字</div> -->
+                        </div>
+                        <button id="next" class="btn submit">{:lang('lan_next_step')}</button>
+                    </div>
+                </div>
+                <div id="step2">
+                    <h1 class="h1">
+                        {:lang('lan_reset_password')}
+                    </h1>
+                    <div class="form-cont" id="step1" style="display:block;">
+                        <div class="explanation">
+                            {:lang('lan_New_password')}
+                        </div>
+                        <div class="input-cont">
+                            <input class="input" type="password" id="pass" placeholder="{:lang('lan_findpass_new')}" >
+                            <div class="form-tips"></div>
+                        </div>
+
+                        <div class="explanation">
+                            {:lang('lan_findpass_re_new')}
+                        </div>
+                        <div class="input-cont">
+                            <input class="input" validate="" check-type="one_time_code" type="password" id="repass"  placeholder="{:lang('lan_findpass_new')}">
+                            <div id="captcha_div"></div>
+                                <div class="form-tips"></div>
+                                    <!--         <div class="error-msg">验证码为6位数字</div> -->
+                            </div>
+                            <button id="sure" class="btn submit">{:lang('lan_determine')}</button>
+                        </div>
+                    </div>
+            </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var phoneCodeNull = "{:lang('lan_code_find_pwd')}";
+        var phoneNall = "{:lang('lan_findpwd_user_name_empty')}";
+        var CodeUrl = "{:url('/index/Sms/auto_index_send')}";
+        var findUrl = "{:url('/index/index/findpass')}"
+        var chongxinfasong = "{:lang('lan_resend_verification_code')}";
+        var chongxinfasongone = "{:lang('lan_resend_verification_code_one')}";
+        var tip3="{:lang('lan_cant_be_empty')}";
+        var tip5="{:lang('lan_password_format_error')}";
+        var tip6="{:lang('lan_password_empty')}";
+        var tip7="{:lang('lan_two_inconsistencies')}";
+        var token;
+        var username;
+        // 点击发送验证码
+        $('#msgt').click(function() {
+            var phone = $('#phone').val();
+            var img_code = $('#img_code').val();
+            if (phone.length > 0) {
+                if(img_code == ''){
+                        layer.msg("请先输入图形验证码");
+                        return
+                }
+                $.post(CodeUrl, {phone: phone,validate: img_code,type:"findpwd"},
+                    function (d) {
+
+                        layer.msg(d.message);
+                        if (d.code == 10000) {
+                            $("#msgt").attr("data-key", "off");
+                            var i = 120;
+                            var tid2;
+                            tid2 = setInterval(function () {
+                                if ($("#msgt").attr("data-key") == 'off') {
+                                    i--;
+                                    $("#msgt").text(i + chongxinfasongone);
+                                    $("#msgt").attr("disabled",true);
+                                    $("#msgt").css({"pointer-events":"none","opacity":"0.5"});
+                                    if (i <= 0) {
+                                        $("#msgt").text(chongxinfasong);
+                                        $("#msgt").attr("data-key", "on");
+                                        $("#msgt").attr("disabled",false);
+                                        $("#msgt").css({"pointer-events":"auto","opacity":"1"});
+                                        clearInterval(tid2);
+                                    }
+                                }
+                            }, 1000);
+                        }
+                    });
+            }else{
+                layer.msg("{:lang('lan_findpass_user_re')}");
+            }
+        });
+        //手机验证码
+        $('#phone_code').blur(function () {
+            var phone_code = $(this).val();
+            if (phone_code == "") {
+                layer.msg(phoneCodeNull);
+                return false;
+            }
+        });
+        //点击找回密码
+        $('#next').click(function () {
+            $('#phone_code').trigger('blur');
+            var obj = {
+                phone:$("#phone").val(),
+                phone_code:$("#phone_code").val(),
+                type: "findpwd"
+            }
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: obj,
+                url: findUrl,
+                success: function (callback) {
+                    console.log(callback);
+                    if (callback.code == 10000) {
+                        token = callback.result.token;
+                        username = $("#phone").val();
+                        $("#step1").css("display","none");
+                        $("#step2").css("display","block");
+                    } else {
+                        layer.msg(callback.message);
+                    }
+                },
+                error: function (e) {
+                    layer.msg(registerederror);
+                }
+            });
+
+        });
+
+        // 密码验证
+        var regNull = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,20}$/; 
+        $('#pass').blur(function() {
+            var login_password_input = $(this).val();
+            if (login_password_input == "") {
+                layer.msg(tip3);
+                Array.on_off2 = false;
+            } else if (!regNull.test(login_password_input)) {
+                layer.msg(tip5);
+                Array.on_off2 = false;
+            } else {
+                if($("#repass").val()!=""){
+                    Array.on_off2 = true;
+                    $("#repass").trigger("blur");
+                    return;
+                }
+            }
+        });
+
+        $('#repass').blur(function() {
+            var login_password_input2 = $('#pass').val();
+            var repeat_password_input = $(this).val();
+            if (repeat_password_input == "") {
+                layer.msg(tip6);
+                Array.on_off3 = false;
+            } else if (repeat_password_input != login_password_input2) {
+                layer.msg(tip7);
+                Array.on_off3 = false;
+            } else{
+                 Array.on_off3 = true;
+            }
+        });
+
+        $("#sure").on("click",function(){
+            $("#pass").trigger("blur");
+            console.log(Array.on_off2);
+            if(!Array.on_off2){
+                console.log(1)
+                return;
+            };
+            $("#repass").trigger("blur");
+            if(!Array.on_off3){
+                console.log(2)
+                return;
+            };
+            var obj = {
+                pwd:$("#pass").val(),
+                repwd:$("#repass").val(),
+                phone:username,
+                token:token,
+            }
+            $.ajax({
+                url:"{:url('/index/index/resetpass')}",
+                type:"POST",
+                data:obj,
+                success:function(data){
+                    layer.msg(data.message);
+                    if(data.code == 10000){
+                        setTimeout(function(){
+                            location.href = "{:url('login/index')}";
+                        },1500);
+                    }
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+        });
+    })
+</script>

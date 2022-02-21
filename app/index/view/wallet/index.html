@@ -1,0 +1,42 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/wallet/index.css">
+<div id="content">
+    <!-- <h2>钱包</h2> -->
+    <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="first" data_url="tab/1"><a href="{:url('wallet/index',['tab'=>1])}">{:lang('lan_user_menu_assets')}</a></li>
+                <li data_url="tab/2"><a href="{:url('wallet/index',['tab'=>2])}">{:lang('lan_user_menu_financial_journal')}</a></li>
+                 <li data_url="tab/3"><a href="{:url('wallet/index',['tab'=>3])}" hidden>{:lang('x_xzhaunzhan')}</a></li>
+            </ul>
+            <div class="layui-tab-content">
+                <div data_url="tab/1" class="hide">{include file="wallet/my_assets" /}</div>
+                <div data_url="tab/2" class="hide">{include file="wallet/finance" /} </div>
+                <div data_url="tab/3" class="hide">{include file="wallet/my_xrp" /}</div>
+                <div data_url="tab/4" class="hide"></div>
+            </div>
+        </div>
+</div>
+
+<script>
+    // tab菜单高亮
+	$(".layui-tab-title li").each(function(i){
+        $(".layui-tab-title li").eq(i).removeClass("layui-this");
+        if((location.href).indexOf($(".layui-tab-title li").eq(i).attr("data_url")) != -1){
+            $(".layui-tab-title li").eq(i).addClass("layui-this");
+        }
+    })
+
+    if((location.href).indexOf("tab/") == -1){
+        $(".layui-tab-title .first").addClass("layui-this");
+        $(".layui-tab-content>div").eq(0).removeClass("hide");
+        $(".layui-tab-content>div").eq(0).addClass("show");
+    }
+    // content显示隐藏
+	$(".layui-tab-content>div").each(function(i){
+        if((location.href).indexOf($(".layui-tab-content>div").eq(i).attr("data_url")) != -1){
+            $(".layui-tab-content>div").eq(i).removeClass("hide");
+            $(".layui-tab-content>div").eq(i).addClass("show");
+        }
+	})
+</script>
+
+    

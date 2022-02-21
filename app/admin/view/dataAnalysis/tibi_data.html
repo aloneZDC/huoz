@@ -1,0 +1,193 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+<script>
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">提积分记录</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('DataAnalysis/tibi_data')}" method="post">
+                <table class="search-tab">
+                    <tr>
+                        <th width="70">会员账号:</th>
+                        <td><input class="common-text" placeholder="关键字" name="email" type="text"></td>
+                        <th width="70">会员UID:</th>
+                        <td><input class="common-text" placeholder="关键字" name="member_id" type="text"></td>
+                        <th width="70">提积分URL:</th>
+                        <td><input class="common-text" placeholder="关键字" name="url" type="text"></td>
+                        <th width="70">积分类型:</th>
+                        <td><select name="cuid">
+                            <option value="5">全部</option>
+                            <volist name="curr" id='vo'>
+                                <option value="{$vo.currency_id}">{$vo.currency_name}</option>
+                            </volist>
+                            <!--   <eq name="id" value="$vo['currency_id']">selected="selected"</eq>-->
+
+                        </select></td>
+                        <th width="70">状态:</th>
+                        <td><select name="status">
+                            <option value="0">全部</option>
+                            <option value="0">等待转出</option>
+                            <option value="1">已完成</option>
+                            <option value="-1">审核中</option>
+                            <option value="-2">已撤销</option>
+                        </select></td>
+
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+            </div>
+        </div>
+        <div class="result-content">
+            
+
+            <table class="result-tab" width="100%">
+                <tr>
+                   <th>操作时间</th>
+                    <th>积分类型名称</th>
+                  
+                    <th>转出数量</th>
+                    <th>实际数量</th>
+                    
+					<th>状态</th>
+                
+                </tr>
+                <volist name='list' id='vo'>
+                    <tr>
+                         <td>{$vo['add_time']}</td>
+                        <td>{$vo['currency_name']}</td>
+                       
+                        <td>{$vo['num']}</td>
+                        <td>{$vo['actual']}</td>
+                       
+
+
+                        <td>
+                            <if condition="$vo['status'] eq 0">
+                                等待转出...
+                            </if>
+                            <if condition="$vo['status'] eq 1">
+                                已完成
+                            </if>
+                            <if condition="$vo['status'] eq -1">
+                                审核中
+                            </if>
+                            <if condition="$vo['status'] eq -2">
+                                已撤销
+                            </if>
+                        </td>
+                       
+                      
+                    </tr>
+                </volist>
+
+            </table>
+
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+
+        <script>
+
+            function pass(id) {
+                layer.confirm('确定通过审核', {
+                    btn: ['确定', '取消'], //按钮
+                }, function () {
+                    var captcha = $("#captcha").val();
+                    //location.href = '{:U('Pending/successByid',array('id'=>$vo['withdraw_id']))}';
+                    var loading = layer.msg('提币中，请稍等···', {
+                        icon: 16
+                        , shade: 0.3
+                        , time: 0
+                        , scrollbar: false
+                    });
+                    $.post("{:U('successByid')}", {"id": id, "captcha": captcha}, function (datas) {
+                        layer.close(loading);
+                        if (datas.status == 0) {
+                            layer.msg(datas['info']);
+                            setTimeout("location.reload()", 2000);
+                        } else {
+                            layer.msg(datas['info']);
+                            setTimeout("location.reload()", 2000);
+                        }
+                    });
+                    //layer.msg('');
+                }, function () {
+                    layer.msg('已取消');
+                });
+            }
+
+            function chong(id) {
+                layer.confirm('确定到账', {
+                    btn: ['确定', '取消'], //按钮
+                }, function () {
+                    var captcha = $("#captcha").val();
+                    //location.href = '{:U('Pending/successByid',array('id'=>$vo['withdraw_id']))}';
+                    var loading = layer.msg('请稍等···', {
+                        icon: 16
+                        , shade: 0.3
+                        , time: 0
+                        , scrollbar: false
+                    });
+                    $.post("{:U('chongByid')}", {"id": id, "captcha": captcha}, function (datas) {
+                        layer.close(loading);
+                        if (datas.status == 0) {
+                            layer.msg(datas['info']);
+                            setTimeout("location.reload()", 2000);
+                        } else {
+                            layer.msg(datas['info']);
+                            setTimeout("location.reload()", 2000);
+                        }
+                    });
+                    //layer.msg('');
+                }, function () {
+                    layer.msg('已取消');
+                });
+            }
+            function fail(id) {
+                layer.confirm('确定不通过审核', {
+                    btn: ['确定', '取消'], //按钮
+                }, function () {
+                    //	location.href = '{:U('Pending/falseByid', array('id'=>$vo['withdraw_id']))}';
+                    $.post("{:U('falseByid')}", {"id": id}, function (datas) {
+                        if (datas.status == 0) {
+                            layer.msg(datas['info']);
+                            setTimeout("location.reload()", 2000);
+                        } else if (datas.status == 2) {
+                            layer.msg(datas['info']);
+                            setTimeout("location.reload()", 2000);
+                        } else {
+                            layer.msg(datas['info']);
+                            setTimeout("location.reload()", 2000);
+                        }
+                    });
+                    //layer.msg('');
+                }, function () {
+                    layer.msg('已取消');
+                });
+            }
+        </script>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

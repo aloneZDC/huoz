@@ -1,0 +1,149 @@
+{if condition="!$Think.get.layui"}
+{include file="../app/admin/view/public/left.html" /}
+{else /}
+<style>
+    .main-wrap {
+        margin-left: 10px;
+    }
+</style>
+{/if}
+
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">挂单列表</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="ename" placeholder="请输入用户名" autocomplete="off" class="layui-input" value="{$Think.get.ename}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="user_phone" placeholder="请输入用户账户" autocomplete="off" class="layui-input" value="{$Think.get.user_phone}" />
+                </div>
+                <div class="layui-input-inline">
+                    <select name="level">
+                        <option value="0">请选择等级</option>
+                        {volist name="levels" id="vo"}
+                        <option value="{$vo.level_id}" {if condition="$Think.get.level == $vo.level_id"}selected{/if} > {$vo.level_id}</option>
+                        {/volist}
+                    </select>
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户</th>
+                        <th>入金数量</th>
+                        <td>等级</td>
+                        <td>推荐1</td>
+                        <td>推荐2</td>
+<!--                        <td>推荐3</td>-->
+<!--                        <td>级差</td>-->
+<!--                        <td>锁仓释放</td>-->
+                        <td>产出释放</td>
+                        <td>全球加权</td>
+                        <td>全球加权释放</td>
+                        <td>团队</td>
+                        <td>添加时间</td>
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>{$v.id}</td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.member_id})">
+                                {if condition="$v.users.phone"}
+                                {$v.users.phone}
+                                {else /}
+                                {$v.users.email}
+                                {/if}
+                                ({$v.member_id})
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('index')}?user_id={$v.member_id}" data-title="用户{$v.member_id} - {$v.id}入金记录">{$v.pay_num}</a>
+                        </td>
+                        <td>T{$v.level}</td>
+                        <td>
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('income')}?user_id={$v.member_id}&type=1" data-title="用户{$v.member_id} - {$v.id}推荐1">{$v.total_child1}</a>
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('income')}?user_id={$v.member_id}&type=2" data-title="用户{$v.member_id} - {$v.id}推荐2">{$v.total_child2}</a>
+                        </td>
+
+<!--                        <td>-->
+<!--                            <a href="javascript:;" class="layui-open"  data-url="{:url('income')}?user_id={$v.member_id}&type=3" data-title="用户{$v.member_id} - {$v.id}推荐3">{$v.total_child3}</a>-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <a href="javascript:;" class="layui-open"  data-url="{:url('income')}?user_id={$v.member_id}&type=4" data-title="用户{$v.member_id} - {$v.id}级差">{$v.total_child4}</a>-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <a href="javascript:;" class="layui-open"  data-url="{:url('income')}?user_id={$v.member_id}&type=5" data-title="用户{$v.member_id} - {$v.id}锁仓释放">{$v.total_child5}</a>-->
+<!--                        </td>-->
+                        <td>
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('income')}?user_id={$v.member_id}&type=6" data-title="用户{$v.member_id} - {$v.id}产出释放">{$v.total_child6}</a>
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('income')}?user_id={$v.member_id}&type=7" data-title="用户{$v.member_id} - {$v.id}全球加权">{$v.total_child7}</a>
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('income')}?user_id={$v.member_id}&type=8" data-title="用户{$v.member_id} - {$v.id}全球加权释放">{$v.total_child8}</a>
+                        </td>
+
+
+                        <td>
+                            团队业绩：{$v.team_total} <br>
+                            直推业绩：{$v.one_team_total}  <br>
+                            团队等级：T{$v.team_max_level}  <br>
+                        </td>
+                        <td>
+                            {:date('m-d H:i',$v['add_time'])}
+                        </td>
+                        <td>
+                            <a href="javascript:" class="layui-open layui-btn" data-url="{:url('update_level', ['id' => $v['id']])}?" data-width="1000px">编辑</a>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'],function () {
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

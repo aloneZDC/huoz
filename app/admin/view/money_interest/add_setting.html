@@ -1,0 +1,172 @@
+{include file="../app/admin/view/public/left.html" /}
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/plugins/prettify.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<!--<script type="text/javascript">
+    $(function () {
+        $('#datePicker1').date_input();
+        $('#datePicker2').date_input();
+    });
+</script>-->
+
+<script>
+    let animation = 0;
+    $(function () {
+
+        let typeEle = $('#type');
+        let firstType = typeEle.children('option:selected').val();
+        if (1 === Number(firstType)) {
+            hideDay();
+            hideMonths(true);
+        } else if (2 === Number(firstType)) {
+            hideDay(true);
+            hideMonths();
+        }
+
+        typeEle.change(function () {
+            let type = $(this).children('option:selected').val();
+            if (1 === Number(type)) {
+                hideDay();
+                hideMonths(true);
+            } else if (2 === Number(type)) {
+                hideDay(true);
+                hideMonths();
+            }
+        });
+    });
+
+    function hideDay($show = false)
+    {
+        let dayEle = $('#day_rate');
+        if ($show) {
+            return dayEle.parent().parent().show(animation);
+        }
+        return dayEle.parent().parent().hide(animation);
+    }
+
+    function hideMonths($show = false)
+    {
+        let daysEle = $('#days');
+        let rate = $('#rate');
+        if ($show) {
+            daysEle.parent().parent().show(animation);
+            // rate.parent().parent().show(animation);
+            return true;
+        }
+        daysEle.parent().parent().hide(animation);
+        // rate.parent().parent().hide(animation);
+    }
+</script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">积分类型设置</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:url('')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+            	<input type="hidden" name='id' value="{$list.id}">
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>货币：</th>
+                            <td>
+                            	<select name="currency_id">
+                                    {volist name="currency" id="vo"}
+                                        <option value="{$vo.currency_id}" {if $list.currency_id == $vo.currency_id}selected{/if} >{$vo.currency_name}</option>
+                                    {/volist}
+
+	                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>类型：</th>
+                            <td>
+                                <select name="type" id="type">
+                                    {foreach name="types" item="type" key="key"}
+                                    <option value="{$key}" {if $list.type == $key}selected{/if}>{$type}</option>
+                                    {/foreach}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>中文标题：</th>
+                            <td><input type="text" value="{$list.cn_title}" size="85" name="cn_title" placeholder="中文标题" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>英文标题：</th>
+                            <td><input type="text"  value="{$list.en_title}" size="85" name="en_title" placeholder="英文标题" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>月份：</th>
+                            <td><input type="text" id="months" value="{$list.months}" size="85" name="months" placeholder="月份(请填写3, 6, 9, 12)" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>预期年收益</th>
+                            <td><input type="text" id="rate" value="{$list.rate}" size="85" name="rate" placeholder="预期年收益" class="common-text">%</td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>每日释放比例</th>
+                            <td><input type="text" id="day_rate" value="{$list.day_rate}" size="85" name="day_rate" placeholder="每日释放比例(类型为每日释放利息填写)" class="common-text">%</td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>最低转入数量：</th>
+                            <td><input type="text" id="min_num" value="{$list.min_num}" size="85" name="min_num" placeholder="最低转入数量" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>最高转入数量：</th>
+                            <td><input type="text"  value="{$list.max_num}" size="85" name="max_num" placeholder="最高转入数量" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>中文产品特点介绍：</th>
+                            <td><input type="text"  value="{$list.cn_characteristic}" size="85" name="cn_characteristic" placeholder="中文产品特点介绍" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>英文产品特点介绍：</th>
+                            <td><input type="text"  value="{$list.en_characteristic}" size="85" name="en_characteristic" placeholder="英文产品特点介绍" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>中文详情文章ID：</th>
+                            <td><input type="text" value="{$list.cn_details}" size="85" name="cn_details" placeholder="中文详情文章ID" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>英文详情文章ID：</th>
+                            <td><input type="text"  value="{$list.en_details}" size="85" name="en_details" placeholder="英文详情文章ID" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:url('MoneyInterest/setting')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    //$(".sub-menu").eq(11).show();
+    //$(".sub-menu").eq(11).children("li").eq(0).addClass("on");
+    $(".sub-menu[key=11]").show();
+    $(".sub-menu[key=11]").children("li").eq(9).addClass("on");
+</script>
+<script>
+    KindEditor.ready(function (K) {
+        window.editor1 = K.create('#content3',{
+            uploadJson : '{:url("Art/oss_file_upload")}',
+            fileManagerJson : '{:url("Art/oss_file_upload")}',
+        });
+    });
+</script>

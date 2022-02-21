@@ -1,0 +1,69 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href=":U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">财务客服设置</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('QQline/add')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>财务客服信息设置</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+
+                        <tr>
+                            <th><i class="require-red">*</i>QQ号：</th>
+                            <td><input type="text" id="" value="{$Qqline.qq}" size="85" name="qq" class="common-text">
+                            </td>
+                        </tr>
+
+                        <th><i class="require-red">*</i>代理商名称：</th>
+                        <td><input type="text" id="" value="{$Qqline.agents}" size="85" name="agents"
+                                   class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>保证金：</th>
+                            <td><input type="text" id="" value="{$Qqline.margin}" size="85" name="margin"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>支付宝账号：</th>
+                            <td><input type="text" id="" value="{$Qqline.alipay_id}" size="85" name="alipay_id"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>微信账号：</th>
+                            <td><input type="text" id="" value="{$Qqline.wechat_id}" size="85" name="wechat_id"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>排序：</th>
+                            <td><input type="text" id="" value="{$Qqline.sort}" size="85" name="sort"
+                                       class="common-text"><input type="hidden" id="" value="{$flash.flash_id}"
+                                                                  size="85" name="flash_id" class="common-text"></td>
+                        </tr>
+
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('QQline/index')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

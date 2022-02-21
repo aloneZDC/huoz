@@ -1,0 +1,715 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<style>
+    .condition {
+        display: block;
+        cursor: pointer;
+    }
+
+    label.condition + label {
+        margin-top: 10px;
+    }
+
+    .condition-head-title {
+        margin: 5px auto 10px;
+        font-size: 14px;
+        font-weight: 700;
+        display: block;
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 5px;
+    }
+
+    .condition-label {
+        margin-bottom: 12px;
+        height: 22px;
+        width: 640px;
+        position: relative;
+    }
+
+    .condition-label-text {
+        background-color: #fff;
+        margin: 10px auto;
+        text-align: center;
+        display: block;
+        height: 22px;
+        line-height: 22px;
+        width: 80px;
+        position: inherit;
+    }
+
+    .condition-label-line {
+        height: 1px;
+        border-bottom: 1px dashed #a09696;
+        margin-top: -20px;
+        display: block;
+    }
+
+    .select-currency {
+        display: block;
+        margin: 10px auto 15px 20px;
+        overflow: hidden;
+        padding: 2px;
+    }
+
+    .select-currency-title {
+        display: inline-block;
+        float: left;
+        height: 22px;
+        line-height: 22px;
+        margin-right: 10px;
+        color: #00a0e9;
+        cursor: pointer;
+    }
+
+    .select-currency-text {
+        float: left;
+        display: inline-block;
+        background-color: #e5e5e5;
+        padding: 0 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        height: 22px;
+        line-height: 21px;
+        border-right: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        cursor: not-allowed;
+    }
+
+    .select-currency-id {
+        min-width: 100px;
+        /*max-width: 220px;*/
+        float: left;
+        height: 22px;
+        padding: 0 10px;
+        cursor: not-allowed;
+    }
+
+    .result-tab tr:first-child th {
+        font-size: 12px;
+    }
+
+    .optioncardWrapper td:first-child {
+        text-align: center;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $('#datePicker').date_input();
+        $('#datePicker2').date_input();
+    });
+
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">提现批量审核</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('Audit/index')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <th width="70">提现人:</th>
+                        <td><input class="common-text" placeholder="提现人" name="keyname" value="{$inquire}" id="keyname"
+                                   type="text"></td>
+                        <th width="70">会员ID:</th>
+                        <td><input class="common-text" placeholder="会员ID" name="keyid" type="text"></td>
+                        <th width="70">会员账号:</th>
+                        <td><input class="common-text" placeholder="会员账号" name="keynum" type="text"></td>
+
+                        <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content" id="condition" style="margin: auto 20px;">
+            <span class="condition-head-title">选择筛选条件</span>
+
+            <div class="select-tpl" data-id="{$condition_show['id']}" data-name="{$condition_show['name']}">
+                <php>if(!empty($condition)){</php>
+                <span>选择模板：</span>
+                <select name="select_condition" id="select_condition">
+                    <option value="0">新增模板</option>
+                    <php>foreach($condition as $value){</php>
+                    <option value="{$value['id']}"
+                    <php>if(!empty($tpl_id) && $tpl_id == $value['id']){echo "selected";}</php>
+                    >{$value['name']}</option>
+                    <php>}</php>
+                </select>
+                <button class="btn btn-danger btn-sm" style="margin-left: 10px;" onclick="return delete_template();">
+                    删除模板
+                </button>
+                <php>}</php>
+            </div>
+
+            <div class="condition-label">
+                <span class="condition-label-text">通用规则</span>
+                <b class="condition-label-line"></b>
+            </div>
+
+            <label class="condition" for="condition_a">
+                <input type="checkbox" name="condition_a" id="condition_a"
+                <php>if(in_array('condition_a', $condition_show['list'])){echo "checked";}</php>
+                > 提款人提现总额不大于现金充值总额的 <input type="text" name="con_1" value="{$condition_item['con_1']}"
+                                           style="width: 40px;"> 倍。（现金充值指人民币直充）
+            </label>
+
+            <label class="condition" for="condition_b">
+                <input type="checkbox" name="condition_b" id="condition_b"
+                <php>if(in_array('condition_b', $condition_show['list'])){echo "checked";}</php>
+                > 黑名单人员不提。（不守规则，或其他商户交来的名单）
+            </label>
+
+            <label class="condition" for="condition_c">
+                <input type="checkbox" name="condition_c" id="condition_c"
+                <php>if(in_array('condition_c', $condition_show['list'])){echo "checked";}</php>
+                > 充值到李俊成民生银行卡的人员不提。
+            </label>
+
+            <div class="condition-label">
+                <span class="condition-label-text">其他规则</span>
+                <b class="condition-label-line"></b>
+            </div>
+
+            <label class="condition" for="condition_d">
+                <input type="checkbox" name="condition_d" id="condition_d"
+                <php>if(in_array('condition_d', $condition_show['list'])){echo "checked";}</php>
+                > 只有原始钱，提现金额不大于购积分总金额的 <input type="text" name="con_2" value="{$condition_item['con_2']}"
+                                             style="width: 40px;"> 倍。
+            </label>
+
+            <label class="condition" for="condition_e">
+                <input type="checkbox" name="condition_e" id="condition_e"
+                <php>if(in_array('condition_e', $condition_show['list'])){echo "checked";}</php>
+                > 只有钱包，提现总金额不大于 <input type="text" name="con_3" value="{$condition_item['con_3']}" style="width: 40px;">
+                万。（即不大于购积分总金额的 <input type="text" name="con_4" value="{$condition_item['con_4']}" style="width: 40px;">
+                倍）
+            </label>
+
+            <label class="condition" for="condition_f">
+                <input type="checkbox" name="condition_f" id="condition_f"
+                <php>if(in_array('condition_f', $condition_show['list'])){echo "checked";}</php>
+                > 有原始钱和钱包的，提现总额不大于购积分总金额的 <input type="text" name="con_5" value="{$condition_item['con_5']}"
+                                                style="width: 40px;"> 倍。
+            </label>
+
+            <label class="condition" for="condition_g">
+                <input type="checkbox" name="condition_g" id="condition_g"
+                <php>if(in_array('condition_g', $condition_show['list'])){echo "checked";}</php>
+                > 以下积分如无现金充值的不提。
+            </label>
+            <div class="select-currency">
+                <span class="select-currency-title">选择积分类型</span>
+                <span class="select-currency-text">{$currency_item['con_6']}</span>
+                <input type="text" name="con_6" value="{$condition_item['con_6']}" readonly class="select-currency-id">
+            </div>
+
+            <label class="condition" for="condition_h">
+                <input type="checkbox" name="condition_h" id="condition_h"
+                <php>if(in_array('condition_h', $condition_show['list'])){echo "checked";}</php>
+                > 以下积分可任意提。
+            </label>
+            <div class="select-currency">
+                <span class="select-currency-title">选择积分类型</span>
+                <span class="select-currency-text">{$currency_item['con_7']}</span>
+                <input type="text" name="con_7" value="{$condition_item['con_7']}" readonly class="select-currency-id">
+            </div>
+
+            <div style="margin-top: 20px;display: block;">
+                <button class="btn btn-success btn-sm" style="margin-right: 30px;" onclick="return review();">自动审核
+                </button>
+                <button class="btn btn-info btn-sm" onclick="return save_template();">保存模版</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th width="4%" style="text-align: center;">全选 <input id="checkAll" type="checkbox"/></th>
+                    <th width="4%">ID</th>
+                    <th width="4%">提现人</th>
+                    <th width="5%">会员ID</th>
+                    <th width="5%">银行</th>
+                    <th width="10%">银行账号</th>
+                    <th width="6%">银行开户地</th>
+                    <th width="6%">支行</th>
+                    <th width="7%">提现金额</th>
+                    <th width="7%">手续费（{$config.fee}%）</th>
+                    <th width="6%">实际金额</th>
+                    <th width="9%">订单号</th>
+                    <th width="8%">提交时间</th>
+                    <th width="4%">状态</th>
+                </tr>
+                <volist name='info' id='vo'>
+                    <tr class="optioncardWrapper">
+                        <td><input name="subBox" type="checkbox" value="{$vo.withdraw_id}"/></td>
+                        <td>{$vo.withdraw_id}</td>
+                        <td>{$vo.cardname}</td>
+                        <td><a href="javascript:member_details({$vo.uid});" class="shenhe_button">{$vo.uid}</a></td>
+                        <td>{$vo.bankname}</td>
+                        <td>{$vo.cardnum}</td>
+                        <td>{$vo.aarea_name}&nbsp;&nbsp;{$vo.barea_name}</td>
+                        <td>{$vo.account_inname}</td>
+                        <td>{$vo.all_money}</td>
+                        <td>{$vo.withdraw_fee}</td>
+                        <td>{$vo.money}</td>
+                        <td>{$vo.order_num}</td>
+                        <td>{$vo.add_time|date='Y-m-d H:i:s',###}</td>
+                        <td>
+                            <eq name="vo.status" value="1">未通过
+                                <else/>
+                                <eq name="vo.status" value="2">审核通过
+                                    <else/>
+                                    <eq name="vo.status" value="4">付款成功
+                                        <else/>
+                                        <eq name="vo.status" value="-1">付款失败
+                                            <else/>
+                                            <eq name="vo.status" value="0">已撤销
+                                                <else/>
+                                                审核中
+                                            </eq>
+                                        </eq>
+                                    </eq>
+                                </eq>
+                            </eq>
+                        </td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+
+    $(function () {
+        //选择模版
+        $('select[name="select_condition"]').change(function () {
+            var tpl_id = $(this).val();
+            if (tpl_id > 0) {
+                window.location.href = "?tpl_id=" + tpl_id;
+            } else {
+                window.location.href = "{:U('Audit/index')}";
+            }
+        });
+
+        //选择积分类型
+        $(".select-currency .select-currency-title").click(function () {
+            var html = "",
+                currency = [],
+                _currency_id = "",
+                _currency_name = "",
+                _this = $(this),
+                _currency_str = _this.parent().find(".select-currency-id").val(),
+                _currency_list = _currency_str.split(",").length > 0 ? _currency_str.split(",") : [];
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: {},
+                url: "{:U('get_currency')}",
+                success: function (callback) {
+                    if (callback.Code == 1) {
+                        currency = $.parseJSON(callback.Msg);
+                        if (currency.length > 0) { //有数据
+                            html = "<div class='select-currency-tip' style='font-size: 12px;'>";
+                            $.each(currency, function (key, value) {
+                                html += "<label for='currency_" + value.currency_id + "' style='display: inline-block;margin-right: 20px;cursor: pointer;'><input type='checkbox' name='currency[]' id='currency_" + value.currency_id + "' value='" + value.currency_id + "' data-name='" + value.currency_name + "'";
+                                if ($.inArray(value.currency_id, _currency_list) > -1) {
+                                    html += " checked";
+                                }
+                                html += "> " + value.currency_name + "</label>";
+                            });
+                            html += "</div>";
+
+                            layer.open({
+                                title: "选择积分类型"
+                                , content: html
+                                , btn: ['确定', '取消']
+                                , yes: function (index, layero) {
+                                    //console.info(layero.html());
+                                    layero.find('.select-currency-tip input[type="checkbox"]').each(function (index, el) {
+                                        if ($(el).is(":checked")) {
+                                            _currency_id += $(el).val() + ",";
+                                            _currency_name += $(el).attr("data-name") + ",";
+                                        }
+                                    });
+                                    _currency_id = _currency_id.substring(0, _currency_id.length - 1);
+                                    _currency_name = _currency_name.substring(0, _currency_name.length - 1);
+
+                                    //console.info(_currency_id);
+                                    //console.info(_currency_name);
+                                    _this.parent().find(".select-currency-text").text(_currency_name);
+                                    _this.parent().find(".select-currency-id").val(_currency_id);
+                                    //按钮【按钮一】的回调
+
+                                    layer.close(index);
+                                }
+                                , btn2: function (index, layero) {
+                                    //按钮【按钮二】的回调
+                                    //return false 开启该代码可禁止点击该按钮关闭
+                                    layer.close(index);
+                                }
+                                , cancel: function () {
+                                    //右上角关闭回调
+                                    //return false 开启该代码可禁止点击该按钮关闭
+                                }
+                            });
+                        }
+                    } else {
+                        layer.alert(callback.Msg, {"icon": 5});
+                    }
+                },
+                error: function (e) {
+                    layer.alert("获取失败，请求出错！", {"icon": 5});
+                }
+            });
+            return false;
+        });
+
+        //全选和反选
+        $("#checkAll").click(function () {
+            $('input[name="subBox"]').attr("checked", this.checked);
+        });
+
+        var $subBox = $("input[name='subBox']");
+        $subBox.click(function () {
+            $("#checkAll").attr("checked", $subBox.length == $("input[name='subBox']:checked").length ? true : false);
+        });
+    });
+
+    /**
+     * 删除模板
+     */
+    function delete_template() {
+        var _tl = $(".select-tpl"),
+            _tpl_id = _tl.attr("data-id"),
+            _tpl_name = _tl.attr("data-name"),
+            data = {
+                tpl_id: _tpl_id
+            };
+
+        if (!$.trim(_tpl_id).length > 0) {
+            layer.alert("请选择模板！", {"icon": 5});
+            return false;
+        }
+
+        layer.confirm('确定删除模板【' + _tpl_name + '】么？', {icon: 3, title: '提示'}, function (index) {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                url: "{:U('delete_template')}",
+                success: function (callback) {
+                    if (callback.Code == 1) {
+                        layer.alert("删除成功！", {"icon": 6});
+                        setInterval(function () {
+                            window.location.href = window.location.href;
+                        }, 1500);
+                    } else {
+                        layer.alert(callback.Msg, {"icon": 5});
+                    }
+                },
+                error: function (e) {
+                    layer.alert("删除失败，请求出错！", {"icon": 5});
+                }
+            });
+
+            layer.close(index);
+        });
+        return false;
+    }
+
+    //禁止按钮重复提交
+    var submit_lock = true;
+
+    /**
+     * 批量审核
+     */
+    function review() {
+        if (!submit_lock) {
+            return false;
+        }
+        submit_lock = false;
+
+        var _subbox_el = $('input[name="subBox"]'),
+            _check_list = [], //勾选的申请列表
+            data = {}; //模板条件
+
+        _subbox_el.each(function (index, el) {
+            if ($(el).is(":checked")) {
+                _check_list.push($(el).val());
+            }
+        });
+
+        if (!_check_list.length > 0) {
+            layer.alert("请选择要付款的订单", {'icon': 5});
+            submit_lock = true;
+            return false;
+        }
+        //console.info(_check_list);
+
+        data = get_template_args();
+
+        layer.confirm("确认批量审核吗？", {icon: 3, title: '批量审核确认'}, function (index) {
+            layer.msg('提交审核中，请稍等···', {
+                icon: 16
+                , shade: 0.3
+                , time: 0
+                , scrollbar: false
+            });
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: {list: _check_list, tpl: data},
+                url: "{:U('review')}",
+                success: function (callback) {
+                    if (callback.status == 1) {
+                        layer.alert(callback.info, {"icon": 6});
+                    } else {
+                        layer.alert(callback.info, {"icon": 5});
+                    }
+                    setInterval(function () {
+                        window.location.href = window.location.href;
+                    }, 1500);
+
+                    submit_lock = true;
+                },
+                error: function (e) {
+                    layer.alert("审核失败，请求出错！", {"icon": 5});
+
+                    submit_lock = true;
+                }
+            });
+        });
+
+        submit_lock = true;
+        return false;
+    }
+
+    /**
+     * 获取模板变量
+     */
+    function get_template_args() {
+        var _condition = [],
+            _condition_item = [],
+            _condition_el,
+            _condition_el_item,
+            _tmp,
+            data = {};
+
+        $("#condition").find('label.condition, div.select-currency').each(function (index, el) {
+            _condition_el = $(el).find('input[type="checkbox"]');
+            _condition_el_item = $(el).find('input[type="text"]');
+
+            if (_condition_el.is(':checked')) {
+                _condition.push(_condition_el.attr('name'));
+            }
+
+
+            if ((typeof _condition_el_item.attr("name")) != 'undefined') {
+                _condition_el_item.each(function (_index, _el) {
+                    _tmp = {
+                        key: $(_el).attr("name"),
+                        value: $(_el).val()
+                    };
+                    _condition_item.push(_tmp);
+                });
+            }
+        });
+
+        data = {
+            condition: _condition,
+            condition_item: _condition_item
+        };
+        //console.info(data);
+
+        return data;
+    }
+
+    /**
+     * 保存模板
+     */
+    function save_template() {
+        var template_args = {},
+            data = [],
+            _tl = $(".select-tpl"),
+            _tpl_id = _tl.attr("data-id"),
+            _tpl_name = _tl.attr("data-name");
+
+        layer.prompt({
+            formType: 0,
+            value: $.trim(_tpl_name).length > 0 ? _tpl_name : '默认模版',
+            title: '输入模板名称',
+            maxlength: 140 //可输入文本的最大长度，默认500
+        }, function (value, index, elem) {
+            if (!$.trim(value).length > 0) {
+                layer.alert("请输入模板名称！", {"icon": 5});
+                return false;
+            }
+
+            template_args = get_template_args();
+            data = {
+                name: value,
+                condition: template_args.condition,
+                condition_item: template_args.condition_item
+            };
+
+            if ($.trim(_tpl_id).length > 0) {
+                data.id = parseInt($.trim(_tpl_id));
+            }
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                url: "{:U('save_template')}",
+                success: function (callback) {
+                    if (callback.Code == 1) {
+                        layer.alert("保存成功！", {"icon": 6});
+                        setInterval(function () {
+                            window.location.href = window.location.href;
+                        }, 1500);
+                    } else {
+                        layer.alert(callback.Msg, {"icon": 5});
+                    }
+                },
+                error: function (e) {
+                    layer.alert("保存失败，请求出错！", {"icon": 5});
+                }
+            });
+
+            layer.close(index);
+        });
+        return false;
+    }
+
+    /* 审核 */
+    $('.link-update').each(function (index) {
+        $(this).click(function () {
+            var remark = $('.optioncardWrapper:eq(' + ($(this).parent().parent().index() - 1) + ')').find('input').eq(0);
+            var id = $(this).attr("alter");
+            remark = remark.val();
+            pass(id, remark);
+        })
+    });
+
+    $('.link-del').each(function (index) {
+        $(this).click(function () {
+            var remark = $('.optioncardWrapper:eq(' + ($(this).parent().parent().index() - 1) + ')').find('input').eq(0);
+            var id = $(this).attr("alter");
+            remark = remark.val();
+            fail(id, remark);
+        })
+    });
+
+    /*  审核通过  */
+    function pass(id, remark) {
+        layer.confirm('确定通过审核', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            $.post("{:U('Audit/successByid')}", {"id": id, "remark": remark}, function (datas) {
+                if (datas.status == 0) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                }
+            });
+
+
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+
+    /*  审核不通过  */
+    function fail(id, remark) {
+        layer.confirm('确定不通过审核', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            $.post("{:U('Audit/falseByid')}", {"id": id, "remark": remark}, function (datas) {
+                if (datas.status == 0) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                }
+            });
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+
+    /* 付款成功 */
+    function pass_pay(id, remark) {
+        layer.confirm('确定付款成功', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            $.post("{:U('Audit/successByid_pay')}", {"id": id, "remark": remark}, function (datas) {
+                if (datas.status == 0) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else if (datas.status == 2) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                }
+            });
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+
+    /* 付款失败 */
+    function fail_pay(id, remark) {
+        layer.confirm('确定付款失败', {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            $.post("{:U('Audit/falseByid_pay')}", {"id": id, "remark": remark}, function (datas) {
+                if (datas.status == 0) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else if (datas.status == 2) {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                } else {
+                    layer.msg(datas['info']);
+                    setTimeout("location.reload()", 2000);
+                }
+            });
+            //layer.msg('');
+        }, function () {
+            layer.msg('已取消');
+        });
+    }
+</script>

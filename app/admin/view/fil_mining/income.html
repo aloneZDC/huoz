@@ -1,0 +1,171 @@
+{if condition="!$Think.get.layui"}
+{include file="../app/admin/view/public/left.html" /}
+{else /}
+<style>
+    .main-wrap {
+        margin-left: 10px;
+    }
+</style>
+{/if}
+
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">挂单列表</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="ename" placeholder="请输入用户名" autocomplete="off" class="layui-input" value="{$Think.get.ename}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="user_phone" placeholder="请输入用户账户" autocomplete="off" class="layui-input" value="{$Think.get.user_phone}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="type">
+                        <option value="">类型</option>
+                        <option value="1" {if condition="$Think.get.type eq 1"}selected{/if} >助力1</option>
+                        <option value="2" {if condition="$Think.get.type eq 2"}selected{/if}>助力2</option>
+                        <option value="3" {if condition="$Think.get.type eq 3"}selected{/if}>助力3</option>
+                        <option value="4" {if condition="$Think.get.type eq 4"}selected{/if}>动力1</option>
+                        <option value="5" {if condition="$Think.get.type eq 5"}selected{/if}>动力2</option>
+
+                        <option value="11" {if condition="$Think.get.type eq 11"}selected{/if}>推荐1</option>
+                        <option value="12" {if condition="$Think.get.type eq 12"}selected{/if}>推荐2</option>
+                        <option value="13" {if condition="$Think.get.type eq 13"}selected{/if}>推荐3</option>
+                        <option value="15" {if condition="$Think.get.type eq 15"}selected{/if}>新助力</option>
+                        <option value="16" {if condition="$Think.get.type eq 16"}selected{/if}>释放</option>
+                    </select>
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户</th>
+                        <th>数量</th>
+                        <th>类型</th>
+                        <th>基数</th>
+                        <th>比例</th>
+                        <th>锁仓数量</th>
+                        <th>锁仓比例</th>
+                        <th>来源用户</th>
+                        <th>订单ID</th>
+                        <th>释放ID</th>
+                        <th>奖励时间</th>
+                        <th>添加时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>{$v.id}</td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.member_id})">
+                                {if condition="$v.users.phone"}
+                                {$v.users.phone}
+                                {else /}
+                                {$v.users.email}
+                                {/if}
+                                ({$v.member_id}) - {$v.users.ename}
+                            </a>
+                        </td>
+                        <td>
+                            {if condition="$v.type eq 3"}
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('release_detail')}?user_id={$v.member_id}&award_time={$v.award_time}" data-title="用户{$v.member_id} - {$v.id}奖励来源详情">{$v.num} {$v.currency.currency_name}</a>
+                            {elseif condition="$v.type eq 4" /}
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('level_detail')}?user_id={$v.member_id}&award_time={$v.award_time}" data-title="用户{$v.member_id} - {$v.id} 等级级差奖励来源">{$v.num} {$v.currency.currency_name}</a>
+                            {elseif condition="$v.type eq 15" /}
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('release_detail')}?user_id={$v.member_id}&award_time={$v.award_time}" data-title="用户{$v.member_id} - {$v.id}奖励来源详情">{$v.num} {$v.currency.currency_name}</a>
+                            {else /}
+                            {$v.num} {$v.currency.currency_name}
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$v.type eq 1"}
+                            助力1
+                            {elseif condition="$v.type eq 2" /}
+                            助力2
+                            {elseif condition="$v.type eq 3" /}
+                            助力3
+                            {elseif condition="$v.type eq 4" /}
+                            动力1
+                            {elseif condition="$v.type eq 5" /}
+                            动力2
+                            {elseif condition="$v.type eq 11" /}
+                            推荐1
+                            {elseif condition="$v.type eq 12" /}
+                            推荐2
+                            {elseif condition="$v.type eq 12" /}
+                            推荐3
+                            {elseif condition="$v.type eq 15" /}
+                            新助力
+                            {elseif condition="$v.type eq 16" /}
+                            锁仓释放
+                            {/if}
+                        </td>
+                        <td>{$v.third_num}</td>
+                        <td>{$v.third_percent}%</td>
+                        <td>{$v.lock_num}</td>
+                        <td>{$v.third_lock_percent}%</td>
+                        <td>
+                            {if condition="$v.thirdmember.phone"}
+                                {$v.thirdmember.phone}
+                            {else /}
+                                {$v.thirdmember.email}
+                            {/if}
+                            ({$v.third_member_id}) - {$v.thirdmember.ename}
+                        </td>
+                        <td>{$v.third_id}</td>
+                        <td>{$v.release_id}</td>
+                        <td>
+                            {:date('Y-m-d',$v['award_time'])}
+                        </td>
+                        <td>
+                            {:date('Y-m-d H:i:s',$v['add_time'])}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+            <div>
+                总量：{$sum} 锁仓总量:{$lock_sum}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'],function () {
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

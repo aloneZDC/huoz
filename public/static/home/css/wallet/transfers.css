@@ -1,0 +1,43 @@
+#content{
+    margin: 40px auto;
+    width: 1200px;
+    background: white;
+}
+#content>h2{
+    height: 60px;
+    line-height: 60px;
+    padding-left:20px; 
+    font-size: 22px;
+    font-weight: 500;
+}
+.transfers{
+    padding: 0px 20px;
+    height: 50px;
+    line-height: 50px;
+}
+.transfers>span:nth-child(1){
+    display: inline-block;
+    width: 185px;
+}
+.transfers>input{
+    display: inline-block;
+    width: 250px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 3px;
+}
+.layui-btn{
+    background: #3284ca;
+    width: 200px;
+    margin: 10px 0 20px 20px;
+}
+.layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row]{
+    border:none !important;
+}
+.layui-table td,.layui-table th{
+    min-height: 36px;
+    line-height: 36px;
+}
+.layui-table thead tr{
+    background: #fff;
+    border-bottom:1px solid #EEEEEE;
+}

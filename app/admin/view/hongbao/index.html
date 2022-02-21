@@ -1,0 +1,144 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">红包订单列表</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            待返还红包总数量：{$wait_back}<br><br>
+        </div>
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="user_phone" placeholder="请输入用户账户" autocomplete="off" class="layui-input" value="{$Think.get.user_phone}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="is_super">
+                        <option value="">是否超级红包</option>
+                        <option value="1" {if condition="$Think.get.is_super eq 1"}selected{/if} >是</option>
+                    </select>
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户</th>
+                        <th>订单数量</th>
+                        <th>拆红包次数</th>
+                        <th>拆红包数量</th>
+                        <td>实际红包数量(扣除手续费)</td>
+                        <th>返还数量</th>
+                        <th>创建时间</th>
+                        <th>超级红包</th>
+                        <th>
+                            下次拆红包时间
+                        </th>
+                        <th>状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>
+                            {if condition="$v.is_back eq 1"}
+                                <a href="javascript:;" class="layui-open"  data-url="{:url('award_log',['third_id'=>$v['id']])}" data-title="{$v.id}红包奖励记录">{$v.id}</a>
+                            {else /}
+                                {$v.id}
+                            {/if}
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.user_id})">
+                                {if condition="$v.users.phone"}
+                                    {$v.users.phone}
+                                {else /}
+                                    {$v.users.email}
+                                {/if}
+                                ({$v.user_id})
+                            </a>
+                        </td>
+                        <td>{$v.num} {$v.currency.currency_name}</td>
+                        <td>
+                            {if condition="$v.open_count gt 0"}
+                                <a href="javascript:;" class="layui-open"  data-url="{:url('chai_log',['log_id'=>$v['id']])}" data-title="{$v.id}拆红包记录">{$v.open_count}</a>
+                            {else /}
+                                {$v.open_count}
+                            {/if}
+                        </td>
+                        <td>{$v.open_base_num} {$v.currency.currency_name}</td>
+                        <td>
+                            {if condition="$v.is_back eq 1"}
+                                {$v.open_num} {$v.currency.currency_name}
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$v.is_back eq 1"}
+                                {$v.back_num} {$v.backcurrency.currency_name}
+                            {/if}
+                        </td>
+                        <td>
+                            {:date('Y-m-d H:i:s',$v['create_time'])}
+                        </td>
+                        <td>
+                            {if condition="$v.super_num gt 0"}
+                                {$v.super_num}
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$v.next_time_start gt 0"}
+                                {:date('Y-m-d H:i:s',$v['next_time_start'])}<br>
+                            {/if}
+                            {if condition="$v.next_time_stop gt 0"}
+                                {:date('Y-m-d H:i:s',$v['next_time_stop'])}
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$v.is_back eq 1"}
+                                已返还
+                            {else /}
+                                有效
+                            {/if}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="weadmin-block">
+                <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+            </div>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

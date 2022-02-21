@@ -1,0 +1,85 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/pay/coin.css">
+<div id="content">
+    <h2>
+        {:lang('lan_Coin')}  {$address['currency_name']}
+    </h2>
+    <div class="coin_detail">
+        <div class="copyaddress">
+            <p> {:lang('lan_This_is_yours')}	{$address['currency_name']}	{:lang('lan_Wallet_address_please')} 	{$address['currency_name']}	{:lang('lan_Coin_this_address')}：</p>
+            <div class="wallet_address">
+                <input type="text" value="{$address['address']}" readonly="readonly" id="address">
+                <button class="layui-btn layui-btn-normal" onclick="copy('address')">{:lang('lan_event_registration28')}{:lang('lan_Wallet_address')}</button>
+            </div>
+            <?php if(in_array($address['currency_type'],['xrp','eos'])):?>
+            <p>{:lang('lan_This_is_yours')}	{$address['currency_name']}	   {:lang('lan_label')} :</p>
+            <div class="wallet_address">
+                <input type="text" value="{$address['tag']}" readonly="readonly" id="addressname"> 
+                <button class="layui-btn layui-btn-normal" onclick="copy('addressname')">{:lang('lan_event_registration28')}{:lang('lan_label')}</button>
+            </div>
+            <?php endif;?>
+        </div>
+        <!-- 充币说明 -->
+        <div class="coin_explain">
+            <h2>{:lang('lan_Coin_description')}</h2>
+            <p>1. {:lang('lan_to_explain_one')}, {$address['currency_name']}	{:lang('lan_to_explain_two')}	{$address['currency_name']}	{:lang('lan_to_explain_three')}</p>
+            <p>2. {:lang('lan_to_explain_four')}</p>
+        </div>
+        <!-- 充币记录 -->
+        <div class="coin_record">
+            <h2>{:lang('lan_Currency_record')}</h2>
+            <table class="layui-table" lay-skin="line" >
+                    <colgroup>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>{:lang('lan_change_record')}ID</th>
+                            <th> {:lang('lan_Coin')} {:lang('lan_Wallet_address')}</th>
+                            <th> {:lang('lan_number')}</th>
+                            <th>{:lang('lan_sending_time')}</th>
+                            <th class="text_r">{:lang('lan_state')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if(!empty($list)):?>
+                    <?php foreach((array)$list as $vo):?>
+                        <tr>
+                            <td class="currency">{$vo['id']}</td>
+                            <td>{$vo['address']}</td>
+                            <td>{$vo['actual']}</td>
+                            <td>{$vo['add_time']}</td>
+                            <td class="text_r">{:lang('lan_charge_money_successfully')}</td>
+                        </tr>
+                    <?php endforeach;?>
+                    <?php else:?>
+                        <!-- 没有数据时展示 -->
+                       <tr aria-controls="4">
+                           <td colspan="5">
+                                <p class="isempty">{:lang('lan_exchange_no_data')}</p>
+                            </td>
+                        </tr>
+                    <?php endif;?>
+                    </tbody>
+                </table>
+            <div class="page">{$pages}</div>
+        </div>
+    </div>
+
+</div>
+<script>
+        layui.use('element', function(){
+          var element = layui.element;
+          
+         
+        });
+        // 复制地址 复制地址标签
+        function copy(id){
+            copytext(id);//公共方法
+            layer.msg("{:lang('lan_event_registration15')}")
+        }
+       
+</script>

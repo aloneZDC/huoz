@@ -1,0 +1,120 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<title></title>
+	<!-- <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/moblie/js/layui/css/layui.css">
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/layui/layui.js"></script> -->
+	<link rel="stylesheet" href="__PUBLIC__/static/moblie/css/common/reset.css">
+	<link rel="stylesheet" href="__PUBLIC__/static/moblie/css/common/iconfont.css">
+    <link rel="stylesheet" href="__PUBLIC__/static/moblie/css/meeting/attend_list.css">
+    <link rel="stylesheet" href="__PUBLIC__/static/moblie/css/chat/index.css">
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/utensil.js?v=20190227"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/iscroll-probe.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/chat/index.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/layer/layer.js"></script>
+</head>
+<body>
+	<script>
+		htmlFontSize();
+		var commonURL = "__PUBLIC__/static/moblie/images/"
+	</script>
+	<header class="header">
+		<span class="left_btn iconfont icon-fanhui exit"></span>
+		<div class="title">{:lang('lan_Customer_service_message')}</div>
+    </header>
+    <p class="promt">{:lang('lan_Try_pulldown_refresh')}</p>
+    <div class="contentwrap">
+        <!-- 滚动视图 -->
+        <div class="content">
+            <!-- 滚动容器 -->
+            <div class="wrapper">
+                <!-- 需要滚动的内容 -->
+                <div class="downpush">
+                </div>
+                <div class="contentlist">
+                    <ul class="prize_list">
+                        <div id="myprize_seize" style="height:2000px"></div>
+                        <!-- <li class="left_box">
+                            <div class="left_userinfo">
+                                <img src="__PUBLIC__/static/moblie/images/copybtn.png" >
+                                <p>瑞波鉆小助手</p>
+                            </div>
+                            <p>2018-12-26 14:35:06</p>
+                            <div class="leftuser">
+                               <p> 瑞波鉆小助手瑞波鉆小助手瑞波鉆小助手瑞波鉆小助手瑞波鉆小助手</p>
+                               <img src="__PUBLIC__/static/moblie/images/copybtn.png" class="small">
+                            </div>
+                        </li>
+                        <li class="right_box">
+                            <div class="rightuser">
+                                <p> 瑞波鉆小助手瑞波鉆小助手瑞波鉆小助手瑞波鉆小助手瑞波鉆小助手</p>
+                                <img src="__PUBLIC__/static/moblie/images/copybtn.png" class="small">
+                             </div>
+                             <p>2018-12-26 14:35:06</p>
+                        </li> -->
+                    </ul>
+
+                </div>
+                <div class="loadmore">
+                </div>
+            </div>
+            <div class="shade isShow"></div>
+        </div>
+    </div>
+    <!-- 留言 -->
+    <div class="send_message">
+        <p>{:lang('lan_sending_an_email')}{$email}{:lang('lan_customer_service')}</p>
+        <textarea name="" id="message_val" cols="30" rows="10" placeholder="{:lang('lan_please_enter')}"></textarea>
+        <div class="send_btn">
+            <img src="" alt="">
+          <span>{:lang('lan_leave_a_message')}</span>
+        </div>
+        <input type="file" class="upload" hidden accept="image/*" >
+    </div>
+    <div class="bigimg" id="Bm">
+            <img src="__PUBLIC__/static/moblie/images/copybtn.png" >
+    </div>
+</body>
+<script>
+        var get_messages_url = "{:url('Chat/get_messages')}";
+        var send_message_url = "{:url('Chat/send_messages')}";
+        var upload_url="{:url('Chat/upload')}";
+	//翻译 
+	var translation1 = "{:lang('lan_event_registration16')}";//最後更新
+	var translation2 = "{:lang('lan_event_registration17')}";//今天
+	var translation3 = "{:lang('lan_event_registration18')}";//下拉可以刷新
+	var translation4 = "{:lang('lan_event_registration19')}";//鬆開立即刷新
+	var translation5 = "{:lang('lan_event_registration20')}";//正在刷新
+	var translation6 = "{:lang('lan_event_registration21')}";//上拉可以加載
+	var translation7 = "{:lang('lan_event_registration22')}";//松开立即加载
+	var translation8 = "{:lang('lan_event_registration23')}";//正在加載
+    var translation14 = "{:lang('lan_event_registration30')}";//暫無更多數據
+    var translation55 = "{:lang('lan_enter_a_message')}"
+    $("#message_val").blur(function(){
+        setTimeout(function() {
+                var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+                window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+                
+            }, 100);
+    })
+
+    var client = getCookie('odrplatform');//客户端
+    $(".exit").click(function(){
+        if (client == 'android') {
+            apps.finish();
+        } else if (client == 'ios') {
+            window.webkit.messageHandlers.iosAction.postMessage("exit");
+        }else{
+            history.go(-1);
+        }
+    })
+
+</script>
+
+</html>
+
+

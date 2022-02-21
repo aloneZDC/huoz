@@ -1,0 +1,110 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">入金记录</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="pay_user_id" placeholder="请输入付款用户ID" autocomplete="off" class="layui-input" value="{$Think.get.pay_user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="id" placeholder="请输入入金ID" autocomplete="off" class="layui-input" value="{$Think.get.id}" />
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户ID</th>
+                        <th>付款用户ID</th>
+                        <th>直推奖</th>
+                        <th>级差奖</th>
+                        <th>入金数量</th>
+                        <th>赠送DNC数量</th>
+                        <th>类型</th>
+                        <th>资产类型</th>
+                        <th>云攒金数量</th>
+                        <th>入金时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name='list' id='vo'}
+                    <tr data-id="{$vo['id']}">
+                        <td>{$vo.id}</td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$vo.user_id})">
+                                {if condition="$vo.user.phone"}
+                                {$vo.user.phone}
+                                {else /}
+                                {$vo.user.email}
+                                {/if}
+                                ({$vo.user_id})
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$vo.pay_user_id})">
+                                {if condition="$vo.payUser.phone"}
+                                {$vo.payUser.phone}
+                                {else /}
+                                {$vo.payUser.email}
+                                {/if}
+                                ({$vo.pay_user_id})
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:" class="layui-open" data-url="{:url('recommend', ['income_id' => $vo['id']])}" data-title="IncomeID: {$vo.id}直推奖记录">查看直推奖</a>
+                        </td>
+                        <td>
+                            <a href="javascript:" class="layui-open" data-url="{:url('levelDiff', ['income_id' => $vo['id']])}" data-title="IncomeID: {$vo.id}级差奖记录">查看级差奖</a>
+                        </td>
+                        <td>{:floatval($vo.number)} {$vo.currency.currency_name}</td>
+                        <td>{:floatval($vo.give_number)} {$vo.giveCurrency.currency_name}</td>
+                        <td>{$typeEnum[$vo.type]}</td>
+                        <td>{$assetsEnum[$vo.assets_type]}</td>
+                        <td>{:floatval($vo.air_num)}</td>
+                        <td>{$vo.add_time|date="y-m-d H:i:s", ###}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="weadmin-block">
+                <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+            </div>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

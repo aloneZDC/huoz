@@ -1,0 +1,133 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<link href="__PUBLIC__/static/admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+    $(function () {
+        window._deel = {
+            req_member_details_url: "{:url('member/member_details')}",
+        }
+    })
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">每日提币排行榜</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form id="form" action="{:url('Currency/everydayOutCoin')} "method="get">
+                        <table class="search-tab">
+                            <tr>
+                                <th width="120">币种:</th>
+                                <td>
+                                    <select name="currencyid">
+                                        {volist name="currency" id="vo"}
+                                                <option value="{$key}" <?php if($key==$currency_id)echo 'selected="selected"';?> >{$vo.currency_name}</option>
+
+                                        {/volist}
+                                    </select>
+                                </td>
+
+                                <th width="120">提币类型:</th>
+                                <td>
+                                    <select name="type">
+                                        <option value="0">全部</option>
+                                        {volist name="data.typeList" id="vo"}
+                                            {eq name="key" value="$data.type"}
+                                                <option value="{$key}" selected>{$vo}</option>
+                                                {else/}
+                                                <option value="{$key}">{$vo}</option>
+                                            {/eq}
+                                            {/volist}
+                                    </select>
+                                </td>
+                                <th width="120">排列:</th>
+                                <td>
+                                    <select name="order">
+                                        {volist name="data.orderList" id="vo"}
+                                            {eq name="key" value="$data.order"}
+                                                <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                                <option value="{$key}">{$vo}</option>
+                                            {/eq}
+                                            {/volist}
+                                    </select>
+                                </td>
+                                <th width="120">时间:</th>
+                                <td>
+                                    <input type="text" id="datePicker" name="startTime" class="date_picker" placeholder="点击选择日期" value="{$data.startTime}" style="width: 100px;"/>-
+                                    <input type="text" name="endTime" id="datePicker2" class="date_picker" placeholder="点击选择日期" value="{$data.endTime}" style="width: 100px;"/>
+                                </td>
+                                <td><input class="btn btn-primary btn2"  value="查询" type="submit"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="result-wrap">
+
+        <div class="result-title">
+
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>排名</th>
+                    <th>手机号码</th>
+                    <th>邮箱</th>
+                    <th>用户uid</th>
+                    <th>昵称</th>
+                    <th>真实姓名</th>
+                    <th>提币总数</th>
+                    <th>内转帐出去总数</th>
+                    <th>用户备注</th>
+                    <th>币种</th>
+                </tr>
+                {volist name='list' id='vo'}
+                    <tr>
+                        <td style="width:60px">{$data['sort']+$i}</td>
+                        <td style="width:120px">{$vo['phone']}</td>
+                        <td style="width:180px">{$vo['email']}</td>
+                        <td style="width:70px">
+                            <a href="javascript:member_details({$vo['from_member_id']});"
+                               class="shenhe_button">{$vo['from_member_id']}</a>
+
+                        </td>
+                        <td style="width:100px">{$vo['nick']}</td>
+                        <td style="width:100px">{$vo['name']}</td>
+                        <td style="width:100px"><?=floatval($vo['sum']);?></td>
+                        <td style="width:100px"><?=floatval($vo['transfer_sum']);?></td>
+                        <td style="width:50px"><p style="color: red">{$vo['remarks']}</p></td>
+                        <td style="width:50px">{$vo['currency_name']}</td>
+                    </tr>
+                {/volist}
+
+            </table>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    // $("#CurrencyNav").show();
+    // $("#CurrencyNav").children("li").eq(2).addClass("on");
+    $('#datePicker').date_input();
+    $('#datePicker2').date_input();
+</script>

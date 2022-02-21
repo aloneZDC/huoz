@@ -1,0 +1,65 @@
+#content{
+    margin: 40px auto;
+    width: 1200px;
+    
+}
+#content>h2{
+    height: 60px;
+    line-height: 60px;
+    padding-left:20px; 
+    background: white;
+    font-size: 22px;
+    font-weight: 500;
+}
+.wallet_address{
+    padding-top:15px; 
+    display: flex;
+}
+.wallet_address>input{
+    width: 480px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid #066B98;
+}
+.wallet_address>button{
+    margin-left: 15px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    width: 180px;
+   
+}
+.copyaddress{
+   margin-top:20px; 
+   background: white;
+   padding: 0 20px 20px 20px;
+  
+}
+.copyaddress>p{
+    font-size: 14px;
+    color: #666;
+    padding-top: 20px;
+ }
+.coin_detail{
+    background: white;
+}
+.coin_explain{
+    padding-left:20px; 
+    border-bottom: 1px solid #EEE;
+}
+.coin_explain h2,.coin_record>h2{
+    font-size: 16px;
+    color: #222;
+    height: 40px;
+    line-height: 40px;
+}
+.coin_explain p{
+    font-size: 14px;
+    color: #666;
+    height: 40px;
+    line-height: 40px;
+}
+.coin_record{
+    padding:30px 20px; 
+}

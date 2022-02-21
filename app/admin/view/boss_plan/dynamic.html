@@ -1,0 +1,116 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list">
+            <i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span class="crumb-name">动态分红配置</span>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('BossPlan/updateConfig')}" method="post" id="myform" name="myform">
+            <input type="hidden" name="key" value="dynamic">
+            
+            <div class="config-items">
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>推荐奖励：</th>
+                            <td><input type="text" value="{$config_values['recommand_bouns']}" size="85" name="recommand_bouns" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>社区奖励：</th>
+                            <td>
+                                V1 <input type="text" value="{$config_values['level_bouns'][1]}" size="85" name="level_bouns_1" class="common-text">团队新增业绩<br>
+                                V2 <input type="text" value="{$config_values['level_bouns'][2]}" size="85" name="level_bouns_2" class="common-text">团队新增业绩<br>
+                                V3 <input type="text" value="{$config_values['level_bouns'][3]}" size="85" name="level_bouns_3" class="common-text">团队新增业绩<br>
+                                V4 <input type="text" value="{$config_values['level_bouns'][4]}" size="85" name="level_bouns_4" class="common-text">团队新增业绩<br>
+                                V5 <input type="text" value="{$config_values['level_bouns'][5]}" size="85" name="level_bouns_5" class="common-text">团队新增业绩<br>
+                                V6 <input type="text" value="{$config_values['level_bouns'][6]}" size="85" name="level_bouns_6" class="common-text">全球新增业绩加权平分
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>平级奖励：</th>
+                            <td>
+                                一级平级 <input type="text" value="{$config_values['ping_bouns'][1]}" size="85" name="ping_bouns_1" class="common-text"><br>
+                                <!-- 二级平级 <input type="text" value="{$config_values['ping_bouns'][2]}" size="85" name="ping_bouns_2" class="common-text"><br> -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>管理奖励：</th>
+                            <td><input type="text" value="{$config_values['manager_bouns']}" size="85" name="manager_bouns" class="common-text"></td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td style="color: #F00;">
+                                V2.0模式 动态奖励配置
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>V2.0开启日期：</th>
+                            <td><input type="text" value="{$config_values['v2_open_date']}" size="85" name="v2_open_date" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>管理奖励比例：</th>
+                            <td><input type="text" value="{$config_values['manager_bouns_v2']}" size="85" name="manager_bouns_v2" class="common-text"></td>
+                        </tr>
+
+                        <tr>
+                            <th><i class="require-red">*</i>停止分红：</th>
+                            <td>
+                                出局  <input type="text" value="{$config_values['stop_all_bouns']}" size="85" name="stop_all_bouns" class="common-text">动静分红总和达到本金的倍数<br>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th><i class="require-red">*</i>管理奖励考核：</th>
+                            <td>
+                                <php>
+                                    for($level=1;$level<=15;$level++) {
+                                        echo $level.'层 <input type="text" value="'.$config_values['manager_level_'.$level].'" size="85" name="manager_level_'.$level.'" class="common-text">票<br>';
+                                    }
+                                </php>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td style="color: #F00;">
+                                V2.0模式 动态奖励配置结束
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" id="submit" value="修改" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('BossPlan/updateConfigList')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td><i class="require-red">请勿随意修改参数</i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+$("#submit").click(function () {
+    var r=confirm("确定要修改参数吗?");
+    if(r==true){
+       return true;
+    }
+    return false;
+})
+</script>

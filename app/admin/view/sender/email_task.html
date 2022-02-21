@@ -1,0 +1,106 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script>
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<style>
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 0 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span
+                class="crumb-name">邮件待发送列表</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="" method="get" style="padding: 0 15px;">
+                <table class="search-tab">
+                    <tr>
+                        <td><label for="email">邮箱:</label></td>
+                        <td>
+                            <input id="email" value="{$Think.get.email}" class="common-text" placeholder="请输入邮箱" name="email" type="text">
+                        </td>
+                        <td><label for="status">状态:</label></td>
+                        <td>
+                            <select name="status" id="status">
+                                <option value="110" selected>全部</option>
+                                {foreach name="status_enum" item="val" key="k"}
+                                <option value="{$k}" {if $Think.get.status !="" and $k == $Think.get.status}selected{/if}>{$val}</option>
+                                {/foreach}
+                            </select>
+                        </td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="result-content">
+
+        <table class="result-tab" width="100%">
+            <tr>
+                <th>ID</th>
+                <th>进程ID</th>
+                <th>邮箱</th>
+                <th>验证码</th>
+                <th>类型</th>
+                <th>创建时间</th>
+                <th>处理时间</th>
+                <th>结束时间</th>
+                <th>状态</th>
+                <th>错误信息</th>
+                <th>发送系统</th>
+            </tr>
+            {volist name='list' id='vo'}
+            <tr data-id="{$vo['id']}">
+                <td>{$vo.id}</td>
+                <td>{$vo.process_id}</td>
+                <td>{$vo.email}</td>
+                <td>{$vo.code}</td>
+                <td>{$vo.type}</td>
+                <td>{$vo.add_time|date="y-m-d H:i:s", ###}</td>
+                <td>{$vo.start_time|date="y-m-d H:i:s", ###}</td>
+                <td>{$vo.stop_time|date="y-m-d H:i:s", ###}</td>
+                <td>{$status_enum[$vo.status]}</td>
+                <td width="380px">{$vo.msg}</td>
+                <td>{$vo.system_id}</td>
+            </tr>
+            {/volist}
+        </table>
+        <div style="margin-top: 20px; margin-left: 50px; font-size: 16px;">total: {$count}</div>
+        <div class="page">
+            <div>
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">下级直推增加次数</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <label>
+                        <input type="text" name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                    </label>
+                </div>
+
+                <div class="layui-input-inline">
+                    <label>
+                        <select name="type">
+                            <option value="all">全部</option>
+                            {foreach name="typeEnum" item="val" key="k"}
+                            <option value="{$k}" {if $k==$Think.get.type}selected{/if}>{$val}</option>
+                            {/foreach}
+                        </select>
+                    </label>
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>类型</th>
+                        <th>用户ID</th>
+                        <th>下级直推增加数量</th>
+                        <th>可用数量</th>
+                        <th>日期</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>
+                            {$v.id}
+                        </td>
+                        <td>{$typeEnum[$v.type]}</td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.user_id})">
+                                {if condition="$v.user.phone"}
+                                {$v.user.phone}
+                                {else /}
+                                {$v.user.email}
+                                {/if}
+                                ({$v.user_id})
+                            </a>
+                        </td>
+                        <td>{$v.child_num}</td>
+                        <td>{$v.child_avail_num}</td>
+                        <td>{$v.today}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

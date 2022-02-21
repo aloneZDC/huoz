@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/news/news_detail.css">
+<div id="main">
+  <div class="newsarea" style="padding-top:0;">
+    <div class="newsarea_box">
+      <div class="product left clearfix" style="width: 800px;height: auto">
+        <div style="border-bottom:1px solid #e2e2e2; padding-top:20px; position:relative;">
+         
+         
+          <h2 style="line-height:24px; border:none;">{$art_one.title}</h2>
+          <p style=" position:absolute; right:40px; bottom:0px; color:#999;">{$art_one.add_time|date='Y-m-d',###}</p>
+        </div>
+        <div class="paragraph paragraph_news">
+         <p>{$art_one.content}</p>
+        </div>
+      </div>
+     <!--上面为显示的文章-->
+      <div class="right">
+        <div class="latest">
+          <div class="investmentarea">
+            <div class="focusnum1" style="border-bottom:1px solid #eee;">
+              <h2 class="left">{$art_one.title_name}</h2>
+
+
+              <p class="right"><a href="{:url('news/newsList',['type'=>$type])}">{:lang('lan_view_more')}</a></p>
+              <div class="clear"></div>
+            </div>
+            
+            {volist name="art_list" id="vos"}
+            {if condition="$vos.article_id ==$art_one.article_id"}
+            <ul>
+              <a href="{:url('news/new_detail',['article_id'=>$vos.article_id])}">
+                <li style="background: #3284ca;">
+                  <p class="left" style="width:200px; line-height:18px;color: #fff;">{$vos.title}</p>
+                  <p class=" right recruit" style="width:80px; margin-left:0;color: #fff;">{$vos.add_time|date='Y-m-d',###}</p>
+                  <div class="clear"></div>
+                </li>
+              </a>
+            </ul>
+            {else/}
+            <ul>
+              <a href="{:url('news/new_detail',['article_id'=>$vos.article_id])}">
+                <li>
+                  <p class="left" style="width:200px; line-height:18px;">{$vos.title}</p>
+                  <p class=" right recruit" style="width:80px; margin-left:0;">{$vos.add_time|date='Y-m-d',###}</p>
+                  <div class="clear"></div>
+                </li>
+              </a>
+            </ul>
+            {/if}
+
+           {/volist}
+          </div>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+
+
+
+

@@ -1,0 +1,243 @@
+<script src="//cstaticdun.126.net/load.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/registered.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/registered.css">
+<style>
+.forget{margin-left:61px!important;}
+#email2msg{text-align: left;margin-left:47%!important;}
+#pwd2msg{text-align: left;margin-left:47%!important;}
+.progress_wrap .home_auth_code_input,.progress_wrap .email_auth_code_input{width: 258px;}
+.progress_wrap .send_authCode,.progress_wrap .send_emailCode{height:52px;display: inline-block;border:none;padding:10px 12px;width:120px;background: #3076cc;text-align: center;color:#fff;margin-left:10px;cursor: pointer;}
+</style>
+<script>
+	 var tip1="{:L('lan_mobil_phone_empty')}";
+	 var tip2="{:L('lan_please_enter_the_correct_mobile_number')}";
+	 var tip3="{:L('lan_cant_be_empty')}";
+	 var tip4="{:L('lan_pass_length_six')}";
+	 var tip5="{:L('lan_password_format_error')}";
+
+	 var tip6="{:L('lan_password_empty')}";
+	 var tip7="{:L('lan_two_inconsistencies')}";
+
+	 var tip8="{:L('lan_mailbox_addres_empty')}";	
+	 var tip9="{:L('lan_user_please_enter_the_correct_email_address')}";
+	 
+	 var tip10="{:L('lan_user_Transaction_password_empty')}";
+	 var tip11="{:L('lan_user_Transaction_password_lenggth')}";
+	 var tip12="{:L('lan_user_Transaction_password_space')}";
+	 var tip13="{:L('lan_user_Transaction_password_login')}";
+	 var tip14="{:L('lan_user_Transaction_password_repeat')}";
+	 var tip15="{:L('lan_user_Transaction_password_tow_same')}";
+	 var tip16="{:L('lan_user_please_enter_the_verification_code')}";
+	 var tip17="{:L('lan_enter_account')}";
+	 var tip18="{:L('lan_Network_request_failed')}";
+	 var tip19="{:L('lan_verification_code_not_empty')}";
+	 var tip20="{:L('lan_resend_verification_code')}";
+	 var tip21="{:L('lan_resend_verification_code_one')}";
+	 var tip22="{:L('lan_send_authentication_code')}";
+     var tip23="{:L('lan_invitation_code_cannot_empty')}";
+     var tip24="{:L('lan_image_code_empty')}";
+
+</script>
+
+<div class="progressBar_wrap">
+		<!-- <div class="progressBar">
+			<ul class="myForm_UL clearfloat">
+				<li class="active">{:L('lan_register')}</li>
+				<li>{:L('lan_reg_Set_password')}</li>
+				<li>{:L('lan_reg_success')}</li>
+			</ul>
+		</div>	 -->
+		<div class="login_chose">
+                <a href="/Login/index" style="color:#fff">{:L('lan_sign_in')}</a>
+                <span></span>
+                <a href="/Reg/registered" style="color:#3076cc">{:L('lan_register')}</a>
+            </div>
+		<div class="progress_wrap">
+			
+<!-- 。。。。。。。。。。。。。。。注册 注册 注册注册 注册 注册注册 注册 注册注册 注册 注册注册 注册 注册注册 注册 注册。。。。。。。。。。。。。 -->
+			<!-- Form   -->
+		
+				
+				<!-- 邮箱注册块 -->
+			<div class="progress_box_show">	
+				<div class="progress_box clearfloat">
+					<div class="phone_progress progressActive fl">{:L('lan_reg_phone_registration')}</div>
+					<div class="email_progress fl">{:L('lan_reg_Mailbox_registration')}</div>
+				</div>
+
+				<div class="myForm_box">
+					<div class="">
+						<select name="countries" id="countries" class="input_select countries" data-type="*" data-msg-null="{:L('lan_select_country_region')}">
+							<volist name='countries' id="value">
+								<option value="{$value.countrycode}"<?php if($value['countrycode'] == 86){echo "selected";} ?> >{$value.name}</option>
+							</volist>
+                 		</select>
+					</div>
+				</div>
+
+				<div class="email_number_box myForm_box">
+					<!-- <label for="email_number">{:L('lan_login_email')}：</label> -->
+					<input type="text" name="email" class="email_number_input Account_detection" id="userEmail" placeholder="{:L('lan_login_email')}">
+					<div class="error" data-explain="{:L('lan_reg_find_pass')}">
+					</div>
+				</div>
+
+				<!-- 电话注册块 -->
+
+				
+				<div class="phone_number_box myForm_box">
+					<!-- <label for="phone_number">{:L('lan_account_register_phone_number')}：</label> -->
+					<select id="country" style="height:52px;">
+						<volist name='countries' id="value">
+							<option value="{$value.countrycode}"<?php if($value['countrycode'] == 86){echo "selected";} ?> >00{$value.countrycode}</option>
+						</volist>
+					</select>
+					<input type="text" name="phone"  id="phone" class="phone_number Account_detection" placeholder="{:L('lan_account_register_phone_number')}">
+					<div class="error" data-explain="{:L('lan_reg_find_pass2')}">
+					</div>
+				</div>
+
+				<div class="home_auth_code myForm_box">
+					<!-- <label for="home_auth_code">{:L('lan_verification_code')}：</label> -->
+					<input type="text" class="home_auth_code_input" name="home_auth_code_input" placeholder="{:L('lan_verification_code')}" maxlength="6" oninput="value=value.replace(/[^\d]/g,'')"><button class="send_authCode"  type="btn">{:L('lan_send_authentication_code')}</button>
+					<div class="error" datas-explain="{:L('lan_login_erification_code_input_error')}">
+					</div>
+				</div>
+
+				<div class="email_auth_code myForm_box" style="display: none;">
+					<!-- <label for="home_auth_code">{:L('lan_verification_code')}：</label> -->
+					<input type="text" class="email_auth_code_input" name="email_auth_code_input" placeholder="{:L('lan_verification_code')}"  maxlength="6" oninput="value=value.replace(/[^\d]/g,'')"><button class="send_emailCode"  type="btn">{:L('lan_send_authentication_code')}</button>
+					<div class="error" datas-explain="{:L('lan_login_erification_code_input_error')}">
+					</div>
+				</div> 
+
+				<!-- <div class="auth_code_box myForm_box">
+					<label for="auth_code">获取验证码：</label>
+					<a class="short_breath"  href=""><img src="" alt="">获取短信验证码</a>
+					<a class="voice" href=""><img src="" alt="">获取语音验证码</a>
+					<div class="auth_code_tishi">如果短息发送延迟，请使用语音验证码</div>
+				</div>
+
+				<div class="home_auth_code myForm_box">
+					<label for="home_auth_code">注册验证码：</label>
+					<input type="text" class="home_auth_code_input" name="home_auth_code_input">
+					<div class="error" datas-explain="<em></em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;验证码错误">
+					</div>
+				</div> -->
+
+				<div class="login_password myForm_box">
+					<!-- <label for="login_password">{:L('lan_Login_password')}：</label> -->
+					<input type="password" class="login_password_input" id="pwd" name="pwd" maxlength="20" minlength="8"  placeholder="{:L('lan_Login_password')}">
+					<div class="error" data-explain="">
+					</div>
+				</div>
+
+				<div class="repeat_password myForm_box">
+					<!-- <label for="repeat_password">{:L('lan_reg_Duplicate_password')}：</label> -->
+					<input type="password" class="repeat_password_input" id="repwd" name="repwd" minlength="6" placeholder="{:L('lan_reg_Duplicate_password')}">
+					<div class="error" data-explain="{:L('lan_reg_enter_again')}" style="width: auto;">
+					</div>
+				</div>
+
+				<!-- 邀約碼 -->
+				<div class="repeat_password myForm_box">
+					<!-- <div class="ybc_label left"><label for="pid"></label></div> -->
+			       <input name="pid" class="res_pid" placeholder="{:L('lan_account_register_invitation_code1')}" <if condition="$pid">value="{$pid}" readonly="readonly"</if>  type="text">
+					<div class="error" data-explain="{:L('lan_Invitation_code')}">	</div>
+
+					<!-- <div class="left" style="color:#f00; line-height:30px;">选填项</div> -->
+				</div>
+					<br /><br />
+
+
+				<div class="progress_hint">{:L('lan_account_register_agreed')} <a href="{:U('Art/details/team_id/154')}" style="color: #3076cc"><eq name="Think.cookie.think_language" value="en-us">{$config.EN_CODE_NAME}<else/>{$config.CODE_NAME}</eq>{:L('lan_account_register_registration_protocol')}</a></div>
+		<!-- 下一步按钮 -->
+		       <div class="next_step">
+				  <input type="button" class="next_one" id="zucenBth" value="{:L('lan_next_step')}">
+			  </div>
+			</div>
+
+			
+<!-- 设置交易密码提示块 -->
+			<div class="trading_box">
+					<div class="trading_tishi">
+							<span>{:L('lan_reg_security_funds')}</span>
+						</div>
+
+				<!-- 交易密码 -->
+				<div class="trading_password myForm_box">
+					<!-- <label for="trading_password">{:L('lan_Transaction_password')}：</label> -->
+					<input type="password" id="pwdtrade" name="pwdtrade" class="trading_password_input" maxlength="6" placeholder="{:L('lan_Transaction_password1')}">
+					<div class="error" data-explain="{:L('lan_reg_transaction_password')}">
+					</div>
+				</div>
+
+				<!-- 重复交易密码 -->
+				<div class="c_trading_password myForm_box">
+					<!-- <label for="c_trading_password">{:L('lan_reg_Repeat_transaction_password')}：</label> -->
+					<input type="password" id="repwdtrade" name="repwdtrade" class="c_trading_password_input" maxlength="6" placeholder="{:L('lan_reg_Repeat_transaction_password')}">
+					<div class="error" data-explain="{:L('lan_reg_Repeat_transaction_password2')}">
+					</div>
+				</div>
+				
+				<!-- 验证码验证 -->
+				<div class="Verification_code myForm_box" style="text-align:left;padding-left:41px;">
+					<!-- <label for="Verification_code">{:L('lan_verification_code')}：</label> -->
+					<input type="text" name="captcha7" id="captcha7" class="Verification_code" style="width:227px;margin-right:6px;"  maxlength="6"  placeholder="{:L('lan_verification_code')}">
+					<div class="error" data-explain="{:L('lan_user_please_enter_the_verification_code')}">
+					</div>
+					<a style="position: absolute;top:0px;right:35px;line-height:53px;" href="javascript:;" onclick="$('#captchaimg7').attr('src', '{:U(\'Reg/showVerify2\')}?t='+Math.random())" > <img id="captchaimg7" style="width:100px;height:52px;" src="{:U('Reg/showVerify2')}">
+                    <strong id="captcha7_msg"></strong>{:L('lan_can_see')}？</a>
+				</div>
+				<div class="Verification_code myForm_box">
+				<input type="button" id="sure" class="next_one" style="width:393px;" value="{:L('lan_next_step')}">
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+		var path_Email = "{:U('Reg/ajaxCheckEmailPhone')}";
+		var path_PhoneCode = "{:U('Reg/ajaxCheckPhoneCode')}";
+		var path_EmailCode = "{:U('Email/check')}";
+        var tel_rule_tips="{:L('lan_reg_cell_phone_format_is_not_correct')}";
+        var email_rule_tips="{:L('lan_reg_cell_email_format_is_not_correct')}";
+        $('#countries').change(function () {
+            var country_code = $(this).val();
+            $('#country').each(function () {
+                $(this).children('option').each(function () {
+                    if($(this).val() == country_code){
+                        $(this).prop("selected",true);
+                    }else{
+                    	$(this).prop("selected",false);
+                    }
+                })
+            });
+            $(this).children('option').each(function(){
+            	if($(this).val() == country_code){
+                    $(this).prop("selected",true);
+                }else{
+                	$(this).prop("selected",false);
+                }
+            });
+        })
+        $('#country').change(function () {
+            var country_code = $(this).val();
+            $('#countries').each(function () {
+                $(this).children('option').each(function () {
+                    if($(this).val() == country_code){
+                        $(this).prop("selected",true);
+                    }else{
+                    	$(this).prop("selected",false);
+                    }
+                })
+            });
+            $(this).children('option').each(function(){
+            	if($(this).val() == country_code){
+                    $(this).prop("selected",true);
+                }else{
+                	$(this).prop("selected",false);
+                }
+            });
+        })
+</script>

@@ -1,0 +1,9 @@
+{
+	"id": [0, 1, 2, 3, 4, 5],
+	"time": [1435116211.643, 1434770611.643, 1434511411.643, 1434511411.643, 1433820211.643, 1432524211.643],
+	"color": ["red", "blue", "green", "red", "blue", "green"],
+	"text": ["Today", "4days back", "7 days back + Lorem ipsum dolor sit amet, consecteturadipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magnaaliqua.", "7 days back once again", "15 daysback", "30 daysback"],
+	"label": ["A", "B", "CORE", "D", "EURO", "F"],
+	"labelFontColor": ["white", "white", "red", "#FFFFFF", "white", "#000"],
+	"minSize": [14, 28, 7, 40, 7, 14]
+}

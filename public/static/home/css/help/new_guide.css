@@ -1,0 +1,128 @@
+body,
+html {
+  background: #fff;
+}
+.container-divider {
+  border-top: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 5%;
+}
+.sub-nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* margin-bottom: 30px; */
+  min-height: 50px;
+  padding-bottom: 15px;
+}
+.breadcrumbs {
+  margin: 0 0 15px 0;
+  padding: 0;
+}
+.breadcrumbs li {
+  color: #44576a;
+  display: inline;
+  font-weight: 300;
+  font-size: 13px;
+  max-width: 450px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.breadcrumbs li a:visited {
+  color: rgba(53, 124, 225, 1);
+}
+.breadcrumbs li + li::before {
+  content: ">";
+  margin: 0 4px;
+}
+.section-container {
+  display: flex;
+  justify-content: flex-end;
+  min-height: 650px;
+}
+.section-content {
+  flex: 1;
+}
+.page-header {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+.article-list-item {
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  padding: 15px 0;
+}
+.article-list-item a {
+  color: rgba(28, 36, 44, 1);
+}
+h1 {
+  font-size: 32px;
+}
+.pagination {
+  margin: 20px 0;
+  text-align: center;
+}
+.pagination * {
+  display: inline-block;
+}
+.pagination li {
+  border-radius: 50%;
+  height: 40px;
+  float: left;
+  margin-left: 5px;
+  width: 40px;
+}
+.pagination a,
+.pagination span {
+  font-size: 15px;
+  color: #44576a;
+  padding: 10px 12px;
+}
+.pagination-current a,
+.pagination-current span {
+  color: #ffffff;
+}
+.pagination-current{
+  background-color: rgba(53, 124, 225, 1);
+}
+@media (min-width: 1160px) {
+  .container {
+    padding: 0;
+    width: 90%;
+  }
+}
+@media (min-width: 1024px) {
+  .section-content {
+    flex: 0 0 80%;
+  }
+}
+@media (min-width: 768px) {
+  .sub-nav {
+    align-items: baseline;
+    flex-direction: row;
+  }
+  .breadcrumbs {
+    margin: 0;
+  }
+  .page-header {
+    align-items: baseline;
+    flex-direction: row;
+    margin: 0;
+  }
+  .pagination li {
+    height: 30px;
+    width: 30px;
+  }
+  .pagination a,
+  .pagination span {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+}

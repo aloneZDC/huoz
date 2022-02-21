@@ -1,0 +1,80 @@
+{include file="layout/header"}
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class=" layui-col-md12 we-search">
+            <label class="layui-form-label">日期范围</label>
+            <div class="layui-inline">
+                <label for="controller"></label>
+                <input class="layui-input" placeholder="开始时间" name="start_time" id="start_day" value="{$Think.get.start_time}" />
+            </div> -
+            <div class="layui-inline">
+                <label for="controller"></label>
+                <input class="layui-input" placeholder="结束时间" name="end_time" id="end_day" value="{$Think.get.end_time}" />
+            </div>
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+    <fieldset class="layui-elem-field" style="padding: 5px;">
+        <blockquote class="layui-elem-quote font16">提现统计</blockquote>
+        <div class="">
+            <table class="layui-table" lay-even>
+                <thead>
+                <tr>
+                    <th><b>统计</b></th>
+                    <th><b>全部提现（单）</b></th>
+                    <th><b>提现金额（元）</b></th>
+                    <th><b>已通过（单）</b></th>
+                    <th><b>已通过金额（元）</b></th>
+                    <th><b>驳回（单）</b></th>
+                    <th><b>驳回金额（元）</b></th>
+                    <th><b>未处理（单）</b></th>
+                    <th><b>未处理金额（元）</b></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="height: 50px;">
+                    <td>总数</td>
+                    <td>{$list['count_num']}</td>
+                    <td>{$list['count_money'] | number_format=2}</td>
+                    <td>{$list['first_count_num']}</td>
+                    <td>{$list['first_count_money'] | number_format=2}</td>
+                    <td>{$list['second_count_num']}</td>
+                    <td>{$list['second_count_money'] | number_format=2}</td>
+                    <td>{$list['third_count_num']}</td>
+                    <td>{$list['third_count_money'] | number_format=2}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'admin', 'layer'], function () {
+
+    });
+    layui.use(['laydate'], function(){
+        var $ = layui.$;
+        var laydate = layui.laydate;
+        var nowTime = new Date().valueOf();
+
+        var start = laydate.render({
+            elem: '#start_day',
+            type: 'date',
+            btns: ['clear', 'confirm'],
+            done: function(value, date){
+
+            }
+        });
+        var end = laydate.render({
+            elem: '#end_day',
+            type: 'date',
+            btns: ['clear', 'confirm'],
+            done: function(value, date){
+
+            }
+        });
+    })
+</script>
+{include file="layout/footer"}

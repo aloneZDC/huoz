@@ -1,0 +1,330 @@
+<script src="__PUBLIC__/static/home/js/common/swiper.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/common/swiper.min.css">
+<script src="__PUBLIC__/static/home/js/index/index.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/index/index.css">
+<div class="content">
+	<section class="shade"></section>
+	<section hidden class="announcement">
+		<div class="swiper-container" id="announcement">
+		    <div class="swiper-wrapper">
+				{volist name="ad_arr" id="val" }
+		        <div class="swiper-slide">
+		        	<div class="an_box">
+						{volist name="val" id="vo"}
+		        		<div>
+		        			<a href="{:url('news/new_detail',['article_id'=>$vo.article_id])}"><i class="iconfont">&#xe94e;</i><span>{$vo.title}</span></a>
+		        		</div>
+						{/volist}
+		        	</div>
+		        </div>
+				{/volist}
+		    </div>
+		</div>
+	</section>
+	<div class="vodie_box">
+		<div class="isshow">
+			<i class="iconfont">&#xe64c;</i>
+		</div>
+		<div id="vodieBox">
+			{eq name="Think.cookie.think_language" value="en-us"}
+				<video id="video" src="https://ruibooss.oss-cn-hongkong.aliyuncs.com/viedo/190115en.mp4" type="video/mp4" controls="controls" style="width: 100%;"></video>
+  			{else/}
+				<video id="video" src="http://ruibooss.oss-cn-hongkong.aliyuncs.com/viedo/190115cn.mp4" type="video/mp4" controls="controls" style="width: 100%;"></video>
+  			{/eq}			
+		</div>
+	</div>
+	<div class="banner">
+		<div class="banner_bg"></div>
+		<div class="title">
+			<h1>{:lang('lan_welcome')}</h1>
+			<button class=" down_book" style="display: none">
+				<a href="__PUBLIC__/static/home/images/pic4.png" download="whitePaper">{:lang('lan_download_book')}</a>
+			</button>
+		</div>
+	</div>
+	<div class="d_line" hidden>
+		<span>{:lang('lan_index_Markets')}</span>
+		<div></div>
+	</div>
+	<div class="market_box">
+		<div class="m_header">
+			<ul class="fl m_tab">
+				<li data-mark="USDT" class="active">USDT</li>
+				<!--<li data-mark="XRP">XRP</li>-->
+<!--				<li data-mark="NC" class="active">NC</li>-->
+			</ul>
+			<ul class="fr posture" hidden>
+				<li data-class="jiugongge">
+					<i class="iconfont">&#xe686;</i><span>{:lang('lan_index_GRID')}</span>
+				</li>
+				<li data-class="m_list" class="active">
+					<i class="iconfont">&#xe615;</i><span>{:lang('lan_index_LIST')}</span>
+				</li>
+			</ul>
+		</div>
+		<div class="quotes">
+			<ul class="jiugongge" style="display: block;">
+				<!-- <li>
+					<div class="pair">
+						<h2>
+							XRP / USDT
+						</h2>
+						<h2 class="right rise">
+							<span class="caret_up"></span><span>+30.23%</span>
+						</h2>
+						<div style="clear: both;"></div>
+					</div>
+					<div class="subtitle">
+						<h2>
+							XRP Plus
+						</h2>
+						<h2 class="right">
+							0.33
+						</h2>
+						<div style="clear: both;"></div>
+					</div>
+					<div class="trend">
+						
+					</div>
+					<div class="data_box pure-g">
+						<div class="pure-u-1-3">
+							<span>H</span><span>0.39</span>
+						</div>
+						<div class="pure-u-1-3">
+							<span>L</span><span>0.28</span>
+						</div>
+						<div class="pure-u-1-3">
+							<span>V</span><span>2,546,156</span>
+						</div>
+					</div>
+				</li> -->
+			</ul>
+			<dl class="m_list" style="display: none;">
+				<dt>
+					<div>{:lang('lan_trading_pairs')}</div>
+<!--					<div>Gateway</div>-->
+					<div>{:lang('lan_exchange_price')}</div>
+					<div>{:lang('lan_Amount_of')}</div>
+					<div>{:lang('lang_24H_price_change')}</div>
+					<div>{:lang('lan_Rose')}</div>
+					<div>{:lang('lang_7day_price_change')}</div>
+				</dt>
+				<!-- <dd>
+					<div>
+						<img src="__PUBLIC__/static/home/images/test.png" ><span>BTC / XRP</span>
+					</div>
+					<div>XRP Plus</div>
+					<div>0.376</div>
+					<div>36,253,456</div>
+					<div>0.38</div>
+					<div class="rise">
+						<span class="caret_up"></span><span>+110.41%</span>
+					</div>
+					<div></div>
+				</dd> -->
+			</dl>
+			<!-- <div class="loading">
+			        <span></span>
+			        <span></span>
+			        <span></span>
+			        <span></span>
+			        <span></span>
+			</div> -->
+		</div>
+		
+		
+		
+	</div>
+	<section class="safety">
+        <div class="safety_content">
+            <h1>{:lang('lan_s_t_a_y_f')}</h1>
+            <div>{:lang('lan_s_text')}</div>
+            <section class="safety_swiper">
+                <div>
+                    <p>{:lang('lan_s_one')}</p>
+                </div>
+                <div>
+                     <p>{:lang('lan_s_two')}</p>
+                </div>
+                <div>
+                    <p>{:lang('lan_s_three')}</p>
+                </div>
+            </section>
+        </div>
+    </section>
+	<div class="summary">
+		<div class="s_font fl">
+			<h1>{:lang('lan_building')}</h1>
+			<div>
+				{:lang('lan_building_text')}。
+			</div>
+
+		</div>
+		<div class="s_img">
+			<img src="__PUBLIC__/static/home/images/pic4.png" >
+
+		</div>
+	</div>
+	<section class="meet" hidden>
+		<div class="container">
+			<div class="m_img fl">
+				<img src="__PUBLIC__/static/home/images/home.gif">
+			</div>
+			<div class="m_font fl">
+				<h1>{:lang('lan_meet_h1')}</h1>
+				<p>{:lang('lan_meet_content')}</p>
+				<div class="feature">
+					<div>
+						<img src="__PUBLIC__/static/home/images/home1.png">
+						<p>{:lang('lan_feature_ACCESS')}</p>
+					</div>
+					<div>
+						<img src="__PUBLIC__/static/home/images/home2.png">
+						<p>{:lang('lan_feature_SPEED')}</p>
+					</div>
+					<div>
+						<img src="__PUBLIC__/static/home/images/home3.png">
+						<p>{:lang('lan_feature_CERTAINTY')}</p>
+					</div>
+					<div>
+						<img src="__PUBLIC__/static/home/images/home4.png">
+						<p>{:lang('lan_feature_COST')}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="d_line" hidden>
+		<span>{:lang('lan_News')}</span>
+		<p><a href="{:url('News/newsList',['type'=>129])}">{:lang('lan_News_more')}</a></p>
+		<div class="no_margin"></div>
+	</section>
+	<section class="news" hidden>
+		<div class="container">
+			{volist name="article" id="vo" key="k"}
+				<div class="news_wraooer">
+					<div class="swiper-container"  id="{$k==1?'newsOne':($k==2?'newsTwo':'newsThree')}">
+						<div class="swiper-wrapper">
+							{volist name="vo" id="v"}
+							<div class="swiper-slide">
+								<a href="{:url('news/new_detail',['article_id'=>$v.article_id])}">
+									<img src="{$v.art_pic}" >
+									<p>{$v.add_time}</p>
+									<h3>{$v.title}</h3>
+									<div>{$v.content}</div>
+								</a>
+							</div>
+							{/volist}
+						</div>
+					</div>
+				</div>
+			{/volist}
+			<div class="clear"></div>
+		</div>
+	</section>
+
+	<section class="growing" hidden>
+		<div class="container">
+			<div class="fl font_box">
+				<h1>{:lang('lan_growing_h1')}</h1>
+				<p>{:lang('lan_growing_content')}</p>
+			</div>
+			<div class="fl data_box">
+				<div class="fr" style="margin-left: 96px;">
+					<h1>
+						<span>75</span><span class="symbol">+</span>
+					</h1>
+					<p>{:lang('lan_growing_data')}</p>
+				</div>
+				<div class="fr">
+					<h1>
+						<span>100</span><span class="symbol">+</span>
+					</h1>
+					<p>{:lang('lan_Customers')}</p>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<!-- <div class="link fl">
+				<div class="fl">
+					<img src="__PUBLIC__/static/home/images/1.png">
+				</div>
+				<div class="fl">
+					<img src="__PUBLIC__/static/home/images/2.png">
+				</div>
+				<div class="fl">
+					<img src="__PUBLIC__/static/home/images/3.png">
+				</div>
+				<div class="fl">
+					<img src="__PUBLIC__/static/home/images/4.png">
+				</div>
+				<div class="fl">
+					<img src="__PUBLIC__/static/home/images/5.png">
+				</div>
+				<div class="fl">
+					<img src="__PUBLIC__/static/home/images/6.png">
+				</div>
+				<div class="fl">
+					<img src="__PUBLIC__/static/home/images/7.png">
+				</div>
+				<div class="fl">
+					<img src="__PUBLIC__/static/home/images/8.png">
+				</div>
+				<div class="fl">
+					<img src="__PUBLIC__/static/home/images/9.png">
+				</div>
+				<div class="fl">
+					<img src="__PUBLIC__/static/home/images/10.png">
+				</div>
+				<div class="fl">
+					<img src="__PUBLIC__/static/home/images/11.png">
+				</div>
+				<div class="fl">
+					<img src="__PUBLIC__/static/home/images/12.png">
+				</div>
+			</div> -->
+			<div class="clear"></div>
+		</div>
+	</section>
+	<section class="d_line" hidden>
+		<span>{:lang('lan_Contact')}</span>
+		<div></div>
+	</section>
+	<section class="contact" hidden>
+		<div class="container">
+			<p>{:lang('lan_team')}</p>
+			<a class="c_btn" href="{$footer.contact_us}">{:lang('lan_Contact')}</a>
+		</div>
+	</section>
+
+	<section class="down_app">
+        <div class="down_app_content">
+            <div class="down_app_content_left"></div>
+            <div class="down_app_content_r">
+                <h2>{:lang('lan_how_to_down')}</h2>
+                <div class="img_box">
+                	<img class="erwei_code" src="__PUBLIC__/static/home/images/qrcode.png" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+	<!-- <section class="friendly">
+		<ul class="container">
+			<li>
+				<p>合作伙伴</p>
+				<a href=""><img src="__PUBLIC__/static/home/images/LOGO1.png" ></a>
+			</li>
+			<li>
+				<p>友情链接</p>
+				<a href=""><img src="__PUBLIC__/static/home/images/LOGO2.png" ></a>
+			</li>
+			<li>
+				<p>友情链接</p>
+				<a href=""><img src="__PUBLIC__/static/home/images/LOGO3.png" ></a>
+			</li>
+			<li>
+				<p>友情链接</p>
+				<a href=""><img src="__PUBLIC__/static/home/images/LOGO4.png" ></a>
+			</li>
+		</ul>
+	</section> -->
+</div>

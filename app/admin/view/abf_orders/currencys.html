@@ -1,0 +1,77 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">币种列表</span></div>
+    </div>
+    <div class="result-wrap">
+        <a href="javascript:;" class="layui-open layui-btn" data-url="{:url('currency_add')}?" data-width="500px">添加</a>
+    </div>
+    <div class="result-wrap ">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <tr>
+                        <th>币种</th>
+                        <th>购买手续费</th>
+                        <th>出售手续费</th>
+                        <th>购买数量</th>
+                        <th>出售数量</th>
+                        <th>开启购买</th>
+                        <th>开启出售</th>
+                        <th>机器人用户ID</th>
+                        <th>机器人自动购买</th>
+                        <th>机器人自动出售</th>
+                        <th>机器人交易数量</th>
+                        <th>操作</th>
+                    </tr>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>{$v.currency.currency_name} / {$v.currencytrade.currency_name}</td>
+                        <td>{$v.buy_fee}</td>
+                        <td>{$v.sell_fee}</td>
+                        <td>{$v.min_num} - {$v.max_num}</td>
+                        <td>{$v.sell_min_num} - {$v.sell_max_num}</td>
+                        <td>{$v.is_buy}</td>
+                        <td>{$v.is_sell}</td>
+                        <td>{$v.robot_id}</td>
+                        <td>{$v.auto_buy}</td>
+                        <td>{$v.auto_sell}</td>
+                        <td>{$v.auto_min_num} - {$v.auto_max_num}</td>
+                        <td>
+                            <a href="javascript:;" class="delete layui-btn" data-url="{:url('currency_delete',['id'=>$v['id']])}" >删除</a>
+                            <a href="javascript:;" class="layui-open layui-btn" data-url="{:url('currency_edit',['id'=>$v['id']])}" >编辑</a>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.delete').click(function () {
+            var url = $(this).data('url');
+            var that = $(this);
+            globals.ajax(url,{},function (res) {
+                if(res.code==10000){
+                    layer.msg(res.message);
+                    location.reload();
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

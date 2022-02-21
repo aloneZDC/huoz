@@ -1,0 +1,220 @@
+{include file="layout/header"}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/css/main.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/css/common.css" />
+<link href="__PUBLIC__/static/admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all" />
+<script src="__PUBLIC__/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<style>
+    .main-wrap {
+      margin-left: 0;
+    }
+</style>
+<script type="text/javascript">
+$(function() {
+    $('#datePicker').date_input();
+    $('#datePicker2').date_input();
+});
+
+window._deel = {
+    req_member_details_url: "{:U('member/member_details')}",
+}
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">挂单记录详细</span></div>
+    </div>
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+    <table class="result-tab" width="100%">
+        <tr>
+            <th>编号</th>
+            <th>email</th>
+            <th>会员ID</th>
+            <th>姓名</th>
+            <th>手机</th>
+            <th>币种</th>
+            <th>数量</th>
+            <th>剩余</th>
+            <th>单价</th>
+            <th>限价</th>
+            <th>手续费</th>
+            <th>类型</th>
+            <th>添加时间</th>
+            <th>状态</th>
+        </tr>
+            <tr>
+                <td>{$orders_info.orders_id}</td>
+                <td>{$orders_info.email}</td>
+                <td><a href="javascript:member_details({$orders_info.member_id});" class="shenhe_button">{$orders_info.member_id}</a>
+                </td>
+                <td>{$orders_info['name']}</td>
+                <td>{$orders_info['phone']}</td>
+                <td>{$orders_info.currency_name}</td>
+                <td>{$orders_info.num}</td>
+                <td>{$orders_info.avail_num}</td>
+                <td>{$orders_info.price}</td>
+                <td>{$orders_info.min_money}~{$orders_info.max_money}</td>
+                <td>{$orders_info['fee']}</td>
+                <td>{$orders_info.type_name}</td>
+                <td>{$orders_info.add_time|date="Y-m-d H:i:s",###}</td>
+                <td>
+                    {if condition="$orders_info.status eq 0"}未成交
+                        {elseif condition="$orders_info.status eq 1" /}部分成交
+                        {elseif condition="$orders_info.status eq 2" /}已成交
+                        {elseif condition="$orders_info.status eq 3" /}已撤销
+                    {/if}
+                </td>
+            </tr>
+    </table>
+            </div></form></div>
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>买卖对</th>
+                        <th>订单号</th>
+                        <th>会员ID</th>
+                        <th>姓名</th>
+                        <th>账户</th>
+                        <th>币种</th>
+                        <th>数量</th>
+                        <th>单价</th>
+                        <th>总价格</th>
+                        <th>手续费</th>
+                        <th>类型</th>
+                        <th>收付款类型</th>
+                        <th>卖家收付款账号</th>
+                        <th>买家收付款账号</th>
+                        <th>添加时间</th>
+                        <th>状态</th>
+                    </tr>
+                    {volist name="list" id="vo" empty="$empty"}
+                        <tr>
+                            <td>{$vo.trade_no}</td>
+                            <td>{$vo.only_number}</td>
+                            <td><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo.member_id}</a>
+                            </td>
+                            <td>{$vo['name']}</td>
+                            <td>{notempty name="vo.phone"}{$vo['phone']}{else /}{$vo['email']}{/notempty}</td>
+                            <td>{$vo.currency_name}</td>
+                            <td>{$vo.num}</td>
+                            <td>{$vo.price}</td>
+                            <td>{$vo.money}</td>
+                            <td>{$vo['fee']}</td>
+                            <td>{$vo.type_name}</td>
+                            <td>{$vo.type_payment}</td>
+                            <td>{$vo.type_sell_payment}</td>
+                            <td>{$vo.type_buy_payment}</td>
+                            <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                            <td>
+                                {if condition="$vo.status eq 0"}未付款
+                                {elseif condition="$vo.status eq 1" /}待放行
+                                {elseif condition="$vo.status eq 2" /}
+                                    {if condition="$vo['member_id']==$vo['allege_id']"}
+                                        申诉中 
+                                        <span class="tips" msg="{$vo.allege_content}"  style="color: #F00;width: 30px;height: 30px;display: inline-block;text-align: center;">理由
+                                            <span class="tips1" style="display: none;">
+                                                {switch name="vo.allege_type"}
+                                                    {case value="1"}
+                                                        對方未付款
+                                                    {/case}
+                                                    {case value="2"}
+                                                        對方未放行
+                                                    {/case}
+                                                    {case value="3"}
+                                                        對方有欺詐行為
+                                                    {/case}
+                                                    {case value="4"}
+                                                        其他
+                                                    {/case}
+                                                    {default /}
+                                                {/switch}<br>
+                                                付款參考號: {$vo.pay_number}<br>
+                                                {$vo.allege_content}
+                                            </span>    
+                                        </span>
+                                    {else /}
+                                        被诉
+                                    {/if}
+                                {elseif condition="$vo.status eq 3" /}已完成
+                                {elseif condition="$vo.status eq 4" /}已取消
+                                {/if}
+                            </td>
+                        </tr>
+                    {/volist}
+                </table>
+                <div class="page">
+                    <div>
+                        {$page}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+
+</html>
+<script>
+function loading() {
+    layer.load(1, {
+        shade: [0.3, '#000'] //0.1透明度的白色背景
+    });
+}
+
+$(".tips").click(function(){
+    var text = $(this).find('.tips1').html();
+    layer.open({
+      type: 1,
+      title: '申诉理由',
+      content: '<div style="padding:20px;line-height:30px;">'+text+'</div>',
+    });
+});
+
+//申诉
+$(".appeal").each(function(index) {
+    $(this).click(function() {
+        var result = $(this).attr("result");
+        var trade_id = $(this).attr("id");
+        var e = $(this);  
+        var type = $(this).attr('data-type');
+        var title_n = '';
+        if(type=='buy'){
+            title_n = '买家';
+        }else if(type=='sell'){
+            title_n = '卖家';
+        }
+
+        if(result==1){
+            title_n += '胜诉';
+        } else {
+            title_n += '败诉';
+        }
+
+        layer.confirm(title_n, {
+            btn: ['确定', '取消'], //按钮
+        }, function () {
+            loading();
+            $.post("{:U('appeal')}", { "trade_id": trade_id, "result": result}, function(datas) {
+                layer.closeAll();
+                if (datas.code == 1) {
+                    layer.msg(datas.message);
+                    window.location.reload();
+                } else {
+                    layer.msg(datas.message);
+                }
+            });
+        }, function () {
+            layer.msg('已取消');
+        });
+    })
+});
+</script>

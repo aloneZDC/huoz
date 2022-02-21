@@ -1,0 +1,80 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">会员管理</span></div>
+    </div>
+    <div class="result-wrap">
+
+        <form action="{:U('')}" method="post" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <input type="hidden" value="{$list['id']}" name="id"/>
+                        <tbody>
+                        <tr>
+                            <th width="15%">用户ID：</th>
+                            <td>{$list['member_id']}</td>
+                        </tr>
+                        <tr>
+                            <th>姓名：</th>
+                            <td><input name="name" id="name" value="{$list['name']}" type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>手机：</th>
+                            <td><input name="phone" id="phone" value="{$list['phone']}" type="text"></td>
+                        </tr>
+
+                        <tr>
+                            <th>身份证：</th>
+                            <td><input name="idcard" id="idcard" value="{$list['idcard']}" type="text"></td>
+                        </tr>
+    
+                        <tr>
+                            <th>护照：</th>
+                            <td><input name="passport" id="passport" value="{$list['passport']}" type="text"></td> 
+                        </tr>
+                        <tr>
+                            <th>性别：</th>
+                            <td>
+                                男：<input type="radio" name="sex" value="1"
+                                <if condition="$list['sex'] eq 1">checked="checked"</if>
+                                />
+                                女：<input type="radio" name="sex" value="0"
+                                <if condition="$list['sex'] eq 0">checked="checked"</if>
+                                />
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>年龄：</th>
+                            <td><input name="age" id="age" value="{$list['age']}" type="text"></td>
+                        </tr>
+                        <tr>
+                            <th width="15%">报名时间：</th>
+                            <td>
+                                <eq name="list['add_time']" value="0">
+                                    <else/>
+                                    {$list['add_time']|date='Y-m-d H:i:s',###}
+                                </eq>
+                            </td>
+                        </tr>
+                        <th></th>
+                        <td>
+                            <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                            <a href="{:U('Meeting/index')}"><input type="button" value="返回" class="btn btn6"></a>
+                        </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--/main-->
+</div>
+</body>
+</html>

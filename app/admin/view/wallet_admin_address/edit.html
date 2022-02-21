@@ -1,0 +1,90 @@
+<div class="weadmin-nav layui-clear">
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i
+                class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <form class="layui-form form">
+        <input type="hidden" name="waa_id" value="{$info.waa_id}">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-block">
+                <select name="waa_type">
+                    {volist name="type" id="v"}
+                    <option value="{$key}" {if condition="$info.waa_type eq $key"}selected="selected"{/if}>{$v}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">币种</label>
+            <div class="layui-input-block">
+                <select name="waa_currency_id">
+                    {volist name="currency" id="v"}
+                    <option value="{$v.currency_id}" {if condition="$info.waa_currency_id eq $v.currency_id"}selected="selected"{/if}>{$v.currency_name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="waa_address" id="waa_address" placeholder="" value="{$info.waa_address}" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户充币地址分配区间开始</label>
+            <div class="layui-input-block">
+                <input type="number" name="waa_start_id" id="waa_start_id" placeholder="" value="{$info.waa_start_id}" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户充币地址分配区间结束</label>
+            <div class="layui-input-block">
+                <input type="number" name="waa_stop_id" id="waa_stop_id" placeholder="" value="{$info.waa_stop_id}" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit" type="submit" lay-filter="add" lay-submit="">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'admin', 'layer'], function () {
+        let form = layui.form;
+
+        form.on("submit(add)", data => {
+            $.post("{:url('edit')}", data.field, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, function () {
+                        // 获得frame索引
+                        let index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        window.parent.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+            return false;
+        });
+    });
+</script>
+
+
+</div>
+</body>
+</html>

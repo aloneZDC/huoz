@@ -1,0 +1,60 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">房间配置</span></div>
+    </div>
+
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>等级ID</th>
+                        <th>币种ID</th>
+                        <th>币种</th>
+                        <th>币种数量</th>
+                        <th>能否创建普通房</th>
+                        <th>能否创建VIP房</th>
+                        <th>开奖人数</th>
+                        <th>最大人数</th>
+                        <th>操作</th>
+                    </tr>
+                    {volist name="list" id="vo" empty="暂无数据"}
+                        <tr>
+                            <td>{$vo.rls_level}</td>
+                            <td>{$vo.rls_level}</td>
+                            <td>{$vo.currency_name}</td>
+                            <td>{$vo.rls_num}</td>
+                            <td>{$status_list[$vo.rls_is_common]}</td>
+                            <td>{$status_list[$vo.rls_is_vip]}</td>
+                            <td>{$vo.rls_open_num}</td>
+                            <td>{$vo.rls_max_num}</td>
+                            <td>
+                            	<a href="{:url('add_setting',['rls_level'=>$vo['rls_level']])}">编辑</a>
+                            </td>
+                        </tr>
+                    {/volist}
+                </table>
+                <div class="page">
+                    <div>
+                        {$page}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+<script>
+function loading() {
+    layer.load(1, {
+        shade: [0.3, '#000'] //0.1透明度的白色背景
+    });
+}
+</script>		
+</body>
+
+</html>

@@ -1,0 +1,140 @@
+{if condition="!$Think.get.layui"}
+{include file="../app/admin/view/public/left.html" /}
+{else /}
+<style>
+    .main-wrap {
+        margin-left: 10px;
+    }
+</style>
+{/if}
+
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">用户汇总列表</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="ename" placeholder="请输入用户名" autocomplete="off" class="layui-input" value="{$Think.get.ename}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="user_phone" placeholder="请输入用户账户" autocomplete="off" class="layui-input" value="{$Think.get.user_phone}" />
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户</th>
+                        <th>总有效空间</th>
+                        <th>剩余锁仓产币</th>
+                        <th>累计总产币</th>
+                        <th>累计总奖励</th>
+                        <th>累计质押冻结</th>
+                        <th>累计质押解冻</th>
+                        <th>添加时间</th>
+                        <!--                        <td>操作</td>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>{$v.id}</td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.member_id})">
+                                {if condition="$v.users.phone"}
+                                {$v.users.phone}
+                                {else /}
+                                {$v.users.email}
+                                {/if}
+                                ({$v.member_id})
+                            </a>
+                        </td>
+                        <td>
+                            {$v.pay_tnum} T
+                        </td>
+                        <td>
+                            {$v.pays.total_lock_yu} FIL
+                        </td>
+                        <td>
+                            <a href="javascript:" class="layui-open" data-url="{:url('release', ['member_id' => $v['member_id']])}?" data-width="80%" data-title="用户{$v.member_id} - 产币记录">{$v.pays.total_release_num} FIL</a>
+                        </td>
+                        <td>
+                            <a href="javascript:" class="layui-open" data-url="{:url('income_list', ['member_id' => $v['member_id']])}?" data-width="80%" data-title="用户{$v.member_id} - 奖励记录">{$v.reward} FIL</a>
+                        </td>
+                        <td>
+                            {$v.pays.total_lock_pledge} FIL
+                        </td>
+                        <td>
+                            {$v.pays.total_thaw_pledge} FIL
+                        </td>
+                        <td>
+                            {:date('Y-m-d H:i',$v['add_time'])}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="weadmin-block">
+                <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+            </div>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'],function () {
+        let form = layui.form;
+
+        layui.form.on('switch(switchTest)', function (obj) {
+            var articleState = this.checked ? '1' : '0';
+            $.post("{:url('level_open')}", {member_id: this.value, level_open: articleState}, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, function () {
+                        // 获得frame索引
+                        let index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        window.parent.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+            return false;
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">首页</a> <a href="javascript:;">菜单管理</a>
+        <a href="javascript:;"> <cite>添加幻灯</cite></a>
+
+    </span>
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <form class="layui-form form" action="" method='POST'>
+        <input type="hidden" name="id" value="{$info.flash_id}">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" title="幻灯图片">幻灯图片</label>
+            <div class="layui-input-block">
+                <div class="image_list">
+                    <div class="img_box">
+                        <div class="layui-upload-drag image_file" data-field="form[pic]">
+                            <i class="layui-icon"></i>
+                            <p>点击上传，或将文件拖拽到此处</p>
+                        </div>
+                        <input type="hidden" name="form[pic]" value="{$info.pic}">
+                        <div class="img_data">
+                            {notempty name="info.pic"}
+                            <span class="close_one">×</span>
+                            <img src='{$info.pic}' />
+                            {/notempty}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">图片标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="form[title]" placeholder="请输入图片标题" class="layui-input" value="{$info.title}">
+            </div>
+        </div>
+
+<!--        <div class="layui-form-item">-->
+<!--            <label class="layui-form-label">跳转地址</label>-->
+<!--            <div class="layui-input-block">-->
+<!--                <input type="text" name="form[jump_url]" placeholder="请输入URL" class="layui-input" value="{$info.jump_url}">-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">位置</label>
+            <div class="layui-input-block">
+                <select name="form[type]">
+                    {volist name="type" id="vo"}
+                    <option value="{$key}" {if ($key == $info['type'])} selected {/if} >{$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否开启</label>
+            <div class="layui-input-block">
+                <input type="radio" name="form[status]" value="1" title="开" {if ($info['status'] == 1)} checked {/if}>
+                <input type="radio" name="form[status]" value="0" title="启" {if ($info['status'] == 0)} checked {/if}>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="text" name="form[sort]" placeholder="请输入排序" class="layui-input" value="{$info.sort}">
+                <div class="layui-form-mid layui-word-aux">升序排序 即值小排在前面 默认99</div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit" type="button" lay-submit="" lay-filter="submit" data-url="{:url('flash_edit',['param'=>'flash'])}">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var uploadUrl = "{:url('index/img_upload')}";
+    layui.use(['form','wpupload','add'], function() {});
+</script>
+
+{include file="layout/footer"}

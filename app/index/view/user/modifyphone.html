@@ -1,0 +1,480 @@
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/user/phoneBinding.css">
+<script charset="UTF-8" type="text/javascript" src="//cstaticdun.126.net/load.min.js"></script>
+<div id="main">
+    <div class="main_box">
+
+        <div class="">
+                <div id="my_child">
+                        <h1 class="h1">
+                            {:lang('lan_simple_change_phone')}
+                        </h1>
+                        <div class="form-cont" id="step1" style="display:block;">
+                            <div class="explanation">
+                                {:lang('lan_mod_phone')}
+                            </div>
+                            <div class="input-cont">
+                                <input class="input" type="text" readonly="readonly" id="oldPhone" value="{$member_info.phone}">
+                                <div class="form-tips"></div>
+                                <div class="error-msg">{:lang('lan_please_enter_the_correct_mobile_number')}</div>
+                            </div>
+                            <div class="explanation">
+                                <p>{:lang('lan_picture_verification_code')}:<img id="img_captch" onclick="$('#img_captch').attr('src','{:url(\'index/captcha\')}?v=' + Math.random()+Math.random())" src="{:url('index/captcha')}" alt=""></p>
+                            </div>
+                            <div class="input-cont">
+                                    <input type="text" name="img_code" id="img_code" autocomplete="off" class="input" maxlength="6" placeholder="{:lang('lan_input_img_code')}"/>
+                            </div>
+                            <div class="explanation">
+                                {:lang('lan_mod_phone_auth')}
+                            </div>
+                            <div class="input-cont">
+                                <input class="input" validate="" check-type="one_time_code" type="text" name="phone_code" id="oldPhoneCode"  placeholder="{:lang('lan_user_please_enter_the_verification_code')}" maxlength="6">
+                                <a class="link get-token change" id="msgt">{:lang('lan_send_authentication_code')}</a>
+                                <div id="captcha_div"></div>
+                                <div class="form-tips"></div>
+                                <!--         <div class="error-msg">验证码为6位数字</div> -->
+                            </div>
+                            <button id="next" class="btn submit">{:lang('lan_next_step')}</button>
+                        </div>
+                        <div class="form-cont" id="step2" style="display:none;">
+                            <div class="explanation">
+                                {:lang('lan_mod_new_phone')}
+                            </div>
+                            <div class="input-cont">
+                                <select name="country" id="country" data-type="*" data-msg-null="{:lang('lan_select_country_region')}">
+                                    {volist name='countries' id="value"}
+                                    <option value="86">{$value.name}</option>
+                                    {/volist}
+                                </select><input class="input" type="text" validate="" check-type="phone" name="phone" id="phone" placeholder="{:lang('lan_please_enter_the_new_phone_number')}">
+                                <div class="form-tips"></div>
+                                <div class="error-msg">{:lang('lan_please_enter_the_correct_mobile_number')}</div>
+                            </div>
+                            <div class="explanation">
+                                <p>{:lang('lan_picture_verification_code')}:<img id="nimg_captch" onclick="$('#nimg_captch').attr('src','{:url(\'index/captcha\')}?v=' + Math.random())" src="{:url('index/captcha')}" alt=""></p>
+                            </div>
+                            <div class="input-cont">
+                                <input type="text" name="img_code" id="nimg_code" autocomplete="off" class="input" maxlength="6" placeholder="{:lang('lan_input_img_code')}"/>
+                            </div>
+                            <div class="explanation">
+                                {:lang('lan_mod_new_phone_auth')}
+                            </div>
+                            <div class="input-cont">
+                                <input class="input" validate="" check-type="one_time_code" type="text" name="phone_code" id="phone_code"  placeholder="{:lang('lan_user_please_enter_the_verification_code')}" maxlength="6">
+                                <a class="link get-token change" id="newMsgt" data-key='off'>{:lang('lan_send_authentication_code')}</a>
+                                <div id="captcha_div"></div>
+                                <div class="form-tips"></div>
+                                <!--         <div class="error-msg">验证码为6位数字</div> -->
+                            </div>
+                            <button id="changeSubmit" class="btn submit">{:lang('lan_user_to_complete')}</button>
+                        </div>
+                    </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<script>
+    var checkUrl = "{:url('Sms/check')}"
+    // 手机号码验证
+    var phoneCodeNull = "{:lang('lan_phone_verification_code')}";
+    var phoneNall = "{:lang('lan_mobil_phone_empty')}";
+    var phoneLength = "{:lang('lan_please_enter_the_correct_mobile_number')}";
+    var phone1 = /^1[3|4|5|6|7|8|9][0-9]{9}$/; //手机正则
+    var phone2 = /^[0-9]*$/;
+    //新手机
+    $('#phone').blur(function () {
+        var phone = $(this).val();
+        var country_code = $("#countries").val();
+        if (phone == "") {
+            Array.on_off2 = false;
+            layer.msg(phoneNall);
+            return false;
+     	}
+		if($("#countries").val() == "86"){
+			if(!phone1.test(phone)){
+				Array.on_off2 = false;
+          		layer.msg(phoneLength);
+          		$("#phone").val("");
+			}
+		}else{
+			// debugger;
+			if(!phone2.test(phone)){
+				Array.on_off2 = false;
+          		layer.msg(phoneLength);
+          		return false;
+			}
+		};
+			
+        var path_Phone2 = "{:url('Reg/ajaxCheckPhone')}";
+
+        $.get(path_Phone2, {
+            email: phone
+        }, function (data) {
+            if (data.status === 1) {
+                Array.on_off2 = true;
+                return false;
+            } else {
+                Array.on_off2 = false;
+                layer.msg(data.msg);
+                return false;
+            }
+        })
+    })
+    $('#msgt').click(function () {
+        var code=$("#img_code").val();
+        if(code==""){
+            layer.msg("{:lang('lan_input_img_code')}");
+            return;
+        }
+        var CodeUrl = "{:url('Sms/code')}";
+        var chongxinfasong = "{:lang('lan_resend_verification_code')}";
+        var chongxinfasongone = "{:lang('lan_resend_verification_code_one')}";
+        var i = 120;
+        var tid2;
+        tid2 = setInterval(function () {
+            if ($("#msgt").attr("data-key") == 'off') {
+                i--;
+                $("#msgt").text(i + chongxinfasongone);
+                $("#msgt").attr("disabled",true);
+                $("#msgt").css({"pointer-events":"none","opacity":"0.5"});
+                if (i <= 0) {
+                    $("#msgt").text(chongxinfasong);
+                    $("#msgt").attr("data-key", "on");
+                    $("#msgt").attr("disabled",false);
+                    $("#msgt").css({"pointer-events":"auto","opacity":"1"});
+                    clearInterval(tid2);
+                }
+            }
+        }, 1000);
+
+        if (phone.length == 0) {
+            layer.msg(phoneLength);
+        } else {
+            $.post(CodeUrl, {
+                    type: "modifyphone",
+                    validate: code
+                },
+                function (d) {
+                    layer.msg(d.info);
+                    if (d.status == 1) {
+                        i = 120;
+                        $("#msgt").attr("data-key", "off");
+                        $("#msgt").attr("disabled",true);
+                        $("#msgt").css({"pointer-events":"none","opacity":"0.5"});
+                    }
+                });
+        }
+
+		// 滑块验证码
+    	// captchaIns.popUp();
+        // captchaIns.refresh();
+    });
+    
+    	var captchaIns;
+    	initNECaptcha({
+        captchaId: '393c58cccfa44537b90c773fcbcb43cb',
+        element: '#captcha_div',
+        mode: 'popup',
+        width: 240,
+        onReady: function (instance) {
+            // 验证码一切准备就绪，此时可正常使用验证码的相关功能
+        },
+        onVerify: function (err, data) {
+            if(err){
+                layer.msg("{:lang('lan_complete_slide_validation')}");
+                return false;
+            }
+            /**
+             * 第一个参数是err（Error的实例），验证失败才有err对象
+             * 第二个参数是data对象，验证成功后的相关信息，data数据结构为key-value，如下：
+			 * {
+         *   validate: 'xxxxx' // 二次验证信息
+         * }
+             */
+            // 点击登录按钮后可调用服务端接口，以下为伪代码，仅作示例用
+	        var CodeUrl = "{:url('Sms/code')}";
+	        var chongxinfasong = "{:lang('lan_resend_verification_code')}";
+	        var chongxinfasongone = "{:lang('lan_resend_verification_code_one')}";
+	        // 当滑块验证码通过之后，再次提交则需要重新滑块验证
+            captchaIns.refresh();
+            var i = 120;
+            var tid2;
+            tid2 = setInterval(function () {
+                if ($("#msgt").attr("data-key") == 'off') {
+                    i--;
+                    $("#msgt").text(i + chongxinfasongone);
+                    $("#msgt").attr("disabled",true);
+                    $("#msgt").css({"pointer-events":"none","opacity":"0.5"});
+                    if (i <= 0) {
+                        $("#msgt").text(chongxinfasong);
+                        $("#msgt").attr("data-key", "on");
+                        $("#msgt").attr("disabled",false);
+                        $("#msgt").css({"pointer-events":"auto","opacity":"1"});
+                        clearInterval(tid2);
+                    }
+                }
+            }, 1000);
+			
+            if (phone.length == 0) {
+                layer.msg(phoneLength);
+            } else {
+                $.post(CodeUrl, {
+                        type: "modifyphone",
+                        validate: data.validate
+                    },
+                    function (d) {
+                        console.log(d);
+                        layer.msg(d.info);
+                        if (d.status == 1) {
+                            i = 120;
+                            $("#msgt").attr("data-key", "off");
+                            $("#msgt").attr("disabled",true);
+                            $("#msgt").css({"pointer-events":"none","opacity":"0.5"});
+                        }
+                    });
+            }
+      }
+    }, function onload (instance) {
+        // 初始化成功
+        captchaIns = instance
+    }, function onerror (err) {
+        // 验证码初始化失败处理逻辑，例如：提示用户点击按钮重新初始化
+        layer.msg("{:lang('lan_click_button_reinitialize')}")
+    });
+
+    // 点击下一步
+    $("#next").on("click",function(){
+        var code = $("#oldPhoneCode").val();
+        if(code.length<=0){
+            layer.msg(phoneCodeNull);
+            return;
+        }
+        var obj = {
+            phone_code:code,
+            type:"modifyphone",
+        }
+        $.ajax({
+            url:checkUrl,
+            type:"POST",
+            data:obj,
+            success:function(data){
+                if(data.status==1){
+                    $("#step1").css("display","none");
+                    $("#step2").css("display","block");
+                }else{
+                    layer.msg(data.info)
+                }
+            }
+        });
+    });
+
+        $('#newMsgt').click(function () {
+            var code=$("#nimg_code").val();
+            if(code==""){
+                layer.msg("{:lang('lan_input_img_code')}");
+                return;
+            }
+            var phone = $('#phone').val();
+            var country_code = $("#country").val();
+            var CodeUrl = "{:url('Sms/code')}";
+            var chongxinfasong = "{:lang('lan_resend_verification_code')}";
+            var chongxinfasongone = "{:lang('lan_resend_verification_code_one')}";
+
+            $('#phone').trigger('blur');
+            if (!Array.on_off2) {
+                return false;
+            };
+            if (Array.on_off2 === true) {
+
+
+                if (phone.length == 0) {
+                    layer.msg(phoneLength);
+                } else {
+                    $.post(CodeUrl, {
+                            phone: encodeURIComponent(phone),
+                            country_code: country_code,
+                            type: "bindphone",
+                            validate: code
+                        },
+                        function (d) {
+                            layer.msg(d.info);
+                            if (d.status == 1) {
+                                var i = 120;
+                                var tid2;
+                                tid2 = setInterval(function () {
+                                    if ($("#newMsgt").attr("data-key") == 'off') {
+                                        i--;
+                                        $("#newMsgt").text(i + chongxinfasongone);
+                                        $("#newMsgt").attr("disabled", true);
+                                        $("#newMsgt").css({"pointer-events": "none", "opacity": "0.5"});
+                                        if (i <= 0) {
+                                            $("#newMsgt").text(chongxinfasong);
+                                            $("#newMsgt").attr("data-key", "on");
+                                            $("#newMsgt").attr("disabled", false);
+                                            $("#newMsgt").css({"pointer-events": "auto", "opacity": "1"});
+                                            clearInterval(tid2);
+                                        }
+                                    }
+                                }, 1000);
+
+
+                                i = 120;
+                                $("#newMsgt").attr("data-key", "off");
+                                $("#newMsgt").attr("disabled", true);
+                                $("#newMsgt").css({"pointer-events": "none", "opacity": "0.5"});
+                            }
+                        });
+                }
+            }
+            // // 滑块验证码
+            // captchaIns2.popUp();
+            // captchaIns.refresh();
+        });
+        
+            var captchaIns2;
+            initNECaptcha({
+            captchaId: '393c58cccfa44537b90c773fcbcb43cb',
+            element: '#captcha_div',
+            mode: 'popup',
+            width: 240,
+            onReady: function (instance) {
+                // 验证码一切准备就绪，此时可正常使用验证码的相关功能
+            },
+            onVerify: function (err, data) {
+                if(err){
+                    layer.msg("{:lang('lan_complete_slide_validation')}");
+                    return false;
+                }
+                /**
+                 * 第一个参数是err（Error的实例），验证失败才有err对象
+                 * 第二个参数是data对象，验证成功后的相关信息，data数据结构为key-value，如下：
+                 * {
+             *   validate: 'xxxxx' // 二次验证信息
+             * }
+                 */
+                // 点击登录按钮后可调用服务端接口，以下为伪代码，仅作示例用
+               var phone = $('#phone').val();
+               var country_code = $("#country").val();
+                var CodeUrl = "{:url('Sms/code')}";
+                var chongxinfasong = "{:lang('lan_resend_verification_code')}";
+                var chongxinfasongone = "{:lang('lan_resend_verification_code_one')}";
+                // 当滑块验证码通过之后，再次提交则需要重新滑块验证
+                captchaIns.refresh();
+                $('#phone').trigger('blur');
+                if (!Array.on_off2) {
+                    return false;
+                };
+             if (Array.on_off2 === true) {
+                var i = 120;
+                var tid2;
+                tid2 = setInterval(function () {
+                    if ($("#newMsgt").attr("data-key") == 'off') {
+                        i--;
+                        $("#newMsgt").text(i + chongxinfasongone);
+                        $("#newMsgt").attr("disabled",true);
+                        $("#newMsgt").css({"pointer-events":"none","opacity":"0.5"});
+                        if (i <= 0) {
+                            $("#newMsgt").text(chongxinfasong);
+                            $("#newMsgt").attr("data-key", "on");
+                            $("#newMsgt").attr("disabled",false);
+                            $("#newMsgt").css({"pointer-events":"auto","opacity":"1"});
+                            clearInterval(tid2);
+                        }
+                    }
+                }, 1000);
+                
+                if (phone.length == 0) {
+                    layer.msg(phoneLength);
+                } else {
+                    $.post(CodeUrl, {
+                            phone: encodeURIComponent(phone),
+                            country_code: country_code,
+                            type: "bindphone",
+                            validate: data.validate
+                        },
+                        function (d) {
+                            layer.msg(d.info);
+                            if (d.status == 1) {
+                                i = 120;
+                                $("#newMsgt").attr("data-key", "off");
+                                $("#newMsgt").attr("disabled",true);
+                                $("#newMsgt").css({"pointer-events":"none","opacity":"0.5"});
+                            }
+                        });
+                }
+            }
+          }
+        }, function onload (instance) {
+            // 初始化成功
+            captchaIns2 = instance
+        }, function onerror (err) {
+            // 验证码初始化失败处理逻辑，例如：提示用户点击按钮重新初始化
+            layer.msg("{:lang('lan_click_button_reinitialize')}")
+        });
+    
+    //手机验证码
+    $('#phone_code').blur(function () {
+        var phone_code = $(this).val();
+        if (phone_code == "") {
+            Array.on_off3 = false;
+            layer.msg(phoneCodeNull);
+            return false;
+        } else {
+            Array.on_off3 = true;
+            return false;
+        }
+    });
+
+    //手机验证码
+    $('#oldPhoneCode').blur(function () {
+        var phone_code = $(this).val();
+        if (phone_code == "") {
+            layer.msg(phoneCodeNull);
+        } 
+    });
+    //点击保存
+    $('#changeSubmit').click(function () {
+        $('#phone').trigger('blur');
+        if (!Array.on_off2) {
+            return false;
+        };
+        $('#phone_code').trigger('blur');
+        if (!Array.on_off3) {
+            return false;
+        };
+
+        var phone = $('#phone').val();
+        var phone_code = $('#oldPhoneCode').val();
+        var country_code = $("#country").val();
+        var newPhoneCode = $('#phone_code').val();
+        var data = {
+            new_phone: phone,
+            phone_code: phone_code,
+            type: "bindphone",
+            country_code: country_code,
+            new_phone_code:newPhoneCode,
+        };
+        var JumpUrl = "{:url('Login/index')}";
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            data: data,
+            url: "{:url('User/modifyphone')}",
+            success: function (callback) {
+                if (callback.status == 1) {
+                    layer.msg(callback.info);
+                    setTimeout(function(){
+                        window.location.href = JumpUrl;
+                    },1500);
+                } else {
+                    layer.msg(callback.info);
+                }
+            },
+            error: function (e) {
+                layer.msg(registerederror);
+            }
+        });
+
+    })
+</script>

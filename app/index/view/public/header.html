@@ -1,0 +1,109 @@
+
+<script>
+$(function(){
+    // 语言切换
+    function _lang($lang) {
+        $.ajax({
+            url: "{:url('index/set_langues')}",
+            data: {
+                lang: $lang
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                if (data.code === 10000) {
+                    window.location.href = window.location.href;
+                }
+            },
+            error: function (e) {
+                layer.msg("{:lang('lan_Network_request_failed')}", {
+                    icon: 5
+                });
+            }
+        });
+        return false;
+    }
+    $(".lang_list li a").on("click",function(){
+        var lang = $(this).attr("data-lang");
+        _lang(lang);
+    });
+
+    // 头部选中
+    var headerActive = location.pathname;
+    $("header .tab li").each(function(index,item){
+        var path = $(item).find("a").attr("href");
+        if(headerActive == path){
+            $(item).addClass('active');
+        }
+    });
+});
+</script>
+<div style="height: 80px;"></div>
+<header>
+<a class="fl logo" href="{:url('index/index')}"><span  class="logo_lang">{:lang('lan_header_exchange')}</span><img src="__PUBLIC__/static/home/images/iologo.png" ></a>
+<ul class="fl tab">
+    <li><a href="{:url('index/index')}">{:lang('lan_header_home')}</a></li>
+
+    <li><a href="{:url('orders/exchange')}">{:lang('lan_header_markets')}</a></li>
+    <li><a href="{:url('ordersOtc/index')}">{:lang('lan_transaction')}</a></li>
+    <li><a href="{:url('down/index')}">{:lang('lan_header_download')}</a></li>
+    <li><a href="{:url('index/index/help')}">{:lang('lan_help_center')}</a></li>
+</ul>
+<div class="fr lang_box menu">
+    {if condition="$Think.cookie.think_language eq 'en-us'"}
+        <div class="lang">
+            <span>English</span><span class="caret"></span>
+        </div>
+    {elseif condition="$Think.cookie.think_language eq 'zh-tw'"/}
+        <div class="lang">
+            <span>中文(简体)</span><span class="caret"></span>
+        </div>
+    {else /}
+        <div class="lang">
+            <span>中文(简体)</span><span class="caret"></span>
+        </div>
+    {/if}
+    <!-- <div class="lang">
+        <span>English</span><span class="caret"></span>
+    </div> -->
+    <div class="clear"></div>
+    <ul class="lang_list header_list">
+        <li><a href="javascript:void(0);" data-lang="en-us">English</a></li>
+        <li><a href="javascript:void(0);" data-lang="zh-tw">中文(简体)</a></li>
+    </ul>
+</div>
+{empty name='member'}
+    <div class="login fr">
+        <span><a href="{:url('login/index')}">{:lang('lan_header_login')}</a></span><span>/</span><span><a href="{:url('reg/index')}">{:lang('lan_header_sign')}</a></span>
+    </div>
+{else/}
+    <div class="menu user_box fr">
+        <div class="user">
+            <img src="{$member.head}" alt=""><span>{$member.username}</span>
+        </div>
+        <ul class="user_list header_list">
+            <li><a href="{:url('user/safe')}">{:lang('lan_header_infor')}</a></li>
+            <li><a href="{:url('wallet/index')}">{:lang('lan_header_assets')}</a></li>
+            <li><a href='{:url("User/invit")}'>{:lang("lan_invite_code")}</a></li>
+            <li><a href="{:url('login/loginOut')}">{:lang('lan_header_out')}</a></li>
+
+        </ul>
+    </div>
+    <div class="menu notice fr">
+        <span>{:lang('lan_order')}</span>
+        <ul class="user_list header_list">
+            <li><a href="{:url('User/manage')}">{:lang('lan_header_market_order')}</a></li>
+            <li><a href="{:url('TradeOtc/trade_list')}">{:lang('lan_header_otc_order')}</a></li>
+            <li><a href="{:url('OrdersOtc/my_order')}">{:lang('lan_header_otc_an')}</a></li>
+        </ul>
+    </div>
+{/empty}
+
+<!-- <div class="menu notice fr">
+    <i class="iconfont">&#xe8c0;</i>
+    <ul class="user_list header_list">
+        <li><a href="">English</a></li>
+        <li><a href="">中文(简体)</a></li>
+    </ul>
+</div> -->
+</header>

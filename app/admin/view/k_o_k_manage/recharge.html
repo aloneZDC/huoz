@@ -1,0 +1,232 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#datePicker1').date_input();
+        $('#datePicker2').date_input();
+    })
+</script>
+
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list">
+            <i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span class="crumb-name">KOK私募充值</span>
+        </div>
+    </div>
+    <div class="result-wrap" style="float:left;width:50%">
+        <form action="{:U('KOKManage/recharge')}" method="post" id="myform_recharge"
+              name="myform_recharge" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i> 私募充值</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>充值用户ID：</th>
+                            <td><input onblur="getname();" type="text" id="member_id" value="" name="member_id"
+                                       class="common-text"><span id="showBug" style="margin-left: 10px; color: #FF0000">ID和手机号二填一</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>充值用户手机号：</th>
+                            <td><input onblur="getbyphone();" type="text" id="phone" value="" name="phone"
+                                       class="common-text"><span id="showphone" style="margin-left: 10px; color: #FF0000">ID和手机号二填一</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 35%;"><i class="require-red"></i>手机号码：</th>
+
+                            <td><span  class="showphone"
+                                      style="margin-left: 10px; color: #FF0000"></span></td>
+                        </tr>
+                        <tr>
+                            <th style="width: 35%;"><i class="require-red"></i>用户名：</th>
+
+                            <td><span id="showname" class="showname"
+                                      style="margin-left: 10px; color: #FF0000"></span></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>充值积分类型：</th>
+                            <td><select name="currency_id" id="category">
+                                <foreach name="currencyList" item="vo">
+                                    <option value="{$vo['currency_id']}">{$vo['currency_name']}</option>
+                                </foreach>
+                            </select></td>
+
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>锁仓比例：</th>
+                            <td><select name="lock_rate" id="lock_rate">
+                                <foreach name="rateList" item="vo">
+                                    <option value="{$vo}">{$vo}%</option>
+                                </foreach>
+                            </select>
+                                <span class="require-red">* 请确认比例：<span id="note"></span></span>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>充值金额：</th>
+                            <td><input name="money" type="text" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>充值备注：</th>
+                            <td><input name="message" type="text" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input type="submit" value="提交"
+                                       class="btn btn-primary btn6 mr10"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div style="float: left; width: 100%;">
+        <div class="config-title">
+            <h1>
+                <i class="icon-font">&#xe00a;</i>私募充值列表
+            </h1>
+        </div>
+
+        <div class="search-wrap">
+            <div class="search-content">
+                <div class="search-wrap">
+                    <div class="search-content">
+                        <form id="form" action="{:U('KOKManage/recharge')}" method="get">
+                            <table class="search-tab">
+                                <tr>
+                                    <th width="70">手机号码:</th>
+                                    <td><input class="common-text" placeholder="手机号码" name="phone" value="{$get.phone}"
+                                               type="text"></td>
+                                    <th width="70">用户ID:</th>
+                                    <td><input class="common-text" placeholder="用户ID" name="member_id" value="{$get.member_id}"
+                                               id="" type="text"></td>
+                                    <th width="70">时期筛选:</th>
+                                    <td width="70">
+                                        <input type="text" id="datePicker1" name="starttime" class="date_picker common-text" style="width: auto;"
+                                               placeholder="点击选择日期" value="{$get.starttime}"/>
+                                    </td>
+                                    <td width="70">
+                                        <input type="text" name="endtime" id="datePicker2" class="date_picker common-text" style="width: auto;"
+                                               placeholder="点击选择日期" value="{$get.endtime}"/>
+                                    </td>
+                                    <td><input class="btn btn-primary btn2"  value="查询" type="submit"></td>
+                                    <input type="hidden" name="daochu" id="dao" value="">
+                                    <td><input class="btn btn-primary btn2" id="daochu" value="导出数据" type="button"></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="result-tab" width="100%">
+            <tr>
+                <th>充值用户ID</th>
+                <th>用户名</th>
+                <th>手机</th>
+                <th>充值积分类型</th>
+                <th>充值金额</th>
+                <th>锁仓比率</th>
+                <th>锁仓金额</th>
+                <th>可互转金额</th>
+                <th>时间</th>
+                <th>备注</th>
+                <th>管理员</th>
+            </tr>
+            <volist name='list' id='vo'>
+                <tr>
+                    <td><a href="javascript:;" class="shenhe_button">{$vo['member_id']}</a>
+                    </td>
+                    <td>{$vo['name']}</td>
+                    <td>{$vo['phone']}</td>
+                    <td>{$vo['currency_id']|getCurrencynameByCurrency=###}</td>
+                    <td>{$vo['money']|default=0}</td>
+                    <td>{$vo['rate']}</td>
+                    <td>{$vo['lock_money']}</td>
+                    <td>{$vo['exchange_money']}</td>
+                    <td>{$vo['add_time']|date='Y-m-d H:i:s',###}</td>
+                    <td>{$vo['message']}</td>
+                    <td>{$vo['username']}</td>
+                </tr>
+            </volist>
+        </table>
+        <div class="list-page">
+            <ul>{$page}</ul>
+        </div>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+<!--/main-->
+<script>
+    function getname() {
+
+        if ($("#member_id").val() != "" && $("#member_id").val() != 0) {
+            $.post('__URL__/getNameByid', {"id": $("#member_id").val()}, function (data) {
+                if(data.code=="10000"){
+                    $(".showname").text(data.result.name);
+                    $(".showphone").text(data.result.phone);
+                }else {
+                    $(".showname").text("");
+                    $(".showphone").text("");
+                }
+            });
+
+        }
+    }
+    // function getphone() {
+    //
+    //     if ($("#member_id").val() != "" && $("#member_id").val() != 0) {
+    //         $.post('__URL__/getNameByphone', {"id": $("#member_id").val()}, function (data) {
+    //
+    //             $(".showphone").text(data);
+    //         });
+    //
+    //     } else {
+    //         $(".showphone").text(0);
+    //     }
+    // }
+    function getbyphone() {
+        if ($("#phone").val() != "" && $("#phone").val() != 0) {
+            $.post('__URL__/getNameByphone', {"phone": $("#phone").val()}, function (data) {
+                if(data.code=="10000"){
+                    $(".showname").text(data.result.name);
+                    $(".showphone").text(data.result.phone);
+                }else {
+                    $(".showname").text("");
+                    $(".showphone").text("");
+                }
+            });
+
+        }
+    }
+
+    var rate=$("#lock_rate").val();
+    var test="进入锁仓的比例为:"+rate+"%,进入可互转资产比例为:"+(100-rate)+"%";
+    $("#note").html(test);
+    $("#lock_rate").change(function () {
+        var rate=$("#lock_rate").val();
+         test="进入锁仓的比例为:"+rate+"%,进入可互转资产比例为:"+(100-rate)+"%";
+        $("#note").html(test);
+    })
+    $("#daochu").click(function () {
+        $("#dao").val(1);
+        $("#form").submit();
+        $("#dao").val(0);
+    })
+
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list">
+            <i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span class="crumb-name">等级修改</span>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Boss/updateConfig')}" method="post" id="myform" name="myform">
+            <input type="hidden" name="keys" value="{$keys['key']}">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1>
+                        <i class="icon-font">&#xe00a;</i>{$keys['key']}等级修改
+                    </h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <?php if(isset($keys['value']['money'])):?>
+                        <tr>
+                            <th><i class="require-red">*</i>直推人数：</th>
+                            <td><input type="number"
+                                       value="{$keys['value']['recommend']}" size="85"
+                                       name="recommend" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>团队总入金达：</th>
+                            <td><input type="text"
+                                       value="{$keys['value']['money']}" size="85"
+                                       name="money" class="common-text">枚</td>
+                        </tr>
+                        <?php else:?>
+                        <tr>
+                            <th><i class="require-red">*</i>需要培养：</th>
+                            <td><input type="number"
+                                       value="{$keys['value']['recommend']}" size="85"
+                                       name="recommend" class="common-text">名
+                                <select name="culture">
+                                    <volist name="list" id="vo">
+                                        <eq name="vo" value="$keys['value']['culture']">
+                                            <option value="{$vo}" selected>{$keys['value']['culture']}</option>
+                                            <else/>
+                                            <option value="{$vo}">{$vo}</option>
+                                        </eq>
+                                    </volist>
+                                </select>
+                                有效会员
+                            </td>
+                        </tr>
+                        <?php endif;?>
+
+                        <tr>
+                            <th></th>
+                            <td><input type="submit" id="submit" value="修改"
+                                       class="btn btn-primary btn6 mr10"> <input type="button"
+                                                                                 value="返回" onclick="history.go(-1)"
+                                                                                 class="btn btn6"></td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td><i class="require-red">请勿随意修改等级参数</i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+$("#submit").click(function () {
+    var r=confirm("确定要修改等级参数吗?");
+    if(r==true){
+       return true;
+    }
+    return false;
+})
+</script>

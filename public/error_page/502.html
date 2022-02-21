@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Error Page - 502</title>
+        <link href="./assets/error.css" rel="stylesheet" type="text/css">
+        <script src="./assets/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                var h = $(window).height();
+                $('body').height(h);
+                $('.mianBox').height(h);
+                centerWindow(".tipInfo");
+            });
+
+            //2.将盒子方法放入这个方，方便法统一调用
+            function centerWindow(a) {
+                center(a);
+                //自适应窗口
+                $(window).bind('scroll resize',
+                        function() {
+                            center(a);
+                        });
+            }
+
+            //1.居中方法，传入需要剧中的标签
+            function center(a) {
+                var wWidth = $(window).width();
+                var wHeight = $(window).height();
+                var boxWidth = $(a).width();
+                var boxHeight = $(a).height();
+                var scrollTop = $(window).scrollTop();
+                var scrollLeft = $(window).scrollLeft();
+                var top = scrollTop + (wHeight - boxHeight) / 2;
+                var left = scrollLeft + (wWidth - boxWidth) / 2;
+                $(a).css({
+                    "top": top,
+                    "left": left
+                });
+            }
+        </script>
+    </head>
+    <body style="height: 871px;">
+        <div class="mianBox" style="height: 871px;">
+            <img src="./assets/yun0.png" alt="" class="yun yun0">
+            <img src="./assets/yun1.png" alt="" class="yun yun1">
+            <img src="./assets/yun2.png" alt="" class="yun yun2">
+            <img src="./assets/bird.png" alt="" class="bird">
+            <img src="./assets/san.png" alt="" class="san">
+            <div class="tipInfo" style="top: 361.5px; left: 780px;">
+                <div class="in">
+                    <div class="textThis">
+                        <h2>页面跑火星去了</h2>
+                        <p>
+							<span style="font-style: normal;text-align: left;margin-bottom: 6px;display: block;padding-left: 5px;">502 Bad Gateway</span><br>
+							<span>3秒后，去首页溜达吧<a id="href" href="/"></a></span><span><b id="wait">3</b>秒</span>
+						</p>
+                        <script type="text/javascript">                            (function() {
+                                var wait = document.getElementById('wait'), href = document.getElementById('href').href;
+                                var interval = setInterval(function() {
+                                    var time = --wait.innerHTML;
+                                    if (time <= 0) {
+//                                      location.href = href;
+										history.go(-1)
+                                        clearInterval(interval);
+                                    }
+                                    ;
+                                }, 2000);
+                            })();
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</body>
+</html>

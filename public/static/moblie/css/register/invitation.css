@@ -1,0 +1,226 @@
+input::-webkit-input-placeholder {
+    color: #D6CDA8;
+}
+
+input::-webkit-input-placeholder {
+    /* WebKit, Blink, Edge */
+    color: #D6CDA8;
+}
+
+:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #D6CDA8;
+}
+
+::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #D6CDA8;
+}
+
+input:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #D6CDA8;
+}
+
+input::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #D6CDA8;
+}
+
+.content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #292D40;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.header-top {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: url("../../images/jihui_bg.png") no-repeat center;
+    background-size: 100% 100%;
+    height: 24.5rem;
+    width: 100%;
+}
+
+.chinese {
+    margin-top: 3.833rem;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-weight:500;
+    font-size: 1.167rem;
+}
+.chinese > span {
+    margin: 0 1rem;
+}
+.chinese>button {
+    border: none;
+    background: transparent;
+    color: #fff;
+}
+
+.chinese>button.active {
+    color: #F4B84A;
+}
+
+.z_img {
+    float: left;
+    margin-left: 18px;
+    margin-top: 16px;
+    width: 11.3333rem;
+}
+
+.z_img img {
+    width: 4.166666rem;
+    display: block;
+}
+
+.header {
+    width: 100%;
+}
+
+.fa-caret-down {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 10px solid #fff;
+    position: absolute;
+    top: 0.667rem;
+    margin-left: 4px;
+}
+
+.cont-line-list {
+    position: absolute;
+    top: 12.25rem;
+    width: 100%;
+}
+
+.center-list {
+    width: 80%;
+    height: 12rem;
+    background: linear-gradient(0deg, rgba(247, 210, 57, 1) 0%, rgba(239, 185, 14, 1) 100%);
+    border-radius: 0.833rem;
+    margin: 0 10%;
+}
+
+.list-pr {
+    padding-top: 1rem;
+    text-align: center;
+}
+
+.list-pr img {
+    width: 4.167rem;
+}
+
+.account {
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-top: 1rem;
+    text-align: center;
+}
+
+.but {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.but>button {
+    width: 9.333rem;
+    height: 2rem;
+    background: rgba(41, 45, 64, 1);
+    border-radius: 1rem;
+    border: 0;
+    color: #fff;
+    font-size: 1.167rem;
+    font-weight: 100;
+}
+
+.footer {
+    width: 100%;
+    height: 29.167rem;
+    background: #fff;
+    box-shadow: 0px -1.667rem 3.333rem 0px rgba(0, 0, 0, 0.05);
+    border-radius: 2.833rem 2.8333rem 0 0;
+    padding: 0 1.458rem;
+    box-sizing: border-box;
+    margin-top: 2.5rem;
+}
+
+.footer>h4 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #CD6502;
+    padding: 2.167rem 0 1.667rem 1.667rem;
+}
+
+.footer>.account-list {
+    position: relative;
+    height: 4.5rem;
+    width: 100%;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #D6CDA8;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.667rem;
+}
+
+.footer>.account-list>img {
+    width: 1.8333rem;
+    position: absolute;
+    left: 2.458rem;
+
+}
+
+.footer>.account-list>input {
+    background: #FBF7E7;
+    border-radius: 1.583rem;
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 1.25rem;
+    padding-left: 5.333rem;
+}
+
+.footer>.buts {
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.buts>button {
+    width: 100%;
+    height: 4.1667rem;
+    background: linear-gradient(-79deg, rgba(244, 193, 95, 1) 0%, rgba(236, 144, 56, 1) 100%);
+    border-radius: 2.083rem;
+    font-size: 1.25rem;
+    font-family: PingFang TC;
+    font-weight: 500;
+    color: #fff;
+    border: 0;
+}
+
+.footer>.foot {
+    margin-top: 2.1667rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.083rem;
+    font-family: PingFang TC;
+    font-weight: 500;
+    color: #666;
+}
+
+.foot>img {
+    width: 1.5rem;
+    margin-right: 0.416rem;
+}

@@ -1,0 +1,352 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+<script>
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<script src="__PUBLIC__/js/laydate/laydate.js"></script>
+<style>
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 0 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+    @font-face {
+        font-family: 'iconfont';  /* project id 866592 */
+        src: url('//at.alicdn.com/t/font_866592_j77i3umh4fi.eot');
+        src: url('//at.alicdn.com/t/font_866592_j77i3umh4fi.eot?#iefix') format('embedded-opentype'),
+        url('//at.alicdn.com/t/font_866592_j77i3umh4fi.woff') format('woff'),
+        url('//at.alicdn.com/t/font_866592_j77i3umh4fi.ttf') format('truetype'),
+        url('//at.alicdn.com/t/font_866592_j77i3umh4fi.svg#iconfont') format('svg');
+    }
+    .iconfont{
+        font-family:"iconfont" !important;
+        font-size:16px;font-style:normal;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-stroke-width: 0.2px;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    .sort{
+        color: #333 !important;
+    }
+    .sort i{
+        display: inline-block;
+        position: relative;
+        width: 12px;
+        height: 12px;
+        line-height: 14px;
+        margin-right: 6px;
+        cursor: pointer;
+        color: #4e5b85;
+    }
+    .sort i b{
+        position: absolute;
+        left: 0;
+        top: 6px;
+        font-weight: 400;
+        font-size: 12px;
+        color: #b7bcce;
+        margin-left: 5px;
+    }
+    .sort i b:first-of-type{
+        top: -4px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">分红收益日志列表</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('boss/incomeLog')}" method="get" style="padding: 0 15px;">
+                <table class="search-tab">
+                    <tr>
+                        <th  width="60px">账户:</th>
+                        <td><input class="common-text" placeholder="手机号码/Email" name="phone" value="{$where['phone']}" id="" type="text"></td>
+                        <th  width="60px">用户ID:</th>
+                        <td><input class="common-text" placeholder="用户ID" name="member_id" value="{$where['member_id']}" id="" type="text"></td>
+                        <th width="70px">类型:</th>
+                        <td>
+                            <select name="type" id="">
+                                <option value="">全部</option>
+                                <option value="1" <if condition="$where['type'] eq 1"> selected="selected" </if>>基础分红</option>
+                                <option value="2" <if condition="$where['type'] eq 2"> selected="selected" </if>>增加分红</option>
+                                <option value="3" <if condition="$where['type'] eq 3"> selected="selected" </if>>一级分红</option>
+                                <option value="4" <if condition="$where['type'] eq 4"> selected="selected" </if>>幸运赠送</option>
+                                <option value="5" <if condition="$where['type'] eq 5"> selected="selected" </if>>推荐奖励</option>
+                                <option value="6" <if condition="$where['type'] eq 6"> selected="selected" </if>>社区奖励</option>
+                                <option value="7" <if condition="$where['type'] eq 7"> selected="selected" </if>>平级奖励</option>
+                                <option value="8" <if condition="$where['type'] eq 8"> selected="selected" </if>>管理奖励</option>
+                            </select>
+                        </td>
+                        <th width="70px">领取状态:</th>
+                        <td>
+                            <select name="status" id="">
+                                <option value="">全部</option>
+                                <option value="1" <if condition="$where['status'] eq 1"> selected="selected" </if>>未领取</option>
+                                <option value="2" <if condition="$where['status'] eq 2"> selected="selected" </if>>已领取</option>
+                            </select>
+                        </td>
+                        <th width="70px">时间:</th>
+                        <td>
+                            <input class="common-text" placeholder="开始时间" name="start_time" value="{$where['start_time']}" id="start_laydate" type="text">
+                            ~
+                            <input class="common-text" placeholder="结束时间" name="end_time" value="{$where['end_time']}" id="end_laydate" type="text">
+                        </td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="12">
+                            总数量:{$total_arr['num']}  &nbsp;&nbsp;&nbsp;&nbsp;
+                            总分红金额:{$total_arr['bonus_num']}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>用户ID</th>
+                    <th>用户帐号</th>
+                    <th>用户等级</th>
+                    <th><a class="sort" id="sort_a_num" href="javascript:;" data-field="a.num"><span>分红金额</span><i><b class="iconfont asc">&#xe601;</b><b class="iconfont desc">&#xe600;</b></i></a></th>
+
+                    <!--<th>分红金额</th>-->
+                    <th>收益率</th>
+                    <th>创建时间</th>
+                    <th>类型</th>
+                    <th>静动状态</th>
+                    <th>领取状态</th>
+                    <th><a class="sort" id="sort_a_in_num" href="javascript:;" data-field="a.in_num"><span>入金量</span><i><b class="iconfont asc">&#xe601;</b><b class="iconfont desc">&#xe600;</b></i></a></th>
+                    <th><a class="sort" id="sort_a_limit_num" href="javascript:;" data-field="a.limit_num"><span>入金额容量上限</span><i><b class="iconfont asc">&#xe601;</b><b class="iconfont desc">&#xe600;</b></i></a></th>
+                    <th><a class="sort" id="sort_a_child_num" href="javascript:;" data-field="a.child_num"><span>昨日有效收益</span><i><b class="iconfont asc">&#xe601;</b><b class="iconfont desc">&#xe600;</b></i></a></th>
+                    <!--<th>入金量</th>-->
+                    <!--<th>入金额容量上限</th>-->
+                    <!--<th>昨日有效收益</th>-->
+                    <th>领取时间</th>
+                    <th>操作</th>
+                </tr>
+                <volist name='list' id='vo'>
+                    <tr data-id="{$vo['member_id']}">
+                        <td ><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo['member_id']}</a></td>
+                        <td >{$vo['phone']}</td>
+                        <td>{$vo['level']}</td>
+                        <td >{$vo['num']}</td>
+                        <td >{$vo['profit']}</td>
+                        <td >{$vo['add_time_txt']}</td>
+                        <td >{$vo['type_txt']}</td>
+                        <td>{$vo['type_status']}</td>
+                        <td >{$vo['receive_status']}</td>
+                        <td >{$vo['in_num']}</td>
+                        <td>{$vo['limit_num']}</td>
+                        <td>{$vo['child_num']}</td>
+                        <td >{$vo['receive_time']}</td>
+                        <td>
+                            <if condition="$vo.type eq 4">
+                                <a href="{:U('BossPlan/reward_bouns_detail',['today'=>date('Y-m-d',$vo['add_time']),'member_id'=>$vo['member_id']])}" target="_blank">查看明细</a>
+                            <elseif condition="$vo.type gt 4" />
+                                <a href="{:U('BossPlan/bouns_detail',['today'=>date('Y-m-d',$vo['add_time']),'member_id'=>$vo['member_id']])}" target="_blank">查看明细</a>
+                            </if>
+                        </td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+
+    $(function () {
+        function loading() {
+            layer.load(1, {
+                shade: [0.3, '#000'] //0.1透明度的白色背景
+            });
+        }
+
+        var url = "{:U('',array_merge($where,['order'=>'__order__','order_by'=>'__order_by__']))}";
+        var curr_field2  = "{$where.order}";
+        var curr_field = "{$where.order}";
+        var curr_sort = "{$where.order_by}";
+
+        $('.sort').click(function(){
+            var field = $(this).attr('data-field');
+            var order_by = '';
+            url = url.replace('__order__',field);
+            field = field.replace('.','_');
+            curr_field = curr_field.replace('.','_');
+            if(field==curr_field && curr_sort=='desc'){
+                order_by = 'asc';
+            } else {
+                order_by = 'desc';
+            }
+            url = url.replace('__order_by__',order_by);
+            location.href = url;
+        });
+
+        curr_field2 = curr_field2.replace('.','_');
+        $('#sort_'+curr_field2+' .'+curr_sort).css('color','#f00');
+        laydate({
+            elem: '#start_laydate'
+        });
+        laydate({
+            elem: '#end_laydate'
+        });
+        //全选和反选
+        $("#checkAll").click(function () {
+            $('input[name="subBox"]').attr("checked", this.checked);
+        });
+
+        var $subBox = $("input[name='subBox']");
+        $subBox.click(function () {
+            $("#checkAll").attr("checked", $subBox.length == $("input[name='subBox']:checked").length ? true : false);
+        });
+
+
+
+
+        $("button.review").on('click', function () {
+            var _ = $(this),
+                _id = _.parents('tr').attr('data-id'),
+                _type = _.attr('data-type'),
+                data = {
+                    id: _id,
+                    type: _type ? _type : 1
+                },
+                text = data.type == 1 ? "通过" : "不通过";
+
+            layer.confirm("确定" + text + "实名认证吗？", {btn: ['是的','取消']}, function () {
+                var loading = layer.msg('服务器君正在用力加载中，请稍等···', {
+                    icon: 16
+                    , shade: 0.3
+                    , time: 0
+                    , scrollbar: false
+                });
+
+                $.ajax({
+                    data: data,
+                    type: 'post',
+                    dataType: 'json',
+                    url: "{:U('member/member_verify')}",
+                    success: function (callback) {
+                        if(callback.Code == 1){
+                            layer.alert(callback.Msg, {icon: 5});
+                            setTimeout(function () {
+                                window.location.href = window.location.href;
+                                window.parent.location.reload();
+                                parent.layer.close(mylay);
+                            },3000);
+                            layer.close(loading);
+                        }else{
+                            layer.alert(callback.Msg, {icon: 5});
+                            layer.close(loading);
+                        }
+                    },
+                    error: function (e) {
+                        layer.alert("请求失败", {icon: 5});
+                        layer.close(loading);
+                    }
+                });
+            }, function () {
+                layer.close();
+            });
+        });
+    });
+
+    /**
+     * 批量审核
+     */
+        //禁止按钮重复提交
+    var submit_lock = true;
+
+    function review(type) {
+
+        if (!submit_lock) {
+            return false;
+        }
+        submit_lock = false;
+
+        var _subbox_el = $('input[name="subBox"]'),
+            _check_list = [], //勾选的申请列表
+            data = {}; //模板条件
+
+        _subbox_el.each(function (index, el) {
+            if ($(el).is(":checked")) {
+                _check_list.push($(el).val());
+            }
+        });
+
+        if (!_check_list.length > 0) {
+            layer.alert("请选择要审核", {'icon': 5});
+            submit_lock = true;
+            return false;
+        }
+        //console.info(_check_list);
+
+
+        layer.confirm("确认批量审核吗？", {icon: 3, title: '批量审核确认'}, function (index) {
+            layer.msg('提交审核中，请稍等···', {
+                icon: 16
+                , shade: 0.3
+                , time: 0
+                , scrollbar: false
+            });
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: {list: _check_list,type:type},
+                url: "{:U('review')}",
+                success: function (callback) {
+                    if (callback.Code == 1) {
+                        layer.alert(callback.Msg, {"icon": 6});
+                    } else {
+                        layer.alert(callback.Msg, {"icon": 5});
+                    }
+                    setInterval(function () {
+                        window.location.href = window.location.href;
+                    }, 1500);
+
+                    submit_lock = true;
+                },
+                error: function (e) {
+                    layer.alert("审核失败，请求出错！", {"icon": 5});
+
+                    submit_lock = true;
+                }
+            });
+        });
+
+        submit_lock = true;
+        return false;
+    }
+</script>

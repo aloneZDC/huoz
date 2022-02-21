@@ -1,0 +1,190 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css" />
+<script type="text/javascript">
+$(function() {
+    $('#datePicker').date_input();
+    $('#datePicker2').date_input();
+});
+
+window._deel = {
+    req_member_details_url: "{:url('member/member_details')}",
+}
+</script>
+<style>
+@font-face {
+  font-family: 'iconfont';  /* project id 866592 */
+  src: url('//at.alicdn.com/t/font_866592_j77i3umh4fi.eot');
+  src: url('//at.alicdn.com/t/font_866592_j77i3umh4fi.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_866592_j77i3umh4fi.woff') format('woff'),
+  url('//at.alicdn.com/t/font_866592_j77i3umh4fi.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_866592_j77i3umh4fi.svg#iconfont') format('svg');
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+.sort{
+    color: #333 !important;
+}
+.sort i{
+    display: inline-block;
+    position: relative;
+    width: 12px;
+    height: 12px;
+    line-height: 14px;
+    margin-right: 6px;
+    cursor: pointer;
+    color: #4e5b85;
+}
+.sort i b{
+    position: absolute;
+    left: 0;
+    top: 6px;
+    font-weight: 400;
+    font-size: 12px;
+    color: #b7bcce;
+    margin-left: 5px;
+}
+.sort i b:first-of-type{
+        top: -4px;
+}
+</style>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">会员积分统计</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:url('')}" method="get">
+                        <table class="search-tab">
+                            <tr>
+                            	<th  width="60px">用户ID:</th>
+                                <td><input class="common-text" placeholder="用户ID" name="member_id" value="{$data['member_id']}" type="text"></td>
+
+                                <th  width="60px">账户:</th>
+                                <td><input class="common-text" placeholder="手机号码/Email" name="phone" value="{$data['phone']}"  type="text"></td>
+
+								<th  width="60px">姓名:</th>
+                                <td><input class="common-text" placeholder="姓名" name="name" value="{$data['name']}"  type="text"></td>
+
+                                <th width="70px">积分类型:</th>
+                                <td>
+                                    <select name="currency_id" id="">
+                                        <option value="">全部</option>
+                                        {volist name="currency" id="vo"}
+                                            <option value="{$vo['currency_id']}"   {if condition="$data['currency_id'] neq null and $data['currency_id'] eq $vo['currency_id']"}
+                                                    selected
+                                                    {/if} >{$vo['currency_name']}</option>
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>ID</th>
+                        <th>会员ID</th>
+                        <th>手机</th>
+                        <th>邮箱</th>
+                        <th>姓名</th>
+                        <th>积分类型</th>
+                        <th>
+                            <a class="sort" id="sort_total" href="javascript:;" data-field="total">
+                                <span>总量</span><i><b class="iconfont asc">&#xe601;</b><b class="iconfont desc">&#xe600;</b></i>
+                            </a>
+                        </th>
+                        <th><a class="sort" id="sort_a_num" href="javascript:;" data-field="a.num"><span>可用</span><i><b class="iconfont asc">&#xe601;</b><b class="iconfont desc">&#xe600;</b></i></a></th>
+                        <th><a class="sort" id="sort_a_forzen_num" href="javascript:;" data-field="a.forzen_num"><span>冻结</span><i><b class="iconfont asc">&#xe601;</b><b class="iconfont desc">&#xe600;</b></i></a></th>
+                        <th><a class="sort" id="sort_a_lock_num" href="javascript:;" data-field="a.lock_num"><span>锁仓</span><i><b class="iconfont asc">&#xe601;</b><b class="iconfont desc">&#xe600;</b></i></a></th>
+                        <th><a class="sort" id="sort_a_exchange_num" href="javascript:;" data-field="a.exchange_num"><span>互转</span><i><b class="iconfont asc">&#xe601;</b><b class="iconfont desc">&#xe600;</b></i></a></th>
+                        <th><a class="sort" id="sort_a_num_award" href="javascript:;" data-field="a.num_award"><span>赠送</span><i><b class="iconfont asc">&#xe601;</b><b class="iconfont desc">&#xe600;</b></i></a></th>
+                        <th>操作</th>
+                    </tr>
+                    {volist name="list" id="vo" empty=""}
+                        <tr>
+                            <td>{$vo.cu_id}</td>
+                            <td><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo.member_id}</a></td>
+                            <td>{$vo.phone}</td>
+                            <td>{$vo.email}</td>
+                            <td>{$vo.name}</td>
+                            <td>{$vo.currency_name}</td>
+                            <td>{$vo.total}</td>
+                            <td>{$vo.num}</td>
+                            <td>{$vo.forzen_num}</td>
+                            <td>{$vo.lock_num}</td>
+                            <td>{$vo.exchange_num}</td>
+                            <td>{$vo.num_award}</td>
+                            <td>
+                                <a href="{:url('Member/show',['member_id'=>$vo['member_id']])}" >查看会员账户</a>
+                            </td>
+                        </tr>
+                    {/volist}
+                </table>
+                <div class="page">
+                    <div>
+                        {$page}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+<script>
+function loading() {
+    layer.load(1, {
+        shade: [0.3, '#000'] //0.1透明度的白色背景
+    });
+}
+
+var url = "{:url('',array_merge($where,['order'=>'__order__','order_by'=>'__order_by__']))}";
+var curr_field2  = "{$where.order}";
+var curr_field = "{$where.order}";
+var curr_sort = "{$where.order_by}";
+
+$('.sort').click(function(){
+    var field = $(this).attr('data-field');
+    var order_by = '';
+    url = url.replace('__order__',field);
+
+    field = field.replace('.','_');
+    curr_field = curr_field.replace('.','_');
+    if(field==curr_field && curr_sort=='desc'){
+        order_by = 'asc';
+    } else {
+        order_by = 'desc';
+    }
+    url = url.replace('__order_by__',order_by);
+    location.href = url;
+});
+
+curr_field2 = curr_field2.replace('.','_');
+$('#sort_'+curr_field2+' .'+curr_sort).css('color','#f00');
+/**
+ *<i>
+    <b class="iconfont asc">&#xe601;</b>
+    <b class="iconfont desc">&#xe600;</b>
+</i>
+ */
+</script>
+</body>
+
+</html>

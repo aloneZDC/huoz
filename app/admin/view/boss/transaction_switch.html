@@ -1,0 +1,218 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">划转与互转设置</span></div>
+    </div>
+    <div class="search-wrap">
+
+    </div>
+    <div class="result-wrap">
+
+
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+
+                    <th>名称</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                <?php foreach((array)$list as $k=>$vo):?>
+                    <tr>
+                        <td>{$vo['key_name']}</td>
+                        <td>
+                            {$vo['key_state']}
+                        </td>
+                        <td>
+                            <if condition="$vo['key'] eq 'ransfer_switch' or $vo['key'] eq 'mutual_turn_switch' or $vo['key'] eq 'gac_lock_switch' or $vo['key'] eq 'gac_internal_buy_switch' or
+                                       $vo['key'] eq 'base_boss_bonus_switch' or $vo['key'] eq 'add_boss_bonus_switch' or $vo['key'] eq 'first_boss_bonus_switch' or $vo['key'] eq 'mutual_boss_bonus_switch' or
+                                       $vo['key'] eq 'recommend_boss_bonus_switch' or $vo['key'] eq 'community_boss_bonus_switch' or $vo['key'] eq 'level_boss_bonus_switch' or $vo['key'] eq 'manage_boss_bonus_switch' or
+                                       $vo['key'] eq 'boss_old_user_remain_money_switch' or $vo['key'] eq 'xrp_exchange_release_gac_switch'">
+                                <button class="btn review" data-type="{$vo['value']}" data-key-name="{$vo['key']}">开关设置</button>
+                                <elseif condition="$vo['key'] eq 'boss_old_user_confirm_time' or $vo['key'] eq 'remain_gac_price_cny'"/>
+                                    <button class="btn set" data-type="{$vo['value']}" data-key-name="{$vo['key']}">设置</button>
+                                <elseif condition="$vo['key'] eq 'xrp_exchange_gac' "/>
+                                <button class="btn fee" data-type="{$vo['value']}" data-key-name="{$vo['key']}">比例设置</button>
+                                <else/>
+                                <button class="btn fee" data-type="{$vo['value']}" data-key-name="{$vo['key']}">手续费设置</button>
+                            </if>
+
+                        </td>
+                    </tr>
+                <?php endforeach;?>
+            </table>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+
+    $(function () {
+
+        //开关设置
+        $("button.review").on('click', function () {
+            var _ = $(this),
+                _key = _.attr('data-key-name'),
+                _type = _.attr('data-type'),
+                data = {
+                    key: _key,
+                    type: _type
+                },
+                text = data.type ==1 ? "关闭" : "开启";
+
+            layer.confirm("确定" + text + "吗？", {btn: ['是的','取消']}, function () {
+                var loading = layer.msg('服务器君正在用力加载中，请稍等···', {
+                    icon: 16
+                    , shade: 0.3
+                    , time: 0
+                    , scrollbar: false
+                });
+
+                $.ajax({
+                    data: data,
+                    type: 'post',
+                    dataType: 'json',
+                    url: "{:U('boss/transaction')}",
+                    success: function (callback) {
+                        if(callback.Code == 1){
+                            layer.alert(callback.Msg, {icon: 5});
+                          //  setTimeout(function () {
+                                window.parent.location.reload();
+                                parent.layer.close(mylay);
+                       //     },500);
+                            layer.close(loading);
+                        }else{
+                            layer.alert(callback.Msg, {icon: 5});
+                            layer.close(loading);
+                        }
+                    },
+                    error: function (e) {
+                        layer.alert("请求失败", {icon: 5});
+                        layer.close(loading);
+                    }
+                });
+            }, function () {
+                layer.close();
+            });
+        });
+        //手续费设置
+        $("button.fee").on('click', function () {
+            var _ = $(this),
+                _key = _.attr('data-key-name');
+            if(_key=='xrp_exchange_gac'){
+              var  title='比例设置';
+                var  title2='比例值';
+            }else{
+                var  title= '手续费设置';
+                var  title2='手续费';
+            }
+            layer.open({
+                title:title,
+                content: title2+'：<input id="fee" type="text">',
+                btn:['确定'],
+                yes:function () {
+                    var loading = layer.msg('服务器君正在用力加载中，请稍等···', {
+                        icon: 16
+                        , shade: 0.3
+                        , time: 0
+                        , scrollbar: false
+                    });
+                    var _type=$('#fee').val();
+                    var data = {
+                        key: _key,
+                        type: _type
+                    }
+                    $.ajax({
+                        data: data,
+                        type: 'post',
+                        dataType: 'json',
+                        url: "{:U('boss/fee_set')}",
+                        success: function (callback) {
+                            if(callback.Code == 1){
+                                layer.alert(callback.Msg, {icon: 5});
+                              //  setTimeout(function () {
+                                    window.parent.location.reload();
+                                    parent.layer.close(mylay);
+                              //  },500);
+                                layer.close(loading);
+                            }else{
+                                layer.alert(callback.Msg, {icon: 5});
+                                layer.close(loading);
+                            }
+                        },
+                        error: function (e) {
+                            layer.alert("请求失败", {icon: 5});
+                            layer.close(loading);
+                        }
+                    });
+                }
+            });
+        });
+        //设置
+        $("button.set").on('click', function () {
+            var _ = $(this),
+                _key = _.attr('data-key-name'),
+               _value = _.attr('data-type');
+
+            if(_key =='boss_old_user_confirm_time'){
+                var content_text='时间';
+                var html='<input id="set" type="text" value="'+_value+'"><br/><span>时间格式：2019-4-16 00：00：00</span>';
+            }else{
+                var content_text='人民币价格';
+                var html='<input id="set" type="text" value="'+_value+'">';
+            }
+            layer.open({
+                title: '设置',
+                content: content_text+'：'+html,
+                btn:['确定'],
+                yes:function () {
+                    var loading = layer.msg('服务器君正在用力加载中，请稍等···', {
+                        icon: 16
+                        , shade: 0.3
+                        , time: 0
+                        , scrollbar: false
+                    });
+                    var _type=$('#set').val();
+                    var data = {
+                        key: _key,
+                        type: _type
+                    }
+                    $.ajax({
+                        data: data,
+                        type: 'post',
+                        dataType: 'json',
+                        url: "{:U('boss/set')}",
+                        success: function (callback) {
+                            if(callback.Code == 1){
+                                layer.alert(callback.Msg, {icon: 5});
+                                //  setTimeout(function () {
+                                window.parent.location.reload();
+                                parent.layer.close(mylay);
+                                //  },500);
+                                layer.close(loading);
+                            }else{
+                                layer.alert(callback.Msg, {icon: 5});
+                                layer.close(loading);
+                            }
+                        },
+                        error: function (e) {
+                            layer.alert("请求失败", {icon: 5});
+                            layer.close(loading);
+                        }
+                    });
+                }
+            });
+
+        });
+    });
+
+
+
+</script>

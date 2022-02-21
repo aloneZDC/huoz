@@ -1,0 +1,163 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script>
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<style>
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 0 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span
+                class="crumb-name">充币数据错误处理</span></div>
+    </div>
+
+
+    <div class="result-content">
+
+        <table class="result-tab" width="100%">
+            <tr>
+                <th>哈希</th>
+                <th>币类型</th>
+                <th>发送地址</th>
+                <th>接收地址</th>
+                <th>数量</th>
+                <th>状态</th>
+                <th>加入时间</th>
+                <th>处理时间</th>
+                <th>是否修改过</th>
+                <th>是否修改过标签</th>
+                <th>操作</th>
+            </tr>
+            {volist name='list' id='vo'}
+            <tr data-id="{$vo['tx']}">
+                <td>{$vo.tx}</td>
+                <td>
+                    {if $vo.types eq 1}
+                    BTC
+                    {elseif $vo.types eq 2 /}
+                    USDT
+                    {elseif $vo.types eq 3 /}
+                    ETH和ETH代币
+                    {else/}
+                    XRP
+                    {/if}
+                </td>
+
+                <td>{$vo.afrom}</td>
+                <td>{$vo.ato}</td>
+                <td>{$vo.amount}</td>
+                <td>
+                    {if $vo.status eq 0}
+                    未处理
+                    {elseif $vo.status eq 1 /}
+                    正在处理
+                    {elseif $vo.status eq 2 /}
+                    失败
+                    {elseif $vo.status eq 3 /}
+                    成功
+                    {else/}
+                    失败
+                    {/if}
+                </td>
+                <td>{$vo.add_time|date="y-m-d H:i:s", ###}</td>
+                <td>{$vo.update_time|date="y-m-d H:i:s", ###}</td>
+                <td>
+                    {if $vo.check_status == 1}
+                    否
+                    {else}
+                    是
+                    {/if}
+                </td>
+                <td>
+                    {if $vo.is_modify == 1}
+                    否
+                    {else}
+                    是
+                    {/if}
+                </td>
+                <td>
+                    {if $vo.types eq 4}
+                    <a href="javascript:;" class="orders_down-success layui-btn" data-url="{:url('modifyTag')}" data-tx="{$vo.tx}" >修改</a>
+                    {/if}
+                </td>
+            </tr>
+            {/volist}
+        </table>
+        <div style="margin-top: 20px; margin-left: 50px; font-size: 16px;">total: {$count}</div>
+        <div class="page">
+            <div>
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    layui.use(['form','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.orders_down-success').click(function () {
+            let that = $(this);
+            let money = that.data('money');
+            layer.open({
+                id: 1,
+                type: 1,
+                title: "请输入新tag",
+                style: 'width:80%;height:auto;',
+                area: ["500px", "200px"],
+                content: "<div style='display:flex;justify-content:center;padding-top: 30px; width: 480px;'><label class='layui-form-label'>Tag：</label> <input class='layui-input layui-input-inline' placeholder='请输入新tag' id='tag' name='tag' /></div>",
+                btn: ["确定", "取消"],
+                yes: function (index, layero) {
+                    let url = $(that).data('url');
+                    let tx = $(that).data('tx');
+                    let tag = $('#tag').val() || top.$('#tag').val();
+                    if (!tag || tag <= 0) {
+                        layer.msg("请输入新tag");
+                    } else {
+                        globals.ajax(url, {tx: tx, tag: tag}, function (res) {
+                            if (10000 === Number(res.code)) {
+                                layer.msg(res.message);
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            } else {
+                                layer.msg(res.message);
+                            }
+                        });
+                    }
+
+                },
+                no: function (index, layero) {
+                    layer.close(index)
+                }
+            });
+        })
+    });
+</script>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

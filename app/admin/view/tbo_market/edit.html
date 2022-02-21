@@ -1,0 +1,124 @@
+<div class="weadmin-nav layui-clear">
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i
+                class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <form class="layui-form form">
+        <input type="hidden" name="id" id="id" value="{$info.id}">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">分类</label>
+            <div class="layui-input-block">
+                <select name="cat_id">
+                    {volist name="cat_list" id="v"}
+                    <option value="{$v.id}" {if condition="$info.cat_id eq $v.id"}selected="selected"{/if} >{$v.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" id="name" placeholder="" value="{$info.name}" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">英文名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="en_name" id="en_name" placeholder="" value="{$info.en_name}" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">链接</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" id="url" placeholder="" value="{$info.url}" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">图片</label>
+            <div class="layui-input-block">
+                <input type="file" id="myUpload1">
+                <input type="hidden" name="pic1" value="">
+
+                <img src="{$info.image}" alt="" style="max-width: 100px;max-height: 100px;">
+                <input type="hidden" name="image" value="{$info.image}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <input type="text" name="status" id="status" placeholder="" value="{$info.status}" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="text" name="sort" id="sort" placeholder="" value="{$info.sort}" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit" type="submit" lay-filter="add" lay-submit="">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'admin', 'layer'], function () {
+        let form = layui.form;
+
+        $("#myUpload1").change(function(){
+            console.log("change");
+            var file = this.files[0];
+            if(!/image\/\w+/.test(file.type)){
+                alert("请确保文件为图像类型");
+                return false;
+            }
+            //获取文件
+            if (window.FileReader) {                                                        //如果浏览器支持FileReader
+                var reader = new FileReader();                                         //新建一个FileReader对象
+                var reader = new FileReader();
+                reader.onload = function (e){
+                    $('input[name="pic1"]').val(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+            file = null;
+        });
+
+        form.on("submit(add)", data => {
+            $.post("{:url('edit')}", data.field, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, function () {
+                        // 获得frame索引
+                        let index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        window.parent.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+            return false;
+        });
+    });
+</script>
+
+
+</div>
+</body>
+</html>

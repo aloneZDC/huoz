@@ -1,0 +1,392 @@
+{include file="public/header" /}
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/user/otc_banklist.css" />
+<div id="main">
+    {include file="public/left" /}
+    <div class="main_box">
+		<div class="advertising">
+			<div class="collection_head">
+				<div class="collection_title">{:lang('lan_payment_methods')}</div>
+			</div>
+			<div class="collection_middle">
+				<p class="collection_f"></p>
+				<p class="collection_w">{:lang('lan_real_account_payment_method')}</p>
+				<div class="collection_line"></div>
+
+				<div class="content">
+					{foreach name="list" item="bank" key="bank_type" }
+						{volist name='bank' key='k2' id='vo'}
+							<div class="collection_cont">
+								<span class="collection_cont_way">
+									{if condition="$bank_type eq 'wechat'"}
+										{:lang('lan_WeChat')}
+									{elseif condition="$bank_type eq 'alipay'" /}
+										{:lang('lan_alipay')}
+									{elseif condition="$bank_type eq 'bank'" /}
+										{:lang('lan_bank_card')}
+									{/if}
+								</span>
+								<span class="collection_cont_number">/span>
+								<span class="collection_cont_name"></span>
+								<span class="collection_cont_open">
+									<input class="collection_cont_switch" data-id='' data-type='' type="checkbox" checked />  
+								</span>
+								<span class="collection_cont_change">
+									<a class="cont_change_list" data-type='' data-json=''>{:lang('lan_modification')}</a>
+								</span>
+							</div>
+						{/volist}
+					{/foreach}
+				<div class="add_collect">
+				<div class="add_collect_title">
+					<span>{:lang('lan_add_payment_methods')}</span>
+					<i class="fa fa-times down_close fa-lg" aria-hidden="true"></i>
+				</div>
+				<div class="add_collect_title_two">{:lang('lan_payment_methods')}</div>
+				<div class="collect_change">
+					<select name="" class="collect_select">
+						<option value="bank">{:lang('lan_bank_card')}</option>
+						<option value="alipay">{:lang('lan_alipay')}</option>
+						<option value="wechat">{:lang('lan_WeChat')}</option>
+					</select>
+				</div>
+				<!--1-->
+				<div class="change_state change_state0"  style="display: block;">
+					<div class="add_name">{:lang('lan_user_name')}</div>
+					<input type="text" class="add_name_in" value="{$name}"  readonly="true"/>
+					<div class="add_name">{:lang('lan_Account_opening_bank')}</div>
+					<select name="bname" class="bname">
+						<option value="">{:lang('lan_please_depositary_bank')}</option>
+						<volist name='banklist' id='vo'>
+							<option value=""></option>
+						</volist>
+					</select>
+					<div class="add_name">{:lang('lan_Account_opening_branch')}</div>
+					<input type="text" placeholder="{:lang('lan_please_enter_branch_bank')}" class="add_name_input add_name_zbank"/>
+					<div class="add_name">{:lang('lan_bankcard_account_number')}</div>
+					<input type="text" placeholder="{:lang('lan_enter_bankcard_account_number')}" class="add_name_input name_input_num" onkeyup="value=value.replace(/[^\d]/g,'')" />
+					<div class="add_name">{:lang('lan_safe_Tradepassword')}</div>
+					<input type="password" placeholder="{:lang('lan_enter_your_transaction_password')}" class="add_name_input name_input_psd" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+					<div style="color: red;padding-left: 32px;padding-top: 16px;padding-bottom: 14px;">{:lang('lan_currently_only_support')}</div>
+					<div class="add_line" style="margin-top: 15px;"></div>
+					<div class="add_down" style="margin-top: 10px;height: 50px;line-height: 50px;">
+						<span><a class="down_close">{:lang('lan_cancel')}</a></span>
+						<span>{:lang('lan_finish_setup')}</span>
+					</div>
+				</div>
+				
+				<!--2-->
+				<div class="change_state change_state1">
+					<div class="add_name">{:lang('lan_user_name')}</div>
+					<input type="text" class="add_name_in" value=""  readonly="true" />
+					<div class="add_name">{:lang('lan_alipay_account')}</div>
+					<input type="text" placeholder="{:lang('lan_enter_alipay_account')}" class="add_name_input name_input_num"/>
+					<div class="add_name">{:lang('lan_qr_code')}</div>
+					<div class="add_picture">
+						<div class="add_picture_message">
+							<p class="add_picture_message_p"><p>
+							<p>{:lang('lan_upload_alipay_qr_code')}(*.jpg / *.png / *.jpeg)</p>
+						</div>
+						<input type="file" accept="image/*" class="up_load_image" />
+					</div>
+					<div class="add_name">{:lang('lan_safe_Tradepassword')}</div>
+					<input type="password" placeholder="{:lang('lan_enter_your_transaction_password')}" class="add_name_input name_input_psd" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+					<div class="add_line"></div>
+					<div class="add_down">
+						<span><a class="down_close">{:lang('lan_cancel')}</a></span>
+						<span>{:lang('lan_finish_setup')}</span>
+					</div>
+				</div>
+				
+				<!--3-->
+				<div class="change_state change_state2">
+					<div class="add_name">{:lang('lan_user_name')}</div>
+					<input type="text" class="add_name_in" value=""  readonly="true" />
+					<div class="add_name">{:lang('lan_WeChat_account')}</div>
+					<input type="text" placeholder="{:lang('lan_enter_WeChat_account')}" class="add_name_input name_input_num" />
+					<div class="add_name">{:lang('lan_qr_code')}</div>
+					<div class="add_picture">
+						<div class="add_picture_message">
+							<p class="add_picture_message_p"><p>
+							<p>{:lang('lan_upload_WeChat_qr_code')}(*.jpg / *.png / *.jpeg)</p>
+						</div>
+						<input type="file" accept="image/*" class="up_load_image" />
+					</div>
+                    
+					<div class="add_name">{:lang('lan_safe_Tradepassword')}</div>
+					<input type="password" placeholder="{:lang('lan_enter_your_transaction_password')}" class="add_name_input name_input_psd" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+					<div class="add_line"></div>
+					<div class="add_down">
+						<span><a class="down_close">{:lang('lan_cancel')}</a></span>
+						<span>{:lang('lan_finish_setup')}</span>
+					</div>
+				</div>
+			</div>
+				</div>
+				
+				<div class="collection_add">
+					<empty name='list'>
+						<p class="collection_add_top">{:lang('lan_not_increased_any_way')}</p>
+					</empty>
+					<p class="collection_add_down"><span>{:lang('lan_click_add_collection_method')}</span></p>
+				</div>
+			</div>
+			<div class="zhe"></div>
+		</div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+    </div>
+    <script type="text/javascript">
+		// 获取当前url地址
+		function getURLParam(param){
+		  var str =location.search.substring(1);
+		  var arr =str.split("&");
+		  for(var i=0;i<arr.length;i++){
+		    var newArr= arr[i].split("=");
+		    for(var j=0;j<newArr.length;j++){
+		      if(newArr[0]==param){
+		        return newArr[1]
+		      }
+		    }
+		  }
+		  return str
+		}
+		// otc添加地址跳转至此“？type=1”
+		var h_type = getURLParam("type");
+		console.log(h_type);
+		if(h_type == "1") {
+			history.pushState(null, null, document.URL);
+       		window.addEventListener('popstate', function () {
+            	history.pushState(null, null, document.URL);
+            	otcReturn();
+        	});
+		}else if(h_type == "2"){
+			history.pushState(null, null, document.URL);
+       		window.addEventListener('popstate', function () {
+            	history.pushState(null, null, document.URL);
+            	otcIndexReturn();
+        	});
+		}else if(h_type == "3"){
+			history.pushState(null, null, document.URL);
+       		window.addEventListener('popstate', function () {
+            	history.pushState(null, null, document.URL);
+            	otcPersonalIndexReturn();
+        	});
+		}
+		// 跳转回发布广告的收支开关
+		function otcReturn(){
+
+		}
+		// 跳回otc首页
+		function otcIndexReturn(){
+
+		}
+		// 跳回otc个人中心
+		function otcPersonalIndexReturn(){
+
+		}
+		// 添加支付方式
+		var log_id = 0;
+		$(".collection_add_down span").click(function(){
+			log_id = 0;
+			var inputBox = '<div class="add_picture_message"><p class="add_picture_message_p"><p><p>{:lang("lan_upload_alipay_qr_code")}(*.jpg / *.png / *.jpeg)</p></div>';
+			$(".add_collect_title span:nth-child(1)").html("{:lang('lan_add_payment_methods')}");
+			$(".add_collect").show();
+			$(".zhe").show();
+			$(".collect_select").val('bank'); //类型
+			$(".bname").val(""); //银行卡
+			$(".add_name_zbank").val(""); //支行
+			$(".name_input_num").val(""); //账户
+			$(".name_input_psd").val(""); //密码
+			$(".collect_select").attr("disabled",false);
+			$(".collect_select").trigger('change');
+			$(".add_picture_message").html(inputBox);
+			
+		});
+		
+		// 选择的支付方式不同，显示的收款方式不同
+		$(function(){
+			$(".collect_select").change(function(){
+				var tabInex = $(".collect_select option:selected").index();
+				$(".change_state").hide();
+				$(".change_state" + tabInex).show();
+			})
+		});
+		
+		$(".down_close").click(function(){
+			$(".add_collect").hide();
+			$(".zhe").hide();
+		});
+		
+		function check(obj) {
+			if(obj.type=='bank'){
+				if(obj.bname == 0){
+					layer.msg("{:lang('lan_please_depositary_bank')}");
+					return false;
+				}else if(obj.cardnum == ""){
+					layer.msg("{:lang('lan_enter_bankcard_account_number')}");
+					return false;
+				}
+			} else {
+				if(obj.img == ''){
+					layer.msg("{:lang('lan_upload_image')}");
+					return false;
+				}else if(obj.cardnum == ""){
+					layer.msg("{:lang('lan_enter_account')}");
+					return false;
+				}
+			}
+			
+			if(obj.pwd == ""){
+				layer.msg("{:lang('lan_enter_your_transaction_password')}");
+				return false;
+			}
+			
+			return true;
+		}
+		$(".add_down span:nth-child(2)").click(function(){
+			subchange();
+		});
+		
+		function subchange(){
+			var cont = $(".collect_select  option:selected").val(); //类型
+			var cont_name = $(".collect_select  option:selected").text(); //类型名称
+			var contBank = $(".bname option:selected").val(); //银行卡
+			var zBank = $(".add_name_zbank").val(); //支行
+			var data_number = '';var data_psd ='';
+			$(".change_state").each(function(i){
+				if($(this).css("display") == "block"){
+					data_number = $(this).find(".name_input_num").val(); //账户
+					data_psd = $(this).find(".name_input_psd").val(); //密码
+				};
+			})
+			
+			var obj = {
+				id:log_id,
+	        	type:cont,
+	        	bname:contBank,
+	        	inname:zBank,
+	        	cardnum:data_number,
+	        	pwd:data_psd,
+	        	img:imageStr,
+	       };
+			
+			$.ajax({
+                type: "post",
+                url: "{:url('Bank/add')}",
+                data: obj,
+                 async: true,
+                 success: function (d) {
+                     if (d.status != 1) {
+                         layer.msg(d.info);
+                     } else {
+                    	 layer.msg(d.info);
+                    	 $(".add_collect").hide();
+						 $(".zhe").hide();
+                    	 setTimeout("window.location.reload()", 1000);
+                     }
+                 }
+     		});
+		}
+	
+	
+	// 修改已添加的收款方式
+	$(".collection_cont_change .cont_change_list").each(function(){
+		$(this).click(function(){
+			$(".add_collect").show();
+			$(".zhe").show();
+			var jsons = $(this).attr('data-json');
+			jsons = JSON.parse(jsons);
+			log_id = jsons.id;
+			
+			var curr_type = $(this).attr('data-type');
+						
+			$(".add_collect_title span:nth-child(1)").html("{:lang('lan_modify_payment_methods')}");
+			$(".collect_select").val(curr_type);
+			$(".collect_select").attr("disabled",true);
+			$(".collect_select").trigger('change');
+		    $(".bname").val(jsons.bank_id);
+		    $(".add_name_zbank").val(jsons.inname);
+		    $(".name_input_num").val(jsons.cardnum);
+		    $(".add_picture_message").html('<img src="'+jsons.img+'" />');
+		    
+		})
+	})
+	// switch开关
+	$(".collection_cont_switch").each(function(k,v){
+		$(this).click(function(){
+			var data_id = $(this).attr("data-id");
+			var data_type = $(this).attr("data-type");
+			$.ajax({
+				type: "post",
+				url: "{:url('Bank/change')}",
+				async: true,
+				data:{
+					id: data_id,
+					type: data_type
+				},
+				success:function(d){
+					if(d.status != 1){
+						layer.msg(d.info);
+					} else {
+						$(".collection_cont_switch").each(function(key,val){
+							if(k != key){
+								if($(".collection_cont_switch").eq(key).attr('data-type') == data_type){
+									$(".collection_cont_switch").eq(key).attr('checked',false)
+								}
+								
+							}
+						})
+					}
+				}
+			})
+		})
+	});
+	</script>
+	<script type="text/javascript">
+		
+		var imageStr = '';
+		$(".up_load_image").each(function(){
+			$(this).on("change", function() {
+        if (this.files) {
+            var files = this.files;
+            var img = new Image();
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            reader.onload = function(e) {
+                var width, height;
+                var MAX_WH = 800;
+                var image = new Image();
+                img.src = this.result;
+                imageStr = this.result;
+                $(".add_picture_message").html(img);
+                image.onload = function(e) {
+                    if (image.height > MAX_WH) {
+                        // 宽度等比例缩放 *= 
+                        image.width *= MAX_WH / image.height;
+                        image.height = MAX_WH;
+                    }
+                    if (image.width > MAX_WH) {
+                        // 宽度等比例缩放 *= 
+                        image.height *= MAX_WH / image.width;
+                        image.width = MAX_WH;
+                    }
+                    var quality = 100;
+                    var cvs = document.createElement('canvas');
+                    cvs.width = width = image.width;
+                    cvs.height = height = image.height;
+                    var context = cvs.getContext("2d");
+                    context.drawImage(image, 0, 0, image.width, image.height);
+                    imageStr = cvs.toDataURL('image/jpeg', quality / 100);
+//                  console.log(1, imageStr);
+                };
+                image.src = imageStr;
+            };
+        } else {
+            return;
+        }
+    });
+		})
+
+	
+	</script>

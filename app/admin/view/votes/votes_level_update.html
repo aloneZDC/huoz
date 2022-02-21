@@ -1,0 +1,29 @@
+<form class="layui-form form" action="{:url('')}" style="margin: 10px;">
+    <input type="hidden" name="user_id" value="{$info.user_id}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">等级</label>
+        <div class="layui-input-block">
+            <select name="level" lay-verify="required" id="goods_currency_id">
+                <option value="0">0</option>
+                {volist name="level_list" id="vo"}
+                    <option value="{$vo.uvs_level}" {if condition="$info.level eq $vo.uvs_level"}selected="selected"{/if} >{$vo.uvs_desc}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn submit" type="button" lay-submit="" lay-filter="submit" data-url="{:url('')}">立即提交</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use(['form','add','layer'], function() {
+
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

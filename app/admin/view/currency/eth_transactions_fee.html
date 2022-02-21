@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>以太坊&代币 转账手续费</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/iconfont/demo.css">
+    <script type="text/javascript" src="__PUBLIC__/Admin/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/layer/layer.js"></script>
+    <style>
+        .user_profile {
+            padding: 20px;
+        }
+
+        .user_profile .nav {
+            z-index: 999;
+            background-color: #fff;
+        }
+
+        .user_profile .profile_content {
+            z-index: 1;
+        }
+
+        .user_profile .profile_content > div {
+            margin: 20px auto auto;
+            display: none;
+        }
+
+        .select_currency {
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            color: #333;
+            background-color: #ebebeb;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: #c6e0b4;
+        }
+    </style>
+    <script>
+        var token_list = {$token_list},
+            chongbi_list = {$chongbi_list};
+    </script>
+</head>
+<body>
+<div class="user_profile">
+    <ul class="nav nav-tabs nav-justified">
+        <li data-name="eth" class="active"><a href="javascript:;">以太坊</a></li>
+        <li data-name="token"><a href="javascript:;">代币</a></li>
+    </ul>
+    <div class="profile_content">
+        <div class="row eth" style="display: inherit;">
+            <div class="col-md-8" style="padding-left: 0;padding-right: 0;">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">以太坊转账手续费</div>
+                    <form class="form-horizontal" style="margin-top: 20px;padding: 0 20px;">
+                        <div class="form-group">
+                            <label for="inputfrom" class="col-sm-2 control-label">发送地址</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputfrom" placeholder="from" name="eth_from">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputvalue" class="col-sm-2 control-label">发送金额</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" id="inputvalue" placeholder="value" name="eth_value" min="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="button" class="btn btn-primary" data-content-id="get">获取手续费</button>
+                                <button type="button" class="btn btn-info" data-content-id="send" style="margin-left: 15px;">提币汇总</button>
+                                <span class="btn eth_fee hide" style="margin-left: 10px;"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-4" id="eth-balance" style="padding-right: 0;">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        预估手续费（ETH）
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        当前余额（ETH）
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        相差（ETH）
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row token">
+            <div class="col-md-8" style="padding-left: 0;padding-right: 0;">
+                <div class="form-inline select_currency">
+                    <div class="form-group">
+                        <label class="sr-only">Title</label>
+                        <p class="form-control-static" style="font-weight: 700;">选择代币类型：</p>
+                    </div>
+                    <div class="form-group">
+                        <select name="mark_list" class="form-control">
+                            <option value="">请选择</option>
+                            <foreach name='mark_list' key='key' item='value'>
+                                <option value="{$key}">{$value} {$key}</option>
+                            </foreach>
+                        </select>
+                        <input type="hidden" name="contract_address" />
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">代币转账手续费</div>
+                    <form class="form-horizontal" style="margin-top: 20px;padding: 0 20px;">
+                        <div class="form-group">
+                            <label for="inputfromt" class="col-sm-2 control-label">发送地址</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputfromt" placeholder="from" name="token_from">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputvaluet" class="col-sm-2 control-label">发送金额</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" id="inputvaluet" placeholder="value" name="token_value" min="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="button" class="btn btn-primary" data-content-id="get">获取手续费</button>
+                                <button type="button" class="btn btn-info" data-content-id="send" style="margin-left: 15px;">提币汇总</button>
+                                <span class="btn token_fee hide" style="margin-left: 10px;"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-4" id="token-balance" style="padding-right: 0;">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        预估手续费（ETH）
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        当前余额（ETH）
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">0.0000</span>
+                        相差（ETH）
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //获取转账手续费
+        //eth.tools.get_transactions_fee();
+        var dom_name = {
+            eth: $('.eth'),
+            token: $('.token')
+        };
+
+        $('.user_profile ul.nav li').click(function () {
+            var _ = $(this),
+                name = _.attr('data-name');
+
+            _.parent().find('li').removeClass('active');
+            _.addClass('active');
+
+            $('.profile_content > div').hide();
+            $('.' + name).show();
+        });
+
+        //选择代币时写上合约地址
+        $('.token select[name="mark_list"]').on('change', function () {
+            var _ = $(this).children('option:selected').val();
+
+            if(_ == ''){
+                $('input[name="contract_address"]').val('');
+            }else{
+                $('input[name="contract_address"]').val(token_list[_]);
+            }
+        });
+
+        dom_name.eth.find('button[type="button"]').on('click', function () {
+            var data = {
+                agreement: 'eth',
+                from: $.trim(dom_name.eth.find('input[name="eth_from"]').val()),
+                value: dom_name.eth.find('input[name="eth_value"]').val(),
+            },
+                action = $(this).attr('data-content-id'),
+                mark_type = dom_name.token.find('select[name="mark_list"]').children('option:selected').val();
+
+            data.value = (data.value == '') ? 0 : data.value;
+            data.mark = mark_type;
+
+            if(action == 'send') data.to = chongbi_list['ETH'];
+
+            if(!isValidAddress(data.from)){
+                layer.msg('请输入正确的转账地址');
+                return false;
+            }
+
+            if(action == 'get'){
+                return get_transactions_fee(data, action);
+            }else if(action == 'send'){
+                if(!(data.value > 0)){
+                    layer.confirm('你发送的转账金额为0，确认提交吗？', {
+                        btn: ['是的','再想想'] //按钮
+                    }, function(){
+                        return get_transactions_fee(data, action);
+                    }, function(){
+                        layer.msg('取消了', {icon: 0});
+                        return false;
+                    });
+                }else{
+                    layer.confirm('确认提交这笔转账吗？', {
+                        btn: ['是的','再想想'] //按钮
+                    }, function(){
+                        return get_transactions_fee(data, action);
+                    }, function(){
+                        layer.msg('取消了', {icon: 0});
+                        return false;
+                    });
+                }
+            }
+        });
+
+        dom_name.token.find('button[type="button"]').on('click', function () {
+            var data = {
+                agreement: 'token',
+                from: $.trim(dom_name.token.find('input[name="token_from"]').val()),
+                token_address: $.trim(dom_name.token.find('input[name="contract_address"]').val()),
+                value: dom_name.token.find('input[name="token_value"]').val(),
+            },
+                action = $(this).attr('data-content-id'),
+                mark_type = dom_name.token.find('select[name="mark_list"]').children('option:selected').val();
+
+            data.value = (data.value == '') ? 0 : data.value;
+            data.mark = mark_type;
+
+            if(action == 'send'){
+                data.to = chongbi_list[mark_type];
+            }
+
+            if($.trim(data.token_address) == ''){
+                layer.msg('请选择代币种类');
+                return false;
+            }
+
+            if(!isValidAddress(data.from)){
+                layer.msg('请输入正确的转账地址');
+                return false;
+            }
+
+            if(action == 'get'){
+                return get_transactions_fee(data, action);
+            }else if(action == 'send'){
+                if(!(data.value > 0)){
+                    layer.confirm('你发送的转账金额为0，确认提交吗？', {
+                        btn: ['是的','再想想'] //按钮
+                    }, function(){
+                        return get_transactions_fee(data, action);
+                    }, function(){
+                        layer.msg('取消了', {icon: 0});
+                        return false;
+                    });
+                }else{
+                    layer.confirm('确认提交这笔转账吗？', {
+                        btn: ['是的','再想想'] //按钮
+                    }, function(){
+                        return get_transactions_fee(data, action);
+                    }, function(){
+                        layer.msg('取消了', {icon: 0});
+                        return false;
+                    });
+                }
+            }
+        });
+
+        //是否是合法的以太坊钱包地址
+        function isValidAddress(address) {
+            return /^0x[0-9a-fA-F]{40}$/.test(address);
+        }
+
+        /**
+         * ajax获取转账手续费
+         * @param data
+         * @param action
+         */
+        function get_transactions_fee(data, action){
+            var loading_text = "手续费获取中，请稍等···",
+                url = "{:U('ajax_transactions_fee')}";
+
+            if(action == 'send') {
+                loading_text = "转账中，请稍等···";
+                url = "{:U('ajax_transactions_send')}";
+            }
+
+            var loading = layer.msg(loading_text, {
+                icon: 16
+                , shade: 0.3
+                , time: 0
+                , scrollbar: false
+            });
+
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: {data: data},
+                url: url,
+                success: function (callback) {
+                    if(callback.code === 1){
+                        if(action == 'get'){
+                            //$("." + data.agreement + "_fee").text(callback.msg);
+                            $("#" + data.agreement + "-balance ul li:eq(0) .badge").text(callback.msg[0]);
+                            $("#" + data.agreement + "-balance ul li:eq(1) .badge").text(callback.msg[1]);
+                            $("#" + data.agreement + "-balance ul li:eq(2) .badge").text(callback.msg[2]);
+                        }
+                        if(action == 'send'){
+                            layer.alert(callback.msg, {icon: 6});
+                        }
+                    }else{
+                        if(action == 'get'){
+                            //$("." + data.agreement + "_fee").text(callback.msg);
+                            $("#" + data.agreement + "-balance ul li:eq(0) .badge").text('0.0000');
+                            $("#" + data.agreement + "-balance ul li:eq(1) .badge").text('0.0000');
+                            $("#" + data.agreement + "-balance ul li:eq(2) .badge").text('0.0000');
+                        }
+                        layer.msg(callback.msg);
+                    }
+                    layer.close(loading);
+                    return false;
+                },
+                error: function (e) {
+                    //get_transactions_fee(data);
+                    layer.msg('获取失败，请重试');
+                    layer.close(loading);
+                    return false;
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

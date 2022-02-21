@@ -1,0 +1,296 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <title>Calculator</title>
+    <style>
+      #content {
+        width: 100%;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        font-family: "PingFang TC";
+        font-size: 1rem;
+        box-sizing: border-box;
+      }
+      h1 {
+        margin-top: 1.6666rem;
+        font-size: 1.5rem;
+        font-weight: bolder;
+        text-align: center;
+      }
+      .logo {
+        width: 14.16rem;
+        margin: 0 auto;
+        height: 4.1666rem;
+      }
+      .logo img {
+        width: 100%;
+        height: 100%;
+      }
+      .tableBox {
+        width: 98%;
+        margin: 0 auto;
+        margin-top: 0.8333rem;
+        border: 0.016rem solid gray;
+      }
+      .tableBox .flexbox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .flexbox .list {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 3rem;
+        border-right: 0.016rem solid gray;
+        border-bottom: 0.016rem solid gray;
+      }
+      .flexbox .left {
+        flex: 1;
+      }
+      .flexbox .right {
+        flex: 3;
+      }
+      .flexbox .list:last-child {
+        border-right: none;
+      }
+
+      .tableBox .fistList {
+        background-color: lightgray;
+      }
+      .fistList .list {
+        height: 3.333rem;
+        font-weight: bolder;
+        border-right: 0.016rem solid black;
+        border-bottom: 0.016rem solid black;
+      }
+      .fistList .list input {
+        height: 90%;
+        width: 70%;
+        text-align: center;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        outline: 0;
+        border: none;
+        background-color: lightgray;
+      }
+
+      .twoTable {
+        margin-bottom: 4.166rem;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+     var windowW = document.body.clientWidth; // 750 24
+      if(windowW <= 1000){
+       var htmlPx = (windowW / 750) * 24;
+       document.getElementsByTagName("html")[0].style.fontSize = htmlPx + "px";
+      }
+    </script>
+    <div id="content">
+      <div class="logo">
+        <img src="__PUBLIC__/static/moblie/images/logo.png" >
+      </div>
+      <h1>方案一：采购设备</h1>
+      <div class="oneTable tableBox">
+        <div class="flexbox fistList">
+          <div class="list">每日封装T</div>
+          <div class="list">
+            <input
+              type="text"
+              v-model="tValue"
+              @click="goInput(2)"
+              @blur="handleBlur($event, 2)"
+            />
+          </div>
+          <div class="list">共封装P</div>
+          <div class="list">
+            <input
+              type="text"
+              v-model="pValue"
+              @click="goInput(1)"
+              @blur="handleBlur($event, 1)"
+            />
+          </div>
+        </div>
+        <div class="flexbox">
+          <div class="list">
+            64扇区，每天增速20T封装，共封装1P(1024T)GAS费降低一半
+          </div>
+        </div>
+        <div class="flexbox">
+          <div class="list">设备名</div>
+          <div class="list">台</div>
+          <div class="list">价格</div>
+          <div class="list">合计</div>
+        </div>
+        <div class="flexbox">
+          <div class="list">算力机</div>
+          <div class="list">{{ calculateMachine }}</div>
+          <div class="list">185000</div>
+          <div class="list">{{ calculateMachine * 185000 }}</div>
+        </div>
+        <div class="flexbox">
+          <div class="list">存储机</div>
+          <div class="list">{{ saveMachine }}</div>
+          <div class="list">100000</div>
+          <div class="list">{{ saveMachine * 100000 }}</div>
+        </div>
+        <div class="flexbox">
+          <div class="list">证明机</div>
+          <div class="list">{{ proveMachine }}</div>
+          <div class="list">81000</div>
+          <div class="list">{{ proveMachine * 81000 }}</div>
+        </div>
+        <div class="flexbox">
+          <div class="list">miner(采矿)机</div>
+          <div class="list">1</div>
+          <div class="list">85000</div>
+          <div class="list">85000</div>
+        </div>
+        <div class="flexbox">
+          <div class="list">节点机</div>
+          <div class="list">1</div>
+          <div class="list">85000</div>
+          <div class="list">85000</div>
+        </div>
+        <div class="flexbox">
+          <div class="list left">网络设备</div>
+          <div class="list right">以实际需求为准</div>
+        </div>
+        <div class="flexbox">
+          <div class="list"></div>
+          <div class="list"></div>
+          <div class="list">合计</div>
+          <div class="list">{{ buyTotal }}</div>
+        </div>
+      </div>
+      <h1>方案二：租赁设备</h1>
+      <div class="twoTable tableBox">
+        <div class="flexbox fistList">
+          <div class="list">每日封装T</div>
+          <div class="list">
+            <input
+              type="text"
+              v-model="tValue"
+              @click="goInput(2)"
+              @blur="handleBlur($event, 2)"
+            />
+          </div>
+          <div class="list">共封装P</div>
+          <div class="list">
+            <input
+              type="text"
+              v-model="pValue"
+              @click="goInput(1)"
+              @blur="handleBlur($event, 1)"
+            />
+          </div>
+        </div>
+        <div class="flexbox">
+          <div class="list">
+            64扇区，每天增速20T封装，共封装1P(1024T)GAS费降低一半
+          </div>
+        </div>
+        <div class="flexbox">
+          <div class="list">设备名</div>
+          <div class="list">台</div>
+          <div class="list">价格</div>
+          <div class="list">合计</div>
+        </div>
+        <div class="flexbox">
+          <div class="list">存储机</div>
+          <div class="list">{{ saveMachine }}</div>
+          <div class="list">100000</div>
+          <div class="list">{{ saveMachine * 100000}}</div>
+        </div>
+        <div class="flexbox">
+          <div class="list">算力机租赁费</div>
+          <div class="list">{{ theRent }}</div>
+          <div class="list">700000</div>
+          <div class="list">{{theRent * 700000}}</div>
+        </div>
+        <div class="flexbox">
+          <div class="list left">网络设备</div>
+          <div class="list right">以实际需求为准</div>
+        </div>
+        <div class="flexbox">
+          <div class="list"></div>
+          <div class="list"></div>
+          <div class="list">合计</div>
+          <div class="list">{{ rentTotal }}</div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    var myVue = new Vue({
+      el: "#content",
+      data: {
+        tValue: 0,
+        pValue: 0,
+        calculateMachine: 0,
+        saveMachine: 0,
+        proveMachine: 0,
+        theRent: 0,
+        rentTotal: 0,
+        buyTotal: 0,
+      },
+      methods: {
+        goInput(num) {
+          if (num == 1) {
+            this.pValue = "";
+          } else {
+            this.tValue = "";
+          }
+        },
+        //三舍四入
+        compute(num) {
+          const val = parseFloat(num).toFixed(1); //浮点数 保留一位小数
+          //判断小数点是否存在
+          if (val.toString().indexOf(".") != -1) {
+            let str_before = parseFloat(val.toString().split(".")[0]);
+            let str_after = parseFloat(val.toString().split(".")[1]);
+            if (str_after > 3) {
+              str_before += 1;
+            } /*  0.3以下  舍去  0.4以上进一位  */
+            return str_before;
+          } else {
+            return num;
+          }
+        },
+        handleBlur(e, num) {
+          const val = e.target.value;
+          if (num == 2 && val == "") {
+            this.tValue = 0;
+            return false;
+          }
+          if (num == 1 && val == "") {
+            this.pValue = 0;
+            return false;
+          }
+          const pnum = this.pValue;
+          const tnum = this.tValue;
+          console.log(pnum,tnum);
+          this.calculateMachine = this.compute(tnum / 2);
+          this.saveMachine = this.compute((pnum * 1024) / (576 * 0.7));
+          this.proveMachine = this.compute(this.calculateMachine / 2);
+          this.buyTotal =
+            this.calculateMachine * 185000 +
+            this.saveMachine * 100000 +
+            this.proveMachine * 81000 +
+            2 * 85000;
+          this.theRent = (pnum * 1024) / 1024;
+          this.rentTotal = this.saveMachine * 100000 + this.theRent * 700000;
+        },
+      },
+    });
+  </script>
+</html>

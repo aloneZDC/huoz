@@ -1,0 +1,49 @@
+<include file="App/Admin/View/Public/left.html"/>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+<!-- <script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/plugins/prettify.js"></script> -->
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">修改评论内容</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('district/comments_update')}" method="post" id="myform" name="myform">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>修改评论内容</h1>
+                </div>
+                <div class="result-content">
+                    <input type="hidden" name="id" value="{$comment.id}">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red"></i>评论内容：</th>
+                            <td><textarea id="content"  name="content" cols="30" style="width:800px;height:300px;" rows="10">{$comment.content}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#content',{
+                                        uploadJson : '{:U("Art/oss_file_upload")}',
+                                        fileManagerJson : '{:U("Art/oss_file_upload")}',
+                                    });
+                                });
+                            </script></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input class="btn btn-primary btn6 mr10" value="修改" type="submit">
+                                <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

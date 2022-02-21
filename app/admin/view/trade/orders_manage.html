@@ -1,0 +1,288 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<link href="__PUBLIC__/static/admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#datePicker').date_input();
+        $('#datePicker2').date_input();
+    });
+
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<style>
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 0 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">委托管理</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:url('Trade/orders_manage')}" method="get">
+                        <table class="search-tab">
+                            <tr>
+                                <th width="80">选择积分类型:</th>
+                                <td>
+                                    <select name="currency_id" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="currency" id="vo"}
+                                            <option value="{$vo['currency_id']}"
+                                            {if condition="$currency_id neq null and $currency_id eq $vo['currency_id']"}
+                                                selected
+                                            {/if}
+                                            >{$vo['currency_name']}</option>
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="120">被兑积分类型:</th>
+                                <td>
+                                    <select name="currency_trade_id" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="currency" id="vo"}
+                                            <option value="{$vo['currency_id']}"
+                                            {if condition="$currency_trade_id neq null and $currency_trade_id eq $vo['currency_id']"}
+                                                selected
+                                            {/if}
+                                            >{$vo['currency_name']}</option>
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">用户类型:</th>
+                                <td>
+                                    <select name="user_type" id="">
+                                        {volist name="userTypeList" id="vo"}
+                                            {if $key == $user_type}
+                                                <option value="{$key}" selected>{$vo}</option>
+                                            {else/}
+                                                <option value="{$key}">{$vo}</option>
+                                            {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70">订单ID:</th>
+                                <td><input class="common-text" placeholder="订单ID" name="orders_id"
+                                           value="{if condition=" $orders_id neq null"}{$orders_id}{/if}" id=""
+                                    type="text">
+                                </td>
+
+                                <th width="70">邮箱:</th>
+                                <td><input class="common-text" placeholder="购买人email" name="email"
+                                           value="{if condition=" $email neq null"}{$email}{/if}" id="" type="text">
+                                </td>
+
+                                <th width="70">会员ID:</th>
+                                <td><input class="common-text" placeholder="会员ID" name="member_id"
+                                           value="{if condition=" $member_id neq null"}{$member_id}{/if}" id=""
+                                    type="text">
+                                </td>
+
+                                <th width="70">手机:</th>
+                                <td><input class="common-text" placeholder="购买人手机号" name="phone"
+                                           value="{if condition=" $phone neq null"}{$phone}{/if}" id=""
+                                    type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th width="70">挂单数量:</th>
+                                <td><input class="common-text" placeholder="挂单数量" name="num"
+                                           value="{if condition=" $num neq null"}{$num}{/if}" id=""
+                                    type="text">
+                                </td>
+
+                                <th width="70">价格:</th>
+                                <td><input class="common-text" placeholder="价格" name="price"
+                                           value="{if condition=" $price neq null"}{$price}{/if}" id=""
+                                    type="text">
+                                </td>
+                                <input type="hidden" name="types" value="{$types}">
+                                <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="get">
+            <div class="result-content">
+                <ul class="list-menu">
+                    <li><a href="{$buy_url}" class="btn  {if condition="$types eq 'buy'"}active{/if}">买入(挂单数量:{$buy_num})</a></li>
+                    <li><a href="{$sell_url}" class="btn {if condition="$types eq 'sell'"}active{/if}">卖出(挂单数量:{$sell_num})</a></li>
+                </ul>
+                <div class="list-body">
+                    <table class="result-tab" width="100%">
+                        <tr>
+                            <th>委托编号</th>
+                            <th>用户邮箱</th>
+                            <th>会员ID</th>
+                            <th>姓名</th>
+                            <th>手机</th>
+                            <th>交易对</th>
+                            <th>价格</th>
+                            <th>挂单数量</th>
+                            <th>成交数量</th>
+                            <th>手续费</th>
+                            <th>类型</th>
+                            <th>挂单时间</th>
+                            <th>成交时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        {volist name="list" id="vo" empty=""}
+                            <tr>
+                                <td>{$vo.orders_id}</td>
+                                <td>{$vo.email}</td>
+                                <td><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo['member_id']}</a>
+                                </td>
+                                <td>{$vo['name']}</td>
+                                <td>{$vo['phone']}</td>
+                                <td>{notempty  name="vo['b_name']"}{$vo.b_name}/{$vo.b_trade_name}{/notempty}</td>
+                                <td>{$vo.price}</td>
+                                <td>{$vo.num}</td>
+                                <td>{$vo.trade_num}</td>
+                                <td>{$vo['num'] * $vo['fee'] * $vo['price']|number_format=###,4}</td>
+                                <td>{$vo.type|getOrdersType=###}</td>
+                                <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                                <td>
+                                    {empty name="vo['trade_time']"}###
+                                        {else/}
+                                        {$vo.trade_time|date="Y-m-d H:i:s",###}
+                                    {/empty}
+                                </td>
+                                <td>{$vo.status|getOrdersStatus=###}</td>
+                                <td>
+                                    {if condition="($vo['status'] eq  2) or ($vo['status'] eq -1)"}
+                                        {$vo.status|getOrdersStatus=###}
+                                        {else/}
+                                        <a href="javascript:void(0)" onclick="cexiao({$vo.orders_id})">撤销</a>{/if}
+                                </td>
+                            </tr>
+                        {/volist}
+                    </table>
+                    <table class="result-tab" width="100%" style="display: none;">
+                        <tr>
+                            <th>委托编号</th>
+                            <th>用户邮箱</th>
+                            <th>会员ID</th>
+                            <th>姓名</th>
+                            <th>手机</th>
+                            <th>交易对</th>
+                            <th>价格</th>
+                            <th>挂单数量</th>
+                            <th>成交数量</th>
+                            <th>手续费</th>
+                            <th>类型</th>
+                            <th>挂单时间</th>
+                            <th>成交时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        {volist name="list" id="vo" empty=""}
+                            <tr>
+                                <td>{$vo.orders_id}</td>
+                                <td>{$vo.email}</td>
+                                <td><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo['member_id']}</a>
+                                </td>
+                                <td>{$vo['name']}</td>
+                                <td>{$vo['phone']}</td>
+                                <td>{notempty  name="vo['b_name']"}{$vo.b_name}/{$vo.b_trade_name}{/notempty}</td>
+                                <td>{$vo.price}</td>
+                                <td>{$vo.num}</td>
+                                <td>{$vo.trade_num}</td>
+                                <td>{$vo['num'] * $vo['fee'] * $vo['price']|number_format=###,4}</td>
+                                <td>{$vo.type|getOrdersType=###}</td>
+                                <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                                <td>
+                                    {empty name="vo['trade_time']"}###
+                                        {else/}
+                                        {$vo.trade_time|date="Y-m-d H:i:s",###}
+                                    {/empty}
+                                </td>
+                                <td>{$vo.status|getOrdersStatus=###}</td>
+                                <td>
+                                    {if condition="($vo['status'] eq  2) or ($vo['status'] eq -1)"}
+                                        {$vo.status|getOrdersStatus=###}
+                                        {else/}
+                                        <a href="javascript:void(0)" onclick="cexiao({$vo.orders_id})">撤销</a>{/if}
+                                </td>
+                            </tr>
+                        {/volist}
+                    </table>
+                </div>
+                <div class="page">
+                    <div>
+                        {$page}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+function cexiao(_this){
+	layer.confirm('确定撤销委托？', {
+  btn: ['确定','取消'], //按钮
+  title: '撤销委托'
+}, function(){
+  $.post('{:url('Trade/cancel')}',{status:-1,order_id:_this},function(data){
+			   if(data['status'] == 2){
+				   layer.msg(data['info']);
+				   setTimeout(function(){location.reload();},1000);
+			   }else{
+				   layer.msg(data['info']);
+			   }
+		})
+}, function(){
+  layer.msg('已取消');
+});
+
+}
+
+
+    $(function () {
+        var list_menu = $(".result-content .list-menu li"),
+            list_body = $(".list-body");
+        list_menu.each(function (index, el) {
+            var _index;
+            $(el).click(function () {
+                _index = $(this).index();
+
+                list_menu.find("a").removeClass("active");
+                $(el).find("a").addClass("active");
+
+                list_body.find("table").hide();
+                list_body.find("table").eq(_index).show();
+            });
+        });
+    });
+</script>

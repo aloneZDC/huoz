@@ -1,0 +1,84 @@
+
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/user/gift_collection.css">
+<style type="text/css">
+	
+</style>
+    <!--top end-->
+<div id="main">
+	{include file="public/left" /}
+	<div class="main_box">
+		<div class="raise left clearfix" style="margin-left: 30px;width: 920px;">
+			<!--<script src="__PUBLIC__/Home/js/coinindex.js"></script>-->
+			<div class="ybc_list">
+				<div class="ybcoin clearfix" style="padding-left: 0;">
+					<h2 class="yangwu_zhanghaozhongxin_rightTitle">
+						<p>{:lang('lan_gift_collection')}</p>
+					</h2>
+				</div>
+				<ul class="table_head">
+					<li>{:lang('lan_gift_time')}</li>
+					<li>{:lang('lan_present_quantity')}</li>
+					<li>{:lang('lan_type')}</li>
+					<li>{:lang('lan_currency')}</li>
+
+				</ul>
+
+				<ul class="table_body">
+					{notempty name='award_list'}
+				      {volist name="award_list" id="val" }
+						<li>
+							<div>{$val.add_time|date='Y-m-d',###}</div>
+							<div>{$val.num_award}</div>
+							<div>{$val.type}</div>
+							<div>{$val.currency_name}</div>
+						</li>
+					{/volist}
+					{else /}
+					<div class="no_data">
+						<img src="__PUBLIC__/static/home/images/no_data.png" >
+						<span>{:lang('lan_No_data')}</span>
+					</div>
+					{/notempty}
+				</ul>
+				{if condition="!empty($pages)"}
+				<div class="page">{$pages}</div>
+            	{/if}
+			</div>
+
+		</div>
+		<div class="clear"></div>
+	</div>
+</div> 
+<script>
+	function cointrust()
+		{
+			var coinname = $('#coninname').val();
+			var status  = $('#status').val();
+			location.href='/user_exchange/cointrustold/coinname/'+coinname+'/status/'+status;
+		};
+</script>	
+<script>
+$(".menu4").addClass("uc-current");
+$(".table_body_on span").each(function(){
+	$(this).click(function(){
+		var data_id = $(this).attr("data-id");
+		$.ajax({
+			type:"POST",
+			url:'{:url("User/update_user_num_award")}',
+			data:{
+				id:data_id
+			},
+			success:function(d){
+				if(d.status != 1){
+					layer.msg(d.info);
+				}else{
+					layer.msg(d.info);
+					setTimeout(function(){location.reload();},1000);
+				}
+			}
+		});
+	})
+	
+})
+</script>  
+

@@ -1,0 +1,247 @@
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/wallet/my_xrp.css">
+<script charset="UTF-8" type="text/javascript" src="//cstaticdun.126.net/load.min.js"></script>
+<div class="my_xrp">
+        <img src="__PUBLIC__/static/home/images/xrplogo.png">
+        <!--<span class="xrp_title">瑞波钻</span>-->
+        <span class="my_xrp_assets">{:lang('lan_number')}： {$xrp_money.num1} XRP</span>
+</div>
+<div class="rxp_form">
+       
+        <p>{:lang("Z_receiveAccount")}</p>
+        <div class="layui-form-item">
+                        <input type="text" name="account"  autocomplete="off" placeholder="{:lang('Z_enteraccount')}"  class="layui-input placeholder_color" >
+        </div>
+        <p>{:lang("Z_receiveid")}</p>
+        <div class="layui-form-item">
+                <input type="text" name="to_member_id"  autocomplete="off" placeholder="{:lang('Z_enterid')}"  class="layui-input placeholder_color" >
+        </div>
+        <div class="send">
+                <span>{:lang("lan_lan_trade_otc_status14")}</span>
+                <span>{:lang("lan_available_balance_quantity")}： {$xrp_money.num1}XRP</span>
+        </div>
+        <div class="layui-form-item">
+                <input type="text" name="num"  autocomplete="off" placeholder="{:lang('Z_entervol')}" onkeyup="verification(this)" class="layui-input placeholder_color" >
+        </div>
+        <p>{:lang("lan_safe_Tradepassword")}</p>
+        <div class="layui-form-item">
+              <input type="text" name="pwd" onfocus="this.type='password'" autocomplete="off" class="layui-input placeholder_color" maxlength="6" placeholder="{:lang('lan_reg_transaction_password2')}"/>
+        </div>
+        <p>{:lang('lan_change_Mobile_erification')}</p>
+        <div class="layui-form-item">
+                <div class="layui-input-block phoneYZ">
+                  <input type="text" name="phonecode"  autocomplete="off"   class="layui-input placeholder_color" placeholder="{:lang('lan_fill_ver_code')}"> 
+                  <button id="getcode"> {:lang('lan_get_code')}</button>
+                  <button id="countdown">{:lang('lan_Countdown')}120S</button>
+                </div>
+        </div>
+       <p style="height:46px;line-height: 46px;">
+                {:lang('s0219_kouchu')}：<span class="burning">0</span>  XRP
+       </p>
+        <div class="layui-form-item">
+                <input class="fee" type="hidden" value="{$xrp_money.wallet_fee}">
+                <button  class="layui-btn layui-btn-normal btn1" id="submit-btn">{:lang('lan_submit')}</button>
+        </div>
+</div>
+<div class="rxp_record">
+        <h2>{:lang("l_mutual_rotation_record")}</h2>
+        <table class="layui-table" lay-skin="line" >
+                <colgroup>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                </colgroup>
+                <thead>
+                        <tr>
+                                <th>{:lang('lan_change_type')}</th>
+                                <th>{:lang('lan_transaction_name')}</th>
+                                <th>{:lang('lan_state')}</th>
+                                <th>{:lang('lan_order_dealvolume')} (XRP)</th>
+                                <th>{:lang('lan_transaction_time')}</th>
+                        </tr> 
+                </thead>
+                <tbody>
+                       {notempty name="account_list"}
+                                {volist name="account_list" id="vo"}
+                                <tr>
+                                        <td>{$vo.content}</td>
+                                        <td>{$vo.type_name}</td>
+                                        <td>
+                                                {if condition="$vo.number_type ==1"}
+                                                <p style="color:#03C086">{:lang("lan_income")}</p>
+                                                {else/}
+                                                <p style="color:#E96E44">{:lang("lan_expenditure")}</p>
+                                                {/if}
+                                        </td>
+
+                                        <td>{$vo.number}</td>
+                                        <td>{$vo.add_time}</td>
+                                </tr>
+                                {/volist}
+                        {else /}
+
+                        {/notempty}
+                        <tr>
+                                <td colspan="5">
+                                        <div class="page">{$pages}</div>
+                                </td>
+                        </tr>
+                </tbody>
+        </table>
+        <!-- 没有数据时展示 -->
+        {empty name="account_list"}
+        <div class="isempty">{:lang('lan_No_data')}</div>
+        {/empty}
+</div>
+<script type="text/javascript">
+        var Balance = "{$xrp_money.num1}"-0;
+        //验证数量
+        function verification(obj){
+                if($(obj).val()-0 > Balance){
+                        $(obj).val(Balance);   
+                }
+                clearNoNum2(obj);
+        }
+        function istrue(){
+            if( $('[name="account"]').val() ==""){
+                    layer.msg("{:lang('Z_enteraccount')}");
+                    return false;
+            }  
+            if( $('[name="to_member_id"]').val() ==""){
+                    layer.msg("{:lang('Z_enterid')}");
+                    return false;
+            } 
+            if( $('[name="num"]').val() ==""){
+                    layer.msg("{:lang('Z_entervol')}");
+                    return false;
+            }
+            if( $('[name="pwd"]').val() ==""){
+                    layer.msg("{:lang('lan_reg_transaction_password2')}");
+                    return false;
+            }   
+        //     if( $('[name="phonecode"]').val() ==""){
+        //             layer.msg("{:lang('lan_fill_ver_code')}");
+        //             return false;
+        //     } 
+            return true;
+        }
+        //倒计时
+        function countdown(){
+                var time = 120;//倒计时
+                timer = setInterval(function(){
+                        if(time>0){
+                                time--;
+                                $("#countdown").show();
+                                $("#getcode").hide();
+                                $("#countdown").html("{:lang('lan_Countdown')}"+time +"S")
+                        }else{
+                                clearInterval(timer);
+                                $("#countdown").hide();  
+                                $("#getcode").show();
+                                
+                        }
+                },1000)
+        }
+        
+      
+        //互转提交
+        var issubmit = true;
+        $("#submit-btn").click(function () {
+            var account = $('[name="account"]').val();
+            var to_member_id = $('[name="to_member_id"]').val();
+            var num = $('[name="num"]').val();
+            var pwd = $('[name="pwd"]').val();
+            var phonecode = $('[name="phonecode"]').val();
+            var obj = {
+                account:account,
+                to_member_id:to_member_id,
+                num:num,
+                pwd:pwd,
+                phone_code:phonecode,
+
+            };
+            if(istrue() && issubmit){
+                $.ajax({
+                        url:"{:url('Wallet/ajax_operation')}",
+                        data:obj,
+                        type:"post",
+                        success:function (d) {
+                                issubmit = true;
+                                if (d.status != 1) {
+                                        layer.msg(d.info);
+                                } else {
+                                        layer.msg(d.info);
+                                        $(".add_collect").hide();
+                                        $(".zhe").hide();
+                                        setTimeout("window.location.reload()", 1000);
+                                }
+                        }
+                })
+            }
+        })
+        //输入数量获取手续费（燃烧值）
+        $('[name="num"]').change(function () {
+            var fee=$('.fee').val();
+            var num=$('[name="num"]').val();
+            $('.burning').html((fee*num/100));
+        })
+        //获取验证码
+        function sendPhone(validate){
+                $.ajax({
+                        "url": "{:url('Sms/auto_send')}",
+                        "type": "POST",
+                        "data": {
+                                "type":"transfer",
+                                "validate":validate,
+                        },
+                        success: function (data) {
+                                countdown(); 
+                                layer.msg(data.message) 
+                                if(data.status ==1){
+                                
+                                }
+                        }
+                });
+        }
+
+    //获取验证码滑动验证
+    $("#getcode").click(function(){
+        if( istrue()){
+                captchaIns.popUp();
+                captchaIns.refresh();
+        }
+	});
+	    var captchaIns;
+	    initNECaptcha({
+	        captchaId: '393c58cccfa44537b90c773fcbcb43cb',
+	        element: '#getcode',
+	        mode: 'popup',
+	        width: 240,
+	        onReady: function(instance) {
+	            // 验证码一切准备就绪，此时可正常使用验证码的相关功能
+	        },
+	        onVerify: function(err, data) {
+	            /**
+	             * 第一个参数是err（Error的实例），验证失败才有err对象
+	             * 第二个参数是data对象，验证成功后的相关信息，data数据结构为key-value，如下：
+	             */
+            if (data) {
+                sendPhone(data.validate)
+            }
+        }
+    }, function onload(instance) {
+        captchaIns = instance; // 初始化成功
+    }, function onerror(err) {
+        layer.msg("{:lang('lan_click_button_reinitialize')}")  // 验证码初始化失败处理逻辑，例如：提示用户点击按钮重新初始化
+    });
+
+
+
+
+
+    
+
+
+</script>

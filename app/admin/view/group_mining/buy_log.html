@@ -1,0 +1,97 @@
+{if condition="!$Think.get.layui"}
+{include file="../app/admin/view/public/left.html" /}
+{else /}
+<style>
+    .main-wrap {
+        margin-left: 10px;
+    }
+</style>
+{/if}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i>
+            <a href="{:url('Index/index')}">首页</a>
+            <span class="crumb-step">&gt;</span>
+            <span class="crumb-name">拼团挖矿矿源申购记录</span>
+        </div>
+    </div>
+    {if condition="!$Think.get.layui"}
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('buy_log')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <th width="70">用户ID:</th>
+                        <td>
+                            <input class="common-text" placeholder="关键字" name="user_id" value="{$Request.param.user_id}" type="text">
+                        </td>
+                        <th width="70">类型:</th>
+                        <td>
+                            <select name="type">
+                                <option value="">全部</option>
+                                {volist name="type" id="vo"}
+                                <option value="{$key}" {eq name="key" value="$Request.param.type" } selected {/eq} >{$vo}</option>
+                                {/volist}
+                            </select>
+                        </td>
+                        <th width="70">状态:</th>
+                        <td>
+                            <select name="status">
+                                <option value="">全部</option>
+                                {volist name="status" id="vo"}
+                                <option value="{$key}"
+                                        {eq name="key" value="$Request.param.status" } selected {/eq}
+                                >{$vo}</option>
+                                {/volist}
+                            </select>
+                        </td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    {/if}
+    <div class="result-wrap">
+
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>用户名称</th>
+                    <th>类型</th>
+                    <th>矿源</th>
+                    <th>拼团总团数</th>
+                    <th>挖矿周期</th>
+                    <th>日拼团团次</th>
+                    <th>申购时间</th>
+                    <th>代开放时间</th>
+                    <th>到期时间</th>
+                    <th>状态</th>
+                </tr>
+                {volist name="list" id="v"}
+                <tr>
+                    <td>{$v.id}</td>
+                    <td><a href="javascript:member_details({$v.user_id});" class="shenhe_button">{$v.member.ename} ({$v.user_id})</a></td>
+                    <td>{$v.type}</td>
+                    <td>{$v.price} {$v.currency.currency_name}</td>
+                    <td>{$v.total_num} 团次</td>
+                    <td>{$v.days} 天</td>
+                    <td>{$v.daily_num} 团次/天</td>
+                    <td>{$v.add_time}</td>
+                    <td>{$v.start_time}</td>
+                    <td>{$v.end_time}</td>
+                    <td>{$v.status}</td>
+                </tr>
+                {/volist}
+
+            </table>
+        </div>
+        <div class="page">
+            {$page}
+        </div>
+    </div>
+</div>

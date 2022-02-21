@@ -1,0 +1,143 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list">
+            <i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span class="crumb-name">系统设置</span>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Config/updateCofig')}" method="post" id="myform"
+              name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1>
+                        <i class="icon-font">&#xe00a;</i>KOK设置
+                    </h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>静态挖矿KOK分配比例：</th>
+                            <td><input type="text" id="" value="{$config.static_mining_rate}" size="85" name="static_mining_rate"
+                                       class="common-text">%&nbsp;&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>动态挖矿KOK分配比例：</th>
+                            <td><input type="text" id="" value="{$config.dynamic_mining_rate}" size="85" name="dynamic_mining_rate"
+                                       class="common-text">%&nbsp;&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>会员静态分红KOK分配比例：</th>
+                            <td><input type="text" id="" value="{$config.user_static_bonus_rate}" size="85" name="user_static_bonus_rate"
+                                       class="common-text">%&nbsp;&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>会员分享分红KOK分配比例：</th>
+                            <td><input type="text" id="" value="{$config.user_dynamic_bonus_rate}" size="85" name="user_dynamic_bonus_rate"
+                                       class="common-text">%&nbsp;&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>发起人分红KOK分配比例：</th>
+                            <td><input type="text" id="" value="{$config.initiator_bonus_rate}" size="85" name="initiator_bonus_rate"
+                                       class="common-text">%&nbsp;&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>合伙人分红KOK分配比例：</th>
+                            <td><input type="text" id="" value="{$config.partner_bonus_rate}" size="85" name="partner_bonus_rate"
+                                       class="common-text">%&nbsp;&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>已私募总币数：</th>
+                            <td><input type="text" id="" value="{$config.total_private_equity}" size="85" name="total_private_equity"
+                                       class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>分红期开关</th>
+                            <td>
+                                关闭：<input type="radio" name="is_bonus" value="0"
+                                <if condition="$config['is_bonus'] eq 0">checked="checked"</if>
+                                />
+                                开启：<input type="radio" name="is_bonus" value="1"
+                                <if condition="$config['is_bonus'] eq 1">checked="checked"</if>
+                                />
+                                &nbsp;&nbsp;（开启—分红期 关闭—挖矿期）
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>每日平台交易手续费：</th>
+                            <td><input type="text" id="" value="{$config.total_trade_fee}" size="85" name="total_trade_fee"
+                                       class="common-text">&nbsp;&nbsp;（0-按照实际计算）
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>小区挖矿最大值：</th>
+                            <td><input type="text" id="" value="{$config.max_dynamic_mining}" size="85" name="max_dynamic_mining"
+                                       class="common-text">&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                        <!--<tr>-->
+                            <!--<th><i class="require-red">*</i>1小時待分配收入累計折合約：</th>-->
+                            <!--<td><input type="text" id=""-->
+                                       <!--value="{$config.one_hours_distribution_income}" size="85"-->
+                                       <!--name="one_hours_distribution_income" class="common-text"></td>-->
+                        <!--</tr>-->
+                        <tr>
+                            <th><i class="require-red">*</i>今日待分配收入累计折合约：</th>
+                            <td><input type="text" id=""
+                                       value="{$config.amount_income_allocated_today}" size="85"
+                                       name="amount_income_allocated_today" class="common-text"></td>
+                        </tr>
+                        <!--<tr>-->
+                            <!--<th><i class="require-red">*</i>1小時每百萬份KOK累計收入折合約：</th>-->
+                            <!--<td><input type="text" id="" value="{$config.one_hours_million_income}"-->
+                                       <!--size="85" name="one_hours_million_income" class="common-text"></td>-->
+                        <!--</tr>-->
+                        <tr>
+                            <th><i class="require-red">*</i>今日每百万份KOK累计收入折合约：</th>
+                            <td><input type="text" id="" value="{$config.cumulative_income_million_today}"
+                                       size="85" name="cumulative_income_million_today" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>昨日累计待分配总额折合约：</th>
+                            <td><input type="text" id="" value="{$config.total_amount_allocated_yesterday}"
+                                       size="85" name="total_amount_allocated_yesterday" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>前一日挖矿产出：</th>
+                            <td><input type="text" id="" value="{$config.mining_output_previous_day}"
+                                       size="85" name="mining_output_previous_day" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>KOK总流通数：</th>
+                            <td><input type="text" id="" value="{$config.total_flux_AT}"
+                                       size="85" name="total_flux_AT" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input type="submit" value="提交"
+                                       class="btn btn-primary btn6 mr10"> <input type="button"
+                                                                                 value="返回" onclick="history.go(-1)"
+                                                                                 class="btn btn6"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{include file="../app/admin/view/public/left.html" /}
+
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">节点奖励汇总</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>奖励数量</th>
+                        <th>得到奖励的用户</th>
+                        <th>系统内总资产数量</th>
+                        <th>系统内资产达标的用户</th>
+                        <th>结束时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>{$v.today}</td>
+                        <td>{$v.num}</td>
+                        <td>{$v.total_user}</td>
+                        <td>{$v.total_currency_num}</td>
+                        <td>{$v.total_currency_user}</td>
+                        <td>{:date('Y-m-d H:i:s',$v['add_tme'])}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

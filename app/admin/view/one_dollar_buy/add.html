@@ -1,0 +1,130 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">一元抢购</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('OneDollarBuy/add')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>一元夺宝详细信息</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>商品关键字：</th>
+                            <td><input class="common-text" placeholder="先搜索商品吧  VV" name="keyname" id="keyname"
+                                       type="text"><input class="btn btn-primary btn2" style="margin-left:20px;"
+                                                          name="sub" value="搜索" type="submit"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>活动商品：</th>
+                            <td><select name="goods_id">
+                                <option value="0">未知商品</option>
+                                <volist name="ware" id="vk">
+                                    <option value="{$vk.goods_id}">{$vk.goods_name}
+                                        <eq name="vk.keywords" value="">[关键字]
+                                            <else/>
+                                            [{$vk.keywords}]
+                                        </eq>
+                                    </option>
+                                </volist>
+                            </select>
+                                <i class="require-red">*需要先搜索商品，生成商品列表，然后再选择</i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>积分设置：</th>
+                            <td><select name="currency_id">
+                                <option value="0">选择积分类型</option>
+                                <volist name="currency" id="vc">
+                                    <option value="{$vc.currency_id}">{$vc.currency_name}</option>
+                                </volist>
+                            </select>
+                                <i class="require-red">*确定一元购的积分种类</i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>积分数量：</th>
+                            <td><input type="text" size="85" name="currency_num" class="common-text"><i
+                                    class="require-red">*在活动中，每人限使用的积分数量，不同的积分可以有不同的数量限制</i></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>价格：</th>
+                            <td><input type="text" size="85" name="price" class="common-text"><i class="require-red">*商品价格，亦是需求总人次</i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>期数：</th>
+                            <td><input type="text" size="85" name="qishu" value="1" class="common-text"><i
+                                    class="require-red">*一元夺宝商品期数，0默认为无限期</i></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>购买次数：</th>
+                            <td><input type="text" size="85" name="limit" value="1" class="common-text"><i
+                                    class="require-red">*一元购商品限制购买次数，字段：limit</i></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red"></i>商品标语：</th>
+                            <td><input type="text" size="85" name="slogan" class="common-text"><i class="require-red">一元夺宝商品标语</i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red"></i>商品简介：</th>
+                            <td><input type="text" size="85" name="ci" class="common-text"><i class="require-red">一元夺宝商品简介</i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>积分兑换人民币底价：</th>
+                            <td><span style="color:#f00;font-size:16px;margin-right:5px;">¥</span><input type="text"
+                                                                                                         size="85"
+                                                                                                         name="currency_downprice"
+                                                                                                         class="common-text"><i
+                                    class="require-red">计算公式：总价格÷底价=全部积分的数量，全部积分的数量÷积分数量=每人次需购买次数</i></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>筛选条件：</th>
+                            <td>
+                                <input name="screen[]" type="checkbox" class="xuanzhong" value="h"/><i
+                                    style="color:#f00;margin:0 30px 0 5px;">热门</i>
+                                <input name="screen[]" type="checkbox" class="xuanzhong" value="t"/><i
+                                    style="color:#00ff80;margin:0 30px 0 5px;">置顶</i>
+                                <input name="screen[]" type="checkbox" class="xuanzhong" value="g"/><i
+                                    style="color:#0000ff;margin:0 30px 0 5px;">关注</i>
+                                <input name="screen[]" type="checkbox" class="xuanzhong" value="i"/><i
+                                    style="color:#ff8000;margin:0 30px 0 5px;">首页</i>
+                                <input name="screen[]" type="checkbox" class="xuanzhong" value="n"/><i
+                                    style="color:#400080;margin:0 30px 0 5px;">最新</i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>上线开关</th>
+                            <td>关闭上线：<input type="radio" name="oneupdown" value="0" checked="checked"/>
+                                开启上线：<input type="radio" name="oneupdown" value="1"/>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('OneDollarBuy/index')}"><input type="button" value="返回"
+                                                                            class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

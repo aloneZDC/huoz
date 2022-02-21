@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态分红明细</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/iconfont/demo.css">
+
+    <script type="text/javascript" src="__PUBLIC__/Admin/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/layer/layer.js"></script>
+    <script src="__PUBLIC__/js/laydate/laydate.js"></script>
+    <style>
+        .user_profile {
+            padding: 20px;
+        }
+        .user_profile .nav {
+            z-index: 999;
+            background-color: #fff;
+        }
+        .user_profile .profile_content {
+            z-index: 1;
+        }
+        .user_profile .profile_content > div {
+            margin: 20px auto auto;
+            display: none;
+        }
+        .select_currency {
+            margin-bottom: 20px;
+        }
+        .badge {
+            color: #333;
+            background-color: #ebebeb;
+        }
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: #c6e0b4;
+        }
+        #laydate_ys{width: 120px;}
+    </style>
+</head>
+<body>
+<div class="user_profile">
+    <div class="profile_content">
+        <div class="row hyxx" style="display: inherit;">
+            <div class="col-md-12" style="padding-left: 0;">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">幸运赠送</div>
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover user_info">
+                        <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>收益</th>
+                            <th>比例</th>
+                            <th>全球公排日期</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <notempty name="bouns_info">
+                            <tr>
+                                <td>{:date('Y-m-d',$bouns_info['add_time'])}</td>
+                                <td>{$bouns_info.num}</td>
+                                <td>{$bouns_info.profit}</td>
+                                <td>{:date('Y-m-d H:i:s',$boss_plan_lucky['add_time'])}</td>
+                            </tr>
+                        </notempty>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">幸运赠送明细(总业绩{$bouns_total})</div>
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-hover user_currency">
+                        <thead>
+                        <tr>
+                            <th>用户ID</th>
+                            <th>全球公排日期</th>
+                            <th>下级新增业绩</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <volist name='lucky_list' id='vo'>
+                                <tr>
+                                    <td>{$vo.member_id}</td>
+                                    <td>{:date('Y-m-d H:i',$vo['add_time'])}</td>
+                                    <td>{$vo.lucy_bouns}</td>
+                                </tr>
+                            </volist>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+</script>

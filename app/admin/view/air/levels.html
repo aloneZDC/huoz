@@ -1,0 +1,78 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">入金记录</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <!--<form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>-->
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>名称</th>
+                        <th>奖励比例</th>
+                        <th>升级数量</th>
+                        <th>赠送共振数量</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name='list' id='vo'}
+                    <tr data-id="{$vo['id']}">
+                        <td>{$vo.id}</td>
+                        <td>
+                            {$vo.name}
+                        </td>
+                        <td>
+                            {:floatval($vo.reward_radio)} %
+                        </td>
+                        <td>{$vo.up_number}</td>
+                        <td>{:floatval($vo.give_dnc_max_number)}</td>
+                        <td>{$enum[$vo.status]}</td>
+                        <td>
+                            <a href="javascript:" class="layui-open layui-btn" data-url="{:url('editLevel', ['id' => $vo['id']])}?" data-width="1000px">编辑</a>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="weadmin-block">
+                <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+            </div>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

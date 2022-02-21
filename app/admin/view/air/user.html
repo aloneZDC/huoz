@@ -1,0 +1,125 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">用户云梯信息</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户ID</th>
+                        <th>入金币种</th>
+                        <th>等级</th>
+                        <th>个人入金数量</th>
+                        <th>团队入金数量</th>
+                        <th>推荐奖</th>
+                        <th>级差奖</th>
+                        <th>周分红</th>
+                        <th>赠送DNC锁仓数量</th>
+                        <th>可共振数量</th>
+                        <th>激活状态</th>
+                        <th>最近升级时间</th>
+                        <th>激活时间</th>
+                        <th>激活时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name='list' id='vo'}
+                    <tr data-id="{$vo['id']}">
+                        <td>{$vo.id}</td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$vo.user_id})">
+                                {if condition="$vo.user.phone"}
+                                {$vo.user.phone}
+                                {else /}
+                                {$vo.user.email}
+                                {/if}
+                                ({$vo.user_id})
+                            </a>
+                        </td>
+                        <td>{$vo.currency.currency_name}</td>
+                        <td>{$vo.level.name}</td>
+                        <td>{:floattostr($vo.income)}</td>
+                        <td>{:floattostr($vo.team_income)}</td>
+                        <td>
+                            {if condition="$vo.recommend_reward gt 0"}
+                            <a href="javascript:" class="layui-open" data-url="{:url('recommend', ['user_id' => $vo['user_id']])}" data-title="UID: {$vo.user_id}直推奖记录">{:floattostr($vo.recommend_reward)}</a>
+                            {else /}
+                            {:floattostr($vo.recommend_reward)}
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$vo.level_diff_reward gt 0"}
+                            <a href="javascript:" class="layui-open" data-url="{:url('levelDiff', ['user_id' => $vo['user_id']])}" data-title="UID: {$vo.user_id}级差奖记录">{:floattostr($vo.level_diff_reward)}</a>
+                            {else /}
+                            {:floattostr($vo.level_diff_reward)}
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$vo.jackpot_reward gt 0"}
+                            <a href="javascript:" class="layui-open" data-url="{:url('jackpot', ['user_id' => $vo['user_id']])}" data-title="UID: {$vo.user_id}周分红记录">{:floattostr($vo.jackpot_reward)}</a>
+                            {else /}
+                            {:floattostr($vo.jackpot_reward)}
+                            {/if}
+                        </td>
+                        <td>{:floattostr($vo.give_dnc_reward)}</td>
+                        <td>{:floattostr($vo.convert_dnc_number)}</td>
+                        <td>
+                            {if $vo.is_activate == 2}
+                            已激活
+                            {else/}
+                            未激活
+                            {/if}
+                        </td>
+                        <td>{$vo.up_time|date="y-m-d H:i", ###}</td>
+                        <td>{$vo.activate_time|date="y-m-d H:i", ###}</td>
+                        <td>{$vo.add_time|date="y-m-d H:i", ###}</td>
+                        <td>
+                            <a href="javascript:" class="layui-open layui-btn" data-url="{:url('editUser', ['id' => $vo['id']])}?" data-width="1000px">编辑</a>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="weadmin-block">
+                <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+            </div>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+    <span class="layui-breadcrumb" style="visibility: visible;">
+        <a href="javascript:;">首页</a><a href="javascript:;">钱包管理</a>
+        <a href="javascript:;"><cite>总财务</cite></a>
+    </span>
+    <span class="fr">
+        <a class="layui-btn layui-btn-sm layui-open" data-url="/backend/Mining/common_product_add?param=common_product" data-title="添加" data-width="800px" href="javascript:;" style="display: none">添加</a>
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+<div class="weadmin-body">
+    <table class="layui-hide" id="table-list" lay-filter="table-list"></table>
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+{include file="layout/footer"}
+<script type="text/javascript">
+    layui.use(['table', 'global'], () => {
+        let table = layui.table;
+        table.render({
+            elem: '#table-list'
+            , url: '/backend/Mining/common_product_list?param=common_product'
+            , cols: [[
+                {field: 'name', width: 200, title: '总充值U'}
+                , {field: 'tnum', width: 150, title: '总充值M'}
+                , {field: 'price_type', width: 150, title: '汇总U'}
+                , {field: 'price_usdt', width: 150, title: '汇总M'}
+                , {field: 'price_usdt_currency_id', width: 150, title: '提现U'}
+                , {field: 'price_cny', width: 150, title: '提现M'}
+                , {field: 'price_cny_currency_id', width: 150, title: '未提现U'}
+                , {field: 'deliver_time', width: 120, title: '未提现M'}
+                , {field: 'cycle_time', width: 120, title: '静态'}
+                , {field: 'amount', width: 150, title: '动态'}
+            ]]
+        });
+    });
+</script>

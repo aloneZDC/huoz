@@ -1,0 +1,86 @@
+/* Download by http://www.codefans.net */
+#windownbg {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #000; /*body-bg*/
+	top: 0;
+	left: 0;
+}
+
+#windown-box {
+	position: fixed;
+	_position: absolute; /*For IE 6.0*/
+	border: 2px solid #ffffff;
+	background: #f0f0f0;
+	text-align: left;
+}
+
+#windown-title {
+	position: relative;
+	height: 35px;
+	overflow: hidden;
+	background: #dcdbdb;
+}
+
+#windown-title h2 {
+	position: relative;
+	left: 10px;
+	top: 5px;
+	font-size: 14px;
+	color: #000000;
+}
+
+#windown-close {
+	position: absolute;
+	top: 3px;
+	width: 29px;
+	height: 29px;
+	overflow: hidden;
+	right: 10px;
+	cursor: pointer;
+}
+
+#windown-close a {
+	width: 17px;
+	height: 17px;
+	background: url(../images/lqIcons.png) no-repeat;
+	background-position: -199px 0px;
+	float: left;
+	margin-top: 5px;
+	cursor: pointer
+}
+
+#windown-close  a:hover {
+	width: 17px;
+	height: 17px;
+	background: url(../images/lqIcons.png) no-repeat;
+	background-position: -180px 0px;
+	float: left;
+}
+
+#windown-content-border {
+	position: relative;
+	top: -1px;
+	border: 1px solid #eee;
+	padding: 2px 1px 1px 1px;
+}
+
+#windown-content {
+	position: relative;
+	overflow: auto;
+	text-align: center;
+	background: #f0f0f0;
+}
+
+#windown-content img,#windown-content iframe {
+	display: block;
+}
+
+#windown-content .loading {
+	left: 35%;
+	top: 40%;
+	display: block;
+	position: absolute;
+}

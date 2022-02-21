@@ -1,0 +1,411 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/pay/tcoin.css">
+<script charset="UTF-8" type="text/javascript" src="//cstaticdun.126.net/load.min.js"></script>
+<div id="title">
+        <h2>
+            {:lang('lan_sender')}{$currency['currency_mark']}
+        </h2>
+</div>
+<div id="content">
+    <div class="cont_1">
+       <span> {:lang('lan_change_Choose_integration_address')}</span>
+        <!--<span>如果您新添加的地址為【未認證】，請聯繫官方客服微信(xxx)審核。</span>-->
+    </div>
+
+    <table class="layui-table" lay-skin="line" >
+            <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>{:lang('lan_select')}</th>
+                    <th>{:lang('lan_Address_name')}</th>
+                    {if ($currency['currency_type']=="xrp") OR ($currency['currency_type']=="eos")}
+                    <th>   {:lang('lan_mention_address_labels')}</th>
+                    {/if}
+                    <th>{:lang('lan_Integral_address')}</th>
+                    <th>{:lang('lan_operation')}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {foreach $addressList as $key=>$vo }
+            <tr>
+                    <td><input type="radio" name="tcoinid" value="{$vo.id}"></td>
+                    <td>{$vo.names}</td>
+                {if ($currency['currency_type']=="xrp") OR ($currency['currency_type']=="eos")}
+                    <td>{$vo.tag}</td>
+                {/if}
+                    <td>{$vo.qianbao_url}</td>
+                    <td>
+                        <button class="del_address" onclick="del_address({$vo.id})">{:lang('lan_deleting')}</button>
+                    </td>
+                </tr>
+            {/foreach}
+
+            </tbody>
+        </table>
+        <!-- 添加提币地址 -->
+        <div class="addaddress_wrap">
+            <div class="addaddress">
+                    <button class="layui-btn layui-btn-normal show_add_form">-- {:lang('lan_click_add_address')} --</button>
+            </div>
+            <div class="add_data_form">
+                    <form id="address_form" method="post">
+                        <input type="hidden" value="{$currency['currency_id']}" name="currency_id">
+                    <div class="layui-form-item">
+                            <p>{:lang('lan_Address_name')}</p>
+                            <div class="layui-input-block">
+                              <input type="text" name="address_name" id="address_name" autocomplete="off" placeholder="{:lang('lan_For_example')}"  class="layui-input placeholder_color" >
+                            </div>
+                    </div>
+                {if ($currency['currency_type']=="xrp") OR ($currency['currency_type']=="eos")}
+                    <div class="layui-form-item">
+                            <p>{:lang('lan_mention_address_labels')}</p>
+                            <div class="layui-input-block">
+                              <input type="text" name="address_tag"  id="address_tag" autocomplete="off" placeholder="{:lang('lan_For_example2')}：123456"   class="layui-input placeholder_color" >
+                            </div>
+                    </div>
+                {/if}
+                    <div class="layui-form-item">
+                            <p> {:lang('lan_Integral_address')}</p>
+                            <div class="layui-input-block">
+                              <input type="text" name="address_url" id="address_url" autocomplete="off" placeholder="{:lang('lan_For_example2')}：0xcb08f2ccfd0b39560632d9e93d4d10e31a22047e"  class="layui-input placeholder_color" >
+                            </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                                <button class="layui-btn layui-btn-normal " id="address_sure">{:lang('lan_change_Confirm')}</button>
+                        </div>
+                    </div>
+                  </form>
+            </div>
+        </div>
+        <!-- 提币操作 -->
+        <div id="tcoin_operation">
+            <div class="prompt">
+                <p>{:lang('lan_change_amount_integral')}  ({:lang('lan_available_balance_quantity')}： <span>{$user['num']} {$currency['currency_mark']}</span>  )</p>
+            </div>
+            <div class="tcoin_operation_form">
+                    <div class="layui-form-item">
+                            <p>{:lang('lan_change_Integrand_component')}</p>
+                            <div class="layui-input-block">
+                                <!-- clearNoNum -->
+                              <input type="text" name="money"  autocomplete="off"  class="layui-input placeholder_color" onkeyup="check_num(this)" placeholder="{:lang('lan_change_amount_integral')}">
+                            </div>
+                    </div>
+                    <div class="layui-form-item">
+                            <p class="fee">
+                                <span>{:lang('lan_actual_deduction')}:</span>
+                                <span class="deduction">----</span>
+                                <span> ({:lang('lan_service_charge')}{$currency['tcoin_fee']}%)</span>
+                            </p>
+                    </div>
+                    <div class="layui-form-item">
+                            <p>{:lang('lan_money_password')}</p>
+                            <div class="layui-input-block">
+                              <input type="text" name="pwd" onfocus="this.type='password'" autocomplete="off" class="layui-input placeholder_color" maxlength="6" placeholder="{:lang('lan_reg_transaction_password2')}"/>
+                            </div>
+                    </div>
+                <div class="layui-form-item">
+                    <p>{:lang('lan_picture_verification_code')}:<img id="img_captch" onclick="$('#img_captch').attr('src','{:url(\'index/captcha\')}?v=' + Math.random())" src="{:url('index/captcha')}" alt=""></p>
+                    <div class="layui-input-block">
+                        <input type="text" name="img_code" id="img_code" autocomplete="off" class="layui-input placeholder_color" maxlength="6" placeholder="{:lang('lan_input_img_code')}"/>
+                    </div>
+                </div>
+                    <div class="layui-form-item">
+                            <p>{:lang('lan_change_Mobile_erification')}</p>
+                            <div class="layui-input-block phoneYZ">
+                              <input type="text" name="phonecode"  autocomplete="off"   class="layui-input placeholder_color" placeholder="{:lang('lan_fill_ver_code')}"> 
+                              <button id="getcode"> {:lang('lan_get_code')}</button>
+                              <button id="countdown">{:lang('lan_Countdown')}120S</button>
+                            </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <p>{:lang('lan_leave_a_message')}：</p>
+                        <div class="layui-input-block">
+                          <textarea name="tag" placeholder="{:lang('lan_The_not_exceed')}" class="layui-textarea" maxlength="200"></textarea>
+                        </div>
+                      </div>
+
+            </div>
+        </div>
+        <!-- 提币说明 -->
+        <div class="directions">
+            <h2>{:lang('lan_mention_AD')}{$currency['currency_mark']}{:lang('lan_explain')}</h2>
+            <P>1. {:lang('lan_change_Charge_ntegration')}{$currency['tcoin_fee']}%{:lang('lan_turns_two')}。</P>
+            <P>2.  {:lang('lan_turns_three')}{$currency['currency_all_tibi']} {$currency['currency_mark']}。</P>
+            <P>3.  {:lang('lan_turns_six')}。</P>
+               <div class="layui-form-item" style="position: absolute;right: 0;top: 60px;width: 150px;">
+                                   <div class="layui-input-block">
+                                           <button class="layui-btn layui-btn-normal" id="submit_btn" style="width: 100%;">{:lang('lan_confirm_roll_out')}</button>
+                                   </div>
+                           </div>
+        </div>
+
+        <!-- 提币记录 -->
+        <div class="tcoin_notes">
+            <h2>{:lang('lan_roll_out_record')}</h2>
+            <table class="layui-table" lay-skin="line" >
+                    <colgroup>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>{:lang('lan_change_record')}ID</th>
+                            <th>{:lang('lan_transfer_wallet_address')}</th>
+                            {if ($currency['currency_type']=="xrp") OR ($currency['currency_type']=="eos")}
+                            <th>{:lang('lan_mention_address_labels')}</th>
+                            {/if}
+                            <th>{:lang('lan_change_Transfer_quantity')}</th>
+                            <th>{:lang('lan_actual_deduction')}</th>
+                            <th>{:lang('lan_operation_time')}</th>
+                            <th>{:lang('lan_state')}</th>
+                            <!--<th>{:lang('lan_operation')}</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {if !empty($list)}
+                    {foreach $list as $key=>$vo }
+                       <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.to_url}</td>
+                           {if ($currency['currency_type']=="xrp") OR ($currency['currency_type']=="eos")}
+                           <td>{$vo.tag}</td>
+                           {/if}
+                            <td>{$vo.actual}</td>
+                            <td>{$vo.num}</td>
+                            <td>{$vo.add_time}</td>
+                            <td>{$vo.status_type}</td>
+                            <!--<td>7</td>-->
+                       </tr>
+                    {/foreach}
+                    {/if}
+                    </tbody>
+                </table>
+            <div class="page">{$pages}</div>
+                {if empty($list)}
+                    <div class="isempty">{:lang('lan_No_data')}</div>
+                {/if}
+
+        </div>
+</div>
+<script>
+    var Balance =" {$user['num']}" - 0; //余额
+    var fee = ("{$currency['tcoin_fee']}"- 0)/100;
+    var deduction = "";//实际扣除
+    var maxnum = Balance / (1+fee);//最大提币量
+    var time = 120;
+    var timer ;
+    //验证提币数量
+    function check_num(obj){
+        $(obj).val() > maxnum ? $(obj).val(maxnum) : $(obj).val();
+        deduction = (($(obj).val()-0) + $(obj).val() * fee).toFixed(6); //实际扣除
+        $(".deduction").html(deduction);
+        clearNoNum(obj);
+
+    }
+    //倒计时
+    function countdown(){
+        timer = setInterval(function(){
+            if(time>0){
+                time--;
+                $("#countdown").show();
+                $("#getcode").hide();
+                $("#countdown").html("{:lang('lan_Countdown')}"+time +"S")
+            }else{
+                $("#countdown").hide();  
+                $("#getcode").show();
+                
+            }
+        },1000)
+    }
+    //获取验证码
+    function sendPhone(validate){
+ 
+        $.ajax({
+            "url": "{:url('Sms/auto_send')}",
+            "type": "POST",
+            "data": {
+                "type":"tcoin",
+                "validate":validate,
+            },
+            success: function (data) {
+                layer.msg(data.message)
+                if(data.code ==10000){
+                    countdown();
+                }
+            }
+        });
+    }
+    
+    $(".show_add_form").click(function(){
+        $(".add_data_form").show();
+    })
+    //获取验证码滑动验证
+    $("#getcode").click(function(){
+        var tcoinID = Number($("input[name='tcoinid']:checked").val())
+        if( !(tcoinID>=0)){
+            layer.msg("{:lang('lan_select_address')}");
+            return;
+        }else{
+        var code=$("#img_code").val();
+        if(code==""){
+            layer.msg("{:lang('lan_input_img_code')}");
+            return;
+        }
+            sendPhone(code);
+
+        }
+	});
+		var captchaIns;
+	    initNECaptcha({
+	        captchaId: '393c58cccfa44537b90c773fcbcb43cb',
+	        element: '#getcode',
+	        mode: 'popup',
+	        width: 240,
+	        onReady: function(instance) {
+	            // 验证码一切准备就绪，此时可正常使用验证码的相关功能
+	        },
+	        onVerify: function(err, data) {
+	            /**
+	             * 第一个参数是err（Error的实例），验证失败才有err对象
+	             * 第二个参数是data对象，验证成功后的相关信息，data数据结构为key-value，如下：
+	             */
+            if (data) {
+                sendPhone(data.validate)
+            }
+        }
+    }, function onload(instance) {
+        captchaIns = instance; // 初始化成功
+    }, function onerror(err) {
+        layer.msg("{:lang('lan_click_button_reinitialize')}")  // 验证码初始化失败处理逻辑，例如：提示用户点击按钮重新初始化
+    });
+
+
+    // 删除地址
+    function del_address(id) {
+        var url="{:url('Pay/deleteAddress')}";
+            layer.open({
+            content: "{:lang('lan_delete_address')}",
+            title: "{:lang('lan_modify_tips')}"
+            ,btn: ["{:lang('lan_determine')}", "{:lang('lan_cancel')}"]
+            ,yes: function(index, layero){
+                $.ajax({
+                    "url": url,
+                    "type": "POST",
+                    "data": {
+                        "id":id,
+                    },
+                    success: function (data) {
+                        if(data.code==10000){
+                            layer.msg(data.message);
+                            location.reload();
+                        }else{
+                            layer.msg(data.message)
+                        }
+                        layer.close(index);
+                    }
+                });
+            }
+            ,btn2: function(index, layero){
+
+            //return false 开启该代码可禁止点击该按钮关闭     按钮【按钮二】的回调
+            }
+            ,cancel: function(){
+    
+            //return false 开启该代码可禁止点击该按钮关闭   //右上角关闭回调
+            }
+        });
+    }
+    //添加地址本
+    $("#address_sure").click(function () {
+    var currency_type="{$currency['currency_type']}";
+    var address_name=$("#address_name").val();
+    var address_tag=$("#address_tag").val();
+    var address_url=$("#address_url").val();
+    if(address_name==""){
+        layer.msg("{:lang('lan_Address_name_cannot_be_empty')}");
+        return false;
+    }
+        if((currency_type=="xrp"||currency_type=="eos")&&address_tag==""){
+            layer.msg("{:lang('lan_Address_label_cannot_be_empty')}");
+            return false;
+        }
+        if(address_url==""){
+            layer.msg("{:lang('lan_The_coin_address_cannot_be_empty')}");
+            return false;
+        }
+        $.ajax({
+            "url": "{:url('Pay/addAddress')}",
+            "type": "POST",
+            "data": $("#address_form").serialize(),
+            success: function (data) {
+                if(data.code==10000){
+                    layer.msg(data.message);
+                    location.reload();
+                }else{
+                    layer.msg(data.message)
+                }
+                layer.close(index);
+            }
+        });
+        return false;
+    });
+    //验证提币条件
+    function checkTcoin(){
+        var tcoinID = Number($("input[name='tcoinid']:checked").val())
+        if( !(tcoinID>=0)){
+            layer.msg("{:lang('lan_select_address')}");
+            return;
+        }
+        if($("input[name='money']").val() == ""){
+            layer.msg("{:lang('lan_change_amount_integral')}");
+            return false;
+        }
+       
+        if($("input[name='pwd']").val() == ""){
+            layer.msg("{:lang('lan_reg_transaction_password2')}");
+            return false;
+        }
+        if($("input[name='phonecode']").val() == ""){
+            layer.msg("{:lang('lan_fill_ver_code')}");
+            return false;
+        }
+        loading();
+        return true;
+    }
+    //提币
+    $("#submit_btn").click(function(){
+        if(checkTcoin()){
+            $.ajax({
+                "url": "{:url('Wallet/submitTakeCoin')}",
+                "type": "POST",
+                "data": {
+                    "currency_id":"{$currency['currency_id']}",//币种id
+                    "money":$("input[name='money']").val(),//实际到帐的数量
+                    "address_id":$("input[name='tcoinid']:checked").val(),
+                    "remark":$("textarea[name='tag']").val(),//备注
+                    "phone_code":$("input[name='phonecode']").val(),//短信验证码
+                    "paypwd":$("input[name='pwd']").val()//支付密码
+                },
+                success: function (data) {
+                    layer.closeAll();
+                    layer.msg(data.message) 
+                    if(data.code ==10000){
+                      setInterval(function(){
+                        location.reload();
+                      },1000)
+                    }
+                }
+            });
+        }
+
+    })
+</script>

@@ -1,0 +1,1399 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>邀约注册</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/moblie/js/layui/css/layui.css" />
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/moblie/css/common/reset.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/moblie/css/register/registered.css">
+	<script src="//cstaticdun.126.net/load.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/layer/layer.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/register/mobile_register.js?v=20190227"></script>
+	<style>
+		html,
+		body {
+			font-size: 14px;
+			/* background: url("__PUBLIC__/static/moblie/asset/h5bg.png") no-repeat center;
+			background-size: 100% 100%;
+			height: 100%; */
+		}
+
+		.body {
+			position: relative;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			overflow: auto;
+			background: #070707;
+		}
+
+		#moblieChangeMax {
+			width: 90%;
+			margin: 0 auto;
+    	padding: 1.666667rem 0 1px;
+			background: #1A1A1A;
+			box-shadow: -0.25rem 0.3333rem 0.6667rem 0px rgba(19, 135, 153, 0.04);
+			border-radius: 0.5rem;
+			margin-bottom: 2.5rem;
+			margin-top: -0.833333rem;
+		}
+
+		#changeEmail {
+			position: absolute;
+			right: 10%;
+			top: 20%;
+    	height: 60%;
+			/* -webkit-appearance:button;
+			-moz-appearance:button;
+			appearance:button; */
+			color: #fff;
+			font-weight:bold;
+			/* background: transparent; */
+			border: none;
+			z-index: 666;
+		}
+		
+		#changeEmail .changeCor {
+			background-color: #449294;
+  		color: #fff;
+		}
+
+		.phone_number_box {
+			margin-top: 10px!important;
+		}
+		.myForm_box_select .changeColor {
+			/* background: #fff; */
+			background-color: #449294;
+  		color: #fff;
+		}
+		.phone_number_box .changeColor {
+			background-color: #449294;
+  		color: #fff;
+		}
+
+		.select_chart{
+			width: 0;
+			height: 0;
+			border-width: 5px 5px;
+			border-style: solid;
+			border-color: transparent transparent #fff;
+			transform: rotate(180deg);
+			position: absolute;
+			right: 0.8333rem;
+			margin-top: 20px;
+			top: 0.2rem;
+		}
+
+		.forget {
+			margin-left: 61px !important;
+		}
+		#pwd {
+			border: 0;
+			text-indent: 10px;
+		}
+		input::-webkit-input-placeholder {
+			color:rgba(255, 255, 255, .3);
+		}
+		input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+			color:rgba(255, 255, 255, .3);
+		}
+		:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			color:rgba(255, 255, 255, .3);
+		}
+		::-moz-placeholder { /* Mozilla Firefox 19+ */
+			color:rgba(255, 255, 255, .3);
+		}
+		input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+			color:rgba(255, 255, 255, .3);
+		}
+		input::-ms-input-placeholder { /* Microsoft Edge */
+			color:rgba(255, 255, 255, .3);
+		}
+		#username {
+			height: 3.333333rem;
+			line-height: 3.333333rem;
+			background: #1F1F21;
+			border: 1px solid #848484;
+			border-radius: 0.333333rem;
+			padding: 0 10px;
+    	box-sizing: border-box;
+		}
+		#email2msg {
+			text-align: left;
+			margin-left: 47% !important;
+		}
+
+		#pwd2msg {
+			text-align: left;
+			margin-left: 47% !important;
+		}
+
+		.progress_wrap .send_authCode,
+		.progress_wrap .send_emailCode {
+			height: 52px;
+			display: inline-block;
+			border: none;
+			padding: 10px 12px;
+			width: 120px;
+			background: transparent;
+			text-align: center;
+			color: #FB416A;
+			margin-left: 10px;
+			cursor: pointer;
+		}
+
+		.progressBar_wrap {
+			width: 100%;
+			/* min-height: 100%; */
+			/* padding: 5.333333rem 0; */
+			/* background: url("__PUBLIC__/static/moblie/asset/mmaterial_img_tw.png") no-repeat center;
+			background-size: 100% 100%; */
+			box-sizing: border-box;
+			overflow: scroll;
+			/* position: relative; */
+			padding-top: 0!important;
+    	/* height: 100%; */
+		}
+
+	
+
+		.login_chose {
+			width: 100%;
+			text-align: center;
+		}
+
+		.progress_wrap {
+			width: 100%;
+			margin: 0;
+			z-index: 666;
+			padding: 0!important;
+			position: relative;
+			top: -2.083333rem;
+		}
+
+		select.input_select {
+			width: 90%;
+			background: transparent;
+			font-size: 1.33rem;
+			color: #fff;
+			outline: none;
+			height: 44px;
+			/* border-bottom: 1px solid rgba(255,255,255,0.2); */
+			background: #1F1F21;
+			border: 1px solid #848484;
+			border-radius: 0.333333rem;
+			padding: 0 0.8333rem;
+		}
+
+		.phone_number_box #phone {
+			width: 90%;
+			background: #1F1F21;
+			border: 1px solid #848484;
+			border-radius: 0.333333rem;
+			color: #fff;
+		}
+
+		.phone_number_box #country {
+			left: 7%;
+			/* background: transparent; */
+			color: #fff;
+			/* width: 35%; */
+			width: 20%;
+		}
+
+		.progress_wrap .home_auth_code_input,
+		.progress_wrap .email_auth_code_input {
+			width: 50%;
+		}
+
+		.progress_wrap .send_authCode,
+		.progress_wrap .send_emailCode {
+			max-width: 44%;
+			outline: none;
+		}
+
+		.myForm_box input {
+			width: 90%;
+			color: #fff;
+			background: none;
+			border: 0;
+			font-size: 1.16rem;
+			height: 3.333333rem;
+			/* border-bottom: 1px solid rgba(255,255,255,0.2)!important; */
+			padding-left: 0;
+		}
+
+		.progress_hint {
+			width: 90%;
+			margin-top: -20px;
+			margin-bottom: 10px;
+		}
+
+		.chinese {
+			color: #6189C5;
+			margin-top: 28px;
+			font-size: 1.33rem;
+			z-index: 8887;
+			position: absolute;
+			right: 10%;
+			cursor: pointer;
+		}
+
+		.more_lang {
+			margin: 0 auto;
+			position: absolute;
+			z-index: 2000;
+			z-index: 8889;
+			display: none;
+			width: 9rem;
+			right: -1.9rem;
+			top: 1.8rem;
+			font-size: 1.33rem;
+			color: #333;
+			background: rgba(255, 255, 255, 1);
+			box-shadow: 0px 0px 8px 0px rgba(88, 89, 93, 0.24);
+		}
+
+		.more_lang li {
+			border-bottom: 1px solid rgba(255,255,255,0.2);
+			padding: 1rem 0;
+		}
+
+		.more_lang li:last-child {
+			border-bottom: 0;
+		}
+
+		.more_lang li p {
+			text-align: center;
+		}
+
+		.z_img {
+			float: left;
+			margin-left: 18px;
+			margin-top: 16px;
+			width: 11.3333rem;
+		}
+
+		.z_img img {
+			width: 4.166666rem;
+			display: block;
+		}
+
+		.header {
+			width: 90%;
+		}
+
+		.progressActive {
+			font-weight: bold;
+			color: #FFFFFF;
+			border-bottom: 2px solid #fff;
+			background: none;
+			border-radius: 2px;
+		}
+
+		.phone_progress_s,
+		.email_progress_s {
+			font-family: PingFang-SC-Medium;
+			font-size: 1.5rem;
+			cursor: pointer;
+		}
+
+		.progress_box_s {
+			color: rgba(255, 255, 255, .5);
+			display: flex;
+			display: -webkit-flex;
+			display: flex;
+			/* position: absolute;
+			top: 2.5%; */
+			justify-content: space-around;
+			align-items: center;
+			width: 100%;
+			margin-bottom: 1.667rem;
+			
+			
+		}
+
+		.progress_box_s div {
+			line-height: 2.916rem;
+			font-size: 1.333333rem;
+		}
+
+		.head_w {
+			font-size: 1.33rem;
+			margin-left: 23px;
+			margin-top: 20px;
+			color: #7582A4;
+		}
+
+		.myForm_box {
+			/* height: 3.333333rem;
+			line-height: 3.333333rem; */
+			text-align: center;
+			margin: 0 auto;
+			margin-top: 10px;
+		}
+
+		#countries {
+			width: 100%;
+			text-indent: 5px;
+		}
+
+		.myForm_box_select {
+			text-align: left;
+			margin: 0 auto;
+			width: 90%;
+			position: relative;
+		}
+
+		#phone {
+			background: none;
+			border: 0;
+			background: #fff;
+			border: 1px solid #848484;
+			border-radius: 0.333333rem;
+			color:#fff;
+		}
+
+		.home_auth_code {
+			background: none;
+			border: 1px solid #848484;
+			color:#fff;
+			border-radius: 0.333333rem;
+			width: 90.5%;
+			display: flex;
+			margin-top: 10px;
+			padding: 0 10px;
+			box-sizing: border-box;
+		}
+
+		.home_auth_code_input {
+			border: 0 !important;
+		}
+
+		.progress_wrap .send_authCode,
+		.progress_wrap .send_emailCode {
+			height: 2.5rem;
+			background: transparent;
+			font-size: 1rem;
+			color: #E94827;
+			padding: 0.5rem 0.83333rem;
+			position: absolute;
+			/* right: 5%; */
+			right: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			z-index: 1000;
+			/* width: fit-content; */
+    	font-size: 1.1667rem;
+			/* box-shadow: 0px 3px 8px 0px rgba(21, 22, 25, 0.36); */
+		}
+
+		#pwd {
+			border: 0;
+			border: 1px solid #848484;
+			color: #fff;
+			border-radius: 0.333333rem;
+			text-indent: 10px;
+		}
+
+		#repwd {
+			border: 0;
+			border: 1px solid #848484;
+			color: #fff;
+			border-radius: 0.333333rem;
+			text-indent: 10px;
+		}
+
+		#pwdtrade {
+			border: 0;
+			border: 1px solid #848484;
+			color: #fff;
+			border-radius: 0.333333rem;
+			text-indent: 10px;
+		}
+
+		#repwdtrade {
+			border: 0;
+			border: 1px solid #848484;
+			color: #fff;
+			border-radius: 0.333333rem;
+			text-indent: 10px;
+		}
+
+		.res_pid {
+			border: 0 !important;
+			border: 1px solid #848484!important;
+			border-radius: 0.333333rem;
+			color: #fff;
+			padding: 0 10px!important;
+			box-sizing: border-box;
+			height: 3.499rem!important;
+			width: 90.5%!important;
+		}
+
+		#userEmail {
+			border: 0 !important;
+			background: #1F1F21!important;
+			border: 1px solid #848484!important;
+			border-radius: 0.333333rem;
+			padding: 0 10px!important;
+			box-sizing: border-box;
+			height: 3.497rem;
+		}
+
+		.email_auth_code {
+			background: #1F1F21;
+			border: 1px solid #848484;
+			border-radius: 0.333333rem;
+			width: 90%;
+			/* margin-left: 5%; */
+			display: flex;
+		}
+
+		#sure {
+			width: 90%;
+			height: 3.5rem;
+			background: #E94827;
+			border-radius: 0.333333rem;
+			margin: 0 auto;
+			margin-top: 1rem;
+			color: #fff;
+			font-size: 1.333333rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: "Adobe Heiti Std";
+		}
+
+		.loginxy {
+			width: 90%;
+			margin: 0 auto;
+			margin-top: 10px;
+			color: #fff;
+			font-size: 1rem;
+		}
+
+		#userEmail {
+			border: 0 !important;
+			background: #1F1F21!important;
+			border: 1px solid #848484!important;
+			border-radius: 0.333333rem;
+			padding: 0 10px!important;
+			box-sizing: border-box;
+			width: 90.6%!important;
+		}
+
+		.email_auth_code .email_auth_code_input {
+			border: 0 !important;
+			text-indent: 10px;
+		}
+
+		input[type="checkbox"] {
+			vertical-align: middle;
+		}
+
+		input[type="checkbox"]:checked:before {
+			color: #FFD400;
+		}
+
+		input[type=datetime-local] {
+			-webkit-appearance: none;
+			outline: none;
+			border: none;
+		}
+
+		select {
+			appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+		}
+
+		#down_link{
+			width: 90%;
+			height: 3.5rem;
+			background: #070707;
+			border-radius: 0.333333rem;
+			margin: 0 auto;
+			margin-top: -1.333333rem;
+			color: #fff;
+			font-size: 1.333333rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: "Adobe Heiti Std";
+		}
+		.endclass {
+			text-align: center;
+			font-family: PingFang-SC-Medium;
+			color: #4173C8;
+			font-size: 1rem;
+			margin-top: 25px;
+			margin-bottom: 40px;
+		}
+
+		.select_sj {
+			position: absolute;
+			right: 0;
+			margin-top: 21px;
+			width: 0.8rem;
+			top: 0.2rem;
+		}
+
+		.code_sj {
+			top: 0.1rem;
+			left: 6.5rem;
+		}
+
+		.phone_number_box #phone {
+			text-indent: 10.5rem;
+		}
+
+		#tongyi {
+			width: 1.25rem;
+			vertical-align: middle;
+		}
+
+		.cancel {
+			position: absolute;
+			right: 2rem;
+			width: 1.4rem;
+			top: 50%;
+			transform: translateY(-50%);
+			display: none;
+		}
+
+		.auth_cancel {
+			right: 12rem;
+		}
+
+		.header {
+			overflow: hidden;
+		}
+
+		.img_code {
+			background: none;
+			border-bottom: 1px solid #CCC;
+			width: 90%;
+			margin-left: 5%;
+			display: flex;
+		}
+
+		#img_code {
+			outline: none;
+			border: 0;
+		}
+
+		.img_code img {
+			height: 3.2rem;
+			margin-top: 3px;
+		}
+
+
+		@media only screen and (min-width: 750px) {
+			select.input_select {
+				width: 90%;
+				background: transparent;
+				font-size: 16px;
+				color: #fff;
+				outline: none;
+				/* background: #1F1F21!important;
+				border: 1px solid #848484!important; */
+				border-radius: 4px;
+				padding: 0 0.8333rem;
+			}
+
+			.phone_number_box #phone {
+				width: 90%;
+			}
+
+			.phone_number_box #country {
+				left: 7%;
+				/* background: transparent; */
+				color: #fff;
+				width: 10%;
+			}
+
+			.progress_wrap .home_auth_code_input,
+			.progress_wrap .email_auth_code_input {
+				width: 84%;
+			}
+
+			.progress_wrap .send_authCode,
+			.progress_wrap .send_emailCode {
+				width: 30%;
+				outline: none;
+			}
+
+			.myForm_box input {
+				width: 90%;
+				color: #fff;
+				background: none;
+				border: 0;
+				font-size: 14px;
+				height: 3.333333rem;
+				/* border-bottom: 1px solid rgba(255,255,255,0.2)!important; */
+			}
+
+			.progress_hint {
+				width: 90%;
+				margin-top: -20px;
+				margin-bottom: 10px;
+			}
+
+			.chinese {
+				color: #6189C5;
+				margin-right: -20px;
+				margin-top: 70px;
+				font-size: 16px;
+				z-index: 8887;
+				position: absolute;
+				right: 10%;
+			}
+
+			.more_lang {
+				margin: 0 auto;
+				position: absolute;
+				z-index: 2000;
+				z-index: 8889;
+				display: none;
+				width: 122px;
+				right: -30px;
+				top: 24px;
+				font-size: 16px;
+				color: #333;
+				border-radius: 7%;
+				background: rgba(255, 255, 255, 1);
+				box-shadow: 0px 0px 8px 0px rgba(88, 89, 93, 0.24);
+			}
+
+			.more_lang li {
+				border-bottom: 1px solid #EEE;
+				padding: 10px 0;
+			}
+
+			.more_lang li:last-child {
+				border-bottom: 0;
+			}
+
+			.more_lang li p {
+				text-align: center;
+			}
+
+			.z_img {
+				float: left;
+				margin-left: 44px;
+				margin-top: 45px;
+				width: 272px;
+			}
+
+			.header {
+				width: 90%;
+			}
+
+			.progressActive {
+				font-weight: bold;
+				color: #FFFFFF;
+				border-bottom: 2px solid #fff;
+				background: none;
+				border-radius: 2px;
+			}
+
+			.phone_progress_s,
+			.email_progress_s {
+				font-family: PingFang-SC-Medium;
+				font-size: 18px;
+			}
+
+			.progress_box_s {
+				color: #fff;
+				display: flex;
+				display: -webkit-flex;
+				display: flex;
+				margin-bottom: 10px;
+				top: 4%;
+				margin: 0 auto;
+				text-align: center;
+				justify-content: center;
+				align-items: center;
+				width: 75%;
+			}
+
+			.progress_box_s div {
+				height: 50px;
+				line-height: 70px;
+				color: #fff;
+			}
+
+			.head_w {
+				font-size: 16px;
+				margin-left: 23px;
+				margin-top: 20px;
+				color: #7582A4;
+			}
+
+			.myForm_box {
+				height: 3.333333rem;
+				line-height: 3.333333rem;
+				text-align: center;
+				margin: 0 auto;
+			}
+
+			#countries {
+				width: 100%;
+			}
+
+			.myForm_box_select {
+				text-align: left;
+				margin: 0 auto;
+			}
+
+			#phone {
+				background: none;
+				border: 0;
+				background: #fff;
+				border: 1px solid #848484;
+				color: #fff;
+				border-radius: 4px;
+			}
+
+			.home_auth_code {
+				border: 1px solid #848484;
+				color: #fff;
+				border-radius: 4px;
+				width: 90.5%;
+				margin-top: 10px;
+				padding: 0 10px;
+				box-sizing: border-box;
+			}
+
+			.home_auth_code_input {
+				border: 0 !important;
+			}
+
+			.progress_wrap .send_authCode,
+			.progress_wrap .send_emailCode {
+				height: 30px;
+				background: transparent;
+				font-size: 12px;
+				color: #FEFEFF;
+				padding: 7px 4px;
+				/* box-shadow: 0px 3px 8px 0px rgba(21, 22, 25, 0.36); */
+			}
+
+			#pwd {
+				border: 0;
+				border: 1px solid #848484;
+				color: #fff;
+				border-radius: 4px;
+			}
+
+			#repwd {
+				border: 0;
+				border: 1px solid #848484;
+				color: #fff;
+				border-radius: 4px;
+			}
+
+			#pwdtrade {
+				border: 0;
+				border: 1px solid #848484;
+				color: #fff;
+				border-radius: 4px;
+			}
+
+			#repwdtrade {
+				border: 0;
+				border: 1px solid #848484;
+				color: #fff;
+				border-radius: 4px;
+			}
+
+			.res_pid {
+				border: 0 !important;
+				border: 1px solid #848484;
+				color: #fff;
+				border-radius: 4px;
+				padding: 0 10px!important;
+				box-sizing: border-box;
+				width: 90.5%!important;
+			}
+
+			#userEmail {
+				border-bottom: 1px solid rgba(255,255,255,0.2);
+			}
+
+			.email_auth_code {
+				background: #1F1F21;
+				border: 1px solid #848484;
+				border-radius: 4px;
+				width: 90%;
+				margin-left: 5%;
+			}
+
+			#sure {
+				border-radius: 4px;
+				width: 70%;
+				color: #FFF;
+				font-size: 16px;
+				background: #E94827;
+				outline: none;
+				border: 0;
+				height: 40px;
+				margin: 10px 0;
+				background: linear-gradient(0deg, #FEE15E, #FF780E);
+				box-shadow: -1px 4px 13px 0px rgba(190, 0, 14, 0.82);
+				border-radius: 25px;
+			}
+
+			/*.Verification_code{margin-bottom: 3.33rem;}*/
+			.loginxy {
+				width: 90%;
+				margin: 0 auto;
+				margin-top: 0px;
+				margin-bottom: 10px;
+				color: #fff;
+				font-size: 14px;
+			}
+
+			#userEmail {
+				border: 0;
+				border-bottom: 1px solid rgba(255,255,255,0.2);
+			}
+
+			.email_auth_code .email_auth_code_input {
+				border: 0 !important;
+				text-indent: 10px;
+			}
+
+			input[type="checkbox"] {
+				vertical-align: middle;
+			}
+
+			input[type="checkbox"]:checked:before {
+				color: #FFD400;
+			}
+
+			input[type=datetime-local] {
+				-webkit-appearance: none;
+				outline: none;
+				border: none;
+			}
+
+			select {
+				appearance: none;
+				-webkit-appearance: none;
+				-moz-appearance: none;
+			}
+
+			#down_link{
+				width: 70%;
+				color: #FFF;
+				font-size: 14px;
+				background: #070707;
+				outline: none;
+				border: 0;
+				margin: 0;
+				margin-top: 15px;
+			}
+			.endclass {
+				text-align: center;
+				font-family: PingFang-SC-Medium;
+				color: #4173C8;
+				font-size: 12px;
+				margin-top: 25px;
+				margin-bottom: 40px;
+			}
+
+			.select_sj {
+				position: absolute;
+				right: 0;
+				margin-top: 21px;
+				width: 12px;
+				top: 3px;
+			}
+
+			.code_sj {
+				top: 2px;
+				left: 130px;
+			}
+
+			#tongyi {
+				width: 12px;
+			}
+
+			.phone_number_box #phone {
+				text-indent: 15%;
+			}
+
+			.cancel {
+				width: 20px;
+			}
+
+			/*.zhe{position: absolute;width:100%;height:100%;top: 0;left: 0;bottom:0;z-index: 8888;background: #0b123a;opacity: 0.1;display: none;}*/
+		}
+
+		@media only screen and (min-width: 320px) and (max-width: 350px) {
+			.more_lang {
+				right: -2.3rem;
+			}
+		}
+		
+
+		.progress_top {
+			margin: 0 auto;
+			width: 100%;
+    	text-align: center;
+			/* z-index: 888; */
+			position: relative;
+		}
+		.progress_top >div:nth-child(1) > img {
+			height: 24.083333rem;
+			width: 100%;
+		}
+		select {
+			appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			background: url("/static/moblie/asset/zczh_icon5.png") no-repeat scroll right center transparent;
+			padding-right: 1.666667rem;
+			background-size: 0.833333rem 0.5rem;
+		}
+		.phone_number_box #country {
+			appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			background: url("/static/moblie/asset/zczh_icon5.png") no-repeat scroll right center transparent;
+			padding-right: 1.666667rem;
+			background-size: 0.833333rem 0.5rem;
+		}
+		#change-img {
+			padding: 0 10px;
+			box-sizing: border-box;
+			width: 100%;
+		}
+		#change-img > img {
+			width: 100%;
+		}
+		#phone-name {
+			position: absolute;
+			top: 18px;
+			height: 27px;
+			background: rgba(255, 255, 255, .2);
+			border-radius: 27px;
+			left: 50%;
+			transform: translate(-50%, 0);
+			width: fit-content;
+			padding: 0 20px;
+			display: flex;
+			align-items: center;
+			color: #fff;
+		}
+		#phone-name > span {
+			color: #C53759;
+		}
+	</style>
+</head>
+<script>
+	var tip1 = "{:lang('lan_mobil_phone_empty')}";
+	var tip2 = "{:lang('lan_please_enter_the_correct_mobile_number')}";
+	var tip3 = "{:lang('lan_cant_be_empty')}";
+	var tip4 = "{:lang('lan_pass_length_six')}";
+	var tip5 = "{:lang('lan_password_format_error')}";
+
+	var tip6 = "{:lang('lan_password_empty')}";
+	var tip7 = "{:lang('lan_two_inconsistencies')}";
+
+	var tip8 = "{:lang('lan_mailbox_addres_empty')}";
+	var tip9 = "{:lang('lan_user_please_enter_the_correct_email_address')}";
+
+	var tip10 = "{:lang('lan_user_Transaction_password_empty')}";
+	var tip11 = "{:lang('lan_user_Transaction_password_lenggth')}";
+	var tip12 = "{:lang('lan_user_Transaction_password_space')}";
+	var tip13 = "{:lang('lan_user_Transaction_password_login')}";
+	var tip14 = "{:lang('lan_user_Transaction_password_repeat')}";
+	var tip15 = "{:lang('lan_user_Transaction_password_tow_same')}";
+	var tip16 = "{:lang('lan_user_please_enter_the_verification_code')}";
+	var tip17 = "{:lang('lan_enter_account')}";
+	var tip18 = "{:lang('lan_Network_request_failed')}";
+	var tip19 = "{:lang('lan_verification_code_not_empty')}";
+	var tip20 = "{:lang('lan_resend_verification_code')}";
+	var tip21 = "{:lang('lan_resend_verification_code_one')}";
+	var tip22 = "{:lang('lan_send_authentication_code')}";
+	var tip23 = "{:lang('lan_invitation_code_cannot_empty')}";
+	var tip24 = "{:lang('lan_image_code_empty')}";
+	var tip25 = "{:lang('lan_user_please_enter_the_verification_code')}";//请输入验证码
+	var tip26 = 2;
+	var tip27 = "{:lang('lan_Network_request_failed')}";
+
+	var authUrl = "{:url('index/index/code')}";
+	var checkPhone = "{:url('index/index/checkphone')}";
+	var emailAuth = "{:url('index/index/email_code')}";
+	var regUrl = "{:url('Reg/addReg')}";
+	var downLoadUrl = "{$down_url}";
+	
+	
+
+</script>
+
+<body>
+	<script>
+		var windowW = document.body.clientWidth;// 750 24
+		var htmlPx = windowW / 750 * 24;
+
+		document.getElementsByTagName('html')[0].style.fontSize = htmlPx + 'px';
+	</script>
+	<div class="body">
+	<!-- <div class="zhe"></div> -->
+	<div class="progressBar_wrap">
+		
+		<div class="progress_top">
+			<div>
+				<img src="__PUBLIC__/static/moblie/asset/yyzc_titel_img.png" alt="">
+			</div>
+		</div>
+		<!-- <div id="change-img">
+			<img src="__PUBLIC__/static/moblie/asset/list_img_title.png" alt="">
+		</div> -->
+		<div class="progress_wrap">
+			<div class="progress_box_show" id="moblieChangeMax">
+				<div class="progress_box_s">
+					<div class="email_progress_s progressActive fl">{:lang('lan_user_email')}</div>
+					<div class="phone_progress_s fl">{:lang('lan_mobile_phone')}</div>
+				</div>
+				<div class="myForm_box">
+					<input type="text" name="username" id="username" class=""
+					placeholder="请输入用户名（6-12位字母+数字）" autocomplete="off" onkeyup="value=value.replace(/[\u4e00-\u9fa5]/ig,'')">
+				</div>
+
+				<div class="email_number_box myForm_box">
+					<!-- <label for="email_number">{:lang('lan_login_email')}：</label> -->
+					<input type="text" name="email" class="email_number_input Account_detection" id="userEmail"
+						placeholder="{:lang('lan_login_email')}" autocomplete="off" onkeyup="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					<!-- <img src="__PUBLIC__/static/moblie/asset/cancel.png" class="cancel"> -->
+					<select name="changeEmail" id="changeEmail">
+						<!-- <option value="11">11213213</option>
+						<option value="22">242141242</option> -->
+					</select>
+					<div class="error" data-explain="{:lang('lan_reg_find_pass')}">
+					</div>
+				</div>
+
+					<!-- 电话注册块 -->
+					<div class="phone_number_box myForm_box">
+						<!-- <label for="phone_number">{:lang('lan_account_register_phone_number')}：</label> -->
+						<select id="country" class="input_select" style="height:3.333333rem;">
+							{volist name="countries" id="value"}
+							<option class="changeColor" value="{$value.countrycode}" {eq name="value['countrycode']" value="86"
+								}"selected"{/eq}>+{$value.countrycode}</option>
+							{/volist}
+						</select>
+						<!-- <img src="__PUBLIC__/static/moblie/asset/zczh_icon5.png" alt="" class="select_sj code_sj"/> -->
+						<input type="text" name="phone" id="phone" class="phone_number Account_detection"
+							placeholder="{:lang('lan_account_register_phone_number')}" autocomplete="off">
+						<!-- <img src="__PUBLIC__/static/moblie/asset/cancel.png" class="cancel"> -->
+						<div class="error" data-explain="{:lang('lan_reg_find_pass2')}">
+						</div>
+					</div>
+
+					<div class="home_auth_code myForm_box">
+						<input type="text" class="home_auth_code_input" name="home_auth_code_input"
+							placeholder="{:lang('lan_verification_code')}" autocomplete="off" maxlength="6">
+						<!-- <img src="__PUBLIC__/static/moblie/asset/cancel.png" class="cancel auth_cancel"> -->
+						<button class="send_authCode" type="btn">{:lang('lan_send_authentication_code')}</button>
+						<div class="error" datas-explain="{:lang('lan_login_erification_code_input_error')}">
+						</div>
+					</div>
+					
+					<div class="email_auth_code myForm_box" style="display: none;">
+						<!-- <label for="home_auth_code">{:lang('lan_verification_code')}：</label> -->
+						<input type="text" class="email_auth_code_input" name="email_auth_code_input"
+							placeholder="{:lang('lan_verification_code')}" autocomplete="off" maxlength="6">
+						<!-- <img src="__PUBLIC__/static/moblie/asset/cancel.png" class="cancel auth_cancel"> -->
+						<button class="send_emailCode" type="btn">{:lang('lan_send_authentication_code')}</button>
+						<div class="error" datas-explain="{:lang('lan_login_erification_code_input_error')}">
+						</div>
+					</div>
+					
+					<!-- 登录密码 -->
+					<div class="login_password myForm_box">
+						<!-- <label for="login_password">{:lang('lan_Login_password')}：</label> -->
+						<input type="password" class="login_password_input" id="pwd" name="pwd" maxlength="20" minlength="8"
+							placeholder="设置登录密码（8-20位字母+数字）" autocomplete="off">
+						<!-- <img src="__PUBLIC__/static/moblie/asset/cancel.png" class="cancel"> -->
+						<div class="error" data-explain="">
+						</div>
+					</div>
+					
+					<!-- 确认登录密码 -->
+				<div class="repeat_password myForm_box">
+					<!-- <label for="repeat_password">{:lang('lan_reg_Duplicate_password')}：</label> -->
+					<input type="password" class="repeat_password_input" id="repwd" name="repwd" maxlength="20" minlength="8"
+						placeholder="确认登录密码（8-20位字母+数字）" autocomplete="off">
+					<!-- <img src="__PUBLIC__/static/moblie/asset/cancel.png" class="cancel"> -->
+					<div class="error" data-explain="{:lang('lan_reg_enter_again')}" style="width: auto;">
+					</div>
+				</div>
+
+					<!-- 交易密码 -->
+					<div class="trading_password myForm_box">
+						<!-- <label for="trading_password">{:lang('lan_Transaction_password')}：</label>  -->
+						<input type="password" id="pwdtrade" name="pwdtrade" class="trading_password_input" maxlength="6" placeholder="设置交易密码（6位纯数字）" oninput = "value=value.replace(/[^\d]/g,'')" autocomplete="off">
+						<!-- <img src="__PUBLIC__/static/moblie/asset/cancel.png" class="cancel"> -->
+						<div class="error" data-explain="{:lang('lan_reg_transaction_password')}">
+						</div>
+					</div>
+					
+					<!-- &lt;!&ndash; 重复交易密码 &ndash;&gt; -->
+					<div class="c_trading_password myForm_box"> 
+						<!-- <label for="c_trading_password">{:lang('lan_reg_Repeat_transaction_password')}：</label> -->
+						<input type="password" id="repwdtrade" name="repwdtrade" class="c_trading_password_input" maxlength="6" placeholder="确认交易密码（6位纯数字）" oninput = "value=value.replace(/[^\d]/g,'')"  autocomplete="off">
+						<!-- <img src="__PUBLIC__/static/moblie/asset/cancel.png" class="cancel"> -->
+						<div class="error" data-explain="{:lang('lan_reg_Repeat_transaction_password2')}"> 
+						 </div>
+					</div>
+
+					<!-- 邀約碼 -->
+					<div class="repeat_password myForm_box">
+						<!-- <div class="ybc_label left"><label for="pid"></label></div> -->
+						<input name="pid" autocomplete="off" class="res_pid"
+							placeholder="{:lang('lan_account_register_invitation_code1')}" {if condition="$pid"
+							}value="{$pid}" readonly="readonly" {/if} type="text">
+						<div class="error" data-explain="{:lang('lan_Invitation_code')}"> </div>
+						<!-- <div class="left" style="color:#f00; line-height:30px;">选填项</div> -->
+					</div>
+					<div class="loginxy">
+						<p>
+							<span
+								style="vertical-align: middle;">注册即代表您已阅读并同意</span> <a
+								href="/mobile/News/detail/id/1037">
+								<span
+									style="color:#E94827;vertical-align: middle;">《火种云仓APP服务条款》</span>
+							</a>
+						</p>
+					</div>
+					<div class="">
+						<input type="button" id="sure" class="next_one" value="注册">
+					</div>
+				<br /><br />
+
+
+				<!--<div class="progress_hint">{:lang('lan_account_register_agreed')} <a href="{:url('Mobile/Art/details/team_id/154')}" style="color: #3076cc"><eq name="Think.cookie.think_language" value="en-us">{$config.EN_CODE_NAME}<else/>{$config.CODE_NAME}</eq>{:lang('lan_account_register_registration_protocol')}</a></div>-->
+				
+				<!-- <div class="Verification_code myForm_box">
+					<input type="button" id="sure" class="next_one" style="width:90%;" value="{:lang('lan_register')}">
+				</div> -->
+				<div class="">
+				<a href="{$down_url}">
+					<input type="button" id="down_link" class="next_one" value="直接下载APP">
+				</a>
+			</div>
+				<div style="margin-top: 2.5rem;text-align: center;color: #DD0900;font-size: 1.333333333rem">
+					<!--{:lang('lan_reg_reminder')}-->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+window.onload= function() {
+	var query = window.location.href;
+	var queryPhone = query.split("&");
+	if(queryPhone.length >= 2) {
+		queryPhone = queryPhone[1].split('=')[1];
+		$("#phoneNCode").html(queryPhone);
+	}
+}
+
+	var date = new Date();
+	//语言切换
+	$(".chinese p").click(function (e) {
+		e.stopPropagation();
+		$(".more_lang").toggle();
+	});
+
+	$(document).click(function () {
+		$(".more_lang").hide();
+	});
+
+	/**
+	 * 修改语言
+	 * @param $lang
+	 * @returns {boolean}
+	 * @private
+	 */
+	function _lang($lang) {
+		$.ajax({
+			url: "{:url('Index/set_languages')}",
+			data: {
+				lang: $lang
+			},
+			type: 'post',
+			dataType: 'json',
+			success: function (data) {
+				if (data.code == 10000) {
+					window.location.href = window.location.href + "?" + date.getTime();
+				}
+			},
+			error: function (e) {
+				layer.msg("{:lang('lan_Network_request_failed')}", {
+					icon: 5
+				});
+			}
+		});
+		return false;
+	}
+	$('.zh_tw').on('touchstart', function () {
+		_lang('zh-tw');
+	});
+	$('.en_us').on('touchstart', function () {
+		_lang('en-us');
+	});
+
+	$("#sure").on("touchstart", function () {
+		$(this).css({ "opacity": "0.5" });
+	});
+	$("#sure").on("touchend", function () {
+		$(this).css({ "opacity": 1 });
+	});
+
+
+
+	// if(document.body.offsetHeight >= 812) {
+	// 	$("#moblieChangeMax").css({'margin-top': "315px"});
+	// }else if(document.body.offsetHeight >= 786) {
+	// 	$("#moblieChangeMax").css({'margin-top': "308px"});
+	// }else if(document.body.offsetHeight >= 736) {
+	// 	$("#moblieChangeMax").css({'margin-top': "290px"});
+	// }
+	// else {
+	// 	$("#moblieChangeMax").css({'margin-top': "260px"});
+	// }
+
+	$("#tongyi").bind('click', function () {
+		if ($(this).attr("data-check") == 1) {
+			$(this).attr("src", "__PUBLIC__/static/moblie/asset/check_no.png");
+			$(this).attr("data-check", 0);
+		} else {
+			$(this).attr("src", "__PUBLIC__/static/moblie/asset/check.png");
+			$(this).attr("data-check", 1);
+		}
+		if ($(this).attr("data-check") == 0) {
+			layer.msg("{:lang('lan_must_agree_our_service')}");
+			$("#sure").attr("disabled", true).css("opacity", 0.5);
+		} else { //当值为1时，可以注册了
+			$("#sure").attr("disabled", false).css("opacity", 1);
+		}
+	});
+
+	var path_Email = "{:url('index/index/checkemail')}";
+	var path_PhoneCode = "{:url('index/index/check')}";
+	var path_EmailCode = "{:url('index/index/email_check')}";
+	var tel_rule_tips = "{:lang('lan_reg_cell_phone_format_is_not_correct')}";
+	var email_rule_tips = "{:lang('lan_reg_cell_email_format_is_not_correct')}";
+	var success = "{:lang('lan_reg_registered_successfully')}";
+	var readload = "{:lang('lan_loadings')}";
+	var phoneChangeType = "{:url('mobile/reg/phoneAddRegCheck')}";
+	
+	$('#countries').change(function () {
+		var country_code = $(this).val();
+		console.log(country_code);
+		$('#country').each(function () {
+			$(this).children('option').each(function () {
+				if ($(this).val() == country_code) {
+					$(this).prop("selected", true);
+				} else {
+					$(this).prop("selected", false);
+				}
+			})
+		});
+		$(this).children('option').each(function () {
+			if ($(this).val() == country_code) {
+				$(this).prop("selected", true);
+			} else {
+				$(this).prop("selected", false);
+			}
+		});
+	})
+	$('#country').change(function () {
+		var country_code = $(this).val();
+		console.log(country_code);
+		$(this).children('option').each(function () {
+			if ($(this).val() == country_code) {
+				$(this).prop("selected", true);
+			} else {
+				$(this).prop("selected", false);
+			}
+		});
+	});
+
+    $('#changeEmail').change(function () {
+		var country_code = $(this).val();
+		emailCodeChange = $(this).val();
+    emailCodeChange = "@" + emailCodeChange;
+		$(this).children('option').each(function () {
+			if ($(this).val() == country_code) {
+				$(this).prop("selected", true);
+			} else {
+				$(this).prop("selected", false);
+			}
+		});
+	});
+
+	$('.phone_number_box').css('display', 'none');
+	$(".home_auth_code").hide();
+	$(".email_auth_code").show()
+	$('.auth_code_box').css('display', 'block');
+	// $('#country').parent().parent().css('display', 'block');
+	$('.email_number_box').css('display', 'block');
+
+	let Height = $('body').height();
+	$(window).resize(function() {
+			$('body').height(Height);
+	});
+	let Heights = window.innerHeight;
+	let Heightes = window.innerHeight;
+$('.body').height(Heights);
+$('.progressBar_wrap').height(Heightes);
+var emailCodeChange;
+	$.ajax({
+		url: "{:url('/mobile/reg/email_domain')}",
+		data: {
+
+		},
+		type: 'post',
+		dataType: 'json',
+		success: function (data) {
+			var modelList = data.result;  
+            if(data.code == 10000){ 
+                $.each(modelList,function(index,item){
+					$("#changeEmail").append("<option class='changeCor' value='"+item.domain+"'>"+"@"+item.domain+"</option>");
+				});
+				emailCodeChange = $("#changeEmail option:selected").val();
+				// $("#changeEmail").empty();
+				// $.each(modelList,function(index,item){
+				// 	if(item.domain == emailCodeChange){
+				// 		$("#changeEmail").append("<option  value='"+item.domain+"'>"+45+"@"+item.domain+"</option>");
+				// 	}else{
+				// 		$("#changeEmail").append("<option value='"+item.domain+"'>"+"@"+item.domain+"</option>");
+				// 	}
+					
+				// });
+				emailCodeChange = "@" + emailCodeChange;
+        	}  
+		},
+		error: function (e) {
+			layer.msg("{:lang('lan_Network_request_failed')}", {
+				icon: 5
+			});
+		}
+	});
+</script>
+
+</html>

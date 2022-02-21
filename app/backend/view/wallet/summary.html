@@ -1,0 +1,81 @@
+{include file="layout/header"}
+<div class="weadmin-body">
+    <form class="layui-form">
+
+        <div class="layui-form-item">
+            <label for="money" class="layui-form-label">
+                <span class="we-red"></span>待汇总数量
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="money" readonly disabled class="layui-input layui-disabled" value="{$data.money}">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="fees" class="layui-form-label">
+                <span class="we-red"></span>手续费
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="fees" name="fees" disabled readonly class="layui-input layui-disabled" value="{$data.fees}">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="summary" class="layui-form-label">
+                <span class="we-red"></span>汇总数量
+            </label>
+            <div class="layui-input-inline">
+                <input type="number" id="summary" name="summary" class="layui-input" value="{$data.money1}" />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <button class="layui-btn" type="submit" lay-filter="summary" lay-submit="">确定</button>
+            <input type="hidden" value="{$data.us_wc_id}" name="wuc_wc_id">
+            <input type="hidden" value="{$data.us_user_id}" name="wuc_user_id">
+        </div>
+    </form>
+</div>
+{include file="layout/footer"}
+
+<script type="text/javascript">
+    layui.use(['form', 'jquery', 'admin', 'layer'], () => {
+        let form = layui.form,
+            $ = layui.jquery,
+            admin = layui.admin,
+            layer = layui.layer;
+
+
+
+        form.on('submit(summary)', function (data) {
+            layer.confirm('确认汇总吗？', {
+                btn: ['是的','再想想'] //按钮
+            }, function(){
+                return $.post("{:url('wallet/ETHSummary')}?param=summarylist", data.field, function (data) {
+                    if (Number(data.code) === 10000) {
+                        layer.alert(data.message, {
+                            icon: 6
+                        }, function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            window.parent.location.reload();
+                        });
+                    } else {
+                        layer.alert(data.message, {
+                            icon: 5
+                        });
+                    }
+                });
+            }, function(){
+                layer.msg('取消了', {icon: 0});
+                return false;
+            });
+
+            return false;
+        });
+
+    });
+</script>

@@ -1,0 +1,120 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">首页</a> <a href="javascript:;">商品管理</a> <a><cite>订单列表</cite></a>
+    </span>
+
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class="layui-col-md12 we-search">
+            搜索数据：
+            <div class="layui-inline">
+                <label for="order_code"></label>
+                <input class="layui-input" placeholder="订单编号" name="order_code" value="{$Think.get.order_code}" />
+            </div>
+            <div class="layui-inline">
+                <label for="member_id"></label>
+                <input class="layui-input" placeholder="用户ID" name="member_id" value="{$Think.get.member_id}" />
+            </div>
+            <div class="layui-inline">
+                <label for="status">状态: </label>
+                <select style="display: inline; width: 150px;" class="layui-select" name="status">
+                    <option value="">全部</option>
+                    <option value="0">未结算</option>
+                    <option value="1">成功</option>
+                    <option value="2">失败</option>
+                </select>
+                <div class="layui-input-inline">
+
+                </div>
+            </div>
+
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+<!--            <input type="hidden" name="daochu" id="dao" value="0">-->
+<!--            <button class="layui-btn" lay-submit="" lay-filter="export">-->
+<!--                <i class="iconfont icon-export"></i>导出数据-->
+<!--            </button>-->
+        </form>
+    </div>
+    <form class="layui-form" >
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>订单ID</th>
+                <th>用户ID</th>
+                <th>商品名称</th>
+                <th>闯关数</th>
+                <th>支付金额</th>
+                <th>本金</th>
+                <th>静态收益</th>
+                <th>分享收益</th>
+                <th>团队收益</th>
+                <th>闯关状态</th>
+                <th>添加时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="vo"}
+            <tr data-id="{$vo['id']}">
+                <td>{$vo['id']}
+                </td>
+                <td><a href="" onclick="window.openUser({$vo.member_id})">{$vo['member_id']}-
+                    {if $vo['phone']}
+                        {$vo['phone']}
+                    {else}
+                        {$vo['email']}
+                    {/if}</a></td>
+                <td>{$vo['name']}</td>
+                <td>{$vo['level_num']}</td>
+                <td>{$vo['money'] | round=6} {$vo['currency_name']}</td>
+                <td>{$vo['capital'] | round=6} {$vo['currency_name']}</td>
+                <td>{$vo['statics_reward'] | round=6} {$vo['currency_name']}</td>
+                <td>{$vo['share_reward'] | round=6} {$vo['currency_name']}</td>
+                <td>{$vo['team_reward'] | round=6} {$vo['currency_name']}</td>
+                <td>
+                    {if $vo['status'] == 0 }
+                        未结算
+                    {elseif $vo['status'] == 1}
+                        成功
+                    {else}
+                        失败
+                    {/if}
+                </td>
+                <td>{$vo['add_time']|date='Y-m-d H:i:s',###}</td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','global','index'], function () {
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(sreach)', function(data){
+            $("#dao").val("0");
+            data.field.daochu = 1;
+        });
+        form.on('submit(export)', function(data){
+            $("#dao").val("1");
+            data.field.daochu = 1;
+        });
+    });
+</script>
+{include file="layout/footer"}

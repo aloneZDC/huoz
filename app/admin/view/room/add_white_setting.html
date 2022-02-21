@@ -1,0 +1,50 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">白名单设置</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:url('')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+            	<input type="hidden" name='rws_level' value="{$list.rws_level}">
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>等级名称：</th>
+                            <td><input type="text" id="rws_name" value="{$list.rws_name}" size="85" name="rws_name" placeholder="等级名称" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>包赢次数：</th>
+                            <td><input type="text" id="rls_num" value="{$list.rws_win_num}" size="85" name="rws_win_num" placeholder="包赢次数" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>描述：</th>
+                            <td><input type="text" id="rws_desc" value="{$list.rws_desc}" name="rws_desc" placeholder="描述" class="common-text"></td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:url('Room/white_setting')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    $("#gameNav").show();
+    $("#gameNav").children("li").eq(1).addClass("on");
+</script>

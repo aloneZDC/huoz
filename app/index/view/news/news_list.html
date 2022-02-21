@@ -1,0 +1,59 @@
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/news/news_list.css">
+<div class="Art_wrap_bgColor">
+    <div class="yangwuWrapper clearfloat yangwuWrapper_art">
+        <!-- 页面指向 -->
+        <!-- 左边分页 -->
+        <div class="Art_title">{:lang('lan_NewsCenter')}</div>
+        <div class="Art_title_nav" style="background: #fff;">
+            {volist name="cates" id="vo"}
+            {if condition="$vo.id ==129"}
+            <a href="{:url('News/newsList',['type'=>$vo.id])}"><div {eq name="type" value="$vo.id"} class="Art_left_paging_active" {/eq}>  {:lang('lan_NewsCenter')}</div></a>
+            {elseif condition="$vo.id ==1" /}
+             <a href="{:url('News/newsList',['type'=>$vo.id])}"><div  {eq name="type" value="$vo.id"} class="Art_left_paging_active" {/eq}>{:lang('lan_art_news')}</div></a>
+            {/if}
+             {/volist}
+
+        </div>
+        <!-- 右边详情 -->
+        <div class="Art_right_details">
+            <!--<h3>{:lang('lan_NewsCenter')}</h3>-->
+            <ul style="overflow: hidden;padding-top: 10px;">
+                {volist name="list" id="vo"}
+                    <li class="Art_list">
+                        <div class="Art_square"></div>
+                        <a href="{:url('News/new_detail',array('article_id'=>$vo.article_id))}">
+                            <h4 class="Art_list_fontone">
+                                {$vo.title}
+
+                            </h4>
+                            <p class="Art_list_fonttwo">{$vo.content}
+                            </p>
+                            <span class="Art_list_fontthree">{$vo.add_time|date='Y-m-d',###}</span>
+                        </a>
+                    </li>
+               {/volist}
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="page" style="width: 1200px;background: #fff;padding-bottom: 30px;">{$pages}</div>
+    </div>
+</div>
+<script>
+    // $(function(){
+    //     var path = location.pathname;
+    //     console.log(path);
+    //     $(".Art_title_nav a").each(function(index,item){
+    //         console.log($(item).attr("href"));
+    //         if($(item).attr("href") == path){
+    //             console.log(1);
+    //             $(item).find("div").addClass('Art_left_paging_active');
+    //         }
+    //     });
+    // });
+</script>
+
+       
+        
+        
+        
+    

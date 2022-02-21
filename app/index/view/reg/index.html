@@ -1,0 +1,158 @@
+<script type="text/javascript" src="__PUBLIC__/static/home/js/layer/layer.js"></script>
+<script src="__PUBLIC__/static/home/js/reg/index.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/reg/index.css">
+<section class="content">
+	<div class="reg_wrapper">
+		<div class="reg_box">
+			<div class="choose">
+				<a href="javascript:void(0);" style="color:#4A80F0">{:lang('lan_header_sign')}</a>
+			</div>
+			<div class="input_box">
+				<!-- 手机注册 -->
+				<div class="phone_reg">
+					<div class="reg_choose">
+						<button class="active" data-type="phone_box" data-way="phone">{:lang('lan_mobile_phone')}</button>
+						<button data-type="email_box" data-way="email">{:lang('lan_user_email')}</button>
+					</div>
+					<!-- 手机号 -->
+					<div class="phone_box">
+						<div class="form_box">
+							<select name="countries" id="countries" class="input_select">
+								{volist name="countries" id="value"}
+									<option value="{$value.countrycode}" {eq name="value['countrycode']" value="86"}"selected"{/eq} >{$value.name}</option>
+								{/volist}
+							</select>
+						</div>
+						<div class="form_box phone_input">
+							<span id="country">
+								0086
+							</span>
+							<input type="text" name="phone" id="phone" placeholder="{:lang('lan_event_registration12')}" style="text-indent: 110px;">
+							<div class="error blur_error">{:lang('lan_reg_find_pass2')}</div>
+						</div>
+					</div>
+
+					<!-- 邮箱 -->
+					<div class="email_box" style="display: none;">
+						<div class="form_box email_input">
+							<input type="text" name="email" id="email" placeholder="{:lang('lan_login_email')}">
+							<div class="error blur_error">{:lang('lan_login_email')}</div>
+						</div>
+
+
+					</div>
+					<!-- 共用 -->
+					<div class="form_box img_code">
+                        <input type="text" id="img_code" name="img_code" placeholder="{:lang('lan_input_img_code')}" maxlength="4">
+                        <img id="img_captch" onclick="$('#img_captch').attr('src','{:url(\'index/captcha\')}?v=' + Math.random())" src="{:url('index/captcha')}" alt="">
+                        <div class="error blur_error">{:lang('lan_reg_find_pass2')}</div>
+                    </div>
+
+
+                    <div class="phone_box">
+                        <div class="form_box phone_auth">
+                            <input type="text" id="phone_auth" name="phone_auth" placeholder="{:lang('lan_user_please_enter_the_verification_code')}" maxlength="6" oninput="value=value.replace(/[^\d]/g,'')">
+                            <button class="send_authCode" type="btn">{:lang('lan_send_verification_code')}</button>
+                            <div class="error blur_error">{:lang('lan_reg_find_pass2')}</div>
+                        </div>
+                    </div>
+                    <div class="email_box" style="display: none;">
+                        <div class="form_box email_auth">
+                            <input type="text" id="email_auth" name="email_auth" placeholder="{:lang('lan_user_please_enter_the_verification_code')}" maxlength="6" oninput="value=value.replace(/[^\d]/g,'')">
+                            <button class="send_emailCode" type="btn">{:lang('lan_send_verification_code')}</button>
+                            <div class="error blur_error"></div>
+                        </div>
+                    </div>
+
+					<div class="form_box">
+						<input type="password" name="pass" id="pass" placeholder="{:lang('lan_Login_password')}">
+						<div class="error blur_error"></div>
+					</div>
+					<div class="form_box">
+						<input type="password" name="repass" id="repass" placeholder="{:lang('lan_reg_Duplicate_password')}">
+						<div class="error blur_error"></div>
+					</div>
+					<div class="form_box">
+						<input type="password" name="pwdtrade" id="pwdtrade" placeholder="{:lang('lan_Transaction_password1')}">
+						<div class="error blur_error"></div>
+					</div>
+					<div class="form_box">
+						<input type="password" name="repwdtrade" id="repwdtrade" placeholder="{:lang('lan_reg_Repeat_transaction_password')}">
+						<div class="error blur_error"></div>
+					</div>
+					<div class="form_box">
+						<input type="text" name="pid" id="pid" placeholder="{:lang('lan_account_register_invitation_code1')}" value="{$pid}">
+						<div class="error blur_error"></div>
+					</div>
+					<div class="loginxy">
+	                	<p>
+	                    	<img id="tongyi" src="__PUBLIC__/static/moblie/asset/check.png" data-check="1" ><span style="margin-left: 5px;vertical-align: middle;">{:lang('lan_I_have_agreed_read')}</span>
+	                    	<a href="{:url('News/new_detail',['team_id'=>154])}" target="_blank">
+	                        	<span style="color:#4173C8;vertical-align: middle;">《{:lang('lan_International_cloud_user_agreement')}》</span>
+	                    	</a>
+	                	</p>
+            		</div>
+            		<div class="Verification_code form_box">
+            			<input type="button" id="sure" class="next_one" style="width:90%;" value="{:lang('lan_register')}">
+            		</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+		var tip1="{:lang('lan_mobil_phone_empty')}";
+		var tip2="{:lang('lan_please_enter_the_correct_mobile_number')}";
+		var tip3="{:lang('lan_cant_be_empty')}";
+		var tip4="{:lang('lan_pass_length_six')}";
+		var tip5="{:lang('lan_password_format_error')}";
+
+		var tip6="{:lang('lan_password_empty')}";
+		var tip7="{:lang('lan_two_inconsistencies')}";
+
+		var tip8="{:lang('lan_mailbox_addres_empty')}";	
+		var tip9="{:lang('lan_user_please_enter_the_correct_email_address')}";
+		 
+		var tip10="{:lang('lan_user_Transaction_password_empty')}";
+		var tip11="{:lang('lan_user_Transaction_password_lenggth')}";
+		var tip12="{:lang('lan_user_Transaction_password_space')}";
+		var tip13="{:lang('lan_user_Transaction_password_login')}";
+		var tip14="{:lang('lan_user_Transaction_password_repeat')}";
+		var tip15="{:lang('lan_user_Transaction_password_tow_same')}";
+		var tip16="{:lang('lan_user_please_enter_the_verification_code')}";
+		var tip17="{:lang('lan_enter_account')}";
+		var tip18="{:lang('lan_Network_request_failed')}";
+		var tip19="{:lang('lan_verification_code_not_empty')}";
+		var tip20="{:lang('lan_resend_verification_code')}";
+		var tip21="{:lang('lan_resend_verification_code_one')}";
+		var tip22="{:lang('lan_send_authentication_code')}";
+	    var tip23="{:lang('lan_invitation_code_cannot_empty')}";
+	    var tip24="{:lang('lan_image_code_empty')}";
+	    var tip25="{:lang('lan_click_button_reinitialize')}";
+
+	    var authUrl = "{:url('index/index/code')}";
+	    var checkPhone = "{:url('index/index/checkphone')}";
+	    var emailAuth = "{:url('index/index/email_code')}";
+	    var regUrl = "{:url('/mobile/Reg/addReg')}";
+
+	    var path_Email = "{:url('index/index/checkemail')}";
+		var path_PhoneCode = "{:url('index/index/check')}";
+		var path_EmailCode = "{:url('index/index/email_check')}";
+	    var tel_rule_tips="{:lang('lan_reg_cell_phone_format_is_not_correct')}";
+	    var email_rule_tips="{:lang('lan_reg_cell_email_format_is_not_correct')}";
+	    var success = "{:lang('lan_reg_registered_successfully')}";
+	    var readload = "{:lang('lan_loadings')}";
+	     $("#tongyi").bind('click', function () {
+	     	if($(this).attr("data-check")==1){
+	     		$(this).attr("src","__PUBLIC__/static/moblie/asset/check_no.png");
+	     		$(this).attr("data-check",0);
+	     		layer.msg("{:lang('lan_must_agree_our_service')}");
+	     		$("#sure").attr("disabled",true).css("opacity",0.5);
+	     	}else{
+	     		$(this).attr("src","__PUBLIC__/static/moblie/asset/check.png");
+	     		$(this).attr("data-check",1);
+	     		$("#sure").attr("disabled",false).css("opacity",1);
+	     	}
+	     });
+</script>

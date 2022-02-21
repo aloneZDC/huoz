@@ -1,0 +1,57 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/wallet/index.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/money/recond.css">
+<div id="content">
+    <!-- <h2>钱包</h2> -->
+    <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="first" data_url="tab/1"><a href="{:url('wallet/index',['tab'=>1])}">{:lang('lan_user_menu_assets')}</a></li>
+                <li data_url="tab/2"><a href="{:url('wallet/index',['tab'=>2])}">{:lang('lan_user_menu_financial_journal')}</a></li>
+                 <li data_url="tab/3"><a href="{:url('wallet/index',['tab'=>3])}">{:lang('x_xzhaunzhan')}</a></li>
+                <li class="layui-this" data_url="tab/4"><a href="{:url('Money/index',['tab'=>4])}">{:lang('lan_deposit_coin')}</a></li>
+            </ul>
+            <div class="layui-tab-content">
+                <div data_url="tab/4" class="show">
+                	<div class="tab_prizePage">
+                	    <h2 class="yangwu_zhanghaozhongxin_rightTitle">
+                	    	<a class="back_btn iconfont" href="{:url('Money/index',['tab'=>4])}">&#xe611;</a><div>{:lang('lan_Deposit_record')}</div>
+                		</h2>
+                	</div>
+                	<ul class="table_head">
+                		<li>{:lang('lan_operation_time')}</li>
+                		<li>{:lang('lan_action_direction')}</li>
+                		<li>{:lang('lan_currency')}</li>
+                		<li class="num">{:lang('lan_action_num')}</li>
+                		<li class="num">{:lang('lan_expected_return')}</li>
+                		<li>{:lang('lan_Management_cycle')}</li>
+                		<li>{:lang('lan_Estimated_annualized_income')}</li>
+                		<li>{:lang('lan_expire_date')}</li>
+                	</ul>
+					{if empty($list)}
+		            <div class="no_data">
+		            	<img src="__PUBLIC__/static/home/images/no_data.png" >
+		            	<span>{:lang('lan_No_data')}</span>
+		            </div>
+					{/if}
+		            <ul class="table_body">
+						{if !empty($list)}
+						{foreach $list as $vo}
+		                <li>
+		                    <div>{$vo.add_time}</div>
+		                    <div class="{$vo.class}">{$vo.type_name}</div>
+		                    <div>{$vo.currency_mark}</div>
+		                    <div class="num">{$vo.num}</div>
+		                    <div class="num">{$vo.estimated}</div>
+		                    <div>{$vo.months}{:lang('lan_month')}</div>
+		                    <div>{$vo.rate}%</div>
+		                    <div>{$vo.end_time}</div>
+		                </li>
+						{/foreach}
+						{/if}
+		            </ul>
+		            {if condition="!empty($pages)"}
+					<div class="page">{$pages}</div>
+					{/if}
+                </div>
+            </div>
+        </div>
+</div>

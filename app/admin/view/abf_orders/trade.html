@@ -1,0 +1,164 @@
+{if condition="!$Think.get.layui"}
+{include file="../app/admin/view/public/left.html" /}
+{else /}
+<style>
+    .main-wrap {
+        margin-left: 10px;
+    }
+</style>
+{/if}
+
+
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">成交列表</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            {if condition="!$Think.get.layui"}
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="ename" placeholder="请输入用户名" autocomplete="off" class="layui-input" value="{$Think.get.ename}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="user_phone" placeholder="请输入用户账户" autocomplete="off" class="layui-input" value="{$Think.get.user_phone}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="orders_id" placeholder="挂单ID" autocomplete="off" class="layui-input" value="{$Think.get.orders_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="currency_id">
+                        <option value="">币种</option>
+                        {volist name="currency_list" id="vo"}
+                            <option value="{$vo.currency_id}/{$vo.currency_trade_id}" {if condition="$Think.get.currency_id eq $vo['currency_id'].'/'.$vo['currency_trade_id']"}selected{/if} >{$vo.currency_name}/{$vo.currency_trade_name}</option>
+                        {/volist}
+                    </select>
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="type">
+                        <option value="">类型</option>
+                        <option value="buy" {if condition="$Think.get.type eq 'buy' "}selected{/if} >购买</option>
+                        <option value="sell" {if condition="$Think.get.type eq 'sell'"}selected{/if}>出售</option>
+                    </select>
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+            {/if}
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>交易ID</th>
+                        <th>挂单ID</th>
+                        <th>用户</th>
+                        <th>交易对</th>
+                        <th>类型</th>
+                        <th>价格</th>
+                        <th>数量</th>
+                        <td>成交用户</td>
+                        <td>成交挂单ID</td>
+                        <td>添加时间</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>{$v.trade_id}</td>
+                        <td>{$v.orders_id}</td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.member_id})">
+                                {if condition="$v.users.phone"}
+                                {$v.users.phone}
+                                {else /}
+                                {$v.users.email}
+                                {/if}
+                                ({$v.member_id}) - {$v.users.ename}
+                            </a>
+                        </td>
+                        <td>
+                            {$v.currency.currency_name} / {$v.currencytrade.currency_name}
+                        </td>
+                        <td>
+                            {if condition="$v.type eq 'buy'"}
+                            购买
+                            {else /}
+                            出售
+                            {/if}
+                        </td>
+                        <td>
+                            {$v.price}
+                        </td>
+                        <td>
+                            {$v.num}
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.other_member_id})">
+                                {if condition="$v.otherusers.phone"}
+                                {$v.otherusers.phone}
+                                {else /}
+                                {$v.otherusers.email}
+                                {/if}
+                                ({$v.other_member_id}) - {$v.otherusers.ename}
+                            </a>
+                        </td>
+                        <td>
+                            {$v.other_orders_id}
+                        </td>
+                        <td>
+                            {:date('Y-m-d H:i:s',$v['add_time'])}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.orders_cancel').click(function () {
+            var url = $(this).data('url');
+            var that = $(this);
+            globals.ajax(url,{},function (res) {
+                if(res.code==10000){
+                    layer.msg(res.message);
+                    location.reload();
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

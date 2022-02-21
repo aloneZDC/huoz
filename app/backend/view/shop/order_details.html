@@ -1,0 +1,244 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+     <span class="layui-breadcrumb">
+        <a href="javascript:;">商品管理</a> <a href="javascript:;">订单列表</a> <a><cite>订单详情</cite></a>
+    </span>
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <form class="layui-form form" action="">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" data-width="20%">用户id</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_user_id}"  class="layui-input" readonly="readonly">
+                <input type="hidden" value="{$info.gmo_id}" name="gmo_id" class="layui-input" readonly="readonly">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">支付方式</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info['paytype']['name']}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品总数量</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_num}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单编号</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_code}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">下单时间</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_add_time|date='Y-m-d H:i:s',###}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">支付时间</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_pay_time|date='Y-m-d H:i:s',###}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单状态</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_status}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">退货状态</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_status_refund}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单总价格</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_total_price}"  class="layui-input" readonly="readonly"><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">人民币</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">市场价</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_market_price}"  class="layui-input" readonly="readonly"><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">人民币</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">支付邮费</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_pay_postage}"  class="layui-input" readonly="readonly"><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">人民币</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">付款币种id</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_pay_currency_id}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">付款数量</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_pay_num}"  class="layui-input" readonly="readonly"><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">{if $info.gmo_pay_currency_id == 0}人民币{else /}{$info.pay_currency.currency_name}{/if}</span>
+            </div>
+        </div>
+        <!--<div class="layui-form-item">
+            <label class="layui-form-label">抵扣币种id</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_equal_currency_id}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">抵扣数量</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_equal_num}"  class="layui-input" readonly="readonly"><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">{$info.equal_currency.currency_name}</span>
+            </div>
+        </div>-->
+<!--        <div class="layui-form-item">
+            <label class="layui-form-label">返佣(上级)币种id</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_rebate_parent_id}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">返佣数量(上级)</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_rebate_parent}"  class="layui-input" readonly="readonly"><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">{$info.rebate_parent_currency.currency_name}</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">返佣(自己)币种id</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_rebate_self_id}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">返佣数量(自己)</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_rebate_self}"  class="layui-input" readonly="readonly"><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">{$info.rebate_self_currency.currency_name}</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">赠送币种id</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_give_currency_id}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">赠送数量</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_give_num}"  class="layui-input" readonly="readonly"><span style="position: absolute; top: 0; right: 0; display: table-cell; white-space: nowrap; padding: 7px 10px;">{if $info.gmo_give_currency_id == 0}{else /}{$info.give_currency.currency_name}{/if}</span>
+            </div>
+        </div>-->
+        <div class="layui-form-item">
+            <label class="layui-form-label">物流公司名称</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_express_name}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">物流单号</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_express_code}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">发货时间</label>
+            <div class="layui-input-block">
+                <input type="text" {notempty name="info.gmo_ship_time"}value="{$info.gmo_ship_time|date='Y-m-d H:i:s',###}"{/notempty}  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">收货人名字</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_receive_name}"  name="gmo_receive_name"  class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">收货人手机号码</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_mobile}" name="gmo_mobile"  class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">收货地址</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_address}" name="gmo_address"  class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">确认收货时间</label>
+            <div class="layui-input-block">
+                <input type="text" {notempty name="info.gmo_sure_time"}value="{$info.gmo_sure_time|date='Y-m-d H:i:s',###}"{/notempty}  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">预计到达天数</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_es_time}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">取消订单时间</label>
+            <div class="layui-input-block">
+                <input type="text" {notempty name="info.gmo_cancel_time"}value="{$info.gmo_cancel_time|date='Y-m-d H:i:s',###}"{/notempty}  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">自动取消订单时间</label>
+            <div class="layui-input-block">
+                <input type="text" {notempty name="info.gmo_close_time"}value="{$info.gmo_close_time|date='Y-m-d H:i:s',###}"{/notempty}  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">自动确认收货时间</label>
+            <div class="layui-input-block">
+                <input type="text" {notempty name="info.gmo_auto_sure_time"}value="{$info.gmo_auto_sure_time|date='Y-m-d H:i:s',###}"{/notempty}  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">提货备注</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_pickedup_remark}" name="gmo_pickedup_remark"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_remark}" name="gmo_remark"  class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">支付订单编号(第三方支付)</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$info.gmo_pay_code}"  class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit" type="button" lay-submit lay-filter="submit" data-url="{:url('order_details',['param' => 'order'])}" >立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<style>
+
+</style>
+<script>
+    layui.use(['form', 'add'], function () {});
+</script>
+
+{include file="layout/footer"}

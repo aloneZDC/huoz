@@ -1,0 +1,93 @@
+<link href="__PUBLIC__/static/home/css/otc/trade_list.css" rel="stylesheet" />
+ <div id="main">
+    <div class="main_box">
+        <div id="otc_header">
+            <h2>{:lang('lan_my_order')}</h2>
+            <div class="otc_searchwrap">
+                <div class="otc_searchentry">
+                    <input type="text" class="orders_id"  placeholder="{:lang('lan_enter_order_number')}">
+                    <span class="otc_search"></span>
+                </div>
+                <a href="{:url('TradeOtc/trade_export')}">
+                    <div class="otc_export">
+                        <i></i>  {:lang('lan_export')}
+                    </div>
+                 </a>
+            </div>
+        </div>
+
+        <div id="otc_mainwrap">
+            <div class="otc_orderheader">
+                <span>{:lang('lan_order_number')}</span>
+                <span>{:lang('lan_exchange_type')}</span>
+                <span>{:lang('lan_Total2')}</span>
+                <span>{:lang('lan_Unit_Price')}</span>
+                <span>{:lang('lan_service_charge')}</span>
+                <span>{:lang('lan_time')}</span>
+                <span>{:lang('lan_state')}</span>
+                <span>{:lang('lan_trading_objects')}</span>
+            </div>
+            <ul id="otc_orderbox"> 
+                {notempty name="list"}
+                    {volist name='list' id='vo'}
+                        <li class="jump" data-url="{:url('TradeOtc/trade_info',['trade_id'=>$vo['trade_id']])}">
+                            <p>{$vo.only_number}</p>
+                            <p>
+                                <span>
+                                    {if condition="$vo.type eq 'buy'"}
+                                        {:lang('lan_buyes')}
+                                    {else /}
+                                        <span style="color: #e96e44;">{:lang('lan_selles')}</span>
+                                    {/if}
+                                </span> {$vo.num} {$vo.currency_name}
+                            </p>
+                            <p>{$vo.money} CNY</p>
+                            <p>{$vo.price} CNY</p>
+                            <p>{$vo.fee} {$vo.currency_name}</p>
+                            <p>{$vo.add_time}</p>
+                            <p>{$vo.status_txt}</p>
+                            <div class="username">
+                                <p>{$vo.phone}</p>
+                                <p>{$vo.username}</p>
+                            </div>
+                        </li>
+                    {/volist}
+                {else /}
+                    <div class="isempty">{:lang('lan_event_registration29')}</div>
+                {/notempty}
+            </ul>
+
+            <div class="addpage"  style="margin: 20px;display: flex;justify-content: center;"> 
+                <div class="page">
+                    {$pages}
+               </div>
+               <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+    	
+    	
+    $('.jump').click(function(){
+        window.location.href = $(this).attr('data-url');
+    });
+
+    $('.otc_search').click(function(){
+        var orders_id = $('.orders_id').val();
+        if(orders_id) {
+            window.location.href = "{:url('TradeOtc/trade_list')}?orders_id=" + orders_id;
+        } else {
+            window.location.href = "{:url('TradeOtc/trade_list')}";
+        }
+    });
+    $("#otc_orderbox").on("mouseover","li",function(){
+    $(this).css({"background":"#f4f4f4",})
+    })
+    $("#otc_orderbox").on("mouseout","li",function(){
+        $(this).css({"background":"white",})
+    })
+</script>

@@ -1,0 +1,89 @@
+<include file="App/Admin/View/Public/left.html"/>
+<style>
+    .yydb-up th {
+        text-align: center;
+    }
+
+    .yydb-down td {
+        text-align: center;
+    }
+
+    .red {
+        color: #f00;
+        font-weight: bolder;
+    }
+</style>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">一元夺宝</span></div>
+    </div>
+    <!-- <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('Art/index')}" method="post">
+                <table class="search-tab">
+                    <tr>
+                        <th width="120">选择分类:</th>
+                        <td>
+                            <select name="category" id="category">
+                              <option value="">全部</option>
+                              <volist name="cat" id="vo">
+                                <option value="{$vo.id}"  <eq name="vo.id" value="$inquire.category">selected="selected"</eq>>{$vo.name}</option>
+                              </volist>
+                            </select>
+                        </td>
+                        <th width="70">关键字:</th>
+                        <td><input class="common-text" placeholder="关键字" name="keywords" value="{$inquire.title}" id="keywords" type="text"></td>
+                        <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div> -->
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%" style="margin-top:30px;">
+                <tr class="yydb-up">
+                    <th>用户ID</th>
+                    <th>用户昵称</th>
+                    <th>用户地址</th>
+                    <th>地址状态</th>
+                    <th>收件人</th>
+                    <th>邮政编码</th>
+                    <th>固定电话</th>
+                </tr>
+                <volist name="list" id="vo" empty="$empty">
+                    <tr class="yydb-down">
+                        <td>{$vo.member_id}</td>
+                        <td>{$vo.nick}</td>
+                        <td>{$vo.coun}
+                            <if condition="($vo.pro eq '北京') or ($vo.pro eq '重庆') or ($vo.pro eq '天津') or ($vo.pro eq '上海')">
+                                <else/>
+                                {$vo.pro}
+                            </if>
+                            {$vo.cit}{$vo.dist}{$vo.address}
+                        </td>
+                        <td>
+                            <eq name="vo.status" value="0">
+                                <else/>
+                                <span class="red">默认地址</span></eq>
+                        </td>
+                        <td>{$vo.consignee}</td>
+                        <td>{$vo.zipcode}</td>
+                        <td>{$vo.tel}</td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

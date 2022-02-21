@@ -1,0 +1,323 @@
+{include file="layout/header"}
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/plugins/prettify.js"></script>
+<style>
+    .layui-form-label {
+        width: 130px;
+    }
+</style>
+<div class="weadmin-body">
+    <form class="layui-form" method="post" action="{:url('introduce',['param'=>'currency'])}">
+        <div class="layui-form-item">
+            <label for="currency_id" class="layui-form-label">
+                <span class="we-red">*</span>币种ID
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="currency_id" name="currency_id" autocomplete="off" class="layui-input" value="{$list.currency_id}" readonly="readonly"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="english_name" class="layui-form-label">
+                <span class="we-red">*</span>英文名
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="english_name" name="english_name" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.english_name}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="china_name" class="layui-form-label">
+                <span class="we-red">*</span>中文名
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="china_name" name="china_name" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.china_name}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="english_short" class="layui-form-label">
+                <span class="we-red">*</span>英文简称
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="english_short" name="english_short" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.english_short}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="pushout_time" class="layui-form-label">
+                <span class="we-red">*</span>推出日期
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="pushout_time" name="pushout_time" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.pushout_time}"/>
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                （*请按以下格式录入日期时间，具体时间也要录入 例如： 2016/05/21 09/30/40*）
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="release_date" class="layui-form-label">
+                <span class="we-red">*</span>发布日期
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="release_date" name="release_date" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.release_date}"/>
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                （*请按以下格式录入日期时间，具体时间也要录入 例如： 2016/05/21 09/30/40*）
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="designer" class="layui-form-label">
+                研发者
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="designer" name="designer" autocomplete="off" class="layui-input" value="{$list.designer}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="core_algorithm" class="layui-form-label">
+                核心算法
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="core_algorithm" name="core_algorithm" autocomplete="off" class="layui-input" value="{$list.core_algorithm}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="block_speed" class="layui-form-label">
+                区块速度
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="block_speed" name="block_speed" autocomplete="off" class="layui-input" value="{$list.block_speed}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="total_circulation" class="layui-form-label">
+                <span class="we-red">*</span>发行总量
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="total_circulation" name="total_circulation" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.total_circulation}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="daibi_turnover" class="layui-form-label">
+                <span class="we-red">*</span>流通总量
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="daibi_turnover" name="daibi_turnover" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.daibi_turnover}"/>
+            </div>
+        </div>
+
+        {if false}
+        <div class="layui-form-item">
+            <label for="base_num" class="layui-form-label">
+                <span class="we-red">*</span>卖买基数量
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="base_num" name="base_num" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.base_num}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="stock" class="layui-form-label">
+                <span class="we-red">*</span>存量
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="stock" name="stock" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.stock}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="proof_mode" class="layui-form-label">
+                <span class="we-red">*</span>证明方式
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="proof_mode" name="proof_mode" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.proof_mode}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="difficulty_adjust" class="layui-form-label">
+                <span class="we-red">*</span>难度调整
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="difficulty_adjust" name="difficulty_adjust" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.difficulty_adjust}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="block_rewards" class="layui-form-label">
+                <span class="we-red">*</span>区块奖励
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="block_rewards" name="block_rewards" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.block_rewards}"/>
+            </div>
+        </div>
+        {/if}
+
+        <div class="layui-form-item">
+            <label for="white_paper" class="layui-form-label">
+                <span class="we-red">*</span>白皮书
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="white_paper" name="white_paper" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.white_paper}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="website" class="layui-form-label">
+                <span class="we-red">*</span>官网地址
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="website" name="website" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.website}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="block_query" class="layui-form-label">
+                <span class="we-red">*</span>区块查询
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="block_query" name="block_query" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.block_query}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="raise_price" class="layui-form-label">
+                <span class="we-red">*</span>众筹价格
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="raise_price" name="raise_price" lay-verify="required" autocomplete="off" class="layui-input" value="{$list.raise_price}"/>
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                （*请按以下格式录入价格 例如： $0.31*）
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="feature" class="layui-form-label">
+                <span class="we-red">*</span>主要特色
+            </label>
+            <div class="layui-input-block">
+                <textarea name="feature" id="feature" lay-verify="required" placeholder="请输入主要特色" class="layui-textarea">{$list.feature}</textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="short" class="layui-form-label">
+                不足之处
+            </label>
+            <div class="layui-input-block">
+                <textarea name="short" id="short" placeholder="请输入不足之处" class="layui-textarea">{$list.short}</textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="advantage" class="layui-form-label">
+                综合优势
+            </label>
+            <div class="layui-input-block">
+                <textarea name="advantage" id="advantage" placeholder="请输入综合优势" class="layui-textarea">{$list.advantage}</textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+            </label>
+            <button type="submit" class="layui-btn" lay-filter="add" lay-submit="">确定</button>
+        </div>
+    </form>
+</div>
+{include file="layout/footer"}
+<script type="text/javascript">
+    KindEditor.ready(function (K) {
+        window.editor1 = K.create('#feature',{
+            uploadJson : '{:url("Index/oss_file_upload")}',
+            fileManagerJson : '{:url("Index/oss_file_upload")}',
+        });
+        window.editor2 = K.create('#short',{
+            uploadJson : '{:url("Index/oss_file_upload")}',
+            fileManagerJson : '{:url("Index/oss_file_upload")}',
+        });
+        window.editor3 = K.create('#advantage',{
+            uploadJson : '{:url("Index/oss_file_upload")}',
+            fileManagerJson : '{:url("Index/oss_file_upload")}',
+        });
+    });
+
+    layui.use(['form', 'jquery', 'admin', 'layer'], function () {
+        var form = layui.form,
+            $ = layui.jquery,
+            admin = layui.admin,
+            layer = layui.layer;
+
+
+        //自定义验证规则
+        form.verify({
+            /* nikename: function (value) {
+                 if (value.length < 5) {
+                     return '昵称至少得5个字符啊';
+                 }
+             }*/
+        });
+        //页面初始化加载
+        $(function () {
+            setTimeout(function () {
+                frameVal();
+            }, 100);
+        });
+
+        function frameVal() {
+            var dataId = $('input[name="dataId"]').val();
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layui.jquery("#memberList tr").each(function () {
+                if ($(this).attr('data-id') == dataId) {
+                    console.log($(this));
+                    var tdArr = $(this).children('td');
+                    var username = tdArr.eq(2).text(); //姓名
+                    var sex = tdArr.eq(3).text(); //性别
+                    var phone = tdArr.eq(4).text(); //电话
+                    var email = tdArr.eq(5).text(); //邮箱
+                    var address = tdArr.eq(6).text(); //地址
+
+                    $('input[name="username"]').val(username);
+                    console.log("sex:" + sex);
+                    $('input[name="sex"][value="' + sex + '"]').attr("checked", true);
+                    $('input[name="phone"]').val(phone);
+                    $('input[name="email"]').val(email);
+                    $('input[name="address"]').val(address);
+                    form.render();
+                }
+            });
+        }
+
+        //监听提交
+        /*form.on('submit(add)', function (data) {
+            $.post("{:url('wallet/introduce')}?param=wallet", data.field, function (data) {
+                if (Number(data.code) === 10000) {
+                    layer.alert(data.message, {
+                        icon: 6
+                    }, function () {
+                        // 获得frame索引
+                        let index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        window.parent.location.reload();
+                    });
+                } else {
+                    layer.alert(data.message, {
+                        icon: 5
+                    });
+                }
+            });
+            return false;
+        });*/
+
+    });
+</script>

@@ -1,0 +1,33 @@
+{include file="layout/header"}
+<div class="weadmin-body">
+    <fieldset class="layui-elem-field" style="padding: 5px;">
+        <blockquote class="layui-elem-quote font16">信息统计</blockquote>
+        <div class="">
+            <table class="layui-table" lay-even>
+                <thead>
+                <tr>
+                    <th><b>统计</b></th>
+                    <th><b>今日新增注册人数（人）</b></th>
+                    <th><b>累计总注册人数（人）</b></th>
+                    <th><b>今日新增业绩（元）</b></th>
+                    <th><b>累计总业绩（元）</b></th>
+                    <th><b>今日充值提货券（元）</b></th>
+                    <th><b>充值提货券总额（元）</b></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="height: 50px;">
+                    <td>总数</td>
+                    <td>{$list['today_member_num']}</td>
+                    <td>{$list['total_member_num']}</td>
+                    <td>{$list['today_num'] | number_format=2}</td>
+                    <td>{$list['total_num'] | number_format=2}</td>
+                    <td>{$list['today_pay_num'] | number_format=2}</td>
+                    <td>{$list['total_pay_num'] | number_format=2}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+</div>
+{include file="layout/footer"}

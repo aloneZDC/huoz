@@ -1,0 +1,78 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">首页</a> <a href="javascript:;">文章管理</a> <a><cite>发现列表</cite></a>
+    </span>
+
+    <span class="fr">
+        <a class="layui-btn layui-btn-sm layui-open" data-url="{:url('reads_add',['param'=>'reads'])}" data-title="添加" href="javascript:;">添加</a>
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class=" layui-col-md12 we-search">
+            搜索数据：
+            <div class="layui-inline">
+                <label for="cat_id">分类: </label>
+                <select style="display: inline; width: 100px;" class="layui-select" name="cat_id" id="cat_id">
+                    <option value="">全部</option>
+                    {volist name="reads_type" id="category"}
+                    <option {if $Think.get.cat_id == $key}selected{/if} value="{$key}">{$category}</option>
+                    {/volist}
+                </select>
+            </div>
+
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+
+    <form class="layui-form" >
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>分类</th>
+                <th>文章来源</th>
+                <th>文章标题</th>
+                <th>状态</th>
+                <th>时间</th>
+                <th>排序</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="v"}
+            <tr data-id="{$v->article_id}">
+                <td>{$v->article_id}</td>
+                <td>{if $v->type == 1} 资讯 {else} 多图 {/if}</td>
+                <td>{$v->from_name}</td>
+                <td>{$v->title}</td>
+                <td>{if $v->status == 1} <span style="color:green;">正常</span> {else} <span style="color:red;">停止</span> {/if}</td>
+                <td>{:date('Y-m-d H:i:s',$v['add_time'])}</td>
+                <td>{$v->sort}</td>
+                <td class="td-manage">
+                    <a class="layui-btn layui-btn-sm layui-open" data-url="{:url('reads_edit',['param'=>'reads','id'=>$v->article_id])}" data-title="编辑"  href="javascript:;"><i class="layui-icon layui-icon-edit"></i></a>
+                    <a class="layui-btn layui-btn-sm layui-ajax" data-url="{:url('reads_del',['param'=>'reads','id'=>$v->article_id])}" data-title="删除"  href="javascript:;"><i class="layui-icon layui-icon-delete"></i></a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','global']);
+</script>
+{include file="layout/footer"}

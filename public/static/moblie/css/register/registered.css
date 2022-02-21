@@ -1,0 +1,388 @@
+
+/*公共样式*/
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		li{
+			list-style: none;
+		}
+		a{
+			text-decoration: none;
+		}
+		body,html{
+			width: 100%;
+			height: 100%;
+			background-color: #f8f8f8
+		}
+		.clearfloat:after{
+			display: block;
+			clear: both;
+			content: "";
+			visibility: hidden;
+			height: 0;
+		}
+		.clearfloat{
+			zoom: 1;
+		}
+		.fl{
+			float: left;
+		}
+		.fr{
+			float: right;
+		}
+/*私有样式*/
+
+
+
+html, body {
+height: 100%;
+margin: 0;
+}
+.progressBar_wrap {
+
+
+/* Equal to height of footer */
+/* But also accounting for potential margin-bottom of last child */
+
+}
+		.progressBar_wrap{
+			width: 100%;
+			/* height: 100%; */
+			min-height: 80%;
+			overflow: hidden;
+			padding-top: 80px;
+		}
+		#zucenBth{margin-bottom:30px;}
+		.progressBar{
+			width: 1200px;
+			margin: 0 auto;
+			padding-top: 50px;
+			padding-bottom: 30px;
+		}
+		.myForm_UL{
+			width: 1200px;
+			margin:0 auto;
+			text-align: center;
+			counter-reset: step;   /*。。。。。*/
+		}
+		
+		.myForm_UL li{
+			font-size: 14px;
+			width: 33%;
+			float: left;
+			color: #888;
+			position: relative;
+		}
+		/*进度条加数字*/
+		.myForm_UL li:before{
+			content: counter(step);      /*。。。。。*/
+			counter-increment: step;   /*。。。。。*/
+			font-size: 14px !important;
+			display: block;
+			width: 30px;
+			height: 30px;
+			line-height: 30px;
+			font-size: 10px;
+			border-radius: 50%;
+			color: white !important;
+			background-color: #c4c4c4;
+			margin: 0 auto 5px auto;
+			position: relative;
+			z-index: 10;
+		}
+		/*改变最后一个数字为√*/
+		.myForm_UL li:last-child:before{
+			content:"√";
+			display: block;
+			width: 30px;
+			height: 30px;
+			line-height: 30px;
+			font-size: 10px;
+			border-radius: 50%;
+			color: white;
+			background-color: #c4c4c4;
+			margin: 0 auto 5px auto;
+			position: relative;
+			z-index: 10;
+		}
+		/*加横条*/
+		.myForm_UL li:after{
+			content: "";
+			width: 80%;
+			height: 2px;
+			background-color: #e9e9e9;
+			position: absolute;
+			left: -45%;
+			margin-left: 10px;
+			top: 14px;	
+			z-index: 1;	
+		}
+		/*去掉第一个横条*/
+		.myForm_UL li:first-child:after{
+			content:none;
+		}
+		/*验证通过相对应步骤加的类名   .active*/
+		.myForm_UL li.active:after, .myForm_UL li.active:before{
+			background-color: #003b83;
+		}
+		.myForm_UL li.active{
+			color: #003b83;
+		}
+		.progress_wrap{
+			width: 475px;
+			margin:25px auto 30px;
+			/* background-color: #eaeaea;; */
+			/* border: 1px solid #e8e8e8; */
+			padding: 40px 0;
+			padding-bottom:0px;
+			/* margin-top:25px; */
+		}
+		.progress_box{
+			width: 388px;
+			text-align: center;
+			font-weight: 300;
+			height:52px;
+			/*margin-left: 25px;*/
+			color: white;
+			margin:0 auto;
+		}
+		.phone_progress,.email_progress{
+			width: 50%;
+			height: 52px;
+			cursor: pointer;
+			line-height: 52px;
+			font-size: 16px;
+			background: #c4c4c4;
+		}
+		.progress_box div i{
+			display: block;
+			width: 100%;
+			height: 2px;
+			background-color: #e8e8e8;
+			margin-top:4px;
+		}
+		.progressActive{
+			color: white;
+			background: #3076cc;
+		}
+		.progress_box .progressActive i{
+			background-color: #dbb668;
+		}
+		.layout_myForm{
+			width: 100%;
+			/* margin-left: 450px; */
+			/*background-color: white;*/
+		}
+		.myForm_box{
+			position: relative;
+			margin: 27px 0;
+			text-align: center;
+
+		}
+		.myForm_box input{
+			background: #fff;
+			border:none;
+			/* border-radius: 5px; */
+			height: 52px;
+			/* padding: 10px 5px; */
+			width: 388px;
+			outline: none;  
+			-webkit-tap-highlight-color: rgba(0,0,0,0); 
+			padding-left:5px; 
+			border: 1px solid #fff;
+		}
+		.myForm_box input:hover{
+			border: 1px coral solid;
+		}
+		/* .myForm_box input:focus{
+			box-shadow: 1px 1px 5px 1px rgba(51,51,51,0.3);
+		} */
+		.myForm_box label{
+			position: absolute;
+			left: -208px;
+			display: inline-block;
+			width: 204px;
+			text-align: right;
+			height: 42px;
+			line-height: 42px;
+			color: #666;
+			font-size: 14px;
+		}
+		.auth_code_box a{
+			width: 175px;
+			float: left;
+			height: 30px;
+			line-height: 30px;
+			display: block;
+    		border-radius: 3px;
+    		font-size: 14px;
+			border: 1px solid #e8e8e8;
+			text-indent: 20px;
+			background-image: url(/Public/Home/images/zc_yuyin.png);
+			-moz-background-size:180px 75px; /* 老版本的 Firefox */
+			background-size:180px 75px;
+			background-repeat:no-repeat;
+			text-indent: 45px;
+		}
+		.auth_code_box a.voice{
+			background-position: -2px -42px ;
+			color: #e55600;
+			margin-left:20px;
+		}
+		.auth_code_box a.short_breath{
+			background-position: -2px -2px;
+			color: #690;
+		}
+		.auth_code_tishi{
+			clear: both;
+			padding-top: 5px;
+			line-height: 20px;
+			color: #888;
+			font-size: 12px;
+			text-align: left;
+		}
+		.progress_hint{
+			height: 22px;
+			line-height: 30px;
+			font-size: 12px;
+			margin-bottom: 14px;
+			text-align: left;
+			color:#333;
+			width: 388px;
+			margin: 0 auto;		
+		}
+		.next_one{
+			width: 388px;
+			height: 50px;
+			/* line-height: 50px; */
+			cursor: pointer;
+			background: #3076cc;
+			color: #fff;
+			font-size: 16px;
+			border: none;
+			/* border-radius: 3px; */
+			text-align: center;
+			/* clear:both; */
+			/* float:left; */
+			/* margin-top:15px; */
+		}
+		.next_step .next_one{width:393px;}
+		.myForm_box .next_one{
+			background:#3076cc;
+			margin-bottom: 35px;
+			border:none;
+		}
+		.myForm_box .next_one:hover{
+			border: 1px #3076cc solid;
+		}
+		.next_one a{
+			color:white;
+		}
+		/*对错提示块布局*/
+		.error{
+			overflow: show !important;
+			display: inline-block;
+			padding-right: 10px;
+			height: 24px;
+			line-height: 24px;
+			color: red;
+			font-size: 12px;
+			width: auto;
+			/* border: 1px solid #c3c8c8; */
+			position: absolute;
+			top: 53px;
+			left: 43px;
+			/* background: white url(/Public/Home/images/zc_icon.png) no-repeat -75px -22px / 100px auto; */
+			display: none;
+			background-image:none; 
+			padding-left:0;
+		}
+		/* .error em{
+			margin-left: -24px;
+			width: 6px;
+			height: 6px;
+			border-left: solid 1px #c3c8c8;
+			border-top: solid 1px #c3c8c8;
+			display: inline-block;
+			transition:rotateZ(-45deg);
+			-webkit-transform: rotateZ(-45deg);
+			-moz-transform: rotateZ(-45deg);
+			-o-transform: rotateZ(-45deg);
+			-ms-transform: rotateZ(-45deg);
+			background: #f9f9f9;
+		} */
+		.blur_error{
+			/* border: 1px solid #003b83; */
+			color: red;
+			/* background: white url(/Public/Home/images/zc_icon.png) no-repeat -75px -181px / 100px auto; */
+		}
+		/* .blur_error em{
+			border-left: solid 1px #003b83;
+			border-top: solid 1px #003b83;
+		} */
+		
+		.blur_success{
+			display: block;
+			margin-top:3px;
+			width:20px;
+			height:20px;
+			border:none;
+			background-position: -84px -90px;
+		}
+		/*一开始邮箱注册隐藏*/
+		.email_number_box{
+			display: none;
+		}
+
+
+		/*设置交易 密码。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。*/
+		.trading_tishi{
+			padding-left: 24px;			
+			font-size: 14px;
+			color: #e55600;
+			height: 30px;
+			line-height: 30px;
+			margin-bottom: 26px;
+			/* width: 147%; */
+			/* margin-left: -56%; */
+			text-align: center;
+		}
+
+		.trading_tishi span{
+			padding-left:23px;
+			background: url(/Public/Home/images/zc_icon.png) no-repeat -84px 2px / 100px auto;
+		}
+		/*//交易密码隐藏*/
+		.trading_box{
+			display: none;
+		}
+		select.input_select{
+			width:393px;
+			height: 52px;
+			color: #666;
+			background: #fff;
+			border: none;
+		}
+		.phone_number_box #country {
+			position: absolute;
+			height: 40px;
+			top: 1px;
+			left: 44px;
+			width: 100px;
+			padding: 0;
+			background: #f8fafb;
+			border: none;
+			padding-left:5px;
+		}
+		.phone_number_box #country:focus{
+			border: none;
+		}
+		.phone_number_box #phone {
+			text-indent: 110px;
+		}
+		.login_chose{width:475px;margin:0 auto;text-align: center;}
+		/* .form-horizontal {width:475px;height: 335px;margin:0 auto;background: #2d2c3c;margin-top:20px;overflow: hidden;} */
+		.login_chose a{font-size:24px;display: inline-block;}
+		.login_chose span{display:inline-block;width:5px;height:5px;background: #3076cc;border-radius: 50%; margin: 0 25px 5px 25px;}
+		.next_step{text-align: center;margin-top:15px;}

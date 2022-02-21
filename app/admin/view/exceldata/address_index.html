@@ -1,0 +1,621 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#datePicker').date_input();
+        $('#datePicker2').date_input();
+    })
+</script>
+<script language="javascript" type="text/javascript">
+    function showDiv(id) {
+        document.getElementById('popDiv').style.display = 'block';
+        document.getElementById('popIframe').style.display = 'block';
+        document.getElementById('bg').style.display = 'block';
+    }
+    function closeDiv() {
+        document.getElementById('popDiv').style.display = 'none';
+        document.getElementById('bg').style.display = 'none';
+        document.getElementById('popIframe').style.display = 'none';
+
+    }
+</script>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">钱包地址导出</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('Exceldata/excel_address_index')}" method="post">
+                <table class="search-tab">
+                    <tr>
+                        <th width="70">会员账号:</th>
+                        <td><input class="common-text" placeholder="关键字" name="email" type="text"></td>
+                        <th width="70">会员UID:</th>
+                        <td><input class="common-text" placeholder="关键字" name="member_id" type="text"></td>
+                        <th width="70">提积分URL:</th>
+                        <td><input class="common-text" placeholder="关键字" name="url" type="text"></td>
+                        <td><select name="cuid">
+                            <option value="1">全部</option>
+                            <volist name="curr" id='vo'>
+                                <option value="{$vo.currency_id}">{$vo.currency_name}</option>
+                            </volist>
+
+
+                        </select></td>
+
+                      <!--  <th width="70">选择时间：</th>
+
+                        <td><input type="text" id="datePicker" name="datePicker" class="date_picker"
+                                   placeholder="点击选择日期"/><input type="text" name="datePicker2" id="datePicker2"
+                                                                class="date_picker" placeholder="点击选择日期"/></td>
+                           --> 
+                                  <th width="70">ID段：</th>
+                                  <td><input type="text" id="qian_id" name="qian_id" 
+                                   placeholder="前ID"/>--<input type="text" name="hou_id" id="hou_id"
+                                                                 placeholder="后ID"/></td>                              
+
+                        <td><input class="btn btn-primary btn2" value="导出" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+            </div>
+        </div>
+        <!--    <div class="result-content">
+              <table class="result-tab" width="100%">
+                  <tr>
+
+                      <th>会员邮箱</th>
+                      <th>会员ID</th>
+                      <th>姓名</th>
+                      <th>手机</th>
+                      <th>积分类型名称</th>
+                      <th>转入钱包地址</th>
+                      <th>转出数量</th>
+                      <th>实际数量</th>
+                      <th>操作时间</th>
+
+                      <th>状态</th>
+
+                  </tr>
+                  <volist name='list' id='vo'>
+                      <tr>
+
+                          <td>{$vo['email']}</td>
+                          <td><a href="javascript:showDiv()" class="shenhe_button" name="{$vo.member_id}">{$vo['member_id']}</a></td>
+                          <td>{$vo['name']}</td>
+                          <td>{$vo['phone']}</td>
+                          <td>{$vo['currency_name']}</td>
+                          <td>{$vo['url']}</td>
+                          <td>{$vo['num']}</td>
+                          <td>{$vo['actual']}</td>
+                          <td>{$vo['add_time']|date='Y-m-d H:i:s',###}</td>
+
+
+                          <td><if condition="$vo['status'] eq 2">
+                                  充值中...
+                              </if>
+                              <if condition="$vo['status'] eq 3">
+                                  充值完成
+                              </if>
+                              <if condition="$vo['status'] eq 4">
+                                  奖励完成
+                              </if>
+                              </td>
+
+                      </tr>
+                  </volist>
+
+              </table>
+              <div class="list-page"> <ul>{$page}</ul></div>
+          </div>
+-->
+
+        <div id="popDiv" class="mydiv" style="display:none;">
+            <div class="pend_wrapper">
+
+
+                <div class="result-wrap4">
+                    <div class="result-wrap4_inner">*会员信息*</div>
+                    <div class="result-content4" style="float:left;">
+                        <table class="result-tab4" width="1150">
+                            <tr>
+                                <th>会员ID</th>
+                                <th>会员账号</th>
+                                <th>会员姓名</th>
+                                <th>会员手机</th>
+                                <th>账户余额</th>
+                                <th>冻结金钱</th>
+                                <th>注册时间</th>
+                            </tr>
+                            <tbody id="con_user">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="result-wrap4_bottom">
+                        <table class="result-tab4" width="500">
+                            <tr>
+                                <th width="25%">实际充值钱</th>
+                                <td id="con_user_second"></td>
+                            </tr>
+                            <tr>
+                                <th width="25%">提现钱</th>
+                                <td id="con_user_third"></td>
+                            </tr>
+                            <tr>
+                                <th width="25%"></th>
+                                <td id="con_user_fourth"></td>
+                            </tr>
+                            <tr>
+                                <th width="25%">用户备注</th>
+                                <td id="con_user_fifth"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+
+
+                <div class="result-wrap2">
+                    <div class="result-wrap2_inner">*充值记录*</div>
+                    <div class="result-content2">
+                        <table class="result-tab2" width="1750">
+                            <tr>
+                                <th>订单号</th>
+                                <th>汇款人账号</th>
+                                <th>汇款人</th>
+                                <th>汇款人ID号</th>
+                                <th>银行卡号</th>
+                                <th>充值钱数</th>
+                                <th>实际打款</th>
+                                <th>状态</th>
+                                <th>充值类型</th>
+                                <th>时间</th>
+                                <th>收款行</th>
+                                <th>交易流水号</th>
+                                <th>实收资金</th>
+                                <th>提交账号</th>
+                                <th>提交时间</th>
+                                <th>审核账号</th>
+                                <th>审核时间</th>
+                            </tr>
+                            <tbody id="con">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="result-wrap6">
+                    <div class="result-wrap6_inner">*提现审核*</div>
+                    <div class="result-content6">
+                        <table class="result-tab6" width="1750">
+                            <tr>
+                                <th>ID</th>
+                                <th>提现人</th>
+                                <th>会员ID</th>
+                                <th>银行</th>
+                                <th>银行账号</th>
+                                <th>银行开户地</th>
+                                <th>提现金额</th>
+                                <th>手续费（{$config.fee}%）</th>
+                                <th>实际金额</th>
+                                <th>订单号</th>
+                                <th>提交时间</th>
+                                <th>状态</th>
+                            </tr>
+                            <tbody id="con_tx">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="result-wrap3">
+                    <div class="result-wrap3_inner">*认购记录*</div>
+                    <div class="choose_cur">
+                        <div>选择积分类型:</div>
+                        <div id="select_cu">
+
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="result-content3">
+                        <table class="result-tab3" width="1750">
+                            <tr>
+                                <th>众筹编号</th>
+                                <th>众筹名称</th>
+                                <th>购买人</th>
+                                <th>购买人ID</th>
+                                <th>购买数量</th>
+                                <th>冻结数量</th>
+                                <th>单价</th>
+                                <th>购买总额</th>
+                                <th>时间</th>
+                                <th>购买花费积分类型类型</th>
+                                <th>备注说明</th>
+                            </tr>
+                            <tbody id="con_zc">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="result-wrap5">
+                    <div class="result-wrap5_inner">*交易记录*</div>
+                    <div class="choose_cur">
+                        <div>选择积分类型:</div>
+                        <div id="select_cujy">
+
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="result-content5">
+                        <table class="result-tab5" width="1750">
+                            <tr>
+                                <th>成交编号</th>
+                                <th>订单号</th>
+                                <th>买家email</th>
+                                <th>积分类型</th>
+                                <th>数量</th>
+                                <th>单价</th>
+                                <th>总量</th>
+                                <th>手续费</th>
+                                <th>类型</th>
+                                <th>成交时间</th>
+                            </tr>
+                            <tbody id="con_jy">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="result-wrap7">
+                    <div class="result-wrap7_inner">*提积分记录*</div>
+                    <div class="choose_cur">
+                        <div>选择积分类型:</div>
+                        <div id="select_cutb">
+
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="result-content7">
+                        <table class="result-tab7" width="1750">
+                            <tr>
+                                <th>会员邮箱</th>
+                                <th>积分类型名称</th>
+                                <th>转入钱包地址</th>
+                                <th>转出数量</th>
+                                <th>实际数量</th>
+                                <th>操作时间</th>
+                                <th>状态</th>
+                            </tr>
+                            <tbody id="con_tb">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="result-wrap8">
+                    <div class="result-wrap8_inner">*充积分记录*</div>
+                    <div class="choose_cur">
+                        <div>选择积分类型:</div>
+                        <div id="select_cucb">
+
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="result-content8">
+                        <table class="result-tab8" width="1750">
+                            <tr>
+                                <th>会员邮箱</th>
+                                <th>积分类型名称</th>
+                                <th>转入钱包地址</th>
+                                <th>转出数量</th>
+                                <th>实际数量</th>
+                                <th>操作时间</th>
+                                <th>状态</th>
+                            </tr>
+                            <tbody id="con_cb">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div style="opacity:.5;filter:alpha(opacity=50);position:fixed;top:40px;left:60px;"><a
+                        href="javascript:closeDiv()" id="closeWin" style="font-size:50px;">X</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+
+
+<script>
+    $(function () {
+        var foo = function () {
+            var val = $(this).attr("name");
+
+            //会员信息
+            $.post("{:U('Currency/xiangDan_user')}", {"uid_user": val}, function (data_user) {
+                if (data_user) {
+                    var first_member = data_user.split('|')[0];
+                    var second_member = data_user.split('|')[1];
+                    var third_member = data_user.split('|')[2];
+                    var fourth_member = data_user.split('|')[3];
+                    var fifth_member = data_user.split('|')[4];
+                    $("#closeWin").click(function () {
+                        $("#con_user").empty(first_member);
+                        $("#con_user_second").empty(second_member);
+                        $("#con_user_third").empty(third_member);
+                        $("#con_user_fourth").empty(fourth_member);
+                        $("#con_user_fifth").empty(fifth_member);
+                    });
+                    $("#con_user").html(first_member);
+                    $("#con_user_second").html(second_member);
+                    $("#con_user_third").html(third_member);
+                    $("#con_user_fourth").html(fourth_member);
+                    $("#con_user_fifth").html(fifth_member);
+
+                } else {
+                    alert("无会员信息");
+                }
+            })
+
+            //充值记录
+            $.post("{:U('Currency/xiangDan')}", {"uid": val}, function (data) {
+                if (data) {
+                    $("#closeWin").click(function () {
+                        $("#con").empty(data);
+                    });
+                    $("#con").append(data);
+
+                } else {
+                    alert("无充值记录");
+                }
+            })
+
+            //提现审核
+            $.post("{:U('Currency/xiangDan_tx')}", {"uid_tx": val}, function (data_tx) {
+                if (data_tx) {
+                    $("#closeWin").click(function () {
+                        $("#con_tx").empty(data_tx);
+                    });
+                    $("#con_tx").append(data_tx);
+                } else {
+                    alert("无提现记录");
+                }
+            })
+
+            //认购记录
+            $.post("{:U('Currency/xiangDan_zc')}", {"uid_zc": val}, function (data_zc) {
+                if (data_zc) {
+                    var first_zc = data_zc.split('|')[0];
+                    var second_zc = data_zc.split('|')[1];
+                    $("#closeWin").click(function () {
+                        $("#select_cu").empty(first_zc);
+                        $("#con_zc").empty(second_zc);
+                    });
+                    $("#select_cu").html(first_zc);
+                    $("#con_zc").append(second_zc);
+                    //取option选项值
+
+                    function execute() {
+                        $("#select_zc").bind('change', function () {
+                            comprise();
+                        })
+                    }
+
+                    function comprise() {
+                        var option_val = $("#select_zc").val();
+                        $.post("{:U('Pending/xiangDan_zc')}", {
+                            "uid_zc": val,
+                            "option_val": option_val
+                        }, function (data_zc) {
+                            if (data_zc) {
+                                var first_zc = data_zc.split('|')[0];
+                                var second_zc = data_zc.split('|')[1];
+                                $("#closeWin").click(function () {
+                                    $("#select_cu").empty(first_zc);
+                                    $("#con_zc").empty(second_zc);
+                                });
+                                $("#select_cu").html(first_zc);
+                                $("#con_zc").html(second_zc);
+                                execute();
+                            } else {
+                                alert("无众筹记录");
+                            }
+                        })
+                    }
+
+                    $(function () {
+                        execute();
+                    });
+
+                } else {
+                    alert("无众筹记录");
+                }
+            })
+
+
+            //交易记录
+            $.post("{:U('Currency/xiangDan_jy')}", {"uid_jy": val}, function (data_jy) {
+                if (data_jy) {
+                    var first_jy = data_jy.split('|')[0];
+                    var second_jy = data_jy.split('|')[1];
+                    $("#closeWin").click(function () {
+                        $("#select_cujy").empty(first_jy);
+                        $("#con_jy").empty(second_jy);
+                    });
+                    $("#select_cujy").html(first_jy);
+                    $("#con_jy").html(second_jy);
+                    function execute_jy() {
+                        $("#select_jy").bind('change', function () {
+                            comprise_jy();
+                        })
+                    }
+
+                    function comprise_jy() {
+                        var option_valjy = $("#select_jy").val();
+                        $.post("{:U('Pending/xiangDan_jy')}", {
+                            "uid_jy": val,
+                            "option_valjy": option_valjy
+                        }, function (data_jy) {
+                            if (data_jy) {
+                                var first_jy = data_jy.split('|')[0];
+                                var second_jy = data_jy.split('|')[1];
+                                $("#closeWin").click(function () {
+                                    $("#select_cujy").empty(first_jy);
+                                    $("#con_jy").empty(second_jy);
+                                });
+                                $("#select_cujy").html(first_jy);
+                                $("#con_jy").html(second_jy);
+                                execute_jy();
+                            } else {
+                                alert("无提积分记录");
+                            }
+                        })
+                    }
+
+                    $(function () {
+                        execute_jy();
+                    })
+                } else {
+                    alert("无交易记录");
+                }
+            })
+
+
+            //提积分记录
+            $.post("{:U('Currency/xiangDan_tb')}", {"uid_tb": val}, function (data_tb) {
+                if (data_tb) {
+                    var first_tb = data_tb.split('|')[0];
+                    var second_tb = data_tb.split('|')[1];
+                    $("#closeWin").click(function () {
+                        $("#select_cutb").empty(first_tb);
+                        $("#con_tb").empty(second_tb);
+                    });
+                    $("#select_cutb").html(first_tb);
+                    $("#con_tb").append(second_tb);
+                    function execute_tb() {
+                        $("#select_tb").bind('change', function () {
+                            comprise_tb();
+                        })
+                    }
+
+                    function comprise_tb() {
+                        var option_valtb = $("#select_tb").val();
+                        $.post("{:U('Pending/xiangDan_tb')}", {
+                            "uid_tb": val,
+                            "option_valtb": option_valtb
+                        }, function (data_tb) {
+                            if (data_tb) {
+                                var first_tb = data_tb.split('|')[0];
+                                var second_tb = data_tb.split('|')[1];
+                                $("#closeWin").click(function () {
+                                    $("#select_cutb").empty(first_tb);
+                                    $("#con_tb").empty(second_tb);
+                                });
+                                $("#select_cutb").html(first_tb);
+                                $("#con_tb").html(second_tb);
+                                execute_tb();
+                            } else {
+                                alert("无提积分记录");
+                            }
+                        })
+                    }
+
+                    $(function () {
+                        execute_tb();
+                    })
+                } else {
+                    alert("无提积分记录");
+                }
+            })
+
+
+            //充积分记录
+            $.post("{:U('Currency/xiangDan_cb')}", {"uid_cb": val}, function (data_cb) {
+                if (data_cb) {
+                    var first_cb = data_cb.split('|')[0];
+                    var second_cb = data_cb.split('|')[1];
+                    $("#closeWin").click(function () {
+                        $("#select_cucb").empty(first_cb);
+                        $("#con_cb").empty(second_cb);
+                    });
+                    $("#select_cucb").html(first_cb);
+                    $("#con_cb").append(second_cb);
+                    function execute_cb() {
+                        $("#select_cb").bind('change', function () {
+                            comprise_cb();
+                        })
+                    }
+
+                    function comprise_cb() {
+                        var option_valcb = $("#select_cb").val();
+                        $.post("{:U('Pending/xiangDan_cb')}", {
+                            "uid_cb": val,
+                            "option_valcb": option_valcb
+                        }, function (data_cb) {
+                            if (data_cb) {
+                                var first_cb = data_cb.split('|')[0];
+                                var second_cb = data_cb.split('|')[1];
+                                $("#closeWin").click(function () {
+                                    $("#select_cucb").empty(first_cb);
+                                    $("#con_cb").empty(second_cb);
+                                });
+                                $("#select_cucb").html(first_cb);
+                                $("#con_cb").html(second_cb);
+                                execute_cb();
+                            } else {
+                                alert("无提积分记录");
+                            }
+                        })
+                    }
+
+                    $(function () {
+                        execute_cb();
+                    })
+                } else {
+                    alert("无提积分记录");
+                }
+            })
+
+
+        }
+        $(".shenhe_button").each(function (index) {
+            $(this).bind("click", foo);
+        })
+
+
+    })
+
+
+</script>

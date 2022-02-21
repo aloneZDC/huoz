@@ -1,0 +1,157 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">贷款申请列表</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="status">
+                        <option value="">请选择状态</option>
+                        {foreach name="statusEnum" item="text" key="status"}
+                        <option value="{$status}" {if condition="$Think.get.status==$status"}selected{/if} >{$text}</option>
+                        {/foreach}
+                    </select>
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户</th>
+                        <th>申请金额</th>
+                        <th>审核金额</th>
+                        <th>亏损金额</th>
+                        <th>亏损项目</th>
+                        <th>状态</th>
+                        <th>申请时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>
+                            {$v.id}
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.user_id})">
+                                {if condition="$v.user.phone"}
+                                {$v.user.phone}
+                                {else /}
+                                {$v.user.email}
+                                {/if}
+                                ({$v.user_id})
+                            </a>
+                        </td>
+                        <td>{:floatval($v.money)} {$v.currency.currency_name}</td>
+                        <td>{:floatval($v.examine_money)} {$v.currency.currency_name}</td>
+                        <td>{:floatval($v.loss_money)} $</td>
+                        <td>{$v.loss_project}</td>
+                        <td>{$statusEnum[$v.status]}</td>
+                        <td>{:date('Y-m-d H:i:s', $v['create_time'])}</td>
+                        <td>
+                            {if $v.status == 1}
+                                <a href="javascript:;" class="orders_down-success layui-btn" data-id="{$v.id}" data-url="{:url('successful')}" data-money="{:floatval($v.money)}" >成功</a>
+                                <a href="javascript:;" class="orders_down layui-btn layui-btn-danger" data-id="{$v.id}" data-url="{:url('fail')}" >失败</a>
+                            {/if}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="weadmin-block">
+                <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+            </div>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.orders_down').click(function () {
+            var that = $(this);
+            layer.confirm("确定审核吗？", {btn: ["确定", "取消"], title: "提示"}, function () {
+                var url = $(that).data('url');
+                var id = $(that).data('id');
+                globals.ajax(url,{id: id},function (res) {
+                    if(Number(res.code)===10000){
+                        layer.msg(res.message);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    } else {
+                        layer.msg(res.message);
+                    }
+                });
+            });
+        });
+
+        $('.orders_down-success').click(function () {
+            let that = $(this);
+            let money = that.data('money');
+            layer.open({
+                id: 1,
+                type: 1,
+                title: "请输入贷款金额",
+                style: 'width:80%;height:auto;',
+                area: ["500px", "200px"],
+                content: "<div style='display:flex;justify-content:center;padding-top: 30px; width: 480px;'><label class='layui-form-label'>放贷金额：</label> <input class='layui-input layui-input-inline' placeholder='请输入放贷金额' id='examine_money' name='examine_money' value='"+ money +"' /></div>",
+                btn: ["确定", "取消"],
+                yes: function (index, layero) {
+                    let url = $(that).data('url');
+                    let id = $(that).data('id');
+                    let examine_money = $('#examine_money').val() || top.$('#examine_money').val();
+                    if (!examine_money || examine_money <= 0) {
+                        layer.msg("请输入放贷金额");
+                    } else {
+                        globals.ajax(url, {id: id, examine_money: examine_money}, function (res) {
+                            if (10000 === Number(res.code)) {
+                                layer.msg(res.message);
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            } else {
+                                layer.msg(res.message);
+                            }
+                        });
+                    }
+
+                },
+                no: function (index, layero) {
+                    layer.close(index)
+                }
+            });
+        })
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

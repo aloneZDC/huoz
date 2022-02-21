@@ -1,0 +1,97 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">首页</a> <a href="javascript:;">财务管理</a> <a><cite>退款订单</cite></a>
+    </span>
+
+    <span class="fr">
+        <a class="layui-btn layui-open" data-url="{:url('recharge_admin',['param'=>'recharge'])}" data-title="充值" data-width="800px"  href="javascript:;" style="display: none;">充值</a>
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class=" layui-col-md12 we-search">
+            <div class="layui-inline">
+                <label></label>
+                <input class="layui-input" placeholder="请输入用户ID" name="member_id" value="{$Think.get.member_id}" />
+            </div>
+
+            <div class="layui-inline">
+                <label>订单状态: </label>
+                <select style="display: inline; width: 100px;" class="layui-select" name="status">
+                    <option value="">全部</option>
+                    {volist name="status" id="vo"}
+                    <option value="{$key}" {if condition="$Think.get.status ==$key"}selected{/if} >{$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+            <div class="layui-inline">
+                <label>退款状态: </label>
+                <select style="display: inline; width: 100px;" class="layui-select" name="refund_status">
+                    <option value="">全部</option>
+                    {volist name="refund_status" id="vo"}
+                    <option value="{$key}" {if condition="$Think.get.refund_status ==$key"}selected{/if} >{$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+
+    <form class="layui-form" >
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>用户ID</th>
+                <th>订单ID</th>
+                <th>付款单号</th>
+                <th>付款金额</th>
+                <th>下单时间</th>
+                <th>下单状态</th>
+                <th>退款单号</th>
+                <th>退款金额</th>
+                <th>退款时间</th>
+                <th>退款状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="vo"}
+            <tr data-id="{$vo['member_id']}">
+                <td>{$vo['member_id']}</td>
+                <td>{$vo['gmo_id']}</td>
+                <td>{$vo['transaction_id']}</td>
+                <td>{$vo['total_fee']}</td>
+                <td>{$vo['add_time']|date='Y-m-d H:i:s',###}</td>
+                <td>{$vo['status_name']}</td>
+                <td>{$vo['refund_id']}</td>
+                <td>{$vo['refund_fee']}</td>
+                <td>{$vo['success_time']|date='Y-m-d H:i:s',###}</td>
+                <td>
+                    {$vo['refund_status_name']}
+                    {if($vo['status'] == 1 && ($vo['refund_status'] == 0 || $vo['refund_status'] == 2))}
+                        <a href="javascript:;" data-url="{:url('WeChat/refund_pre_fail',['param'=>'refund', 'id'=>$vo['id']])}" class="layui-ajax">更新订单</a>
+                    {/if}
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','global','index']);
+</script>
+{include file="layout/footer"}

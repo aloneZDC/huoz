@@ -1,0 +1,233 @@
+<script src="__PUBLIC__/static/home/js/user/uploadPreview.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/home/js/laydate/laydate.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/user/senior_verify.css" />
+<div id="main">
+	<div class="main_box" >
+        <div class="section doc_section" style="width: 1200px; margin: 30px auto">
+            <div class="doc_main_wrap" style="overflow: hidden;">
+                <div class="mod mod_setting" style="border:none;">
+                    <div class="mod_hd">
+                        {:lang('lan_modify_imporove_info')}
+                    </div>
+                    <form id="senior_verify" method="post" enctype="multipart/form-data" onsubmit="return false"
+                          class="mod_bd p_all_30 real_auth_c">
+                        <div class="change_type_countries">
+						<span class="change_type_width">{:lang('lan_select_intional')}</span>
+						<select name="countries" id="countries" data-type="*" data-msg-null="{:lang('lan_select_country_region')}">
+								{volist name="countries" id="vo"}
+                                 <option value="{$vo.phone_code}" {if condition='$info.country_code eq $vo.phone_code'} selected="selected" {/if}>{$vo.name}</option>
+                                {/volist}
+	          </select>
+						</div>
+                        <div class="fr userName">
+                          <span class="change_type_width">{:lang('lan_user_name')}</span> 
+                          <input type="text" placeholder="{:lang('lan_enter_name')}" name="name" id="name" value="{$info.name}" autocomplete="off">
+                        </div>
+                        <div class="change_type_card" style="overflow: hidden;"> 
+	                        <div class="select_box">
+			                		<span class="change_type_width">{:lang('lan_document_type')}</span>
+			                		<select name="cardtype" class="collect_select">
+
+										<option value="1" {if condition='$info.cardtype eq 1'} selected="selected" {/if} >{:lang('lan_ID_card')}</option>
+										<option value="5" {if condition='$info.cardtype eq 5'} selected="selected" {/if}>{:lang('lan_driving_of_license')}</option>
+										<option value="2" {if condition='$info.cardtype eq 2'} selected="selected" {/if}>{:lang('lan_passport')}</option>
+									</select>
+			                </div>
+		                	<div class="select_box_input">
+								<span class="change_type_width">{:lang('lan_identification_number')}</span>
+								<input type="text" name="idcard" id="box_id_number" maxlength="30" value="{$info.idcard}" autocomplete="off" placeholder="{:lang('lan_please_enter_your_ID')}" />
+							</div>
+						</div> 
+                        <div class="change_type_card" style="overflow: hidden;"> 
+                            <div class="select_box">
+                                    <span class="change_type_width">{:lang('lan_senior_sex')}</span>
+                                    <select name="sex" class="collect_select gender">
+                                        <option value="1" {if condition='$info.sex eq 1'} selected="selected" {/if}>{:lang('lan_senior_sex_man')}</option>
+                                        <option value="2" {if condition='$info.sex eq 2'} selected="selected" {/if}>{:lang('lan_senior_sex_girl')}</option>
+                                    </select>
+                            </div>
+                            <div class="select_box">
+                                    <span class="change_type_width">{:lang('lan_senior_nationality')}</span>
+                                    <select name="nation_id" id="nation" class="collect_select">
+                                        {volist name="nation" id="vo"}
+                                        <option value="{$vo.nation_id}" {if condition="$info.nation_id eq $vo['nation_id']"} selected="selected" {/if}>{$vo.nation_name}</option>
+                                        {/volist}
+                                    </select>
+                            </div>
+                        </div> 
+						<div style="color: red;font-size: 14px;margin:10px 0;">{:lang('lan_image_size')}</div>
+                          
+                        <div class="bind_validator">
+                            <div class="groups" style="margin-bottom: 0">
+                                <div>{:lang('lan_modify_Facade_documents')}</div>
+                                <div class="col_2">
+                                    <div class="file_box front  clear_fix">
+                                        <div class="file_preview  m_r_30" id="auth_1">
+                                            <img src="{$info.pic1}" alt=""
+                                                 style="width:100px; height:64px;display:block;cursor: pointer;float: left;"
+                                                 id="auth_1_show" title="{:lang('lan_modify_click_upload')}">
+                                            <b class="mark">{:lang('lan_modify_Positive')}</b>
+                                            
+				                            	<img src="__PUBLIC__/static/home/images/111.png" class="mark_messsage"/>
+				                            
+                                        </div>
+                                        <div class="float_left">
+                                            <p>{:lang('lan_modify_card_rules')}。<br/>{:lang('lan_user_support')}jpg/jpeg/png。</p>
+                                            <input type="file" name="auth_1" class="file_output" id="zhengmian">
+                                            <script>
+                                                $('#zhengmian').hide();
+                                                $('#auth_1_show').on('click', function (e) {
+                                                    e.preventDefault();
+                                                    $('#zhengmian').trigger('click');
+                                                })
+                                                $(function () {
+                                                    new uploadPreview({
+                                                        UpBtn: "zhengmian",
+                                                        DivShow: "auth_1",
+                                                        ImgShow: "auth_1_show"
+                                                    })
+                                                });
+                                            </script>
+                                            <div class="v_info"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="groups" style="margin-bottom: 0;">
+                                <div>{:lang('lan_user_Back_picture')}</div>
+                                <div class="col_2">
+                                    <div class="file_box back clear_fix" id="auth_2">
+                                        <div class="file_preview m_r_30">
+                                            <img src="{$info.pic2}" alt=""
+                                                 style="width:100px;height:64px;display:block;cursor: pointer;float: left;"
+                                                 id="auth_2_show" title="{:lang('lan_modify_click_upload')}">
+                                            <b class="mark">{:lang('lan_user_Back_side')}</b>
+                                            
+				                            	<img src="__PUBLIC__/static/home/images/333.png" class="mark_messsage"/>
+				                           
+                                        </div>
+                                        <div class="float_left">
+                                            <p>{:lang('lan_modify_card_rules')}。<br/>{:lang('lan_user_support')}jpg/jpeg/png。</p>
+                                            <input type="file" class="file_output" id="beimian" name="auth_2">
+                                            <script>
+                                                $('#beimian').hide();
+                                                $('#auth_2_show').on('click', function (e) {
+                                                    e.preventDefault();
+                                                    $('#beimian').trigger('click');
+                                                })
+                                                $(function () {
+                                                    new uploadPreview({
+                                                        UpBtn: "beimian",
+                                                        DivShow: "auth_2",
+                                                        ImgShow: "auth_2_show"
+                                                    })
+                                                });
+                                            </script>
+                                            <div class="v_info"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="groups" style="margin-bottom: 0;">
+                                <div>{:lang('lan_modify_Handheld_certificate')}</div>
+                                <div class="col_2">
+                                    <div class="file_box handheld clear_fix">
+                                        <div class="file_preview m_r_30" id="auth_3">
+                                            <img src="{$info.pic3}" alt=""
+                                                 style="width:100px; height:64px;display: block;cursor: pointer;float: left;"
+                                                 id="auth_3_show" title="{:lang('lan_modify_click_upload')}">
+                                            	<b class="mark">{:lang('lan_modify_Handheld_certificate')}</b>
+                                            
+				                            	<img src="__PUBLIC__/static/home/images/222.png" class="mark_messsage"/>
+				                            
+                                        </div>
+                                        <div class="float_left">
+                                            <p>1、{:lang('lan_modify_info_request1')}。<br/>2、{:lang('lan_modify_info_request2')}。<br/>3、{:lang('lan_modify_info_request3')}。<br/>4、{:lang('lan_user_support')}jpg/jpeg/png{:lang('lan_user_format')}，{:lang('lan_user_Maximum_exceeding')}5M。
+                                            </p>
+                                            <input type="file" class="file_output" id="shouchi" name="auth_3">
+                                            <script>
+                                                $('#shouchi').hide();
+                                                $('#auth_3_show').on('click', function (e) {
+                                                    e.preventDefault();
+                                                    $('#shouchi').trigger('click');
+                                                })
+                                                $(function () {
+                                                    new uploadPreview({
+                                                        UpBtn: "shouchi",
+                                                        DivShow: "auth_3",
+                                                        ImgShow: "auth_3_show"
+                                                    })
+                                                });
+                                            </script>
+                                            <div class="v_info"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="groups" style="margin-bottom: 0;">
+                            <div class="col_1 col_text align_right"></div>
+                            <div class="col_2">
+                                {if condition="($info.verify_state eq 2) "}
+                                <button type="button" class="btn btn_orange small">{:lang('lan_user_under_review')}</button>
+                                {elseif condition="$info.verify_state eq 0"/}
+                                <button type="submit" class="btn btn_orange small" id="submit_senior_btn">{:lang('lan_modify_Submit_audit')}</button>
+                                {/if}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    var idcard_not_posted = "{:lang('lan_idcard_not_posted_on_the_front')}"+"!";
+    var idcard_not_handed = "{:lang('lan_back_idcard_not_handed_down')}"+"!";
+    var no_idcard_in_hand = "{:lang('lan_no_idcard_in_hand')}"+"!";
+    var user_namenot_empty = "{:lang('lan_user_namenot_empty')}";
+    var idcard_number = "{:lang('lan_certificate_number_empty')}";
+    var selected_file_error = "{:lang('lan_select_file_error')}";
+    var one_kind = "{:lang('lan_one_kind')}";
+    var senior_verify_url="{:url('User/senior_verify')}";
+	// 初始化国籍等于86的时候只显示身份证
+	if($("#countries").val() == "86"){
+	   	$(".collect_select option").show();
+	}
+	// 当国籍选择改变的时候
+    $("#countries").on("change",function(){
+	   	if($("#countries").val() != "86"){
+            $(".collect_select option").eq(0).removeAttr("selected");
+            $(".collect_select option").eq(1).attr("selected","selected");
+	   		$(".collect_select option").eq(0).hide().siblings().show();
+            $("#nation").hide();
+	   	}else{
+            $(".collect_select option").eq(0).attr("selected","selected");
+	   		$(".collect_select option").show();
+            $("#nation").show();
+	   	}
+    });
+    
+   
+</script>
+<script src="__PUBLIC__/static/home/js/user/page-real.js"></script>
+<script src="__PUBLIC__/static/home/js/user/leejersey.js"></script>
+<script>
+    $(document).ready(function () {
+        laydate.skin('molv');
+    });
+    
+</script>
+<div class="loading">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+<div class="shade"></div>

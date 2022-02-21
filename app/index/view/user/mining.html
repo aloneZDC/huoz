@@ -1,0 +1,56 @@
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/user/mining.css">
+<!--top end-->
+<div id="main">
+	<div class="main_box">
+		{include file="public/left" /}
+		<div class="raise left clearfix">
+			<!--<script src="__PUBLIC__/Home/js/coinindex.js"></script>-->
+			<div class="ybc_list">
+				<div class="ybcoin clearfix" style="padding-left: 0;">
+					<h2 class="yangwu_zhanghaozhongxin_rightTitle">
+						<span>{:lang('lan_invitation_mines')}</span><span>{:lang('lan_invited_total')}0 KOK</span>
+					</h2>
+				</div>
+				<ul class="table_head">
+					<li>{:lang('lan_release_time')}</li>
+					<li>{:lang('lan_release_type')}</li>
+					<li>{:lang('lan_mining_num')}</li>
+				</ul>
+				<!--<if condition="empty($list)">-->
+					<div class="no_data">{:lang('lan_exchange_no_data')}</div>
+				<!--<else/>-->
+					<!--<ul class="table_body">
+						<li>
+							<volist name="list" id="vo">
+							<div>1</div>
+							<div>2</div>
+							<div>3</div>
+							</volist>
+						</li>
+					</ul>-->
+				<!--</if>-->
+               <!-- <if condition="$page">-->
+					<div class="addpage"> 
+	                    <div class="page">
+	                        <ul>
+	                        $page
+	                        </ul>
+	                   </div>
+	                </div>
+            <!--	</if>-->
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div> 
+<script>
+	function cointrust()
+		{
+			var coinname = $('#coninname').val();
+			var status  = $('#status').val();
+			location.href='/user_exchange/cointrustold/coinname/'+coinname+'/status/'+status;
+		};
+</script>	
+<script>
+$(".menu4").addClass("uc-current");
+</script>  

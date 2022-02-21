@@ -1,0 +1,80 @@
+{include file="layout/header"}
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/kindeditor-all.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/plugins/prettify.js"></script>
+
+<div class="weadmin-nav layui-clear">
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="layui-main">
+    <form class="layui-form form" action="" method='POST'>
+        <div class="">
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="商品分类">父级分类</label>
+                <div class="layui-input-block">
+                    <select name="form[pid]">
+                        <option value="">请选择</option>
+                        {volist name="category" id="vo"}
+                        <option value="{$vo.id}" >{$vo.name}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="商品分类">商品分类</label>
+                <div class="layui-input-block">
+                    <input type="text" name="form[name]" class="layui-input" value="" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="商品分类LOGO">商品分类LOGO</label>
+                <div class="layui-input-block">
+                    <div class="image_list">
+                        <div class="img_box">
+                            <div class="layui-upload-drag image_file" data-field="form[pic]">
+                                <i class="layui-icon"></i>
+                                <p>点击上传，或将文件拖拽到此处</p>
+                            </div>
+                            <input type="hidden" name="form[pic]" value="">
+                            <div class="img_data"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="排序">排序(正序)</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[sort]" class="layui-input" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="状态">状态</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="form[status]" value="1" title="启用" checked>
+                    <input type="radio" name="form[status]" value="0" title="禁用">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn submit" type="button" lay-submit lay-filter="submit" data-url="{:url('category_add',['param'=>'category'])}"  >立即提交</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    var uploadUrl = "<?php echo url('index/img_upload'); ?>";
+    layui.use(['form','wpupload','add'], function() {});
+</script>
+
+{include file="layout/footer"}

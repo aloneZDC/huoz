@@ -1,0 +1,225 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script>
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">提积分记录</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('Currency/tibilist')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <th width="70">手机号码:</th>
+                        <td><input class="common-text" placeholder="关键字" name="phone" value="{$temp['phone']}" type="text"></td>
+                        <th width="70">会员UID:</th>
+                        <td><input class="common-text" placeholder="关键字" name="member_id" value="{$temp['member_id']}" type="text"></td>
+                        <th width="70">接收地址:</th>
+                        <td><input class="common-text" placeholder="关键字" name="url" value="{$temp['url']}" type="text"></td>
+                        <th width="70">标签:</th>
+                        <td><input class="common-text" placeholder="标签" name="tag" value="{$temp['tag']}" type="text"></td>
+                        <th width="70">积分类型:</th>
+                        <td><select name="cuid">
+                            <option value="">全部</option>
+                            {volist name="curr" id='vo'}
+                                <option value="{$vo.currency_id}">{$vo.currency_name}</option>
+                            {/volist}
+                        </select></td>
+
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+            </div>
+        </div>
+        <div class="result-content">
+            <ul class="admin_items">
+                <li><label>验证码：</label><input class="loginValue" name="captcha" id="captcha">
+                    <img id="captchaimg" src="{:url('Currency/showVerify')}">
+                    <a href="#"
+                       onclick="$('#captchaimg').attr('src', '{:url(\'Currency/showVerify\')}?t='+Math.random())">看不清？</a>
+                </li>
+                <li>
+            </ul>
+
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>会员邮箱</th>
+                    <th>会员ID</th>
+                    <th>姓名</th>
+                    <th>手机</th>
+                    <th>币类型名称</th>
+                    <th>转出钱包地址</th>
+                    <th>转出标签</th>
+                    <th>转出数量</th>
+                    <th>实际数量</th>
+                    <th>申请时间</th>
+
+                    <th>状态</th>
+                    <th>操作</th>
+                    <th>一审</th>
+                    <th>一审提交</th>
+                    <!-- <th>二审</th>
+                    <th>二审提交</th> -->
+                </tr>
+                {volist name='list' id='vo'}
+                    <tr>
+                        <td>{$vo['id']}</td>
+                        <td>{$vo['email']}</td>
+                        <td><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo['member_id']}</a>
+                        </td>
+                        <td>{$vo['name']}</td>
+                        <td>{$vo['phone']}</td>
+                        <td>{$vo['currency_name']}</td>
+                        <td>{$vo['to_url']}</td>
+                        <td>{$vo['tag']}</td>
+                        <td>{$vo['num']}</td>
+                        <td>{$vo['actual']}</td>
+                        <td>{$vo['add_time']|date='Y-m-d H:i:s',###}</td>
+
+
+                        <td>
+                            {if condition="$vo['status'] eq 0"}
+                                等待确认中
+                            {/if}
+                            {if condition="$vo['status'] eq 1"}
+                                已完成
+                            {/if}
+                            {if condition="$vo['status'] eq -1"}
+                                审核中
+                            {/if}
+                            {if condition="$vo['status'] eq -2"}
+                                已撤销
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$vo['status'] eq -1"}
+                            <a class="link-update" href="javascript:void(0);" onclick="qrcode({$vo.id});">二维码</a>
+                                &nbsp;&nbsp;
+                                <a class="link-update" href="javascript:void(0);" onclick="pass({$vo.id});">通过</a>
+                                &nbsp;&nbsp;
+                                <a class="link-del" href="javascript:void(0);" onclick="fail({$vo.id})">不通过</a>
+                                {elseif condition="$vo['status'] eq 1"/}
+                                通过
+                                {elseif condition="$vo['status'] eq 0"/}
+                                等待确认中
+                                {else/}
+                                不通过
+                            {/if}
+                        </td>
+                         <form action="{:url('Currency/tibilist')}" method="post">
+                            <td><input name="message1" type="text"
+                                       value="{$vo.message1}"
+                                       style="height:40px;padding-left:5px;"></td>
+                            <input type="hidden" value="{$vo['member_id']}" name="m_id"> </input>
+                            <input type="hidden" value="{$vo['id']}" name="id"> </input>
+                            <td><input name="mit" value="提&nbsp;&nbsp;交" type="submit" align="center"
+                                       style=" margin-left:22px; font-family:'微软雅黑'; width:50px; height:30px; font-size:14px; color:#fff; background:#711818; cursor:pointer;">
+                            </td>
+                        </form>
+                        <!-- <form action="{:url('Currency/tibilist')}" method="post">
+                            <td><input name="message2" type="text"
+                                       value="{$vo.message2}"
+                                       style="height:40px;padding-left:5px;"></td>
+                            <input type="hidden" value="{$vo['member_id']}" name="m_id"> </input>
+                            <input type="hidden" value="{$vo['id']}" name="id"> </input>
+                            <td><input name="mit2" value="提&nbsp;&nbsp;交" type="submit" align="center"
+                                       style=" margin-left:22px; font-family:'微软雅黑'; width:50px; height:30px; font-size:14px; color:#fff; background:#711818; cursor:pointer;">
+                            </td>
+                        </form> -->
+                    </tr>
+                {/volist}
+
+            </table>
+
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $("#walletNav").show();
+            $("#walletNav").children("li").eq(15).addClass("on");
+            function pass(id) {
+                layer.confirm('确定通过审核', {
+                    btn: ['确定', '取消'], //按钮
+                }, function () {
+                    var captcha = $("#captcha").val();
+                    var loading = layer.msg('提币中，请稍等···', {
+                        icon: 16
+                        , shade: 0.3
+                        , time: 0
+                        , scrollbar: false
+                    });
+                    $.post("{:url('successByid')}", {"id": id, "captcha": captcha}, function (datas) {
+                        layer.close(loading);
+                        if (datas.code == 10000) {
+                            layer.msg(datas['message']);
+                            setTimeout("location.reload()", 3000);
+                        } else {
+                            layer.msg(datas['message']);
+                            setTimeout("location.reload()", 3000);
+                        }
+                    });
+                    //layer.msg('');
+                }, function () {
+                    layer.msg('已取消');
+                });
+            }
+
+
+            function fail(id) {
+                layer.confirm('确定不通过审核', {
+                    btn: ['确定', '取消'], //按钮
+                }, function () {
+                    $.post("{:url('falseByid')}", {"id": id}, function (datas) {
+                        layer.msg(datas['message']);
+                        setTimeout("location.reload()", 2000);
+                    });
+                    //layer.msg('');
+                }, function () {
+                    layer.msg('已取消');
+                });
+            }
+
+            function qrcode(id) {
+                var url = "{:U('Currency/qrcode',array('id'=>'_id'))}"; //先将变量以字符串的形式带入U函数中
+                url = url.replace("_id", id); //将代替变量的字符串用真实变量替换
+                layer.open({
+                    type: 2,
+                    title: "二维码",
+                    content: url,
+                    area: ['800px', '800px'],
+                    shade: 0, //不显示遮罩
+                    //maxmin: true,
+                    //scrollbar: false, //屏蔽浏览器滚动条
+                    cancel: function () {
+                        location.reload();
+                    }
+                });
+            }
+        </script>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

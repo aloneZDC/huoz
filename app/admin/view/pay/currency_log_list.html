@@ -1,0 +1,156 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script>
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">自动到帐数据日志</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('pay/currencyLogList')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <td width="70">转账地址:</td>
+                        <td><input class="common-text" placeholder="转账地址" name="afrom" type="text" value="{$data.afrom}"></td>
+                        <td width="70">接收地址:</td>
+                        <td><input class="common-text" placeholder="接收地址" name="ato" type="text" value="{$data.ato}"></td>
+                        <td width="100">交易编号txid:</td>
+                        <td><input class="common-text" placeholder="交易编号txid" name="tx" type="text" value="{$data.tx}"></td>
+
+                        <th width="50">币种:</th>
+                        <td>
+                            <select name="types">
+                                <option value="">全部</option>
+                                {volist name="currencyList" id="vo"}
+                                    {eq name="key" value="$data.types"}
+                                        <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                        <option value="{$key}">{$vo}</option>
+                                    {/eq}
+                                {/volist}
+                            </select>
+                        </td>
+
+                        <th width="50">状态:</th>
+                        <td>
+                            <select name="status">
+                                <option value="">全部</option>
+                                {volist name="statusList" id="vo"}
+                                    {eq name="key" value="$data.status"}
+                                        <option value="{$key}" selected>{$vo}</option>
+                                        {else/}
+                                        <option value="{$key}">{$vo}</option>
+                                    {/eq}
+                                {/volist}
+                            </select>
+                        </td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+
+                    <th>转账地址</th>
+                    <th>交易编号txid</th>
+                    <th>接收地址</th>
+                    <th>币类型</th>
+                    <th>数量</th>
+                    <th>处理状态</th>
+                    <th>开始时间</th>
+                    <th>操作时间</th>
+                    <th>是否人工处理过</th>
+                    <th>是否人工修改过标签</th>
+
+                    <th>操作</th>
+                </tr>
+                {volist name='list' id='vo'}
+                    <tr>
+
+                        <td style="width:250px">{$vo['afrom']}</td>
+                        <td style="width:250px">
+                            <?php if($vo['types']==3):?>
+                            <a target="_blank" href="https://cn.etherscan.com/tx/{$vo['tx']}">{$vo['tx']}</a>
+                            <?php elseif($vo['types']==1):?>
+                            <a target="_blank" href="https://btc.com/{$vo['tx']}">{$vo['tx']}</a>
+                            <?php elseif($vo['types']==2):?>
+                            <a target="_blank" href="https://omniexplorer.info/search/{$vo['tx']}">{$vo['tx']}</a>
+                            <?php elseif($vo['types']==4):?>
+                            <a target="_blank" href="https://bithomp.com/explorer/{$vo['tx']}">{$vo['tx']}</a>
+                            <?php elseif($vo['types']==5):?>
+                            <a target="_blank" href="{:coinUrl($vo['tx'],4)}">{$vo['tx']}</a>
+                            <?php else: ?>
+                            {$vo['tx']}
+                            <?php endif;?>
+                        </td>
+                        <td style="width:300px">{$vo['ato']}</td>
+                        <td style="width:50px">{$vo['currency_name']}</td>
+                        <td style="width:80px">{$vo['amount']}</td>
+                        <td style="width:80px">{$vo['status_name']}</td>
+                        <td style="width:120px">{$vo['add_time']}</td>
+                        <td style="width:120px">{$vo['update_time']}</td>
+                        <td style="width:60px">{$vo['check_status_name']}</td>
+                        <td style="width:60px">{$vo['is_modify']}</td>
+                        <td>
+                            <?php if($vo['status']!=0):?>
+                            <a class="link-del" href="{:url('pay/updateStatus',array('tx'=>$vo['tx']))}"
+                               onclick="return confirm('是否要把该状态重置为未处理状态？')">重置处理状态| </a>
+                            <?php endif;?>
+                            <?php if($vo['check_status']!=2):?>
+                            <a class="link-del" href="{:url('pay/updateCheckStatus',array('tx'=>$vo['tx']))}"
+                               onclick="return confirm('是否要把该状态修改为人工处理过状态？')">置为人工处理| </a>
+                            <?php endif;?>
+                            <?php if($vo['check_status']!=3&&$vo['types']==4&&!isset($vo['trans']['des_tag'])):?>
+                            <a class="link-del" href="#"
+                               onclick="updateTag('{$vo['tx']}')">修改标签ID </a>
+                            <?php endif;?>
+                        </td>
+                    </tr>
+                {/volist}
+
+            </table>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+
+    function updateTag(tx) {
+        var url = "{:url('Pay/updateTag')}?tx="+tx;
+        layer.open({
+            type: 2,
+            title: "修改标签ID",
+            content: url,
+            area: ['500px', '500px'],
+            shade: 0, //不显示遮罩
+            //maxmin: true,
+            //scrollbar: false, //屏蔽浏览器滚动条
+            cancel: function () {
+                location.reload();
+            }
+        });
+    }
+
+
+</script>

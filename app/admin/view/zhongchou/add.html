@@ -1,0 +1,424 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+
+<link type="text/css" href="/Public/Admin/css/jquery-ui-1.8.17.custom.css" rel="stylesheet"/>
+<link type="text/css" href="/Public/Admin/css/jquery-ui-timepicker-addon.css" rel="stylesheet"/>
+<script src="/Public/Admin/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/Public/Admin/js/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="/Public/Admin/js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="/Public/Admin/js/jquery-ui-timepicker-zh-CN.js"></script>
+
+<script>
+    (function ($) {
+        // 汉化 Datepicker
+        $.datepicker.regional['zh-CN'] =
+            {
+                clearText: '清除', clearStatus: '清除已选日期',
+                closeText: '关闭', closeStatus: '不改变当前选择',
+                prevText: '<上月', prevStatus: '显示上月',
+                nextText: '下月>', nextStatus: '显示下月',
+                currentText: '今天', currentStatus: '显示本月',
+                monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+                    '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                monthNamesShort: ['一', '二', '三', '四', '五', '六',
+                    '七', '八', '九', '十', '十一', '十二'],
+                monthStatus: '选择月份', yearStatus: '选择年份',
+                weekHeader: '周', weekStatus: '年内周次',
+                dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+                dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+                dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+                dayStatus: '设置 DD 为一周起始', dateStatus: '选择 m月 d日, DD',
+                dateFormat: 'yy-mm-dd', firstDay: 1,
+                initStatus: '请选择日期', isRTL: false
+            };
+        $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+
+        //汉化 Timepicker
+        $.timepicker.regional['zh-CN'] = {
+            timeOnlyTitle: '选择时间',
+            timeText: '时间',
+            hourText: '小时',
+            minuteText: '分钟',
+            secondText: '秒钟',
+            millisecText: '微秒',
+            timezoneText: '时区',
+            currentText: '现在时间',
+            closeText: '关闭',
+            timeFormat: 'hh:mm',
+            amNames: ['AM', 'A'],
+            pmNames: ['PM', 'P'],
+            ampm: false
+        };
+        $.timepicker.setDefaults($.timepicker.regional['zh-CN']);
+    })(jQuery);
+</script>
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href=":U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">众筹设置</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Zhongchou/add')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>众筹详细信息设置</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>图片1：</th>
+                            <td><img style="width:400px;" src="{$list.url1}"><input type="hidden" name="url1"
+                                                                                    value="{$list.url1}"
+                                                                                    class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>众筹封面图片上传：</th>
+                            <td><input type="file" name="Filedata1" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>图片2：</th>
+                            <td><img style="width:400px;" src="{$list.url2}"><input type="hidden" name="url2"
+                                                                                    value="{$list.url2}"
+                                                                                    class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>众筹详情图片上传：</th>
+                            <td><input type="file" name="Filedata2" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>图片3：</th>
+                            <td><img style="width:400px;" src="{$list.url3}"><input type="hidden" name="url3" value="{$list.url3}"
+                                                                        class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>众筹首页小图片上传：</th>
+                            <td><input type="file" name="Filedata3" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th>语言</th>
+                            <td>
+                                <select id="lang" name="lang">
+                                    <option value="zh" <?php if(empty($_GET['lang']) || $_GET['lang'] == 'zh'){ ?>selected<?php } ?>>中文</option>
+                                    <option value="tc" <?php if($_GET['lang'] == 'tc'){ ?>selected<?php } ?>>繁体</option>
+                                    <option value="en" <?php if($_GET['lang'] == 'en'){ ?>selected<?php } ?>>英文</option>
+                                    <option value="th" <?php if($_GET['lang'] == 'th'){ ?>selected<?php } ?>>泰文</option>
+                                </select>
+                                <script>
+                                    $("#lang").on('change', function (e) {
+                                        window.location.href = "?lang=" + $(this).val();
+                                    });
+                                </script>
+                            </td>
+                        </tr>
+                        <?php if(empty($_GET['lang']) || $_GET['lang'] == 'zh'){ ?>
+                        <tr>
+                            <th><i class="require-red">*</i>标题：</th>
+                            <td><input type="text" id="" value="{$list.title}" size="85" name="title"
+                                       class="common-text"></td>
+                        </tr>
+                        <?php } ?>
+                        <?php if($_GET['lang'] == 'tc'){ ?>
+                        <tr>
+                            <th><i class="require-red">*</i>繁体标题：</th>
+                            <td><input type="text" id="" value="{$list.tc_title}" size="85" name="tc_title"
+                                       class="common-text"></td>
+                        </tr>
+                        <?php } ?>
+                        <?php if($_GET['lang'] == 'en'){ ?>
+                        <tr>
+                            <th><i class="require-red">*</i>英文标题：</th>
+                            <td><input type="text" id="" value="{$list.en_title}" size="85" name="en_title"
+                                       class="common-text"></td>
+                        </tr>
+                        <?php } ?>
+                        <?php if($_GET['lang'] == 'th'){ ?>
+                        <tr>
+                            <th><i class="require-red">*</i>泰文标题：</th>
+                            <td><input type="text" id="" value="{$list.th_title}" size="85" name="th_title"
+                                       class="common-text"></td>
+                        </tr>
+                        <?php } ?>
+                        <tr>
+                            <th><i class="require-red">*</i>众筹积分类型：</th>
+                            <td>
+                                <select name="currency_id">
+                                    <volist name='currency' id='vo'>
+                                        <option value="{$vo.currency_id}"
+                                        <if condition="$list.currency_id eq $vo.currency_id ">selected="selected"</if>
+                                        class="common-text">{$vo.currency_name}</option>
+                                    </volist>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>众筹购买积分类型：</th>
+                            <td>
+                                <select name="buy_currency_id">
+                                    <option value="0"
+                                    <if condition="$list.buy_currency_id eq 0 ">selected="selected"</if>
+                                    >人民币</option>
+                                    <volist name='currency' id='vo'>
+                                        <option value="{$vo.currency_id}"
+                                        <if condition="$list.buy_currency_id eq $vo.currency_id ">selected="selected"
+                                        </if>
+                                        class="common-text">{$vo.currency_name}
+                                        </option>
+                                    </volist>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>众筹获取类型：</th>
+                            <td>
+                                <select name="is_forzen">
+                                 <option value='2' <if condition="$list.is_forzen eq 2 ">selected="selected"
+                                        </if> >锁仓</option>
+                                    <option value='0'<if condition="$list.is_forzen eq 0 ">selected="selected"
+                                        </if>>冻结</option>
+                                    <option value='1' <if condition="$list.is_forzen eq 1 ">selected="selected"
+                                        </if>>可用</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>锁仓比例：</th>
+                            <td><select name="lock_rate" id="lock_rate">
+                                <foreach name="rateList" item="vo">
+                                    <option value="{$vo}" <if condition="$list.lock_rate eq $vo ">selected="selected"
+                                        </if>>{$vo}%</option>
+                                </foreach>
+                            </select>
+                                <span class="require-red">* 请确认比例：<span id="note"></span></span>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>众筹发售量：</th>
+                            <td><input type="text" id="" value="{$list.num}" size="85" name="num"
+                                       class="common-text"><input type="hidden" id="" value="{$list.id}" size="85"
+                                                                  name="id" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>众筹保留量：</th>
+                            <td><input type="text" id="" value="{$list.num_nosell}" size="85" name="num_nosell"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>众筹价格：</th>
+                            <td><input type="text" id="" value="{$list.price}" size="85" name="price"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>每人限购：</th>
+                            <td><input type="text" id="" value="{$list.limit}" size="85" name="limit"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>最低购买：</th>
+                            <td><input type="text" id="" value="{$list.min_limit}" size="85" name="min_limit"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>限购次数：</th>
+                            <td><input type="text" id="" value="{$list.limit_count}" size="85" name="limit_count"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>众筹成功比例：</th>
+                            <td><input type="text" id="" value="{$list.zhongchou_success_bili}" size="85"
+                                       name="zhongchou_success_bili" class="common-text">%
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>众筹后台操作总量：</th>
+                            <td><input type="text" id="" value="{$list.admin_num}" size="85" name="admin_num"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>众筹后台操作剩余量：</th>
+                            <td><input type="text" id="" value="{$list.admin_deal}" size="85" name="admin_deal"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>抢购时间：</th>
+                            <td>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <i class="fa fa-calendar"></i></span>
+                                        <input type="text" name="add_time" class="ui_timepicker" id="aaaaa1"
+                                               placeholder="选择日期时间" value="{$list.add_time|date='Y-m-d H:i:s',###}"/>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <script type="text/javascript">
+                            $(function () {
+                                $("#aaaaa1").datetimepicker({
+                                    //showOn: "button",
+                                    //buttonImage: "./css/images/icon_calendar.gif",
+                                    //buttonImageOnly: true,
+                                    showSecond: true,
+                                    timeFormat: 'hh:mm:ss',
+                                    stepHour: 1,
+                                    stepMinute: 1,
+                                    stepSecond: 1
+                                })
+                                $("#aaaaa2").datetimepicker({
+                                    //showOn: "button",
+                                    //buttonImage: "./css/images/icon_calendar.gif",
+                                    //buttonImageOnly: true,
+                                    showSecond: true,
+                                    timeFormat: 'hh:mm:ss',
+                                    stepHour: 1,
+                                    stepMinute: 1,
+                                    stepSecond: 1
+                                })
+                                $("#aaaaa3").datetimepicker({
+                                    //showOn: "button",
+                                    //buttonImage: "./css/images/icon_calendar.gif",
+                                    //buttonImageOnly: true,
+                                    showSecond: true,
+                                    timeFormat: 'hh:mm:ss',
+                                    stepHour: 1,
+                                    stepMinute: 1,
+                                    stepSecond: 1
+                                })
+
+                            })
+                        </script>
+                        <tr>
+                            <th><i class="require-red">*</i>开始释放时间：</th>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <i class="fa fa-calendar"></i></span>
+                                        <input type="text" name="release_time" class="ui_timepicker" id="aaaaa3"
+                                               placeholder="选择日期时间" value="{$list.release_time|date='Y-m-d H:i:s',###}"
+                                        / >
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>结束时间：</th>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <i class="fa fa-calendar"></i></span>
+                                        <input type="text" name="end_time" class="ui_timepicker" id="aaaaa2"
+                                               placeholder="选择日期时间" value="{$list.end_time|date='Y-m-d H:i:s',###}" / >
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>释放比例：</th>
+                            <td><input type="text" id="" value="{$list.release_bili}" size="45" name="release_bili"
+                                       class="common-text">%
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>众筹排序：</th>
+                            <td><input type="text" id="" value="{$list.sort}" size="20" name="sort" class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <?php if(empty($_GET['lang']) || $_GET['lang'] == 'zh'){ ?>
+                            <td>认购介绍</td>
+                            <td><textarea name="info" style="width:800px;height:350px;">{$info}</textarea></td>
+                            <?php } ?>
+                            <?php if($_GET['lang'] == 'tc'){ ?>
+                            <td>繁体认购介绍</td>
+                            <td><textarea name="tc_info" style="width:800px;height:350px;">{$tc_info}</textarea></td>
+                            <?php } ?>
+                            <?php if($_GET['lang'] == 'en'){ ?>
+                            <td>英文认购介绍</td>
+                            <td><textarea name="en_info" style="width:800px;height:350px;">{$en_info}</textarea></td>
+                            <?php } ?>
+                            <?php if($_GET['lang'] == 'th'){ ?>
+                            <td>泰文认购介绍</td>
+                            <td><textarea name="th_info" style="width:800px;height:350px;">{$th_info}</textarea></td>
+                            <?php } ?>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="hidden" value="{$list.id}" name="id">
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('Zhongchou/index')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+
+<!-- <script language="javascript" src="/Public/plugin/kindeditor/jquery.tools.min.js"></script>
+<script language="javascript" src="/Public/plugin/kindeditor/kindeditor-min.js"></script>
+<script language="javascript" src="/Public/plugin/kindeditor/zh_CN.js"></script> -->
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/plugins/prettify.js"></script>
+<script language="javascript">
+    $(document).ready(function () {
+        $('#all').click(function () {
+            $('.id').attr('checked', true);
+        });
+        $('#all_return').click(function () {
+            $('.id').attr('checked', false);
+        });
+        $('#dels').click(function () {
+
+            f = 0;
+            $('.id').each(function () {
+                if ($(this).attr('checked')) f = 1;
+            });
+
+            if (f == 0) {
+                alert('请选择要删除的项！');
+            } else {
+                $('#formid').submit();
+            }
+        });
+        $('#add').click(function () {
+            location.href = "?s=Admin/Issue/add";
+        });
+    });
+
+    /* var editor;
+     KindEditor.ready(function(K) {
+     editor = K.create('textarea[name="info"]', {
+
+     });
+     }); */
+</script>
+
+<script>
+    KindEditor.ready(function (K) {
+        window.editor = K.create('textarea[name="info"]',{
+            uploadJson : '{:U("Art/oss_file_upload")}',
+            fileManagerJson : '{:U("Art/oss_file_upload")}',
+        });
+        window.editor = K.create('textarea[name="tc_info"]',{
+            uploadJson : '{:U("Art/oss_file_upload")}',
+            fileManagerJson : '{:U("Art/oss_file_upload")}',
+        });
+        window.editor = K.create('textarea[name="en_info"]',{
+            uploadJson : '{:U("Art/oss_file_upload")}',
+            fileManagerJson : '{:U("Art/oss_file_upload")}',
+        });
+    });
+</script>
+</body>
+</html>

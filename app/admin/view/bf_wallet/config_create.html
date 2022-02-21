@@ -1,0 +1,129 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<style>
+    .layui-form-select, .layui-input {
+        width: 400px;
+    }
+</style>
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span
+                class="crumb-name">兑换配置</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:url('config_create')}" method="post" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>兑换配置</h1>
+                </div>
+                <div class="result-content layui-form">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>币种：</th>
+                            <td>
+                                <label></label><select name="cu_type">
+                                <option value="">-- 请选择 --</option>
+                                {volist name="currency" id="vo"}
+                                <option value="{$vo['currency_id']}" {eq name="$vo['currency_id']" value="$list['cu_type']" } selected {/eq} >{$vo['currency_name']}</option>
+                                {/volist}
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>兑换币种：</th>
+                            <td>
+                                <label></label><select name="currency_id">
+                                <option value="">-- 请选择 --</option>
+                                {volist name="currency_list" id="vo"}
+                                <option value="{$vo['currency_id']}" {eq name="$vo['currency_id']" value="$list['currency_id']" } selected {/eq} >{$vo['currency_mark_name']}</option>
+                                {/volist}
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>目标币种：</th>
+                            <td>
+                                <select name="to_currency_id">
+                                    <option value="">-- 请选择 --</option>
+                                    {volist name="currency_list" id="vo"}
+                                    <option value="{$vo['currency_id']}" {eq name="$vo['currency_id']" value="$list['to_currency_id']" } selected {/eq} >{$vo['currency_mark_name']}</option>
+                                    {/volist}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>兑换类型：</th>
+                            <td>
+                                <select name="cc_type">
+                                    <option value="bfw_qb_hz" {eq name="$list['cc_type']" value="bfw_qb_hz" } selected {/eq} >錢包劃轉</option>
+                                    <option value="bfw_zh_hz" {eq name="$list['cc_type']" value="bfw_zh_hz" } selected {/eq} >賬戶互轉</option>
+                                    <option value="bfw_zh_tx" {eq name="$list['cc_type']" value="bfw_zh_tx" } selected {/eq} >賬戶提現</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>单次最小限制 (枚)：</th>
+                            <td>
+                                <input type="text" name="min" placeholder="单次最小限制(单位: 枚)" value="{$list['min']}" class="layui-input"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>每日最大限制 (枚)：</th>
+                            <td>
+                                <input type="text" name="max" placeholder="请输入每日最大限制(单位: 枚)" value="{$list['max']}" class="layui-input"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>手续费：</th>
+                            <td>
+                                <input type="text" name="fee" placeholder="请输入手续费 (默认: 0)" value="{$list['fee']}" class="layui-input"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>账本类型ID：</th>
+                            <td>
+                                <input type="text" name="abt_id" placeholder="请输入账本类型ID (默认: 0)" value="{$list['abt_id']}" class="layui-input"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>状态：</th>
+                            <td>
+                                <select name="status">
+                                    <option value="0" {eq name="$list['status']" value="0" } selected {/eq} >开启</option>
+                                    <option value="1" {eq name="$list['status']" value="1" } selected {/eq} >关闭</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>排序：</th>
+                            <td>
+                                <input type="text" name="sort" placeholder="请输入排序 (默认: 0)" value="{$list['sort']}" class="layui-input"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="hidden" name="cc_id" value="{$list.cc_id}">
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:url('config')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+    });
+</script>
+</div>
+</body>
+</html>

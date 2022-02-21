@@ -1,0 +1,336 @@
+<link rel="stylesheet" href="__PUBLIC__/static/home/css/user/EMvalidation.css">
+<script charset="UTF-8" type="text/javascript" src="//cstaticdun.126.net/load.min.js"></script>
+<div id="main">
+    <div class="main_box">
+        <div class="">
+                <div id="my_child">
+                        <h1 class="h1">
+                            {:lang('lan_simple_change_email')}
+                        </h1>
+                        <div class="form-cont" id="step1" style="display: block;">
+                            <div class="explanation">
+                                {:lang('lan_mod_email')}
+                            </div>
+                            <div class="input-cont">
+                                <input class="input" validate="" id="oldEmail" type="text" readonly="readonly" value="{$email}">
+                                <div class="form-tips"></div>
+                                <div class="error-msg">{:lang('lan_user_please_enter_the_correct_email_address')}</div>
+                            </div>
+                            <div class="explanation">
+                                {:lang('lan_mod_auth')}
+                            </div>
+                            <div class="input-cont">
+                                <input class="input" type="text" check-type="one_time_code" id="oldEmailCode" autocomplete="off" maxlength="6"
+                                    placeholder="{:lang('lan_verification_code')}">
+                                <!--<div class="placeholder">{:lang('lan_user_please_enter_the_verification_code')}</div>-->
+                              
+                                <a class="link get-token change" id="oldMsgt" data-key='off'>{:lang('lan_send_authentication_code')}</a>
+                                <div id="captcha_div"></div>
+                                <div class="form-tips"></div>
+                            </div>
+                            <button id="next" class="btn submit">{:lang('lan_next_step')}</button>
+                        </div>
+                        <div class="form-cont" id="step2" style="display: none;">
+                            <div class="explanation">
+                                {:lang('lan_mod_new_email')}
+                            </div>
+                            <div class="input-cont">
+                                <input class="input" validate="" id="email" type="text" check-type="email" name="email" autocomplete="off" placeholder="{:lang('lan_user_please_enter_your_email_address')}">
+            
+                                <div class="form-tips"></div>
+                                <div class="error-msg">{:lang('lan_user_please_enter_the_correct_email_address')}</div>
+                            </div>
+                            <div class="explanation">
+                                {:lang('lan_mod_new_auth')}
+                            </div>
+                            <div class="input-cont">
+                                <input class="input" type="text" check-type="one_time_code" id="email_code" name="one_time_code" autocomplete="off" maxlength="6"
+                                    placeholder="{:lang('lan_verification_code')}">
+                                <!--<div class="placeholder">{:lang('lan_user_please_enter_the_verification_code')}</div>-->
+                              
+                                <a class="link get-token change" id="msgt" data-key='off'>{:lang('lan_send_authentication_code')}</a>
+                                <div id="captcha_div"></div>
+                                <div class="form-tips"></div>
+                            </div>
+                            <button id="bindMail" class="btn submit">{:lang('lan_user_to_complete')}</button>
+                        </div>
+                    </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    var checkUrl = "{:url('Email/check')}"
+    $('#email').blur(function () {
+        var email = $('#email').val();
+        var pattern = /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/;
+        if (!pattern.test(email)) {
+            layer.msg("{:lang('lan_user_please_enter_the_correct_email_address')}");
+            $('#email').val("");
+            $("#msgt").css({"pointer-events":"none","opacity":"0.5"});
+            Array.on_off = false;
+            return false;
+        }
+        var data = {
+            email: email
+        };
+        var path_Email = "{:url('Reg/ajaxCheckEmail')}";
+        $.get(path_Email, {
+            email: email
+        }, function (data) {
+            if (data.status != 1) {
+                layer.msg(data.msg);
+                $('#email').val("");
+                $("#msgt").css({"pointer-events":"none","opacity":"0.5"});
+                Array.on_off = false;
+                return false;
+            } else {
+            	$("#msgt").css({"pointer-events":"auto","opacity":"1"});
+                Array.on_off = true;
+            }
+        })
+    });
+
+    $('#oldMsgt').click(function () {
+        // 滑块验证码
+        captchaInsOld.popUp();
+        captchaIns.refresh();
+    });
+
+    var captchaInsOld;
+        initNECaptcha({
+        captchaId: '393c58cccfa44537b90c773fcbcb43cb',
+        element: '#captcha_div',
+        mode: 'popup',
+        width: 240,
+        onReady: function (instance) {
+            // 验证码一切准备就绪，此时可正常使用验证码的相关功能
+        },
+        onVerify: function (err, data) {
+            if(err){
+                layer.msg("{:lang('lan_complete_slide_validation')}");
+                return false;
+            }
+            /**
+             * 第一个参数是err（Error的实例），验证失败才有err对象
+             * 第二个参数是data对象，验证成功后的相关信息，data数据结构为key-value，如下：
+             * {
+         *   validate: 'xxxxx' // 二次验证信息
+         * }
+             */
+            // 点击登录按钮后可调用服务端接口，以下为伪代码，仅作示例用
+            var CodeUrl = "{:url('Email/code')}";
+            var chongxinfasong = "{:lang('lan_resend_verification_code')}";
+            var chongxinfasongone = "{:lang('lan_resend_verification_code_one')}";
+            var i = 120;
+            var tid2;
+            tid2 = setInterval(function () {
+                if ($("#oldMsgt").attr("data-key") == 'off') {
+                    i--;
+                    $("#oldMsgt").text(i + chongxinfasongone);
+                    $("#oldMsgt").attr("disabled",true);
+                    $("#oldMsgt").css({"pointer-events":"none","opacity":"0.5"});
+                    if (i <= 0) {
+                        $("#oldMsgt").text(chongxinfasong);
+                        $("#oldMsgt").attr("data-key", "on");
+                        $("#oldMsgt").attr("disabled",false);
+                        $("#oldMsgt").css({"pointer-events":"auto","opacity":"1"});
+                        clearInterval(tid2);
+                    }
+                }
+            }, 1000);
+            
+            // 当滑块验证码通过之后，再次提交则需要重新滑块验证
+            captchaIns.refresh();
+             if (email.length == 0) {
+                layer.msg(emailLength);
+            } else {
+                $.post(CodeUrl, {
+                        type: "modifyemail",
+                        validate: data.validate
+                    },
+                    function (d) {
+                        layer.msg(d.msg);
+                        if (d.status == 1) {
+                            i = 120;
+                            $("#oldMsgt").attr("data-key", "off");
+                            $("#oldMsgt").attr("disabled",true);
+                            $("#oldMsgt").css({"pointer-events":"none","opacity":"0.5"});
+                        }
+                    });
+            }
+//      }
+      }
+    }, function onload (instance) {
+        // 初始化成功
+        captchaInsOld = instance
+    }, function onerror (err) {
+        // 验证码初始化失败处理逻辑，例如：提示用户点击按钮重新初始化
+        layer.msg("{:lang('lan_click_button_reinitialize')}")
+    });
+
+    $("#next").on("click",function(){
+        var code = $("#oldEmailCode").val();
+        if(code.length<=0){
+            layer.msg("邮箱验证码不能为空");
+            return;
+        }
+        var obj = {
+            email_code:code,
+            type:"modifyemail",
+        }
+        $.ajax({
+            url:checkUrl,
+            type:"POST",
+            data:obj,
+            success:function(data){
+                console.log(data);
+                if(data.status==1){
+                    $("#step1").css("display","none");
+                    $("#step2").css("display","block");
+                }else{
+                    layer.msg(data.msg);
+                }
+            }
+        });
+    });
+
+    $('#msgt').click(function () {
+      	// 滑块验证码
+    	captchaIns.popUp();
+        captchaIns.refresh();
+    });
+    
+    var captchaIns;
+    	initNECaptcha({
+        captchaId: '393c58cccfa44537b90c773fcbcb43cb',
+        element: '#captcha_div',
+        mode: 'popup',
+        width: 240,
+        onReady: function (instance) {
+            // 验证码一切准备就绪，此时可正常使用验证码的相关功能
+        },
+        onVerify: function (err, data) {
+            if(err){
+                layer.msg("{:lang('lan_complete_slide_validation')}");
+                return false;
+            }
+            /**
+             * 第一个参数是err（Error的实例），验证失败才有err对象
+             * 第二个参数是data对象，验证成功后的相关信息，data数据结构为key-value，如下：
+			 * {
+         *   validate: 'xxxxx' // 二次验证信息
+         * }
+             */
+            // 点击登录按钮后可调用服务端接口，以下为伪代码，仅作示例用
+       	    var email = $('#email').val();
+	        var CodeUrl = "{:url('Email/code')}";
+	        var chongxinfasong = "{:lang('lan_resend_verification_code')}";
+	        var chongxinfasongone = "{:lang('lan_resend_verification_code_one')}";
+	        $('#email').trigger('blur');
+//      	if (!Array.on_off2) {
+//          	return false;
+//     	 	};
+//     	 if (Array.on_off2 === true) {
+            var i = 120;
+            var tid2;
+            tid2 = setInterval(function () {
+                if ($("#msgt").attr("data-key") == 'off') {
+                    i--;
+                    $("#msgt").text(i + chongxinfasongone);
+                    $("#msgt").attr("disabled",true);
+                    $("#msgt").css({"pointer-events":"none","opacity":"0.5"});
+                    if (i <= 0) {
+                        $("#msgt").text(chongxinfasong);
+                        $("#msgt").attr("data-key", "on");
+                        $("#msgt").attr("disabled",false);
+                        $("#msgt").css({"pointer-events":"auto","opacity":"1"});
+                        clearInterval(tid2);
+                    }
+                }
+            }, 1000);
+            
+			// 当滑块验证码通过之后，再次提交则需要重新滑块验证
+            captchaIns.refresh();
+             if (email.length == 0) {
+                layer.msg(emailLength);
+            } else {
+                $.post(CodeUrl, {
+                        email: email,
+                        type: "bindemail",
+                        validate: data.validate
+                    },
+                    function (d) {
+                        layer.msg(d.msg);
+                        if (d.status == 1) {
+                            i = 120;
+                            $("#msgt").attr("data-key", "off");
+                            $("#msgt").attr("disabled",true);
+                            $("#msgt").css({"pointer-events":"none","opacity":"0.5"});
+                        }
+                    });
+            }
+//      }
+      }
+    }, function onload (instance) {
+        // 初始化成功
+        captchaIns = instance
+    }, function onerror (err) {
+        // 验证码初始化失败处理逻辑，例如：提示用户点击按钮重新初始化
+        layer.msg("{:lang('lan_click_button_reinitialize')}")
+    });
+    
+    
+    $('#email_code').blur(function () {
+        if ($(this).val() == "") {
+            layer.msg("{:lang('lan_verification_code_not_empty')}");
+            Array.on_off2 = false;
+            return false;
+        } else {
+            Array.on_off2 = true;
+            return false;
+        }
+    })
+    $('#bindMail').click(function () {
+        $('#email').trigger('blur');
+        if (!Array.on_off) {
+            return false;
+        };
+        $('#email_code').trigger('blur');
+        if (!Array.on_off2) {
+            return false;
+        };
+        var email = $('#email').val();
+        var email_code = $('#oldEmailCode').val();
+        var newEmailCode = $('#email_code').val();
+        var data = {
+            new_email: email,
+            type: "bindemail",
+            email_code: email_code,
+            new_email_code:newEmailCode,
+        };
+        var JumpUrl = "{:url('Login/index')}";
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            data: data,
+            url: "{:url('User/modifyemail')}",
+            success: function (callback) {
+                if (callback.status == 1) {
+                    layer.msg(callback.info);
+                    setTimeout(function(){
+                        window.location.href = JumpUrl;
+                    },1500);
+                } else {
+                    layer.msg(callback.info);
+                }
+            },
+            error: function (e) {
+                layer.msg("{:lang('lan_reg_the_network_busy')}");
+            }
+        });
+    })
+</script>

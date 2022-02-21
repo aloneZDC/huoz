@@ -1,0 +1,185 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">商品列表</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('')}" method="get">
+                <div class="layui-inline">
+                    <label for="gmo_status">订单状态</label>
+                    <select style="display: inline; width: 100px;" class="layui-select" name="gmo_status" id="gmo_status">
+                        <option value="">全部</option>
+                        <option value="1" {if $Think.get.gmo_status == 1}selected{/if}>已付款</option>
+                        <option value="2" {if $Think.get.gmo_status == 2}selected{/if}>待付款</option>
+                        <option value="3" {if $Think.get.gmo_status == 3}selected{/if}>已发货</option>
+                        <option value="4" {if $Think.get.gmo_status == 4}selected{/if}>已确认货</option>
+                    </select>
+                </div>
+                <!--<div class="layui-inline">
+                    <label for="gmo_status">释放状态</label>
+                    <select style="display: inline; width: 100px;" class="layui-select" name="gmo_release_status" >
+                        <option value="">全部</option>
+                        <option value="1" {if $Think.get.gmo_release_status == 1}selected{/if}>正在释放</option>
+                        <option value="2" {if $Think.get.gmo_release_status == 2}selected{/if}>待释放</option>
+                        <option value="3" {if $Think.get.gmo_release_status == 3}selected{/if}>已释放完</option>
+                    </select>
+                </div>-->
+                <div class="layui-inline">
+                    <label for="start"></label>
+                    <input type="text" class="layui-input" placeholder="用户昵称" name="user_nickname"  value="{$Think.get.user_nickname}" />
+                </div>
+                <div class="layui-inline">
+                    <label for="start"></label>
+                    <input type="text" class="layui-input" placeholder="订单编号" name="gmo_code"  value="{$Think.get.gmo_code}" />
+                </div>
+                <div class="layui-inline">
+                    <label for="start"></label>
+                    <input type="text" class="layui-input" placeholder="用户id" name="user_id"  value="{$Think.get.user_id}" />
+                </div>
+                <div class="layui-inline">
+                    <label for="start"></label>
+                    <input type="text" class="layui-input" placeholder="下单开始日期" name="start" id="start" value="{$Think.get.start}" />
+                </div>
+                <div class="layui-inline">
+                    <label for="end"></label>
+                    <input type="text" class="layui-input" placeholder="下单结束日期" name="end" id="end" value="{$Think.get.end}" />
+                </div>
+
+                <div class="layui-inline">
+                    <input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form class="layui-form">
+                <table class="layui-table" id="memberList" lay-filter="table-list">
+                    <thead>
+                    <tr>
+                        <th lay-data="{align:'center',field:'gmo_id', width:50}">ID</th>
+                        <th lay-data="{align:'center',field:'gmo_user_id', width:150}">用户ID/昵称</th>
+                        <th lay-data="{align:'center',field:'gmo_code', width:180}">订单编号</th>
+                        <th lay-data="{align:'center',field:'gmo_market_price', width:180}">市场价</th>
+                        <th lay-data="{align:'center',field:'gmo_total_price', width:160}">首选币种付款数量</th>
+                        <th lay-data="{align:'center',field:'gmo_other_total_price', width:160}">组合币种付款数量</th>
+<!--                        <th lay-data="{align:'center',field:'gmo_total_num', width:140}">放大后数量/币种</th>-->
+                        <th lay-data="{align:'center',field:'gmo_status', width:100}">订单状态</th>
+<!--                        <th lay-data="{align:'center',field:'gmo_release_status', width:100}">释放状态</th>-->
+<!--                        <th lay-data="{align:'center',field:'gmo_last_num', width:120}">剩余释放数量</th>-->
+<!--                        <th lay-data="{align:'center',field:'gmo_release_num', width:100}">已释放数量</th>-->
+                        <th lay-data="{align:'center',field:'gmo_receive_name', width:200}">收货人信息</th>
+                        <th lay-data="{align:'center',field:'gmo_express_name', width:150}">发货信息</th>
+                        <th lay-data="{align:'center',field:'gmo_add_time', width:170}">下单时间</th>
+                        <th lay-data="{align:'center',field:'gmo_sure_time', width:170}">确认收货时间</th>
+                        <th lay-data="{align:'center',fixed: 'right',field:'tool', width:150}">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr data-id="{$v['gmo_id']}">
+                        <td>{$v['gmo_id']}</td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="window.openUser({$v['gmo_user_id']})">{$v['gmo_user_id']}/{$v['nick']}</a>
+                        </td>
+                        <td><a href="javascript:void(0);" onclick="open_order('{$v['gmo_code']}')">{$v['gmo_code']}</a></td>
+                        <td>{:floattostr($v['gmo_market_price'])} {$v['currency']['currency_name']}</td>
+                        <td>{:floattostr($v['gmo_payment_number'])} {$v['currency']['currency_name']}</td>
+                        <td>{:floattostr($v['gmo_other_payment_number'])} {$v['otherCurrency']['currency_name']}</td>
+                        <td>
+                            {switch name="$v['gmo_status']"}
+                            {case value="1"}已付款{/case}
+                            {case value="2"}待付款{/case}
+                            {case value="3"}已发货{/case}
+                            {case value="4"}已确认收货{/case}
+                            {/switch}
+                        </td>
+                        <!--<td>
+                            {switch name="$v['gmo_release_status']"}
+                            {case value="1"}正在释放{/case}
+                            {case value="2"}待释放{/case}
+                            {case value="3"}释放结束{/case}
+                            {/switch}
+                        </td>
+                        <td>{:floattostr($v['gmo_last_num'])}</td>
+                        <td>{:floattostr($v['gmo_release_num'])}</td>-->
+                        <td>{$v['gmo_receive_name']}，{$v['gmo_mobile']}，{$v['gmo_address']}</td>
+                        <td>
+                            {if $v['gmo_express_name']}
+                            {$v['gmo_express_name']}，{$v['gmo_express_code']}
+                            {else/}
+                            无
+                            {/if}
+                        </td>
+                        <td>
+                            {:date("Y-m-d H:i:s", $v['gmo_add_time'])}
+                        </td>
+                        <td>
+                            {if $v['gmo_sure_time']}
+                            {:date("Y-m-d H:i:s", $v['gmo_sure_time'])}
+                            {/if}
+                        </td>
+                        <td class="td-manage">
+                            {if (empty($v['gmo_express_code'])&&empty($v['gmo_express_name']))}
+                            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" title="发货"
+                                    onclick="deliver_goods({$v['gmo_id']})">
+                                <i class="layui-icon layui-icon-upload-circle"></i>
+                            </button>
+                            {/if}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function deliver_goods(gmo_id) {
+        layer.open({
+            type: 2,
+            title: "发货",
+            content: "{:url('deliver_goods')}?param=orders_list&gmo_id="+gmo_id,
+            area: ['700px', '500px'],
+            cancel: () => {
+                layer.closeAll()
+            }
+        });
+    }
+    function open_order(gmo_code){
+        parent.layer.open({
+            type: 2,
+            title: "订单详细 " ,
+            content: "{:url('Shop/order_detail')}?param=orders_list&gmo_code=" + gmo_code,
+            area: ['100%', '90%'],
+            shade: 0,
+            maxmin: true
+        });
+    }
+    layui.use(['laydate'], function () {
+        let laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+    });
+
+    layui.use(['form', 'global', 'index'], () => {
+
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

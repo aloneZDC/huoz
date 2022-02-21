@@ -1,0 +1,184 @@
+{include file="layout/header"}
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/kindeditor-all.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/admin/kindeditor/plugins/prettify.js"></script>
+<style type="text/css">
+.layui-form-label{
+    width:180px;
+}
+.layui-input-block{
+    margin-left:210px;
+}
+</style>
+<div class="weadmin-nav layui-clear">
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="layui-main">
+    <form class="layui-form form" action="" method='POST'>
+        <div class="layui-form-item">
+            <label class="layui-form-label" title="币种id">币种id</label>
+            <div class="layui-input-block">
+                <select name="form[currency_id]">
+                    <option value="">请选择</option>
+                    {volist name="currency" id="vo"}
+                    <option value="{$vo.currency_id}">{$vo.currency_name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="">
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="标题">标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="form[name]" class="layui-input" value="" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="初始闯关金额">初始闯关金额</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[price]" class="layui-input" value="" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="最小支付金额">最小支付金额</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[min_payment]" class="layui-input" value="" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="最大支付金额">最大支付金额（初始）</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[max_payment]" class="layui-input" value="" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="每期收益">每期收益/百分比</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[profit]" class="layui-input" value="" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="幸运池">幸运池/百分比</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[lucky_Jackpot]" class="layui-input" value="" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="基金">基金/百分比</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[fund_Jackpot]" class="layui-input" value="" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="平台">平台/百分比</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[platform_Jackpot]" class="layui-input" value="" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="kmt燃料费率">kmt燃料费率/百分比</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[kmt_rate]" class="layui-input" value="" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="闯关金额率">闯关金额率/倍数</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[price_rate]" class="layui-input" value="1.3" required  lay-verify="required">
+                </div>
+            </div>
+
+<!--            <div class="layui-form-item">-->
+<!--                <label class="layui-form-label" title="开始运行时间">开始运行时间（小时/24）</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <input type="number" name="form[start_hour]" class="layui-input" value="" required  lay-verify="required">-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="layui-form-item">-->
+<!--                <label class="layui-form-label" title="结束运行时间">结束运行时间（小时/24）</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <input type="number" name="form[end_hour]" class="layui-input" value="" required  lay-verify="required">-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="闯关开始时间">闯关开始时间</label>
+                <div class="layui-input-block">
+                    <input type="text" name="form[start_time]" class="layui-input" value="" id="start_day" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="闯关结束时间">闯关结束时间</label>
+                <div class="layui-input-block">
+                    <input type="text" name="form[end_time]" class="layui-input" value="" id="end_day" required  lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="闯关运行天数">闯关运行天数</label>
+                <div class="layui-input-block">
+                    <input type="number" name="form[run_daynum]" class="layui-input" required  lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="是否VIP专区">是否VIP专区</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="form[is_vip]" value="0" title="否" checked>
+                    <input type="radio" name="form[is_vip]" value="1" title="是">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn submit" type="button" lay-submit lay-filter="submit" data-url="{:url('')}" >立即提交</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    layui.use(['form','add'], function() {});
+    layui.use(['laydate'], function(){
+        var $ = layui.$;
+        var laydate = layui.laydate;
+        var nowTime = new Date().valueOf();
+
+        var start = laydate.render({
+            elem: '#start_day',
+            type: 'datetime',
+            btns: ['clear', 'confirm'],
+            min:new Date().toLocaleString(),
+            done: function(value, date){
+
+            }
+        });
+        var end = laydate.render({
+            elem: '#end_day',
+            type: 'datetime',
+            btns: ['clear', 'confirm'],
+            min:new Date().toLocaleString(),
+            done: function(value, date){
+
+            }
+        });
+    })
+</script>
+
+{include file="layout/footer"}

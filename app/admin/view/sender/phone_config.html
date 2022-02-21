@@ -1,0 +1,76 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script>
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<style>
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 0 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span
+                class="crumb-name">短信系统</span></div>
+    </div>
+    <div class="search-wrap">
+    </div>
+
+    <div class="result-content">
+
+        <table class="result-tab" width="100%">
+            <tr>
+                <th>ID</th>
+                <th>名称</th>
+                <th>APPID</th>
+                <th>ACCOUNT</th>
+                <th>TOKEN</th>
+                <th>关键字</th>
+                <td>状态</td>
+            </tr>
+            {volist name='list' id='vo'}
+            <tr data-id="{$vo['s_id']}">
+                <td>{$vo.s_id}</td>
+                <td>{$vo.s_name}</td>
+                <td>{$vo.appid}</td>
+                <td>{$vo.account}</td>
+                <td>{$vo.token}</td>
+                <td>{$vo.uc_keyword}</td>
+                <td>
+                    {if $vo.s_status eq 1}
+                    启用
+                    {else/}
+
+                    {/if}
+                </td>
+            </tr>
+            {/volist}
+        </table>
+
+    </div>
+</div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

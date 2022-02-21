@@ -1,0 +1,95 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">投票俱乐部管理</span></div>
+    </div>
+
+    <div class="result-wrap">
+        <a class="layui-btn layui-open" data-url="{:url('add')}?" data-title="添加" data-width="800px"  href="javascript:;">添加</a>
+        <div class="result-content">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>币种</th>
+                        <th>每日上涨CNY</th>
+                        <th>最高价格</th>
+                        <th>最后执行日期</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr data-id="{$v->id}">
+                        <td>{$v->id}</td>
+                        <td>{$v->currency->currency_mark}</td>
+                        <td>{$v->max_price}</td>
+                        <td>{$v->last_day}</td>
+                        <td class="td-manage">
+                            <button title="编辑" class="layui-btn layui-btn-normal layui-btn-sm" onclick="edit('{$v->id}')" type="button">
+                                <i class="layui-icon layui-icon-edit"></i>
+                            </button>
+
+                            <button title="删除" class="layui-btn layui-btn-danger layui-btn-sm" onclick="del('{$v->id}')" type="button">
+                                <i class="layui-icon layui-icon-delete"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="weadmin-block">
+                <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+            </div>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+
+    function edit(id) {
+        layer.open({
+            type: 2,
+            title: "修改分类",
+            content: "{:url('edit')}?id=" + id,
+            area: ['800px', '600px'],
+            shade: 0, //不显示遮罩
+        });
+    }
+
+    function del(id) {
+        layer.confirm("确认删除吗?", {
+            btn: ['确认', '取消']
+        }, () => {
+            $.post("{:url('delete')}", {id:id}, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, () => {
+                        window.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                });
+            });
+        }, () => {
+            layer.msg("已取消");
+        });
+
+    }
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

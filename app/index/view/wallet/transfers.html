@@ -1,0 +1,134 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/wallet/transfers.css">
+<div id="content">
+    <h2>XRP互转</h2>
+    <div class="transfers">
+       <span>接收方賬戶：</span>
+        <input type="text" placeholder=" 請輸入接收方賬戶" name="account">
+    </div>
+    <div class="transfers">
+        <span>接收方ID：</span>
+        <input type="text" placeholder="請輸入接收方ID" name="to_member_id">
+    </div>
+    <div class="transfers">
+        <span>出賬幣種：</span>
+        <select name="type">
+            <option value="1">我的xrp</option>
+            <option value="2">我的钱包</option>
+            <option value="3">瑞波金</option>
+        </select>
+    </div>
+
+    <div class="transfers">
+        <span>發送：</span>
+        <span class="money money1">可用余額：{$xrp_money.num1}xrp</span>
+        <span class="money money2" style="display: none;">可用余額：{$xrp_money.num2}xrp</span>
+        <span class="money money3" style="display: none;">可用余額：{$xrp_money.num3}xrp</span>
+        <input type="text" placeholder="  請輸入發送數量" name="num">
+        燃烧：<span class="burning">0</span>xrp
+        <input class="fee1" type="hidden" value="{$xrp_money.xrp_fee}">
+        <input class="fee2" type="hidden" value="{$xrp_money.wallet_fee}">
+        <input class="fee3" type="hidden" value="{$xrp_money.xrpj_fee}">
+    </div>
+    <div class="transfers">
+        <span>交易密碼：</span>
+        <input type="password" placeholder="请输入交易密码" name="pwd">
+    </div>
+    <button id="submit-btn" class="layui-btn" lay-filter="demo12">确定</button>
+
+    <h2>XRP互转记录</h2>
+    <table class="layui-table" lay-skin="line" >
+            <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>标题</th>
+                    <th>类型</th>
+                    <th>状态</th>
+                    <th>金额</th>
+                    <th>时间</th>
+                </tr> 
+            </thead>
+            <tbody>
+            {notempty name="xrp_list"}
+                {volist name="xrp_list" id="vo"}
+                <tr>
+                    <td>{$vo.l_title}</td>
+                    <td>{$vo.l_type_explain}</td>
+                    <td>
+                        {if condition="$vo.l_state ==1"}
+                        收入
+                        {else/}
+                        支出
+                        {/if}
+                    </td>
+
+                    <td>{$vo.l_value}</td>
+                    <td>{$vo.l_time}</td>
+                </tr>
+                {/volist}
+            {else /}
+                <!-- 没有数据时展示 -->
+                <tr aria-controls="4">
+                    <td colspan="5">
+                        <div class="isempty">{:lang('lan_No_data')}</div>
+                    </td>
+                </tr>
+            {/notempty}
+            </tbody>
+        </table>
+    <div class="page">{$pages}</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        //互转提交
+        $("#submit-btn").click(function () {
+            var account = $('[name="account"]').val();
+            var to_member_id = $('[name="to_member_id"]').val();
+            var num = $('[name="num"]').val();
+            var pwd = $('[name="pwd"]').val();
+            var type = $('[name="type"]').val();
+            var obj = {
+                account:account,
+                to_member_id:to_member_id,
+                num:num,
+                pwd:pwd,
+                type:type,
+            };
+            $.ajax({
+                url:"{:url('Wallet/ajax_operation')}",
+                data:obj,
+                type:"post",
+                success:function (d) {
+                    if (d.status != 1) {
+                        layer.msg(d.info);
+                    } else {
+                        layer.msg(d.info);
+                        $(".add_collect").hide();
+                        $(".zhe").hide();
+                        setTimeout("window.location.reload()", 1000);
+                    }
+                }
+            })
+
+
+        })
+        $('[name="type"]').change(function() {
+            var type=$(this).val();
+            $('.money').hide();
+            $('.money'+type).show();
+        })
+        //输入数量获取手续费（燃烧值）
+        $('[name="num"]').change(function () {
+            var type=$('[name="type"]').val();
+            var fee=$('.fee'+type).val();
+            var num=$('[name="num"]').val();
+          $('.burning').html((fee*num/100));
+        })
+    })
+
+
+</script>

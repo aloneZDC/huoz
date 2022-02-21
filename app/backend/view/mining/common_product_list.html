@@ -1,0 +1,73 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+    <span class="layui-breadcrumb" style="visibility: visible;">
+        <a href="javascript:;">首页</a><a href="javascript:;">矿机管理</a>
+        <a href="javascript:;"><cite>矿机列表</cite></a>
+    </span>
+    <span class="fr">
+        <a class="layui-btn layui-btn-sm layui-open" data-url="/backend/Mining/common_product_add?param=common_product" data-title="添加" data-width="800px" href="javascript:;">添加</a>
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+<div class="weadmin-body">
+    <table class="layui-hide" id="table-list" lay-filter="table-list"></table>
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+{include file="layout/footer"}
+<script type="text/javascript">
+    layui.use(['table', 'global'], () => {
+        let table = layui.table,
+            global = layui.global;
+
+        table.render({
+            elem: '#table-list'
+            , url: '/backend/Mining/common_product_list?param=common_product'
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                {field: 'id', width: 60, title: 'ID', sort: true}
+                , {field: 'name', width: 200, title: '矿机名称'}
+                , {field: 'tnum', width: 150, title: '算力(T)', sort: true}
+                , {field: 'price_type', width: 150, title: '价格类型'}
+                , {field: 'price_usdt', width: 150, title: 'USDT价格'}
+                , {field: 'price_usdt_currency_id', width: 150, title: 'USDT币种ID'}
+                , {field: 'price_cny', width: 150, title: '人民币价格', sort: true}
+                , {field: 'price_cny_currency_id', width: 150, title: '人民币币种ID'}
+                , {field: 'deliver_time', width: 120, title: '交付/天'}
+                , {field: 'cycle_time', width: 120, title: '周期/天'}
+                , {field: 'amount', width: 150, title: '剩余库存'}
+                , {field: 'total_amount', width: 150, title: '总库存'}
+                , {field: 'status', width: 120, title: '状态'}
+                , {field: 'sort', width: 120, title: '排序', sort: true}
+                , {field: 'add_time', width: 200, title: '添加时间'}
+                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150}
+            ]]
+            , page: true //是否显示分页
+            , limits: [10, 15, 20]
+            , limit: 10 //每页默认显示的数量
+        });
+
+        //监听行工具事件
+        table.on('tool(table-list)', function (obj) {
+            let data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    global.ajax('/backend/Mining/common_product_del?param=common_product&', {id: data.id}, function (res) {
+                        layer.close(index);
+                        if (res.code == 10000) {
+                            obj.del();
+                            return false;
+                        }
+                        global.msg(res.message);
+                    });
+                });
+            } else if (obj.event === 'edit') {
+                global.open('编辑', '/backend/Mining/common_product_edit?param=common_product&id=' + data.id, '800px');
+            }
+        });
+    });
+</script>

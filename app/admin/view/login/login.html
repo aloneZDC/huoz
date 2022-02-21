@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>网站后台管理</title>
+    <link href="__PUBLIC__/static/admin/css/admin_login.css" rel="stylesheet" type="text/css"/>
+    <style>
+        body {
+            background-image: url(__PUBLIC__/static/admin/images/adminbg.jpg);
+            background-size: cover;
+            background-repeat: repeat;
+        }
+    </style>
+<!--    <script type="text/javascript" src="__PUBLIC__/static/js/jquery-1.8.2.js"></script>-->
+    <script type='text/javascript'>
+        //重载验证码
+        function freshVerify() {
+            document.getElementByIdx('verifyImg').src = '{:url("Login/verify")}' + Math.random();
+        }
+
+        //验证码生成
+        var captcha_img = $('#captcha-container').find('img');
+        var verifyimg = captcha_img.attr("src");
+        captcha_img.attr('title', '点击刷新');
+        captcha_img.click(function () {
+            if (verifyimg.indexOf('?') > 0) {
+                $(this).attr("src", verifyimg + '&random=' + Math.random());
+            } else {
+                $(this).attr("src", verifyimg.replace(/\?.*$/, '') + '?' + Math.random());
+            }
+        });
+
+    </script>
+</head>
+<body>
+<div class="admin_login_wrap">
+    <h1>后台登录</h1>
+    <div class="adming_login_border">
+        <div class="admin_input">
+            <form action="{:url('Login/checkLogin')}" method="post">
+                <ul class="admin_items">
+                    <li>
+                        <label for="user">用户名：</label>
+                        <input type="text" name="username" id="user" size="40" class="admin_input_style"/>
+                    </li>
+                    <li>
+                        <label for="pwd">密码：</label>
+                        <input type="password" name="pwd" id="pwd" size="40" class="admin_input_style"/>
+                    </li>
+                    <li><label>发送邮箱：</label><span id="email"></span>
+                    </li>
+                    <li><label>邮箱验证码：</label><input class="admin_input_style" name="captcha" id="captcha">
+                        <input type="hidden"  id="mark" value="">
+                        <span id="code_span"><a id="validate" href="#">获取验证码</a></span>
+                    </li>
+
+<!--                    <li><label>验证码：</label><input class="loginValue" name="captcha" id="captcha">-->
+<!--                        <a href="#"-->
+<!--                           onclick="$('#captchaimg').attr('src', '{:url(\'login/showVerify\')}?t='+Math.random())"> <img id="captchaimg" src="{:url('Login/showVerify')}">-->
+<!--                        </a>-->
+<!--                            <a href="#"-->
+<!--                           onclick="$('#captchaimg').attr('src', '{:url(\'login/showVerify\')}?t='+Math.random())">看不清？</a>-->
+<!--                    </li>-->
+                    <li>
+                        <input type="submit" tabindex="3" value="提交" id="submit" class="btn btn-primary"/>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</body>
+<script>
+    function countdown(){
+        var time = 60;//倒计时
+        timer = setInterval(function(){
+            if(time>0){
+                time--;
+                $("#code_span").html(time+"秒重新获取");
+            }else{
+                $("#code_span").html('<a id="validate" href="#">获取验证码</a>');
+                clearInterval(timer);
+            }
+        },1000)
+    }
+    $(document).on('click',"#validate",function () {
+        var user=$("#user").val();
+        var pwd=$("#pwd").val();
+        if(user==""){
+            alert("请输入用户名");
+            return;
+        }
+        if(pwd==""){
+            alert("请输入密码");
+            return;
+        }
+        $.post("{:url('login/email_send')}",{"username":user,"pwd":pwd},function (d) {
+            if(d.code==10000){
+                $("#mark").val("111");
+                $("#email").html(d.result);
+                countdown();
+                layer.msg(d.message);
+            }else {
+                alert(d.message);
+            }
+        },"json");
+    })
+    $("#submit").click(function () {
+        var user=$("#user").val();
+        var pwd=$("#pwd").val();
+        var mark=$("#mark").val();
+        var captcha=$("#captcha").val();
+        if(user==""){
+            alert("用户名不能为空");
+            return false;
+        }
+        if(pwd==""){
+            alert("密码不能为空");
+            return false;
+        }
+        if(mark==""){
+            alert("你还未发送邮箱验证码");
+            return false;
+        }
+        if(captcha==""){
+            alert("邮箱验证码不能为空");
+            return false;
+        }
+        return  true;
+    })
+</script>
+</html>

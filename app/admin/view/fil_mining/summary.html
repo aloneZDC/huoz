@@ -1,0 +1,132 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">矿池汇总</span></div>
+    </div>
+
+    <div class="result-wrap " style="line-height: 25px;font-size: 14px">
+        <p>【总入金】: {$total.pay_num}  【总奖励】: {:keepPoint( ($total['release_num']+$total['team1_num']+$total['team2_num']+$total['team3_num']+$total['team4_num']+$total['team5_num']+$total['team11_num']+$total['team12_num']+$total['team13_num']+$total['team15_num']+$total['team16_num']),6)}
+            【总波比】:
+            {if condition="$total.pay_num gt 0"}
+            {:keepPoint( ($total['release_num']+$total['team1_num']+$total['team2_num']+$total['team3_num']+$total['team4_num']+$total['team5_num']+$total['team11_num']+$total['team12_num']+$total['team13_num']+$total['team15_num']+$total['team16_num'])/$total['pay_num'] * 100,2)}
+            {else /}
+            0
+            {/if} %</p>
+        <p>总涡轮: {$total.release_num}  【涡轮波比】：
+            {if condition="$total.pay_num gt 0"}
+                {:keepPoint( $total['release_num']/$total['pay_num'] * 100,2)}
+            {else /}
+                0
+            {/if} %</p>
+        <p>推荐1总奖励: {$total.team11_num} 【推荐1波比】：
+            {if condition="$total.pay_num gt 0"}
+            {:keepPoint( $total['team11_num']/$total['pay_num'] * 100,2)}
+            {else /}
+            0
+            {/if} %</p>
+        <p>推荐2总奖励: {$total.team12_num} 【推荐2波比】：
+            {if condition="$total.pay_num gt 0"}
+            {:keepPoint( $total['team12_num']/$total['pay_num'] * 100,2)}
+            {else /}
+            0
+            {/if} %</p>
+        <p>推荐3总奖励: {$total.team13_num} 【推荐3波比】：
+            {if condition="$total.pay_num gt 0"}
+            {:keepPoint( $total['team13_num']/$total['pay_num'] * 100,2)}
+            {else /}
+            0
+            {/if} %</p>
+        <p>助力总奖励: {$total.team15_num} 【助力波比】：
+            {if condition="$total.pay_num gt 0"}
+            {:keepPoint( $total['team15_num']/$total['pay_num'] * 100,2)}
+            {else /}
+            0
+            {/if} %</p>
+        <p>动力1总奖励: {$total.team4_num} 【动力1波比】：
+            {if condition="$total.pay_num gt 0"}
+            {:keepPoint( $total['team4_num']/$total['pay_num'] * 100,2)}
+            {else /}
+            0
+            {/if} %</p>
+        <p>动力2总奖励: {$total.team5_num} 【动力2波比】：
+            {if condition="$total.pay_num gt 0"}
+            {:keepPoint( $total['team5_num']/$total['pay_num'] * 100,2)}
+            {else /}
+            0
+            {/if} %</p>
+        <p>锁仓释放: {$total.team16_num} 【锁仓释放波比】：
+            {if condition="$total.pay_num gt 0"}
+            {:keepPoint( $total['team16_num']/$total['pay_num'] * 100,2)}
+            {else /}
+            0
+            {/if} %</p>
+
+        <p>锁仓余额: {$lock_num_sum} 【锁仓波比】：
+            {if condition="$total.pay_num gt 0"}
+            {:keepPoint( $lock_num_sum/$total['pay_num'] * 100,2)}
+            {else /}
+            0
+            {/if} %</p>
+    </div>
+
+    <div class="result-wrap ">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>日期</th>
+                        <th>支付数量</th>
+                        <th>涡轮数量</th>
+                        <th>推荐1奖励数量</th>
+                        <th>推荐2奖励数量</th>
+                        <th>推荐3奖励数量</th>
+                        <th>助力奖励数量</th>
+                        <th>动力1奖励数量</th>
+                        <th>动力2奖励数量</th>
+                        <th>锁仓释放数量</th>
+                        <td>添加时间</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>
+                            {$v.id}
+                        </td>
+                        <td>{$v.today}</td>
+                        <td>{$v.pay_num}</td>
+                        <td>{$v.release_num}</td>
+                        <td>{$v.team11_num}</td>
+                        <td>{$v.team12_num}</td>
+                        <td>{$v.team13_num}</td>
+                        <td>{$v.team15_num}</td>
+                        <td>{$v.team4_num}</td>
+                        <td>{$v.team5_num}</td>
+                        <td>{$v.team16_num}</td>
+                        <td>{:date('Y-m-d H:i:s',$v['add_time'])}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

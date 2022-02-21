@@ -1,0 +1,359 @@
+body, html, header, footer, h4, p, ul, li, span, a, img {
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    width: 100%;
+}
+
+b {
+    font-weight: 400;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+ul, li {
+    list-style: none;
+}
+
+header {
+    width: 100%;
+    height: 45px;
+    background: #192c34;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+}
+
+header div {
+    position: absolute;
+    top: 0;
+    left: 15px;
+    margin-top: 13px;
+}
+
+header img {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: #192c34;
+}
+
+header p {
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 16px;
+    color: white;
+}
+
+/*左边导航栏*/
+.left_goods_category {
+    width: 25%;
+    font-size: 14px;
+    float: left;
+}
+
+.left_goods_category li {
+    display: block;
+    width: 100%;
+    text-align: center;
+    height: 54px;
+    line-height: 54px;
+    border-bottom: 1px solid #d0d0d0;
+    border-right: 1px solid #d0d0d0;
+    background: #f5f5f5;
+    overflow: hidden;
+}
+
+.left_goods_category li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.goods_active {
+    background: white;
+    color: #ffca3e;
+}
+
+/*右边商品展示*/
+.right_goods_show {
+    width: 75%;
+    float: right;
+    height: 100%;
+    position: fixed;
+    top: 45px;
+    right: 0;
+}
+
+.right_goods_show_title {
+    width: 94%;
+    height: 25px;
+    background: #ffca3e;
+    text-align: center;
+    line-height: 25px;
+    color: white;
+    margin-left: 3%;
+    margin-top: 9px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 300;
+}
+
+/*模块*/
+.right_goosd_show_box {
+    width: 96%;
+    font-size: 14px;
+    color: black;
+    margin: 5px 0 10px 2%;
+}
+
+.right_goods_class {
+    width: 100%;
+    height: 25px;
+    line-height: 25px;
+
+}
+
+.right_goosd_show_box .right_goods_class {
+    margin: 10px 5px 5px 5px;
+}
+
+.right_goosd_show_box .right_goods_class span {
+    float: left;
+    margin-left: 2%;
+    font-size: 16px;
+}
+
+.right_goosd_show_box .right_goods_class img {
+    display: block;
+    width: 20px;
+    height: 20px;
+    float: right;
+    margin-top: 2px;
+    margin-right: 3%;
+}
+
+/*商品图片详情*/
+.goods_show_img_title {
+    width: 50%;
+    float: left;
+    margin: 10px 0;
+}
+
+.goods_show_img_title img {
+    display: block;
+    width: 60px;
+    height: 75px;
+    margin: 0 auto;
+}
+
+.goods_show_img_title p {
+    width: 100%;
+    text-align: center;
+    margin-top: 2px;
+    color: #8c8c8c;
+}
+
+/*---------------------------------------------------------------------*/
+/*索搜框*/
+
+.search_box {
+    width: 94%;
+    height: 30px;
+    margin-left: 3%;
+    margin: 15px 0 15px 3%;
+    position: relative;
+}
+
+.search_input {
+    width: 100%;
+    height: 30px;
+}
+
+.search_input input {
+    width: 100%;
+    height: 30px;
+    outline: none;
+    text-align: center;
+    border: none;
+    border: 1px solid #bbbbbb;
+}
+
+.search_img {
+    width: 40px;
+    height: 34px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-left: 1px solid #bbbbbb;
+    float: left;
+}
+
+.search_img img {
+    height: 20px;
+    width: 20px;
+    margin-top: 8px;
+    margin-left: 12px;
+}
+
+/*点击排列按钮开始*/
+.sort_btn {
+    width: 100%;
+    height: 40px;
+    background: white;
+    margin-bottom: 5px;
+}
+
+.sort_btn span {
+    display: block;
+    width: 20%;
+    height: 38px;
+    float: left;
+    text-align: center;
+    line-height: 38px;
+}
+
+.sort_btn span a.sort_active {
+    border-bottom: 2px solid red;
+}
+
+.sort_btn span a {
+    display: block;
+    margin-left: 15%;
+    height: 100%;
+    width: 70%;
+}
+
+.switch_style {
+    display: block;
+    width: 25px;
+    height: 25px;
+    margin-top: 8px;
+    margin-left: 15px;
+    border-left: 1px solid #bbbbbb;
+    padding-left: 20px;
+}
+
+/*商品模块*/
+
+/*竖排*/
+.liang_module {
+    width: 48%;
+    background: white;
+    float: left;
+    margin: 0 1% 2% 1%;
+
+}
+
+.liang_module img {
+    width: 100%;
+    height: 180px;
+}
+
+.liang_module p {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #6d6d6d;
+    height: 38px;
+    overflow: hidden;
+}
+
+.liang_module div {
+    font-size: 12px;
+    height: 25px;
+    margin: 10px 0 50px 0;
+}
+
+.liang_module div i {
+    float: left;
+    margin-left: 10px;
+}
+
+.liang_module div span {
+    float: right;
+    margin-right: 10px;
+    color: #bcbbbb;
+}
+
+/*横排*/
+.dan_module {
+    width: 100%;
+    background: white;
+    margin-bottom: 6px;
+}
+
+.dan_module img {
+    display: block;
+    height: 120px;
+    width: 120px;
+    float: left;
+}
+
+.dan_module .dan_right {
+    height: 120px;
+}
+
+.dan_module .dan_right p {
+    display: block;
+    height: 60px;
+    font-size: 14px;
+    color: #6d6d6d;
+    padding-top: 20px;
+    text-indent: 10px;
+    overflow: hidden;
+}
+
+.dan_right div i {
+    margin-left: 10px;
+}
+
+.dan_right div span {
+    font-size: 12px;
+    color: #6d6d6d;
+    margin-left: 25px;
+}
+
+/*无线加载的文字样式*/
+.jiazai {
+    width: 95%;
+    height: 50px;
+    margin: auto
+}
+
+.jiazai em {
+    display: block;
+    width: 25%;
+    float: left;
+    height: 24px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 24px;
+}
+
+.jiazai span {
+    display: block;
+    width: 50%;
+    float: left;
+    height: 50px;
+    font-size: 14px;
+    line-height: 50px;
+    text-align: center;
+    color: #999
+}
+
+
+
+
+
+
+
+
+
+
+

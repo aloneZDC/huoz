@@ -1,0 +1,134 @@
+<script type="text/javascript" charset="utf-8" src="/static/admin/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" charset="utf-8" src="/static/admin/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="/static/admin/kindeditor/plugins/prettify.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/admin/js/uploadPreview.js"></script>
+<script>
+    function checkForm() {
+        editor.sync();
+        document.getElementById('myform').submit();
+    }
+</script>
+
+<form class="form" action="{:url('edit')}" method="post" id="myform" enctype="multipart/form-data" style="margin-top: 20px">
+    <input type="hidden" name="goods_id" value="{$goods.goods_id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="we-red">*</span>首选币种
+            </label>
+            <div class="layui-input-block">
+                <input type="number" class="layui-input-inline" placeholder="请输入首选币种数量"  name="goods_currency_num" value="{$goods.goods_currency_num}" />
+                <select name="goods_currency_id">
+                    {volist name="currency" id="v"}
+                    <option value="{$v.currency_id}" {if $v.currency_id == $goods.goods_currency_id}selected{/if}>{$v.currency_name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="we-red">*</span>组合币种
+            </label>
+            <div class="layui-input-block">
+                <input type="number" class="layui-input-inline" placeholder="请输入组合币种数量"  name="goods_currency_other_num" value="{$goods.goods_currency_other_num}" />
+                <select name="goods_currency_other_id">
+                    {volist name="composeCurrency" id="v"}
+                    <option value="{$v.currency_id}" {if $v.currency_id == $goods.goods_currency_other_id}selected{/if}>{$v.currency_name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="we-red">*</span>市场价
+            </label>
+            <div class="layui-input-block">
+                <input type="number" class="layui-input-inline" placeholder="请输入市场价(同价于首选币种)"  name="goods_price" value="{$goods.goods_price}" />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">图片</label>
+            <div id="logodiv1">
+                <img style="cursor: pointer; margin:10px;" id="logoShow1" width="200" height="150" src="{$goods.goods_img}"  data-src=""/>
+                <input type="file" id="art_pic" name="art_pic"/>
+            </div>
+            <script type="text/javascript">
+                $('#logodiv1').children('input[id="art_pic"]').hide();
+                $('#logoShow1').on('click', function(e) {
+                    e.preventDefault();
+                    $('#logodiv1').children('input[id="art_pic"]').trigger('click');
+                })
+                $(function(){ new uploadPreview({ UpBtn: "art_pic", DivShow: "logodiv1", ImgShow: "logoShow1" })});
+            </script>
+        </div>
+
+    <div class="layui-tab layui-tab-brief">
+            <ul class="layui-tab-title" style="margin-left: 100px;">
+
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form-item">
+                        <label for="goods_title" class="layui-form-label">
+                            <span class="we-red">*</span>商品标题
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" id="goods_title" name="goods_title" lay-verify="required"
+                                   placeholder="请输入商品标题"
+                                   class="layui-input"
+                                   value="{$goods.goods_title}"
+                            >
+                        </div>
+                    </div>
+<!--                    <div class="layui-form-item">-->
+<!--                        <label for="goods_price" class="layui-form-label">-->
+<!--                            <span class="we-red">*</span>市场价-->
+<!--                        </label>-->
+<!--                        <div class="layui-input-block">-->
+<!--                            <input type="number" id="goods_price" name="goods_price" value="{$goods.goods_price}" lay-verify="required"-->
+<!--                                   placeholder="请输入商品价格"-->
+<!--                                   class="layui-input">-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="layui-form-item">
+                        <label for="goods_content" class="layui-form-label">
+                            <span class="we-red">*</span>商品详情
+                        </label>
+                        <div class="layui-input-block">
+                            <textarea id="goods_content" name="goods_content" cols="30" style="width:800px;height:500px;" rows="10">{$goods.goods_content}</textarea>
+                            <script>
+                                KindEditor.ready(function (K) {
+                                    window.editor = K.create('#goods_content',{
+                                        uploadJson : '{:url("Art/oss_file_upload")}?param=index',
+                                        fileManagerJson : '{:url("Art/oss_file_upload")}?param=index',
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="goods_sort" class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="number" name="goods_sort" id="goods_sort" placeholder="请输入排序" class="layui-input"
+                       value="{$goods.goods_sort}"/>
+                <div class="layui-form-mid layui-word-aux">升序排序 即值小排在前面</div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit" type="button" onclick="checkForm()">立即提交</button>
+            </div>
+        </div>
+    </form>
+<style>
+
+</style>
+<!--<script type="text/javascript" src="/static/admin/js/ueditor/ueditor.config.js"></script>-->
+<!--<script type="text/javascript" src="/static/admin/js/ueditor/ueditor.all.js"></script>-->

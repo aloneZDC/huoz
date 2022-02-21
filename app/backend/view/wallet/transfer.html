@@ -1,0 +1,119 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+				<a href="javascript:;">首页</a> <a href="javascript:;">钱包管理</a>
+				<a href="javascript:;"> <cite>平台转账纪录</cite></a>
+			</span>
+    <a class="layui-btn layui-btn-sm" style="margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);"
+       title="刷新">
+        <i class="layui-icon layui-icon-refresh"></i>
+        <!-- <i class="layui-icon" style="line-height:30px">&#x1002;</i> -->
+    </a>
+</div>
+
+<div class="weadmin-body">
+    <!--<div class="layui-row">
+        <form class="layui-form layui-col-md12 we-search">
+            会员搜索：
+            <div class="layui-inline">
+                <input class="layui-input" placeholder="开始日" name="start" id="start" />
+            </div>
+            <div class="layui-inline">
+                <input class="layui-input" placeholder="截止日" name="end" id="end" />
+            </div>
+            <div class="layui-inline">
+                <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input" />
+            </div>
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>-->
+    <div class="weadmin-block">
+        <!-- <button class="layui-btn layui-btn-danger" onclick="delAll()">
+             <i class="layui-icon layui-icon-delete"></i>批量删除
+         </button>
+         <button class="layui-btn" onclick="WeAdminShow('添加用户','./add.html',600,400)">
+             <i class="layui-icon layui-icon-add-circle-fine"></i>添加
+         </button>-->
+    </div>
+    <table class="layui-table" id="memberList" lay-filter="table-list">
+        <thead>
+        <tr>
+            <th lay-data="{align:'center',field:'id', width:50}">ID</th>
+            <th lay-data="{align:'center',field:'wt_currency_id', width:130}">币种</th>
+            <th lay-data="{align:'center',field:'number', width:130}">转账金额</th>
+            <th lay-data="{align:'center',field:'wt_fees', width:130}">手续费 币种</th>
+            <th lay-data="{align:'center',field:'wt_no', width:320}">转账编号</th>
+            <th lay-data="{align:'center',field:'wt_from_address', width:320}">转账人地址</th>
+            <th lay-data="{align:'center',field:'wt_to_address', width:320}">接收人地址</th>
+            <th lay-data="{align:'center',field:'wt_from_user_id', width:90}">转账人ID</th>
+            <th lay-data="{align:'center',field:'wt_to_user_id', width:90}">接收人ID</th>
+            <th lay-data="{align:'center',field:'wt_total_money', width:150}">总数量</th>
+            <th lay-data="{align:'center',field:'wt_remark', width:100}">备注</th>
+            <th lay-data="{align:'center',field:'wt_status', width:100}">状态</th>
+            <th lay-data="{align:'center',field:'wt_check_status', width:100}">审核状态</th>
+            <th lay-data="{align:'center',field:'wt_start_time', width:180}">转账开始时间</th>
+            <th lay-data="{align:'center',field:'wt_success_time', width:180}">转账成功时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+        <tr data-id="{$v->wt_id}">
+            <td>{$v.wt_id}</td>
+            <td>{$v.currency.currency_name}</td>
+            <td>{:floattostr($v.wt_money)}</td>
+            <td>{:floattostr($v.wt_fees)} {$v.feeCurrency.currency_name}</td>
+            <td><a href="{:coinUrl($v.wt_no, $v.currency.currency_bt_id)}" target="_blank">{$v->wt_no}</a></td>
+            <td><a href="{:coinUrl($v.wt_from_address, $v.currency.currency_bt_id, 1)}" target="_blank">{$v->wt_from_address}</a>
+            </td>
+            <td><a href="{:coinUrl($v.wt_to_address, $v.currency.currency_bt_id, 1)}" target="_blank">{$v->wt_to_address}</a>
+            </td>
+            <td>
+                <a href="javascript:void(0);" onclick="openUser({$v.wt_from_user_id})">{$v.wt_from_user_id}</a>
+            </td>
+            <td>
+                <a href="javascript:void(0);" onclick="openUser({$v.wt_to_user_id})">{$v.wt_to_user_id}</a>
+            </td>
+            <td>{:floattostr($v.wt_total_money)}</td>
+            <td>{$v.wt_remark}</td>
+            <td>
+                {switch name="$v.wt_status"}
+                {case value="1"}等待中{/case}
+                {case value="2"}转账成功{/case}
+                {case value="3"}不通过{/case}
+                {/switch}
+            </td>
+            <td>
+                {switch name="$v.wt_check_status"}
+                {case value="1"}待审核{/case}
+                {case value="2"}通过{/case}
+                {case value="3"}不通过{/case}
+                {case value="4"}待节点确认{/case}
+                {/switch}
+            </td>
+            <td>{:date("Y-m-d H:i:s", $v.wt_start_time)}</td>
+            <td>
+                {if $v.wt_success_time}
+                {:date("Y-m-d H:i:s", $v.wt_success_time)}
+                {/if}
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <span class="fr" style="line-height:40px">共有数据：{$count} 条</span>
+
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use(['form', 'global', 'index'], () => {
+
+    });
+</script>
+{include file="layout/footer"}

@@ -1,0 +1,44 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">收益排行榜</span></div>
+    </div>
+    <div class="result-wrap ">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>用户ID</th>
+                        <th>手机号</th>
+                        <th>邮箱</th>
+                        <th>总收益</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name='list' id='vo'}
+                    <tr>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$vo.user_id})">{$vo.user_id}</a>
+                        </td>
+                        <td>{$vo.phone}</td>
+                        <td>{$vo.email}</td>
+                        <td>{$vo.a_num}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

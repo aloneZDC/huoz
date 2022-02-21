@@ -1,0 +1,63 @@
+{include file="layout/header"}
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="weadmin-nav">
+    <span class="layui-breadcrumb" style="visibility: visible;">
+        <a href="javascript:;">首页</a><a href="javascript:;">机器人配置列表</a>
+        <a href="javascript:;"><cite>机器人配置</cite></a>
+    </span>
+        <span class="fr">
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Trade/rebot_config',['param'=>'rebot_trade'])}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+
+                        <tr>
+                            <th></th>
+                            <td style="color:#f00;">机器人配置开始</td>
+                        </tr>
+
+                        <tr>
+                            <th>交易对：</th>
+                            <td>
+                                <input type="text" id="" value="{$tradeName}" size="85" class="common-text" disabled="disabled">
+                                <input type="hidden" id="" value="{$id}" size="85" name="id" class="common-text">
+                            </td>
+                        </tr>
+
+                        {volist name="configList" id="vo" empty="$empty"}
+                            <tr>
+                                <th><i class="require-red">*</i>{$vo.orc_des}：</th>
+                                <td><input type="text" id="" value="{$vo.orc_value}" size="85" name="{$vo.orc_key}" class="common-text">
+                                </td>
+                            </tr>
+                        {/volist}
+                        
+                        <tr>
+                            <th></th>
+                            <td style="color:#f00;">机器人配置结束</td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <input type="button" value="返回" onclick="history.go(-1)" class="btn btn6">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/css/main.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/css/common.css"/>
+<style>
+    .main-wrap{
+        margin-left: inherit;
+    }
+</style>
+<script>
+    window._deel = {
+        req_member_details_url: "{:U('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="result-wrap">
+        <div class="search-content">
+            <form action="{:U('atdetailed')}?tm={$_GET['tm']}&type={$_GET['type']}" method="post">
+                <table class="search-tab">
+                    <tbody><tr>
+                        <td >会员名/手机号搜索:</td>
+                        <input type="hidden" value="{$_GET['tm']}" name="tm"/>
+                        <input type="hidden" value="{$_GET['type']}" name="type"/>
+                        <td><input class="common-text" placeholder="关键字" name="kes" value="{$s[kes]}" type="text"></td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                    </tbody></table>
+            </form>
+
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+
+                    <th>ID</th>
+                    <th>日期</th>
+                    <th>会员名/手机号</th>
+
+                    <th><eq name="s.type" value="1">挖矿类型 <else/>分红类型</eq></th>
+                    <th><eq name ="s.type" value="1">挖矿奖励<else/>分红奖励</eq></th>
+                </tr>
+                <?php $a = "<tr><td colspan='5'>暂无数据</td></tr>"; ?>
+                <volist name='list' id='vo' empty="$a">
+                    <tr>
+                        <td style="width:60px">{++$startnum}</td>
+                        <td style="width:110px">{$vo['add_time']|date="Y-m-d H:i",###}</td>
+                        <td style="width:150px">{$vo['name']}/{$vo['phone']}</td>
+                        <td style="width:150px">
+                             <switch name="vo.mining_type">
+                                 <case value="1">静态挖矿</case>
+                                 <case value="2">分享挖矿</case>
+                                 <case value="3">发起人</case>
+                                 <case value="4">合伙人</case>
+                                 <case value="5">会员静态</case>
+                                 <case value="6">会员分享</case>
+                             </switch>
+                        </td>
+                        <td style="width:150px">{$vo['num']|default=0.000000}</td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+    </div>
+</div>

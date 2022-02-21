@@ -1,0 +1,83 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">房间设置</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:url('')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+            	<input type="hidden" name='rls_level' value="{$list.rls_level}">
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>币种：</th>
+                            <td>
+                            	<select name="rls_currency_id">
+                                    {volist name="currency" id="vo"}
+                                        <option value="{$vo.currency_id}" {if $list.rls_currency_id == $vo.currency_id}selected{/if} >{$vo.currency_name}</option>
+                                    {/volist}
+
+	                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>币种数量：</th>
+                            <td><input type="text" id="rls_num" value="{$list.rls_num}" size="85" name="rls_num" placeholder="币种数量" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>能否创建普通房：</th>
+                            <td>
+                                <select name="rls_is_common">
+                                    {volist name="status_list" id="vo"}
+                                    <option value="{$key}" {if $list.rls_is_common == $key}selected{/if} >{$vo}</option>
+                                    {/volist}
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>能否创建普通房：</th>
+                            <td>
+                                <select name="rls_is_vip">
+                                    {volist name="status_list" id="vo"}
+                                    <option value="{$key}" {if $list.rls_is_vip == $key}selected{/if} >{$vo}</option>
+                                    {/volist}
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>开奖人数：</th>
+                            <td><input type="text" id="rls_open_num" value="{$list.rls_open_num}" size="85" name="rls_open_num" placeholder="开奖人数" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>最大人数：</th>
+                            <td><input type="text" id="rls_max_num" value="{$list.rls_max_num}" size="85" name="rls_max_num" placeholder="最大人数" class="common-text"></td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:url('Room/setting')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    $("#gameNav").show();
+    $("#gameNav").children("li").eq(1).addClass("on");
+</script>

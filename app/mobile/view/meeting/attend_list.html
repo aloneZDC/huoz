@@ -1,0 +1,127 @@
+
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<title>活动报名</title>
+	<!-- <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/moblie/js/layui/css/layui.css">
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/layui/layui.js"></script> -->
+	<link rel="stylesheet" href="__PUBLIC__/static/moblie/css/common/reset.css">
+	<link rel="stylesheet" href="__PUBLIC__/static/moblie/css/common/iconfont.css">
+	<link rel="stylesheet" href="__PUBLIC__/static/moblie/css/meeting/attend_list.css">
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/utensil.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/common/iscroll-probe.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/meeting/attend_list.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/moblie/js/layer/layer.js"></script>
+
+
+</head>
+<body>
+	<script>
+		htmlFontSize();
+		var commonURL = "__PUBLIC__/static/moblie/images/"
+	</script>
+	<header class="header">
+		<span class="left_btn iconfont icon-fanhui back"></span>
+		<div class="title">{:lang('lan_Registration_record')}</div>
+	</header>
+<!-- 滚动视图 -->
+<div class="content">
+	<!-- 滚动容器 -->
+	<div class="wrapper">
+		<!-- 需要滚动的内容 -->
+		<div class="downpush">
+			<div class="downpushimg">
+				<img src="__PUBLIC__/static/moblie/images/down.png"  />
+			</div>
+			<div class="downpushcont">
+				<p class="downpushtext"></p>
+				<p class="downpushtime"></p>
+			</div>
+		</div>
+		<div class="contentlist">
+			<ul class="prize_list">
+				<div id="myprize_seize" style="height:3000px"></div>
+				<!-- <li class="userinfo">
+					<div class="left">
+						<p>訂單號：</p>
+						<p>姓名:</p>
+						<p>性别</p>
+						<p>年龄</p>
+						<p>身份證號碼：</p>
+						<p>护照号</p>
+						<p>手機號碼：</p>
+						<p>報名時間:</p>
+						<p>活動時間:</p>
+						<p>凍結押金:</p>
+						<p>客服QQ：</p>
+					</div>
+					<div class="right">
+						<p>151500214321046</p>
+						<p>張三</p>
+						<p></p>
+						<p></p>
+						<p>362401196805451008</p>
+						<p></p>
+						<p>13645127684</p>
+						<p>2019-2-25 14:20:40</p>
+						<p>2019-2-25 ～ 2019-2-28</p>
+						<p>1500 XRP</p>
+						<p> <input type="text" value="45078245" readonly="readonly" id="addressname"> <span class="copybtn" onclick="copy('addressname')">复制</span></p>
+					</div>
+				</li> -->
+			</ul>
+		</div>
+		<div class="loadmore">
+			<div class="loadmoreimg">
+					<img src="__PUBLIC__/static/moblie/images/up.png"  />
+			</div>
+			<div class="loadmorecont">
+				<p class="loadmoretext">{:lang('lan_event_registration14')}</p>
+			</div>
+		</div>
+	</div>
+	<div class="shade isShow"></div>
+</div>
+	
+</body>
+<script>
+	
+	var _url = "{:url('Meeting/attend_list')}";
+	//翻译 
+	var lan_order_number =  "{:lang('lan_order_number')}";//訂單號
+	var lan_event_registration2 =  "{:lang('lan_event_registration2')}";//姓名
+	var lan_event_registration3 =  "{:lang('lan_event_registration3')}";//身份證號碼
+	var lan_event_registration4 =  "{:lang('lan_event_registration4')}";//手機號
+	var lan_event_registration5 =  "{:lang('lan_senior_sex')}";//性别
+	var lan_event_registration6 =  "{:lang('lan_senior_sex_man')}";//男
+	var lan_event_registration7 =  "{:lang('lan_senior_sex_girl')}";//女
+	var lan_event_registration8 =  "{:lang('lan_passport')}";//护照
+	var lan_event_registration9 =  "{:lang('lan_age')}";//年龄
+	var translation1 = "{:lang('lan_event_registration16')}";//最後更新
+	var translation2 = "{:lang('lan_event_registration17')}";//今天
+	var translation3 = "{:lang('lan_event_registration18')}";//下拉可以刷新
+	var translation4 = "{:lang('lan_event_registration19')}";//鬆開立即刷新
+	var translation5 = "{:lang('lan_event_registration20')}";//正在刷新
+	var translation6 = "{:lang('lan_event_registration21')}";//上拉可以加載
+	var translation7 = "{:lang('lan_event_registration22')}";//松开立即加载
+	var translation8 = "{:lang('lan_event_registration23')}";//正在加載
+	var translation9 = "{:lang('lan_event_registration24')}";//報名時間
+	var translation10 = "{:lang('lan_event_registration25')}";//活動時間
+	var translation11 = "{:lang('lan_event_registration26')}";//凍結押金
+	var translation12 = "{:lang('lan_event_registration27')}";//客服QQ
+	var translation13 = "{:lang('lan_event_registration28')}";//复制
+	var translation14 = "{:lang('lan_event_registration30')}";//暫無更多數據
+
+	 // 复制地址 复制地址标签
+	 function copy(id){
+            copytext(id);//公共方法
+            layer.msg("{:lang('lan_event_registration15')}")
+     }
+</script>
+</html>
+
+

@@ -1,0 +1,439 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/otc/publish_ad.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/font_awesome/css/font-awesome.css">
+<script charset="UTF-8" type="text/javascript" src="//cstaticdun.126.net/load.min.js"></script>
+<style type="text/css">
+	.issue_title {
+		float: left;
+	}
+
+	.issue_middle_content {
+		display: block;
+	}
+
+	.fill_change .fill_change_top {
+		font-size: 18px;
+		color: #3284ca;
+		margin-top: 40px;
+		text-align: right;
+		margin-right: 46px;
+	}
+
+	.fill_change .fill_change_top:hover {
+		cursor: pointer;
+	}
+
+	.issue_middle {
+		margin: 20px auto;
+		width: 1200px;
+		height: 902px;
+		background: #fff;
+	}
+
+	.fill_add span {
+		float: left;
+		line-height: 100px;
+		font-size: 20px;
+		margin-left: 80px;
+		cursor: pointer;
+	}
+
+	.add_active {
+		color: #3284ca;
+	}
+
+	body a {
+		color: #979CAD;
+	}
+</style>
+</head>
+
+<body>
+	<div class="issue">
+		<div class="issue_head">
+			<div class="issue_title">{:lang('lan_issues_advertisement')}</div>
+			<div class="fill_add ">
+				<a href="{:url('',['currency_id'=>$currency_id,'currency_type'=>'sell'])}">
+					<span class="fill_add_buy  {if condition=" $currency_type eq 'sell' "} add_active {/if} ">{:lang('lan_selles')}</span>
+				</a>
+				<a href="{:url('',['currency_id'=>$currency_id,'currency_type'=>'buy'])}">
+					<span class="fill_add_sell {if condition=" $currency_type eq 'buy' "} add_active {/if} ">{:lang('lan_buyes')}</span>
+				</a>
+			</div>
+
+		</div>
+		{if condition="$currency_type eq 'sell' "}
+		<!--发布出售广告填写信息-->
+		<div class="issue_middle issue_middle0">
+			<div class="issue_middle_title">
+				{volist name='currencys' id='vo'}
+				<a href="{:url('',['currency_id'=>$vo['currency_id'],'currency_type'=>$currency_type])}">
+					<span {if condition="$currency['currency_id'] eq $vo['currency_id']" }class="active" {/if}>{$vo.currency_name}</span>
+				</a>
+				{/volist}
+			</div>
+			<div class="issue_middle_content issue_middle_content0">
+				<div class="issue_cont">
+					<div class="issue_cont_one">
+						<span class="issue_cont_one_o">{:lang('lan_limites')}</span>
+						<span class="issue_cont_one_t">{:lang('lan_trading_price')}：￥<span class="max">{$currency.newprice2}</span>,{:lang('lan_stoppage_price')}：￥<span
+							 class="min">{$currency.newprice}</span></span><br />
+						<input type="text" placeholder="{:lang('lan_enter_the_amount')}" class="issue_cont_one_input" oninput="clearNoNumFour(this)" />
+						<div class="issue_cont_one_change">
+							<span class="issue_one_change_coin">CNY</span><br />
+							<input type="button" value="-" class="issue_one_change_less" />
+							<input type="button" value="+" class="issue_one_change_add" />
+						</div>
+					</div>
+					<div class="issue_cont_two">
+						<span class="issue_cont_one_o">{:lang('lan_number_of_releases')}</span>
+						<span class="issue_cont_one_t">{:lang('lan_available_quantity')}：<span>{$user.currency_num}</span>
+							{$currency.currency_name}</span><br />
+						<input type="text" placeholder="0" class="issue_cont_one_ins" oninput="clearNoNum(this)" />
+						<span class="issue_cont_one_th">{:lang('lan_minimum_number')}：<span>{$currency.make_min_num}</span>
+							<span class="issue_cont_one_th">{:lang('lan_maximum_number')}：<span>{$currency.make_max_num}</span>
+					</div>
+					<div class="issue_cont_three">
+						<div class="issue_cont_three_t">
+							<span>0</span>
+							<span><span class="quantity">{$user.sell_num}</span>&nbsp;{$currency.currency_name}</span>
+						</div>
+						<div class="issue_cont_three_range">
+							<input type="range" id="numRange" min="0" max="100" step="1" value="0" class="three_range_top">
+							<!-- <p class="rang_width"></p> -->
+						</div>
+						<div class="issue_cont_three_f">{:lang('lan_issues_surplus')}：<span id="residue">{$user.sell_num}</span>
+							{$currency.currency_name}</div>
+					</div>
+					<div class="issue_cont_one">
+						<span class="issue_cont_one_o">{:lang('lan_transactions')}</span><br />
+						<input type="text" placeholder="0" class="issue_cont_one_infore" oninput="clearNoNumFour(this)" readonly="readonly" />
+						<span class="issue_one_change_coins">CNY</span>
+					</div>
+					<div class="issue_cont_two issue_cont_twos">
+						<div class="cont_two_left">
+							<input type="checkbox" class="cont_two_checkbox1" />
+							<span class="cont_two_min">{:lang('lan_limit_minimum_turnover')}</span><br />
+							<input type="text" class="cont_two_input1" placeholder="0" oninput="clearNoNumFour(this)" />
+							<span class="cont_two_cny">CNY</span>
+						</div>
+						<div class="cont_two_right">
+							<input type="checkbox" class="cont_two_checkbox2" />
+							<span class="cont_two_max">{:lang('lan_limit_maximum_turnover')}</span><br />
+							<input type="text" class="cont_two_input2" placeholder="0" oninput="clearNoNumFour(this)" />
+							<span class="cont_two_cny">CNY</span>
+						</div>
+					</div>
+					<div class="issue_cont_four">
+						<span>{:lang('lan_asset_message')}：</span><br />
+						<textarea class="issue_cont_four_tar" placeholder="{:lang('lan_reg_required')}（{:lang('lan_no_characters')}）"
+						 maxlength="100"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="issue_footer_ws">
+				<div class="issue_footer_top">
+					<input type="checkbox" class="issue_footer_cheack" checked />
+					<span class="issue_footer_top_o">{:lang('lan_reviewed_and_read')}<span class="issue_footer_top_tw"><a href="{:url('index/help/index',['id'=>	60])}">
+								《{:lang('lan_user_agreement')}》 </a></span></span>
+				</div>
+				<div class="issue_footer_bottom">
+					<input type="button" name="" value="{:lang('lan_next_step')}" class="issue_footer_button  fillin_button" />
+					<span><a class="issue_footer_close issue_footer_close_one">{:lang('lan_cancel')}</a></span>
+				</div>
+			</div>
+		</div>
+		{else/}
+		<!--发布购买广告填写信息-->
+		<div class="issue_middle issue_middle1" {if condition="$currency_type eq 'buy' " } style="display: block;" {else/}
+		 style="display: none;" {/if}> <div class="issue_middle_title">
+			{volist name='currencys' id='vo'}
+			<a href="{:url('',['currency_id'=>$vo['currency_id'],'currency_type'=>$currency_type])}">
+				<span {if condition="$currency['currency_id'] eq $vo['currency_id']" }class="active" {/if}>{$vo.currency_name}</span>
+			</a>
+			{/volist}
+		</div>
+		<div class="issue_middle_content issue_middle_content0">
+			<div class="issue_cont">
+				<div class="issue_cont_one">
+					<span class="issue_cont_one_o">{:lang('lan_limites')}</span>
+					<span class="issue_cont_one_t">{:lang('lan_trading_price')}：￥<span class="max">{$currency.newprice2}</span>,{:lang('lan_stoppage_price')}：￥<span
+						 class="min">{$currency.newprice}</span></span><br />
+					<input type="text" placeholder="{:lang('lan_enter_the_amount')}" class="issue_cont_one_input" oninput="clearNoNumFour(this)" />
+					<div class="issue_cont_one_change">
+						<span class="issue_one_change_coin">CNY</span><br />
+						<input type="button" value="-" class="issue_one_change_less" />
+						<input type="button" value="+" class="issue_one_change_add" />
+					</div>
+				</div>
+				<div class="issue_cont_two">
+					<span class="issue_cont_one_o">{:lang('lan_number_of_releases')}</span>
+					<br />
+					<input type="text" placeholder="0" class="issue_cont_one_ins" oninput="clearNoNum(this)" maxlength="16" />
+					<span class="issue_cont_one_th">{:lang('lan_minimum_number')}：<span>{$currency.make_min_num}</span>
+						<span class="issue_cont_one_th">{:lang('lan_maximum_number')}：<span>{$currency.make_max_num}</span>
+				</div>
+				<div class="issue_cont_three" style="visibility: hidden;">
+					<div class="issue_cont_three_t">
+						<span>0</span>
+						<span><span class="quantity">{$user.sell_num}</span>&nbsp;{$currency.currency_name}</span>
+					</div>
+					<div class="issue_cont_three_range">
+						<input type="range" id="numRange" min="0" max="100" step="1" value="0" class="three_range_top">
+						<p class="rang_width"></p>
+					</div>
+					<div class="issue_cont_three_f">{:lang('lan_issues_surplus')}：<span id="residue">{$user.sell_num}</span>
+						{$currency.currency_name}</div>
+				</div>
+				<div class="issue_cont_one">
+					<span class="issue_cont_one_o">{:lang('lan_transactions')}</span><br />
+					<input type="text" placeholder="0" class="issue_cont_one_infore issue_cont_one_infore1" oninput="clearNoNumFour(this)"
+					 readonly="readonly" />
+					<span class="issue_one_change_coins">CNY</span>
+				</div>
+				<div class="issue_cont_two issue_cont_twos">
+					<div class="cont_two_left">
+						<input type="checkbox" class="cont_two_checkbox1" />
+						<span class="cont_two_min">{:lang('lan_limit_minimum_turnover')}</span><br />
+						<input type="text" class="cont_two_input1" placeholder="0" oninput="clearNoNumFour(this)" />
+						<span class="cont_two_cny">CNY</span>
+					</div>
+					<div class="cont_two_right">
+						<input type="checkbox" class="cont_two_checkbox2" />
+						<span class="cont_two_max">{:lang('lan_limit_maximum_turnover')}</span><br />
+						<input type="text" class="cont_two_input2" placeholder="0" oninput="clearNoNumFour(this)" />
+						<span class="cont_two_cny">CNY</span>
+					</div>
+				</div>
+				<div class="issue_cont_four">
+					<span>{:lang('lan_asset_message')}：</span><br />
+					<textarea class="issue_cont_four_tar" placeholder="{:lang('lan_reg_required')}（{:lang('lan_no_characters')}）"
+					 maxlength="100"></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="issue_footer_ws">
+			<div class="issue_footer_top">
+				<input type="checkbox" class="issue_footer_cheack" checked />
+				<span class="issue_footer_top_o">{:lang('lan_reviewed_and_read')}<span class="issue_footer_top_tw"><a href="{:url('News/new_detail',['team_id'=>154])}">
+							《{:lang('lan_user_agreement')}》 </a></span></span>
+			</div>
+			<div class="issue_footer_bottom">
+				<input type="button" name="" value="{:lang('lan_next_step')}" class="issue_footer_button  fillin_button" />
+				<span><a class="issue_footer_close issue_footer_close_one">{:lang('lan_cancel')}</a></span>
+			</div>
+		</div>
+		{/if}
+	</div>
+
+	</div>
+</body>
+<script type="text/javascript">
+	var status = "{$currency_type}";
+	// 填写信息的发布	
+	$(".fillin_button").click(function () {
+		var order_id = "{$currency.currency_id}";
+		var order_price = $(".issue_cont_one_input").val(); // 限价
+		var order_sum = $(".issue_cont_one_ins").val(); // 发布数量
+		var order_total = $(".issue_cont_one_infore").val(); // 交易额
+		var order_text = $(".issue_cont_four_tar").val(); // 资产留言
+		var min = $(".cont_two_input1").val();
+		var max = $(".cont_two_input2").val();
+		var order_max = ""; // 限价最低
+		var order_min = ""; // 限价最高
+
+		if ($('.cont_two_checkbox2').prop('checked') && $('.cont_two_checkbox1').prop('checked')) {
+			if (parseFloat(min) > parseFloat(max)) {
+				layer.msg("{:lang('lan_min_cannot_max')}");
+				$(".cont_two_input1").val("");
+				$(".cont_two_input2").val("");
+				return false;
+
+			} else if (parseFloat(max) > parseFloat(order_total)) {
+				layer.msg("{:lang('lan_maximum_cannot_greater_turnover')}");
+				$(".cont_two_input1").val("");
+				$(".cont_two_input2").val("");
+				return false;
+			} else if (order_total == "") {
+				layer.msg("{:lang('lan_turnover_cannot_empty')}");
+				$(".cont_two_input1").val("");
+				$(".cont_two_input2").val("");
+				return false;
+			} else {
+				order_min = $(".cont_two_input1").val();
+				order_max = $(".cont_two_input2").val();
+			}
+		}
+
+		// 最小限额判断
+		if ($('.cont_two_checkbox1').prop('checked')) {
+			if (parseFloat(min) >= 1 && parseFloat(min) <= $(".issue_cont_one_infore").val() && $(".issue_cont_one_infore").val() !=
+				"") {
+				$(".cont_two_input1").val(min);
+				order_min = $(".cont_two_input1").val();
+			} else if (parseFloat(min) < 1) {
+				layer.msg("{:lang('lan_minimum_limit_cannot_than')}");
+				$(".cont_two_input1").val("");
+				return false;
+			} else if (parseFloat(min) > parseFloat(order_total)) {
+				layer.msg("{:lang('lan_minimum_cannot_greater_turnover')}");
+				$(".cont_two_input1").val("");
+				return false;
+			} else if (order_total == "") {
+				layer.msg("{:lang('lan_turnover_cannot_empty')}")
+				$(".cont_two_input1").val("");
+				return false;
+			}
+		} else {
+			$(".cont_two_input1").val(0);
+			order_min = $(".cont_two_input1").val();
+		}
+
+		// 最大限额判断
+		if ($('.cont_two_checkbox2').prop('checked')) {
+			if (parseFloat(max) >= 1 && parseFloat(max) <= $(".issue_cont_one_infore").val() && $(".issue_cont_one_infore").val() !=
+				"") {
+				$(".cont_two_input2").val(max);
+				order_max = $(".cont_two_input2").val();
+			} else if (parseFloat(max) < 1) {
+				layer.msg("{:lang('lan_maximum_limit_cannot_than')}");
+				$(".cont_two_input2").val("");
+				return false;
+			} else if (parseFloat(max) > parseFloat(order_total)) {
+				layer.msg("{:lang('lan_maximum_cannot_greater_turnover')}");
+				$(".cont_two_input2").val("");
+				return false;
+			} else if (order_total == "") {
+				layer.msg("{:lang('lan_turnover_cannot_empty')}")
+				$(".cont_two_input2").val("");
+				return false;
+			}
+		} else {
+			$(".cont_two_input2").val(0);
+			order_max = $(".cont_two_input2").val();
+		}
+
+
+		// 开始提交
+		if (order_price == "") {
+			layer.msg("{:lang('lan_limit_cannot_empty')}")
+		} else if (order_sum == "") {
+			layer.msg("{:lang('lan_publications_cannot_empty')}")
+		} else if (order_total == "") {
+			layer.msg("{:lang('lan_turnover_cannot_empty')}")
+		} else if (order_text == "") {
+			layer.msg("{:lang('lan_asset_message_cannot_empty')}");
+		} else {
+			var obj = {
+				price: order_price, // 限价
+				num: order_sum, // 数量
+				currency_id: order_id, // 币种id
+				order_message: order_text, // 留言
+				min_money: order_min, // 最低限额
+				max_money: order_max, // 最高限额
+				type: status // 购买还是出售
+			};
+			$.ajax({
+				type: "post",
+				url: "{:url('TradeOtc/sell_num_check')}",
+				data: obj,
+				async: true,
+				success: function (d) {
+					if (d.code == 10000) {
+						var data_obj = {
+							"price": d.result.price,
+							"num": d.result.num,
+							"max_money": d.result.max_money,
+							"min_money": d.result.min_money,
+							"fee": d.result.fee,
+							"fee_num": d.result.fee_num,
+							"all_num": d.result.all_num,
+							"money": d.result.money,
+							"currency_name": "{$currency.currency_name}",
+							"currency_id": "{$currency.currency_id}",
+							"order_text": order_text,
+							"type": d.result.type
+						}
+						// 成功之后设置cookie
+						addCookie("data_otc", JSON.stringify(data_obj), 1);
+						console.log(data_obj)
+						location.href = "{:url('TradeOtc/add_ad',array('currency_type'=>$currency_type,'currency_id'=>$currency_id))}";
+					} else {
+						layer.msg(d.message)
+					}
+				}
+			})
+		}
+	});
+			// 发布数量不能小于0.0001
+			$(".issue_cont_one_ins").on("blur", function () {
+			if (parseFloat($(this).val()) < parseFloat(0.0001)) {
+				layer.msg("{:lang('lan_minimum_number_releases_cannot')}0.0001");
+				$(this).val("");
+			}
+		})
+	
+		// 用户协议勾选
+		$(".issue_footer_cheack").on("change", function () {
+			if ($(this).prop("checked")) {
+				$(".issue_footer_button").attr("disabled", false).css("opacity", 1);
+			} else {
+				$(".issue_footer_button").attr("disabled", true).css("opacity", .5);
+				layer.msg("{:lang('lan_need_click_next')}");
+			}
+		})
+	
+		// 最高最低限价勾选
+		$(".cont_two_input1").attr("disabled", true).css({
+			"paddingLeft": "10px",
+			"background": "#eee",
+			"border": "1px solid #ddd"
+		});
+		$(".cont_two_checkbox1").on("change", function () {
+			if ($(this).prop("checked")) {
+				$(".cont_two_input1").attr("disabled", false).css({
+					"background": "#fff",
+					"border": "1px solid #ddd"
+				});
+			} else {
+				$(".cont_two_input1").attr("disabled", true).css({
+					"paddingLeft": "10px",
+					"background": "#eee",
+					"border": "1px solid #ddd"
+				});
+				$(".cont_two_input1").val("");
+			}
+		})
+		$(".cont_two_input2").attr("disabled", true).css({
+			"paddingLeft": "10px",
+			"background": "#eee",
+			"border": "1px solid #ddd"
+		});
+		$(".cont_two_checkbox2").on("change", function () {
+			if ($(this).prop("checked")) {
+				$(".cont_two_input2").attr("disabled", false).css({
+					"background": "#fff",
+					"border": "1px solid #ddd"
+				});;
+			} else {
+				$(".cont_two_input2").attr("disabled", true).css({
+					"paddingLeft": "10px",
+					"background": "#eee",
+					"border": "1px solid #ddd"
+				});
+				$(".cont_two_input2").val("");
+			}
+		})
+	
+		// 去添加付款方式页
+		$(".middle_cont_right_input").click(function () {
+			// 添加自定义参数type=1，跳转至添加支付方式页
+			window.location.href = "{:url('Bank/index')}?type=1";
+		})
+	
+	
+		// 取消按钮跳转第一步
+		$(".issue_footer_close_one").click(function () {
+			window.location.href = "{:url('OrdersOtc/index')}";
+		})
+</script>
+<script src="__PUBLIC__/static/home/js/otc/publish.js"></script>

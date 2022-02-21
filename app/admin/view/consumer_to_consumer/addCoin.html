@@ -1,0 +1,199 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+
+<link type="text/css" href="/Public/Admin/css/jquery-ui-1.8.17.custom.css" rel="stylesheet"/>
+<link type="text/css" href="/Public/Admin/css/jquery-ui-timepicker-addon.css" rel="stylesheet"/>
+<script src="/Public/Admin/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/Public/Admin/js/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="/Public/Admin/js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="/Public/Admin/js/jquery-ui-timepicker-zh-CN.js"></script>
+
+<script>
+    (function ($) {
+        // 汉化 Datepicker
+        $.datepicker.regional['zh-CN'] =
+        {
+            clearText: '清除', clearStatus: '清除已选日期',
+            closeText: '关闭', closeStatus: '不改变当前选择',
+            prevText: '<上月', prevStatus: '显示上月',
+            nextText: '下月>', nextStatus: '显示下月',
+            currentText: '今天', currentStatus: '显示本月',
+            monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+                '七月', '八月', '九月', '十月', '十一月', '十二月'],
+            monthNamesShort: ['一', '二', '三', '四', '五', '六',
+                '七', '八', '九', '十', '十一', '十二'],
+            monthStatus: '选择月份', yearStatus: '选择年份',
+            weekHeader: '周', weekStatus: '年内周次',
+            dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+            dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+            dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+            dayStatus: '设置 DD 为一周起始', dateStatus: '选择 m月 d日, DD',
+            dateFormat: 'yy-mm-dd', firstDay: 1,
+            initStatus: '请选择日期', isRTL: false
+        };
+        $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+
+        //汉化 Timepicker
+        $.timepicker.regional['zh-CN'] = {
+            timeOnlyTitle: '选择时间',
+            timeText: '时间',
+            hourText: '小时',
+            minuteText: '分钟',
+            secondText: '秒钟',
+            millisecText: '微秒',
+            timezoneText: '时区',
+            currentText: '现在时间',
+            closeText: '关闭',
+            timeFormat: 'hh:mm',
+            amNames: ['AM', 'A'],
+            pmNames: ['PM', 'P'],
+            ampm: false
+        };
+        $.timepicker.setDefaults($.timepicker.regional['zh-CN']);
+    })(jQuery);
+</script>
+
+
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">币交易参数管理</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('ConsumerToConsumer/addCoin')}" method="post" id="myform" name="myform"
+              enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>添加积分</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th width="15%"><i class="require-red">*</i>积分名：</th>
+                            <td><select name="currency_id" id="currency_id" data-value="{$coin_config.currency_id}">
+                                <option value="">请选择</option>
+                                <volist name="currency" id="vo">
+                                    <option value="{$vo['currency_id']}">{$vo['currency_mark']}</option>
+                                </volist>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>最小交易量：</th>
+                            <td><input id="min_volume" name="min_volume" type="text" value="{$coin_config.min_volume}"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>最大交易量：</th>
+                            <td><input id="max_volume" name="max_volume" type="text" value="{$coin_config.max_volume}"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>买入价格：</th>
+                            <td><input name="buy_price" type="text" value="{$coin_config.buy_price}"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>卖出价格：</th>
+                            <td><input name="sell_price" type="text" value="{$coin_config.sell_price}"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>奖励开关</th>
+                            <td>关闭奖励：<input type="radio" name="award_status" value="0" checked="checked"/>
+                                &#12288;&#12288;
+                                开启奖励：<input type="radio" name="award_status" value="1"
+                                <eq name="coin_config.award_status" value="1">checked="checked"</eq>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="15%">买入时赠送积分：</th>
+                            <td><select name="award_currency_id" id="award_currency_id" data-value="{$coin_config.currency_id}">
+                                <option value="">请选择</option>
+                                <volist name="currency" id="vo">
+                                    <option value="{$vo['currency_id']}"
+                                    <eq name="vo.currency_id" value="$coin_config.award_currency_id">selected="selected"</eq>
+                                    >{$vo['currency_mark']}</option>
+                                </volist>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <th>赠送最低买入量：</th>
+                            <td><input name="award_limit_min" type="text" placeholder="最低买入多少才奖励" value="{$coin_config.award_limit_min}"></td>
+                        </tr>
+                        <tr>
+                            <th>赠送比例：</th>
+                            <td><input name="award_ratio" type="text" placeholder="输入百分比" value="{$coin_config.award_ratio}">%</td>
+                        </tr>
+                        <tr>
+                            <th>开始赠送时间：</th>
+                            <td><input name="award_start_time" id="award_start_time" type="text" placeholder="选择日期时间" value="{$coin_config.award_start_time|default=''|date='Y-m-d H:i:s',###}"></td>
+                        </tr>
+                        <tr>
+                            <th>结束赠送时间：</th>
+                            <td><input name="award_end_time" id="award_end_time" type="text" placeholder="选择日期时间" value="{$coin_config.award_end_time|default=''|date='Y-m-d H:i:s',###}"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="button" onclick="subform()" value="提交" class="btn btn-primary btn6 mr10">
+                                <input name="id" type="hidden" value="{$coin_config.id}">
+                                <a href="{:U('ConsumerToConsumer/index')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(function () {
+        var id = $('#currency_id').attr('data-value');
+        $('#currency_id').children('option').each(function () {
+            console.log(id)
+            if($(this).val() == id){
+                $(this).attr("selected","selected");
+            }
+        })
+        $("#award_start_time").datetimepicker({
+            //showOn: "button",
+            //buttonImage: "./css/images/icon_calendar.gif",
+            //buttonImageOnly: true,
+            showSecond: true,
+            timeFormat: 'hh:mm:ss',
+            stepHour: 1,
+            stepMinute: 1,
+            stepSecond: 1
+        })
+        $("#award_end_time").datetimepicker({
+            //showOn: "button",
+            //buttonImage: "./css/images/icon_calendar.gif",
+            //buttonImageOnly: true,
+            showSecond: true,
+            timeFormat: 'hh:mm:ss',
+            stepHour: 1,
+            stepMinute: 1,
+            stepSecond: 1
+        })
+    })
+    function subform() {
+        var num = parseInt($('#currency_id').val());
+        var min = parseInt($('#min_volume').val());
+        var max = parseInt($('#max_volume').val());
+        if(num < 1){
+            alert("请选择币名");
+            return false;
+        }
+        if(max <= min){
+            alert("最大交易量不能小于等于最小交易量");
+            return false;
+        }
+
+        $('#myform').submit();
+
+    }
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<script>
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">产品包</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form id="myform" action="{:url('')}" method="get">
+                <div class="tta_asset_type" style="margin:10px;">
+                    <a href="javascript:;" data-value="asset" {if condition="$tta_asset_type=='asset'"}class="layui-btn"{else/}class="layui-btn layui-btn-primary"{/if}>资产包</a>
+                    <a href="javascript:;" data-value="product" {if condition="$tta_asset_type=='product'"}class="layui-btn"{else/}class="layui-btn layui-btn-primary"{/if}>产品资产包</a>
+                    <input type="hidden" name="tta_asset_type" value="{$tta_asset_type}">
+                </div>
+
+                <table class="search-tab">
+                    <tr>
+                        <td><input class="common-text" placeholder="用户ID" name="user_id" value="{$Think.get.user_id}"
+                                   id="user_id" type="text"></td>
+                        <td><input class="common-text" placeholder="账户" name="user_phone" value="{$Think.get.user_phone}"
+                                   id="user_phone" type="text"></td>
+                        <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>类型</th>
+                    <th>用户ID</th>
+                    <th>用户账户</th>
+                    <th>用户昵称</th>
+                    <th>数量</th>
+
+                    <th>来源用户ID</th>
+                    <th>来源用户账户</th>
+                    <th>来源用户昵称</th>
+                    <th>来源数量</th>
+                    <th>时间</th>
+                </tr>
+                {volist name='list' id='vo'}
+                <tr>
+                    <td>{$vo.tta_id}</td>
+                    <td>{$vo.title}</td>
+                    <td>
+                        <a href="javascript:void(0);" onclick="member_details({$vo.tta_user_id})">{$vo.tta_user_id}</a>
+                    </td>
+                    <td>
+                        {empty name='vo.users.phone'}
+                        {$vo.users.email}
+                        {else /}
+                        {$vo.users.phone}
+                        {/empty}
+                    </td>
+                    <td>{$vo.users.nick}</td>
+                    <td>{$vo.tta_num} {$vo.currency.currency_name}</td>
+
+                    <td>
+                        {if condition="$vo.tta_other_user_id gt 0"}
+                            <a href="javascript:void(0);" onclick="member_details({$vo.tta_other_user_id})">{$vo.tta_other_user_id}</a>
+                        {/if}
+                    </td>
+                    <td>
+                        {if condition="$vo.tta_other_user_id gt 0"}
+                            {empty name='vo.tousers.phone'}
+                                {$vo.tousers.email}
+                            {else /}
+                                {$vo.tousers.phone}
+                            {/empty}
+                        {/if}
+                    </td>
+                    <td>
+                        {if condition="$vo.tta_other_user_id gt 0"}
+                            {$vo.tousers.nick}
+                        {/if}
+                    </td>
+                    <td>{$vo.tta_other_num}
+                        {if condition="$vo.tta_other_currency_id gt 0"}
+                            {$vo.tocurrency.currency_name}
+                        {/if}
+                    </td>
+                    <td>
+                        {:date('Y-m-d H:i:s',$vo['tta_time'])}
+                    </td>
+                </tr>
+                {/volist}
+
+            </table>
+            <div class="page">
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['layer','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.tta_asset_type a').click(function () {
+            globals.loading();
+           var v = $(this).data('value');
+           $('.tta_asset_type input[name="tta_asset_type"]').val(v);
+           $('#myform').submit();
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<div class="result-wrap " style="border-bottom:0;">
+    <div class="result-content"  style="margin-top: 20px;">
+        <form class="layui-form" >
+            <table class="layui-table" id="memberList">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户ID</th>
+                    <th>可用</th>
+                    <th>交易冻结</th>
+                    <th>可用+冻结</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="v"}
+                <tr>
+                    <td>{$v.cu_id}</td>
+                    <td>{$v.member_id}</td>
+                    <td>{$v.num}</td>
+                    <td>{$v.forzen_num}</td>
+                    <td>{$v.total_num}</td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>

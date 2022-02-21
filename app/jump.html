@@ -1,0 +1,16 @@
+<style type="text/css">
+	 #alertBg{
+	 	width: 100%;
+	 	height: 100%;
+	 	background: url(/static/home/images/jumpbg.png) no-repeat;
+	 	background-size:100% 100% ;
+	 	opacity: 1;
+	 }
+</style>
+<script language="javascript" src="/static/home/js/common/jquery-1.7.2.min.js"></script>
+<script language="javascript" src="/static/home/js/common/alert.js"></script>
+<script type="text/javascript">
+	var jurl = "<?php echo($url); ?>";
+	var wait = "<?php if(strpos($url,'javascript')===false) { echo 1;} else {echo 2;} ?>";
+	msgDalog("<?php echo(strip_tags($msg));?>","<?php echo($url); ?>",wait);
+</script>

@@ -1,0 +1,97 @@
+<include file="App/Admin/View/Public/left.html"/>
+<!--/sidebar-->
+
+
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list">
+            <i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span class="crumb-name">KOK私募设置</span>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('KOKManage/config')}" method="post" id="myform"
+              name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i> 私募设置</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>私募期开关:</th>
+                            <td>
+                                关闭：<input type="radio" name="is_kok_private" value="0"
+                                <if condition="$config['is_kok_private'] eq 0">checked="checked"</if>
+                                />
+                                开启：<input type="radio" name="is_kok_private" value="1"
+                                <if condition="$config['is_kok_private'] eq 1">checked="checked"</if>
+                                />
+                                &nbsp;&nbsp;（开启—私募互转，私募充值（需要锁仓） 关闭—不在显示私募互转）
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>私募充值KOK锁仓比例：</th>
+                            <td><input type="text" value="{$config.kok_private_recharge_lock_rate}" name="kok_private_recharge_lock_rate"
+                                       class="common-text">%&nbsp;&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                        <!--<tr>-->
+                            <!--<th><i class="require-red">*</i>锁仓后释放比例：</th>-->
+                            <!--<td><input type="text" value="{$config.kok_release_rate}" name="kok_release_rate"-->
+                                       <!--class="common-text">%&nbsp;&nbsp;&nbsp;-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <tr>
+                            <th><i class="require-red">*</i>私募互转锁仓比例：</th>
+                            <td><input type="text" value="{$config.kok_exchange_lock_rate}" name="kok_exchange_lock_rate"
+                                       class="common-text">%&nbsp;&nbsp;&nbsp;<i class="require-red">剩余的<?=100-$config['kok_exchange_lock_rate'];?>%到可互转资产</i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input type="submit" value="提交"
+                                       class="btn btn-primary btn6 mr10">
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <!--<div class="result-wrap">-->
+        <!--<form action="{:U('KOKManage/lockAll')}" method="post" id="myform_lock"-->
+              <!--name="myform_lock" enctype="multipart/form-data">-->
+            <!--<div class="config-items">-->
+                <!--<div class="config-title">-->
+                    <!--<h1><i class="icon-font">&#xe00a;</i> 一键锁仓</h1>-->
+                <!--</div>-->
+                <!--<div class="result-content">-->
+                    <!--<table width="100%" class="insert-tab">-->
+                        <!--<tbody>-->
+                        <!--<tr>-->
+                            <!--<th>温馨提示：</th>-->
+                            <!--<td>-->
+                                <!--<i class="require-red">*</i>私募期关闭，点击一键锁仓，所有客户的KOK全部锁仓，手动释放 <i class="require-red">*</i>-->
+                                <!--<input type="hidden" name="lock" value="lock">-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<th></th>-->
+                            <!--<td><input type="submit" value="全部锁仓"-->
+                                       <!--class="btn btn-primary btn6 mr10">-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                    <!--</table>-->
+                <!--</div>-->
+            <!--</div>-->
+
+        <!--</form>-->
+    <!--</div>-->
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

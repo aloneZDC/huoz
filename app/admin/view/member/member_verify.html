@@ -1,0 +1,306 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css"/>
+<script>
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<style>
+    .list-menu {
+        list-style: none;
+        display: block;
+        margin: 0 0 15px;
+    }
+
+    .list-menu li {
+        display: inline-block;
+    }
+
+    .list-menu li a {
+        min-width: 80px;
+    }
+
+    .list-menu li + li {
+        margin-left: 10px;
+    }
+</style>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">实名认证审核</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('member/member_verify', ['verify_state' => $type])}" method="get" style="padding: 0 15px;">
+                <table class="search-tab">
+                    <tr>
+                        <td width="70">会员邮箱:</td>
+                        <td><input class="common-text" placeholder="关键字" name="email" type="text"></td>
+                        <td width="70">会员姓名:</td>
+                        <td><input class="common-text" placeholder="关键字" name="name" type="text"></td>
+                        <td width="70">会员电话:</td>
+                        <td><input class="common-text" placeholder="关键字" name="phone" type="text"></td>
+                        <td width="70">会员ID:</td>
+                        <td><input class="common-text" placeholder="会员ID" name="member_id" type="text"></td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="result-wrap">
+        <ul class="list-menu">
+            <li><a href="{:url('member/member_verify', ['verify_state' => 2])}" class="btn <?php if($type == 2){ ?>active<?php } ?>">待审核</a></li>
+            <li><a href="{:url('member/member_verify', ['verify_state' => 1])}" class="btn <?php if($type == 1){ ?>active<?php } ?>">已审核</a></li>
+        </ul>
+        <div class="result-content">
+        <div style="margin-top: 20px;display: block;">
+                <button class="btn btn-success btn-sm" style="margin-right: 30px;" onclick="return review(1);">批量通过
+                </button>
+                <button class="btn btn-success btn-sm" style="margin-right: 30px;" onclick="return review(0);">批量不通过
+                </button>
+            </div>
+            <table class="result-tab" width="100%">
+                <tr>
+                <th width="4%" style="text-align: center;">全选 <input id="checkAll" type="checkbox"/></th>
+                    <th>ID</th>
+                    <th>会员邮箱</th>
+                    <th>会员姓名</th>
+                    <th>手机号</th>
+                    <th>国家</th>
+                    <th>证件号</th>
+                    <th>证件类型</th>
+                    <th>民族</th>
+                    <th>性别</th>
+                    <th>身份证正面</th>
+                    <th>身份证背面</th>
+                    <th>身份证手持</th>
+                    <th>提交时间</th>
+                    <th>认证状态</th>
+                    <?php if($type == 2){ ?>
+                    <th>操作</th>
+                    <?php } ?>
+                </tr>
+                {volist name='list' id='vo'}
+                    <tr data-id="{$vo['member_id']}">
+                    <td><input name="subBox" type="checkbox" value="{$vo.member_id}"/></td>
+                        <td style="width:60px"><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo['member_id']}</a></td>
+                        <td style="width:180px">{$vo['email']}</td>
+                        <td style="width:60px">{$vo['name']}</td>
+                        <td style="width:110px">{$vo['phone']}</td>
+                        <td style="width:110px">{$vo['country_code']}</td>
+                        <td style="width:110px">{$vo['idcard']}</td>
+                        <td style="width:110px">{$vo['cardtype']}</td>
+                        <td style="width:110px">{$vo['nation_id']}</td>
+                        <td style="width:110px">{$vo['sex']}</td>
+                        <td style="width:100px">
+                            <?php if(!empty($vo['pic1'])){ ?>
+                            <a onclick="showPic(this)" data-src="{$vo['pic1']}">
+                                <img src="{$vo['pic1']}" style="width: 180px;height: 120px;">
+                            </a>
+                            <?php }else{ ?>
+                            <img src="__PUBLIC__/static/admin/images/default.jpg" style="width: 180px;height: 120px;">
+                            <?php } ?>
+                        </td>
+                        <td style="width:100px">
+                            <?php if(!empty($vo['pic2'])){ ?>
+                            <a onclick="showPic(this)" data-src="{$vo['pic2']}">
+                                <img src="{$vo['pic2']}" style="width: 180px;height: 120px;">
+                            </a>
+                            <?php }else{ ?>
+                            <img src="__PUBLIC__/static/admin/images/default.jpg" style="width: 180px;height: 120px;">
+                            <?php } ?>
+                        </td>
+                        <td style="width:100px">
+                            <?php if(!empty($vo['pic3'])){ ?>
+                            <a onclick="showPic(this)" data-src="{$vo['pic3']}">
+                                <img src="{$vo['pic3']}" style="width: 180px;height: 120px;">
+                            </a>
+                            <?php }else{ ?>
+                            <img src="__PUBLIC__/static/admin/images/default.jpg" style="width: 180px;height: 120px;">
+                            <?php } ?>
+                        </td>
+                        <td style="width:160px">{$vo['addtime']|date='Y-m-d H:i:s',###}</td>
+                        <td>
+                            {if $vo.verify_state == 1}
+                            已通过
+                            {elseif $vo.verify_state == 2}
+                            审核中
+                            {else/}
+                            未通过
+                            {/if}
+                        </td>
+                        <?php if($type == 2){ ?>
+                        <td>
+                            <button class="btn review" data-type="1">通过</button>
+                            <button class="btn review" data-type="0">不通过</button>
+                        </td>
+                        <?php } ?>
+                    </tr>
+                {/volist}
+
+            </table>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+    function showPic(self) {
+        var src = $(self).data().src;
+
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 1,
+            area: ['auto'],
+            offset: 'r',
+            skin: 'layui-layer-nobg', //没有背景色
+            shadeClose: true,
+            content: "<img src='"+src+"' />"
+        });
+        // layer.open();
+    }
+    $(function () {
+
+      //全选和反选
+        $("#checkAll").click(function () {
+            $('input[name="subBox"]').attr("checked", this.checked);
+        });
+
+        var $subBox = $("input[name='subBox']");
+        $subBox.click(function () {
+            $("#checkAll").attr("checked", $subBox.length == $("input[name='subBox']:checked").length ? true : false);
+        });
+
+
+
+
+        $("button.review").on('click', function () {
+            var _ = $(this),
+                _id = _.parents('tr').attr('data-id'),
+                _type = _.attr('data-type'),
+                data = {
+                    id: _id,
+                    type: _type ? _type : 1
+                },
+                text = data.type == 1 ? "通过" : "不通过";
+
+            layer.confirm("确定" + text + "实名认证吗？", {btn: ['是的','取消']}, function () {
+                var loading = layer.msg('服务器君正在用力加载中，请稍等···', {
+                    icon: 16
+                    , shade: 0.3
+                    , time: 0
+                    , scrollbar: false
+                });
+
+                $.ajax({
+                    data: data,
+                    type: 'post',
+                    dataType: 'json',
+                    url: "{:url('member/member_verify')}",
+                    success: function (callback) {
+                        if(callback.Code == 1){
+                            layer.alert(callback.Msg, {icon: 6});
+                            setTimeout(function () {
+                                window.location.href = window.location.href;
+                                window.parent.location.reload();
+                                parent.layer.close(mylay);
+                            },3000);
+                            layer.close(loading);
+                        }else{
+                            layer.alert(callback.Msg, {icon: 5});
+                            layer.close(loading);
+                        }
+                    },
+                    error: function (e) {
+                        layer.alert("请求失败", {icon: 5});
+                        layer.close(loading);
+                    }
+                });
+            }, function () {
+                layer.close();
+            });
+        });
+    });
+
+    /**
+     * 批量审核
+     */
+   //禁止按钮重复提交
+     var submit_lock = true;
+
+    function review(type) {
+
+        if (!submit_lock) {
+            return false;
+        }
+        submit_lock = false;
+
+        var _subbox_el = $('input[name="subBox"]'),
+            _check_list = [], //勾选的申请列表
+            data = {}; //模板条件
+
+        _subbox_el.each(function (index, el) {
+            if ($(el).is(":checked")) {
+                _check_list.push($(el).val());
+            }
+        });
+
+        if (!_check_list.length > 0) {
+            layer.alert("请选择要审核", {'icon': 5});
+            submit_lock = true;
+            return false;
+        }
+        //console.info(_check_list);
+
+
+        layer.confirm("确认批量审核吗？", {icon: 3, title: '批量审核确认'}, function (index) {
+            layer.msg('提交审核中，请稍等···', {
+                icon: 16
+                , shade: 0.3
+                , time: 0
+                , scrollbar: false
+            });
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: {list: _check_list,type:type},
+                url: "{:url('review')}",
+                success: function (callback) {
+                    if (callback.Code == 1) {
+                        layer.alert(callback.Msg, {"icon": 6});
+                    } else {
+                        layer.alert(callback.Msg, {"icon": 5});
+                    }
+                    setInterval(function () {
+                        window.location.href = window.location.href;
+                    }, 1500);
+
+                    submit_lock = true;
+                },
+                error: function (e) {
+                    layer.alert("审核失败，请求出错！", {"icon": 5});
+
+                    submit_lock = true;
+                }
+            });
+        });
+
+        submit_lock = true;
+        return false;
+    }
+</script>

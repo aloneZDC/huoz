@@ -1,0 +1,183 @@
+body{
+	background: #fff;
+}
+.content{
+	min-width: 1200px;
+}
+.content .reg_wrapper{
+	width: 100%;
+	min-height: 80%;
+	overflow: hidden;
+	padding-top: 80px;
+	padding-bottom: 80px;
+	/*background: url(../../images/login_bg.jpg) no-repeat;*/
+	background-size: 100% 100%;
+}
+.reg_wrapper .reg_box{
+	width: 475px;
+	margin: 0 auto;
+}
+.reg_box .choose{
+	width: 100%;
+	text-align: center;
+	margin-bottom: 20px;
+}
+.choose a{
+	font-size: 24px;
+	display: inline-block;
+	color: #333;
+}
+.choose span{
+	display: inline-block;
+	width: 5px;
+	height: 5px;
+	background: #3076cc;
+	border-radius: 50%;
+	margin: 0 25px 5px 25px;
+}
+.reg_box .input_box{
+	width: 100%;
+	padding: 40px 0;
+	background: #fff;
+}
+.input_box .phone_reg{
+	width: 82%;
+	margin: 0 auto;
+}
+.phone_reg .reg_choose{
+	width: 100%;
+}
+.reg_choose button{
+	border: none;
+	width: 49%;
+	height: 52px;
+	line-height: 52px;
+	font-size: 16px;
+	background: #c4c4c4;
+	color: #FFF;
+}
+.reg_choose button.active{
+	background: #3076cc; 
+}
+.reg_box .form_box{
+	position: relative;
+    margin: 27px 0;
+    text-align: center;
+    white-space: nowrap;
+}
+select.input_select{
+	width: 393px;
+	height: 52px;
+	color: #666;
+	background: #fff;
+	border: none;
+	cursor: pointer;
+	border-bottom: 1px solid #ccc;
+}
+.phone_input #country{
+	position: absolute;
+	height: 52px;
+	top: 1px;
+	left: 1px;
+	width: 100px;
+	padding: 0;
+	background: #fff;
+	border: none;
+	line-height: 52px;
+	font-size: 18px;
+	color: #666;
+}
+.form_box input{
+	background: #fff;
+	border: none;
+	height: 52px;
+	width: 100%;
+	outline: none;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	padding-left: 5px;
+	border-bottom: 1px solid #ccc;
+}
+.form_box input.wrong{
+	border-color: #ff8e8e;
+}
+.form_box .error{
+	display: inline-block;
+	padding-right: 10px;
+	height: 24px;
+	line-height: 24px;
+	color: red;
+	font-size: 12px;
+	width: auto;
+	position: absolute;
+	top: 53px;
+	left: 0;
+	display: none;
+	padding-left: 0;
+}
+.form_box .blur_error{
+	color: red;
+}
+.input_box #phone_auth, .input_box #email_auth,.input_box #img_code{
+	width: 61%;
+}
+.input_box .send_authCode, .input_box .send_emailCode{
+	height: 52px;
+	border: none;
+	width: 35%;
+	background: #3076cc;
+	text-align: center;
+	color: #fff;
+	margin-left: 10px;
+	cursor: pointer;
+}
+.loginxy{
+	width: 100%;
+	margin: 0 auto;
+	margin-bottom: 10px;
+	color: #7582A4;
+	font-size: 12px;
+}
+#tongyi{
+	width: 18px;
+}
+#sure,#authSure{
+	display: block;
+	margin: 0 auto;
+	height: 48px;
+	line-height: 48px;
+	border-radius: 8px;
+	width: 70%;
+	color: #FFF;
+	font-size: 16px;
+	background: #6189C5;
+	outline: none;
+	border: 0;
+	box-shadow:0px 3px 8px 0px rgba(21,22,25,0.36);
+}
+.forget{
+	text-align: right;
+}
+.forget a{
+	color: #3076cc;
+}
+.userEx{
+	text-align: left;
+	font-size: 18px;
+	overflow: hidden;
+}
+#username{
+	border: none;
+}
+.reset{
+	text-align: right;
+}
+.reset>a{
+	color: #6189C5;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.img_code img{
+	height: 52px;
+	width: 35%;
+}

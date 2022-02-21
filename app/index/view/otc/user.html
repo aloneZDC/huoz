@@ -1,0 +1,499 @@
+
+<link href="__PUBLIC__/static/home/css/otc/user.css" rel="stylesheet" />
+<div id="homepage_header">
+    <div class="hp_header_l">
+        <div>
+            <span>{:msubstr($members['name'],0,1)}<i></i></span>
+        </div>
+    </div>
+    <div class="hp_header_c">
+        <h2>{$members.name}</h2>
+        <ul class="hp_userinfo">
+            <li>
+                <p>{$members.evaluate_num}%</p>
+                <p>{:lang('lan_Turnover_rate')}</p>
+            </li>
+            <li>
+                <p>{$members.total_order}{:lang('lan_times')}</p>
+                <p>{:lang('lan_assembly_list')}</p>
+            </li>
+            <li>
+                <p>{$members.total_order_30}{:lang('lan_times')}</p>
+                <p>{:lang('lan_30th_single')}</p>
+            </li>
+            <li>
+                <p>{$members.fang_time}{:lang('lan_K_Minute')}</p>
+                <p>{:lang('lan_average_release')}</p>
+            </li>
+        </ul>
+    </div>
+    <div class="hp_header_r">
+        <div class="validata">
+            {if condition="$members.email eq 1"}<span class="mail_validata">{:lang('lan_mailbox_authentication')}</span>{/if}
+            {if condition="$members.phone eq 1"}<span class="phone_validata">{:lang('lan_change_Mobile_erification')}</span>{/if}
+            {if condition="$members.idcard eq 1"}<span class="name_validata">{:lang('lan_user_menu_authentication')}</span>{/if}
+        </div>
+        <div class="registe_date">
+            <p>{:lang('lan_registration_time')}：{$members.reg_time}</p>
+        </div>
+    </div>
+</div>
+
+<div id="otc_tradelistwrap">
+	<!-- 隐藏部分 -->
+    <ul class="otc_business" >
+        <li class="otc_buyBtn  {if condition="$currency_type eq 'sell'"} active {/if} "><a href="{:url('OrdersOtc/user',['member_id'=>$member_id,'currency_type'=>'sell'])}">{:lang('lan_buyes')}</a></li>
+        <li class="otc_sellBtn {if condition="$currency_type eq 'buy'"} active {/if} "><a href="{:url('OrdersOtc/user',['member_id'=>$member_id,'currency_type'=>'buy'])}">出售</a></li>
+    </ul>
+	<div class="otc_listheader">
+			<span>{:lang('lan_currency')} </span>
+			<span>{:lang('lan_number_ofs')}</span>
+			<span>{:lang('lan_Limit')}</span>
+			<span>{:lang('lan_Unit_Price')}</span>
+			<span>{:lang('lan_Mode_payment_management1')}</span>
+			<span>{:lang('lan_operation')}</span>
+	</div>
+	<ul id="otc_trade_list">
+		{notempty name='list'}
+			{volist name="list" id="vo" empty="$empty" key="k"}
+				<li  class="otc_listdetails" data_member_id="{$vo.member_id}">
+					<div class="otc_nameabbreviations">
+							<img src="{$vo.currency_logo}" alt="">
+						</div>
+					<div class="otc_datadetails">
+						<span>{$vo.currency_name}</span>
+						<span>{$vo.avail} {$vo.currency_name}</span>
+						<span>{$vo.min_money}-{$vo.max_money} CNY</span>
+						<span>{$vo.price} CNY</span>
+						<span class="otc_pay_way">
+							{if condition="in_array('bank',$vo['money_type'])"}<i class="otc_bank"></i>{/if}
+							{if condition="in_array('wechat',$vo['money_type'])"}<i class="otc_wechat"></i>{/if}
+							{if condition="in_array('alipay',$vo['money_type'])"}<i class="otc_alipay"></i>{/if}
+						</span>
+
+						<span class="buy_btn" data-type="{$vo.type}" data-id="{$vo.orders_id}"
+							{if condition="$member_status.login_status eq 0"}
+								onclick="nologin()"
+							{elseif condition="$member_status.member_name_status eq 0" /}
+								onclick="noRealname()"
+							{elseif condition="$member_status.member_nick_status eq 0" /}
+								onclick="nonike()"
+							{else /}
+								{php}
+                                if($vo['type']=='sell') {
+                                    $bank = true;
+                                } else {
+                                    $bank = false;
+                                    foreach($vo['money_type'] as $type){
+                                        if(in_array($type,$my_bank)) {
+                                            $bank = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                {/php}
+								{if condition="$bank"}
+									onclick="show_ordertk({$key})"                    
+								{else /}
+									onclick="noBudget({$key})"
+								{/if}
+							{/if}
+
+						>
+							{if condition="$vo.type eq 'buy'"} {:lang('lan_selles')} {else/} {:lang('lan_buyes')} {/if}{$vo.currency_name}
+						</span>
+					</div>
+				</li>
+			{/volist}
+		{else /}
+			<div class="isempty">{:lang('lan_No_data')}</div>
+		{/notempty}
+	</ul>
+	<div class="page">{$pages}</div>
+	<div class="otc_ordertk">
+		<div style="position:relative">
+			<span class="abbreviations">
+				<span></span><i></i>
+			</span>
+			<div class="sellerinfo">
+				<p>
+					<span class="info1"></span>
+					<span class="info2"></span>
+				</p>
+				<P>
+					<span class="info3"></span>
+					<span class="info4"></span>
+				</P>
+				<P class="pay_way">
+					<span class="otc_bank otc_bank1">{:lang('lan_bank_card')}</span>
+					<span class="otc_wechat otc_wechat1">{:lang('lan_WeChat')}</span>
+					<span class="otc_alipay otc_alipay1">{:lang('lan_alipay')}</span>
+				</P>
+			</div>
+				<div class="tradeinfo">
+					<div class="trade_box">
+						<div class="trade_l">
+							<input  class="trade_sum" type="text"/>
+							<div>
+								<span>CNY</span>
+								<span class="allcny">{:lang('lan_whole')}</span>
+							</div>
+							<p style="display:none">CNY</p>
+						</div>
+						<i></i>
+						<div class="trade_r">
+							<input  class="trade_num" type="text"/>
+							<div>
+								<span class="currency_name"></span>
+								<span class="allcurrency">{:lang('lan_whole')}</span>
+							</div>
+						</div>
+						<div class="trade_r trade_password">
+							<input type="text" placeholder="{:lang('lan_reg_transaction_password2')}" class="lock_num_intes" style="display: none;"/>
+							<input type="text" autocomplete="off" placeholder="{:lang('lan_reg_transaction_password2')}" id="trade_pwd" class="lock_num_intes lock_num_intes_zw" onfocus="this.type='password'" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+							<p style="display:none">{:lang('lan_reg_transaction_password2')}</p>
+						</div>
+					</div>
+					<div class="receivables_box" style="margin-top: 36px;">
+					    
+					</div>
+					<div class="trade_btn">
+						<p></p>
+						<button class="cancel">{:lang('lan_cancel')}</button>
+						<button class="determine">{:lang('lan_Orderx')}</button>
+					</div>
+				</div>
+		</div>
+		<div class="seller_remark">
+			<p>{:lang('lan_Merchant_note')}:</p>
+			<p class="order_message"></p>
+		</div>
+	</div>
+</div>
+<div class="shade"></div>
+<script>
+	var list_result = '{$list|json_encode}';
+	var result = list_result.replace(/\n/g,"<br />");
+	result = result.replace(/\r/g,"<br />");
+	result = JSON.parse(result);
+	var min_money;
+	var max_money;
+	var max_num;
+	var price;
+	var inputval_l;
+	var inputval_r;
+	var orders_id;
+	var money_type;
+	var pricesearch;
+	var ye,Current_refresh=false;
+	var status = "{$currency_type}";
+	// 只能输入数字，且保留6位小数
+	function clearNoNum(obj){ 
+		    obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+		    obj.value = obj.value.replace(/\.{4,}/g,"."); //只保留第一个. 清除多余的  
+		    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$","."); 
+		    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d\d\d\d\d).*$/,'$1$2.$3');//只能输入6位小数  
+		    if(obj.value.indexOf(".")< 0 && obj.value !=""){
+		        obj.value= parseFloat(obj.value); 
+		    } 
+	};
+	function clearNoNum1(obj){ 
+		    obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+		    obj.value = obj.value.replace(/\.{4,}/g,"."); //只保留第一个. 清除多余的  
+		    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$","."); 
+		    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入6位小数  
+		    if(obj.value.indexOf(".")< 0 && obj.value !=""){
+		        obj.value= parseFloat(obj.value); 
+		    } 
+	};
+
+	//判断输入框值大小 提示
+	function judgementofsize(){
+		if($(".trade_sum").val()<=min_money){
+			$(".trade_l p").html("{:lang('lan_Minimum_order_amount')}" + min_money + "CNY");
+			$(".trade_l p").show();
+		}else if($(".trade_sum").val()>=max_money){
+			max_val()
+			$(".trade_l p").html("{:lang('lan_Maximum_order_amount')}" + max_money + "CNY");
+			$(".trade_l p").show();
+		}else{
+			$(".trade_l p").hide();
+		}
+	}
+
+	function show_ordertk(index) {
+		$(".receivables_box").html("");
+		    var obj = {
+		        orders_id:$(".buy_btn").eq(index).attr("data-id"),
+		    }
+		    $.ajax({
+		        type:"POST",
+		        url:"{:url('OrdersOtc/updateavail')}",
+		        data:obj,
+		        beforeSend:function(){
+		            layer.load(1, {
+		                shade: [0.3, '#000'] //0.1透明度的白色背景
+		            });
+		        },
+		        success:function(data){
+		            console.log(data);
+		            if(data.code == 10000){
+		            	$(".shade").show();
+		            	if (result[index].money_type.indexOf("bank") == -1) {
+		            		$(".otc_bank1").hide();
+		            	}else{
+		            		$(".otc_bank1").show();
+		            	}
+		            	if (result[index].money_type.indexOf("alipay") == -1) {
+		            		$(".otc_alipay1").hide();
+		            	}else{
+		            		$(".otc_alipay1").show();
+		            	}
+		            	if (result[index].money_type.indexOf("wechat") == -1) {
+		            		$(".otc_wechat1").hide();
+		            	}else{
+		            		$(".otc_wechat1").show();
+		            	}
+		            	$(".otc_ordertk").show();
+
+		            	if(status == "sell"){
+		            		$(".trade_password").hide();
+		            	}else{
+							$(".trade_password").show();
+						}
+		            	if($(".buy_btn").eq(index).attr("data-type") == "buy"){
+		            		var list = data.result.bank_list;
+		            		var html = "";
+		            		for(let i=0;i<list.length;i++){
+		            		    html += `<div class="receivables">
+		            		                <span class="checkbox">
+		            		                    <input type="radio" data-attr="${list[i].bankname}:${list[i].id}" name="cheack_type" value="1">
+		            		                </span>`;
+		            		    if(list[i].bankname == "alipay"){
+		            		        html += `<span class="receivables_icon">
+		            		                    <img src="__PUBLIC__/static/home/images/otc_alipay.png" alt="">
+		            		                </span>
+		            		                <span class="receivables_type">{:lang('lan_alipay')}</span>`;
+		            		    }else if(list[i].bankname == "wechat"){
+		            		        html += `<span class="receivables_icon">
+		            		                    <img src="__PUBLIC__/static/home/images/otc_WeChat.png" alt="">
+		            		                </span>
+		            		                <span class="receivables_type">{:lang('lan_WeChat')}</span>`;
+		            		    }else if(list[i].bankname == "bank"){
+		            		        html += `<span class="receivables_icon">
+		            		                            <img src="__PUBLIC__/static/home/images/otc_wallet.png" alt="">
+		            		                        </span>
+		            		                        <!-- <span class="receivables_type">{:lang('lan_bank_card')}</span> -->
+		            		                        <span>${list[i].bname}</span>
+		            		                        <span>${list[i].inname}</span>`;
+		            		    }
+		            		    html += `<span class="user_phone">${list[i].cardnum}</span>
+		            		                ${list[i].bankname == "bank"?"":`<span class="qr_code">
+		            		                        <img src="${list[i].img}" >
+		            		                        <span><img src="${list[i].img}" alt="" width="100%" height="100%"></span>
+		            		                    </span>`}
+		            		            </div>`
+		            		}
+		            		$(".receivables_box").html(html);
+		            	}
+		                $(".abbreviations span").html(result[index].name);
+		                $(".info1").html(result[index].trade_allnum + " | " + result[index].evaluate_num + "%");
+		                $(".info2").html(result[index].price + " CNY");
+		                $(".info3").html("{:lang('lan_number_ofs')}" + result[index].avail + "  " + result[index].currency_name);
+		                $(".info4").html(result[index].min_money + "--" + result[index].max_money + "  CNY");
+		                $(".trade_l p").html("{:lang('lan_Minimum_order_amount')}" + result[index].min_money + "CNY");
+		                $(".trade_r .currency_name").html(result[index].currency_name);
+		                $(".seller_remark .order_message").html(result[index].order_message);
+		                $(".trade_btn p").html("{:lang('lan_The_buyer_s_payment_time_limit_is')}" + result[index].limit_time + "{:lang('lan_K_Minute')}");
+		                price = Number(result[index].price);
+		                min_money =Number( result[index].min_money);
+		                max_money=Number(result[index].max_money);
+		                max_num=Number(result[index].max_num);
+		                orders_id = result[index].orders_id;
+		            }else{
+		                layer.msg(data.message);
+		            }
+		        },
+		        complete:function(){
+		            layer.closeAll("loading");
+		        }
+		    });
+	}
+	//输入的金额
+	$(".trade_sum").keyup(function(){
+		 clearNoNum1(this);
+		//  $(".trade_sum").val(String($(".trade_sum").val()).replace(/^(.*\..{2}).*$/, "$1"));
+		inputval_r = ($(".trade_sum").val()/price).toFixed(6);
+		inputval_l = $(".trade_sum").val()
+		$(".trade_num").val(inputval_r);
+		judgementofsize();
+	})
+	//输入的币种数量
+	$(".trade_num").keyup(function(){
+		clearNoNum(this);
+		$(".trade_num").val(String($(".trade_num").val()).replace(/^(.*\..{6}).*$/, "$1"));
+		inputval_l = ($(".trade_num").val()*price).toFixed(2);
+		inputval_r = $(".trade_num").val();
+		$(".trade_sum").val(inputval_l);
+		if($(".trade_num").val()>max_num){
+			max_val();
+		}
+		judgementofsize();
+	})
+	//输入交易密码
+	$("#trade_pwd").keyup(function(){
+		$(".trade_password>p").hide();
+	})
+	//点击全部
+	function max_val(){
+		inputval_l = max_money;
+		inputval_r = max_num;
+		$(".trade_sum").val(inputval_l);
+		$(".trade_num").val(inputval_r)
+	}
+
+	// 重置参数值 表单值
+	function resetval (){
+		$(".trade_sum").val("");
+		$(".trade_num").val("");
+		$("#trade_pwd").val("")
+		inputval_l = 0;
+		inputval_r = 0;
+	}
+	//取消按钮
+	$(".cancel").click(function(){
+		resetval();
+		$(".otc_ordertk").hide();
+		$(".shade").hide();
+	})
+	//点击全部
+	$(".allcny,.allcurrency").click(function(){
+		max_val();
+	});
+
+	//下单
+	$(".determine").click(function(){
+		var url =  status == 'sell' ? '{:url("TradeOtc/buy")}' : '{:url("TradeOtc/sell")}' ;
+		if(!$("#trade_pwd").val() && status !="sell"){
+			$(".trade_password>p").show();
+			$("#trade_pwd").focus();
+			return;
+		}
+		if(status == "buy"){
+		    if(!$(".checkbox input[type='radio']:checked").val()){
+		        layer.alert("{:lang('lan_please_select_payment_method')}");
+		        return;
+		    }
+		}
+		var money_type=$(".checkbox input[type='radio']:checked").attr("data-attr")?$(".checkbox input[type='radio']:checked").attr("data-attr"):"";
+		$.ajax({
+			"url": url,
+			"type": "POST",
+			"data": {
+				orders_id:orders_id,
+				num:inputval_r,
+				pwd:$("#trade_pwd").val(),
+				currency_type : status,
+				money_type:money_type,
+			},
+			success: function (data) {
+				if(data.code==10000){
+					resetval();
+					location.href='{:url("TradeOtc/trade_info")}' + "?trade_id=" + data.result.trade_id ;
+				}else if(data.code==10100){
+					location.href = '{:url("Login/index/")}' ;
+				}else{
+					layer.msg(data.message);
+				}
+			}
+		});
+	})
+	//点击取消
+	$(".searchcancel").click(function(){
+		money_type ="";
+		pricesearch = 0;
+		$(".payment").html("{:lang('lan_all_payment_methods')}");
+		$("#price").val("")
+		$(".otc_search").addClass("isShow");
+		$(".shade").hide();
+    })
+	$("#price").keyup(function(){
+		pricesearch = $("#price").val();
+	})
+	// 列表移入移出样式
+	$("#otc_trade_list li").hover(function(){
+		$(this).css({"background":"#F4F4F4",})
+	},function(){
+		$(this).css({"background":"white",})
+	})
+	//阻止操作按钮默认事件
+	$("#otc_trade_list").on("click",".buy_btn",function(e){
+		stopPropagations(e)
+	})
+	/**
+	 * 未登录
+	 * */
+	function  nologin() {
+        layer.msg("{:lang('lan_Temporarily_ogin')}");
+        setTimeout(function(){
+            window.location.href = "{:url('Login/index')}";
+        },1000);
+    }
+    /**
+	 * 设置实名
+	 */
+    function  noRealname() {
+        layer.msg("{:lang('lan_user_authentication_first')}");
+        setTimeout(function(){
+            window.location.href = "{:url('User/senior_verify')}";
+        },1000);
+    }
+
+	/**
+	 * 设置收支
+     */
+	 function  noBudget(index) {
+        var content = "";
+	 	$.each(result[index].money_type,function(i,v){
+	 		if(v == "wechat"){
+	 			content += "{:lang('lan_WeChat')}、"
+	 		}else if(v == "alipay"){
+	 			content += "{:lang('lan_alipay')}、"
+	 		}else if(v == "bank") {
+	 			content += "{:lang('lan_bank_card')}、"
+	 		}
+	 		
+	 	})
+	 	var data_type= content.slice(0,(content.length-1));
+	 	var data_content = "{:lang('lan_buyers_only_sell_support')}"+data_type+"{:lang('lan_to_pay_need_activate')}";
+        layer.open({
+            content: data_content,
+            title: "{:lang('lan_modify_tips')}"
+            ,btn: ["{:lang('lan_Add_to')}", "{:lang('lan_cancel')}"]
+            ,yes: function(index, layero){
+                 window.location.href = "{:url('Bank/index',['member_id'=>$member_id,'currency_type'=>$currency_type])}?type=3";
+            }
+            ,btn2: function(index, layero){
+                //按钮【按钮二】的回调
+                
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+            ,cancel: function(){ 
+                //右上角关闭回调
+                
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
+    }
+    /**
+	 * 设置昵称
+     */
+    function  nonike() {
+        layer.msg("{:lang('lan_nickname_first')}");
+        setTimeout(function(){
+            $(".vo_all").show();
+            $(".vo_all_zh").show();
+            Current_refresh =true;
+        },1000);
+    }
+</script>

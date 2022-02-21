@@ -1,0 +1,94 @@
+<div class="weadmin-nav layui-clear">
+    <span class="fr">
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i
+                class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <form class="layui-form form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">币种</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="currency_id" id="currency_id" lay-verify="required" placeholder="" value="{$currency.currency_id}"
+                       class="layui-input">
+                <p style="height: 38px;line-height: 38px;">{$currency.currency_name}</p>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">最低数量</label>
+            <div class="layui-input-block">
+                <input type="number" name="min_num" id="min_num" lay-verify="required" placeholder="" value="0"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">最高数量</label>
+            <div class="layui-input-block">
+                <input type="number" name="max_num" id="max_num" lay-verify="required" placeholder="" value="0"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">日挖矿百分比</label>
+            <div class="layui-input-block">
+                <input type="number" name="percent" id="percent" lay-verify="required" placeholder="" value="0"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">1代奖励比例</label>
+            <div class="layui-input-block">
+                <input type="number" name="pid_percent1" id="pid_percent1" lay-verify="required" placeholder="" value="0"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">2代奖励比例</label>
+            <div class="layui-input-block">
+                <input type="number" name="pid_percent2" id="pid_percent2" lay-verify="required" placeholder="" value="0"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit" type="submit" lay-filter="add" lay-submit="">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'admin', 'layer'], function () {
+        let form = layui.form;
+
+        form.on("submit(add)", data => {
+            $.post("{:url('level_config_add')}", data.field, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, function () {
+                        // 获得frame索引
+                        let index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        window.parent.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+            return false;
+        });
+    });
+</script>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">互转配置</span></div>
+    </div>
+    <div class="result-wrap">
+        <a href="javascript:;" class="layui-open layui-btn" data-url="{:url('add')}?" data-width="500px">添加</a>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form class="layui-form">
+                <table class="layui-table" id="memberList" lay-filter="table-lists">
+                    <thead>
+                    <tr>
+                        <th lay-data="{align:'center',field:'id', width:100}">ID</th>
+                        <th lay-data="{align:'center',field:'currency', width:200}">币种</th>
+                        <th lay-data="{align:'center',field:'type', width:500}">类型</th>
+                        <th lay-data="{align:'center',field:'min_num', width:160}">最少数量</th>
+                        <th lay-data="{align:'center',field:'max_num', width:160}">最大数量</th>
+                        <th lay-data="{align:'center',field:'fee', width:160}">手续费</th>
+                        <th lay-data="{align:'center',field:'is_open', width:180}">是否开启</th>
+                        <th lay-data="{align:'center',field:'edit', width:180}">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="vo"}
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.currency.currency_name}</td>
+                        <td>
+                            {$type_list[$vo['type']]|default=''}
+                        </td>
+                        <td>{$vo.min_num}</td>
+                        <td>{$vo.max_num}</td>
+                        <td>{$vo.fee}</td>
+                        <td>
+                            <input type="checkbox" lay-skin="switch" lay-text="ON|OFF" value="1" lay-filter="layui-switch-field" data-field="is_open" data-url="{:url('quick_switch',['id'=>$vo['id']])}"  {if condition="$vo.is_open eq 1"}checked=""{/if} />
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="delete layui-btn" data-id="{$vo.id}" data-url="{:url('delete')}" >删除</a>
+                            <a href="javascript:;" class="layui-open layui-btn" data-url="{:url('edit')}?id={$vo.id}" data-width="500px">编辑</a>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery','form', 'global','index'], function () {
+        layer = layui.layer,globals=layui.global,$=layui.jquery;
+
+        $('.delete').click(function () {
+            var url = $(this).data('url');
+            var id = $(this).data('id');
+            if(url && id) {
+                var index = globals.loading();
+                globals.ajax(url,{'id':id},function(res){
+                    layer.close(index);
+                    globals.msg(res.message);
+                    location.reload();
+                });
+            }
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

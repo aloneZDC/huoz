@@ -1,0 +1,181 @@
+.setting-panel {
+    background: #fff;
+    position: relative;
+    width: 1200px;
+    min-height: 680px;
+    border: 1px solid #e4e9ed;
+
+    margin-bottom: 20px;
+}
+#main .main_box #my_child {
+    width: 1200px;
+    background: transparent;
+    min-height: 650px;
+    margin: 50px auto;
+}
+#main .main_box #my_child h1{
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+    padding: 20px 0 20px 20px;
+    background: #fff;
+}
+.setting-head {
+    width: 165px;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 2px solid #dbb668;
+    text-align: center;
+    margin-left: 30px;
+    color: #252a33;
+    font-size: 16px;
+}
+.line {
+    width: 100%;
+    height: 1px;
+    background: #e5eaef;
+    margin-top: 10px;
+}
+.setting-flow {
+    position: relative;
+    margin: 50px auto;
+    width: 490px;
+    height:30px;
+}
+.setting-flow .flow-line {
+    height: 10px;
+    width: 460px;
+    display: inline-block;
+    background: #b8c4ce;
+    position: absolute;
+    top: 10px;
+    left: 15px;
+}
+.setting-flow .flow-item {
+    height: 30px;
+    width: 30px;
+    background: #b8c4ce;
+    display: inline-block;
+    border-radius: 30px;
+    text-align: center;
+    position: relative;
+    float: left;
+}
+.no-margin {
+    margin-left: 0!important;
+}
+.step2 .flow-item {
+    margin-left: 430px;
+}
+.flow-item .flow-point {
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    background: #f9f9f9;
+    display: inline-block;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    color: #b8c4ce;
+}
+.setting-flow .flow-decs {
+    position: absolute;
+    width: 300%;
+    text-align: center;
+    transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    top: 40px;
+    left: 50%;
+}
+.form-cont {
+    width: 100%;
+    min-height: 650px;
+    background: #fff;
+    margin-top: 12px;
+}
+.input-cont {
+    position: relative;
+    width: 480px;
+    margin: 0 auto;
+    border: 1px solid #CCC;
+}
+.form-email {
+    background-position: -174px -153px;
+    width: 21px;
+    height: 20px;
+    display: inline-block;
+}
+.form-token {
+    background-position: -294px -73px;
+    width: 21px;
+    height: 25px;
+    left: 6px;
+    display: inline-block;
+}
+.form-password, .form-token {
+    top: 7px;
+    background-image: url(../../images/iconjingling.png);
+    position: absolute;
+}
+.form-email, .form-username {
+    left: 6px;
+    top: 10px;
+    background-image:url(../../images/iconjingling.png);
+    position: absolute;
+}
+.input-cont .input, .input-cont .select {
+    border: none;
+    width: 362px;
+    height: 38px;
+    font-size: 14px;
+    vertical-align: middle;
+    text-indent: 20px;
+}
+.form-tips {
+    display: none!important;
+}
+.input-cont .error-msg {
+    color: #ee3182;
+    font-size: 16px;
+    position: absolute;
+    display: none;
+    left: 103%;
+    width: 100%;
+    top: 7px;
+}
+.form-cont .btn.submit {
+    display: block;
+    margin: 0 auto;
+    margin-top: 59px;
+    width: 480px;
+    height: 48px;
+    line-height: 48px;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    background: #3284CA;
+}
+.form-cont .link.get-token {
+    position: absolute;
+    right: 21px;
+    padding-left: 20px;
+    border-left: 1px solid #CCC;
+    color: #3284CA;
+    top: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.explanation{
+    width: 480px;
+    margin: 0 auto;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 12px;
+    margin-top: 40px;
+}
+.explanation:first-of-type{
+    margin-top: 0;
+    padding-top: 52px;
+}

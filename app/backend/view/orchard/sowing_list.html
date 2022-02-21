@@ -1,0 +1,72 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">首页</a> <a href="javascript:;">果园管理</a> <a><cite>果树播种</cite></a>
+    </span>
+
+    <span class="fr">
+        <a class="layui-btn layui-open" data-url="{:url('add')}" data-title="添加" data-width="800px" href="javascript:;" style="display: none;">添加</a>
+        <a class="layui-btn" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class=" layui-col-md12 we-search">
+            搜索数据：
+            <div class="layui-inline">
+                <label></label>
+                <input class="layui-input" placeholder="请输入用户ID" name="member_id" value="{$Think.get.member_id}" />
+            </div>
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+    <form class="layui-form" >
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>用户昵称</th>
+                <th>果树名称</th>
+                <th>果树来源</th>
+                <th>施肥次数</th>
+                <th>施肥时间</th>
+                <th>果树状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name='list' id='vo'}
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo.ename}（{$vo.member_id}）</td>
+                <td>{$vo.title}</td>
+                <td>{if ($vo.source == 0)} 购买 {else} 赠送 {/if}</td>
+                <td>{$vo.fert_num}</td>
+                <td>{$vo.fert_time}</td>
+                <td>
+                    {if ($vo.status == 3)}
+                    <a href="{:url('reward_list',['param'=>'reward','id'=>$vo.id])}"  data-url="{:url('tree_update',['param'=>'tree','id'=>$vo.id])}" >{$vo.status_name}</a>
+                    {else}
+                    {$vo.status_name}
+                    {/if}
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'global', 'index']);
+</script>
+{include file="layout/footer"}

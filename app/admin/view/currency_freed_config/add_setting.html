@@ -1,0 +1,87 @@
+<include file="App/Admin/View/Public/left.html"/>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/kindeditor/plugins/prettify.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#datePicker1').date_input();
+        $('#datePicker2').date_input();
+    });
+</script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">积分类型设置</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <div class="config-items">
+            	<input type="hidden" name='id' value="{$list.id}">
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>货币：</th>
+                            <td>
+                            	<select name="currency_id">
+	                                <volist name="currency" id="vo">
+	                                    <option value="{$vo.currency_id}" <eq name="list.currency_id" value="$vo.currency_id">selected="selected"</eq>>{$vo.currency_name}</option>
+	                                </volist>
+	                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>用户ID</th>
+                            <td><input type="text" id="member_id" value="{$list.member_id}" size="85" name="member_id" placeholder="用户ID" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th>用户姓名</th>
+                            <td><span id="member_name"></span></td>
+                        </tr>
+
+                        <tr>
+                            <th><i class="require-red">*</i>比例</th>
+                            <td><input type="text" id="rate" value="{$list.rate}" size="85" name="rate" placeholder="比例" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('setting')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+<script>
+function loading() {
+    layer.load(1, {
+        shade: [0.3, '#000'] //0.1透明度的白色背景
+    });
+}
+$('input[name="member_id"]').blur(function(){
+    var member_id = $(this).val();
+    loading();
+
+    $.post("{:U('member_info')}", { member_id : member_id }, function(datas) {
+        layer.closeAll();
+        if (datas.code == 1) {
+            $('#member_name').html(datas.result.name);
+        } else {
+            layer.msg(datas.message);
+        }
+    });
+});
+</script>
+</div>
+</body>
+</html>

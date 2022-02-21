@@ -1,0 +1,142 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+$(function() {
+    $('#datePicker').date_input();
+    $('#datePicker2').date_input();
+});
+
+window._deel = {
+    req_member_details_url: "{:url('member/member_details')}",
+}
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">持币生息配置</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:url('')}" method="post">
+                        <table class="search-tab">
+                            <tr>
+                                <th width="70px">积分类型:</th>
+                                <td>
+                                    <select name="currency_id" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="currency" id="vo"}
+                                            <option value="{$vo['currency_id']}">{$vo['currency_name']}</option>
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                                <th></th>
+                                <td>
+                                    <a target="_blank" href="{:url('add_setting')}">添加</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>记录ID</th>
+                        <th>币种</th>
+                        <th>类型</th>
+                        <th>月份</th>
+                        <th>中文标题</th>
+                        <th>英文标题</th>
+                        <th>中文特点</th>
+                        <th>英文特点</th>
+                        <th>中文详情</th>
+                        <th>英文详情</th>
+                        <th>最低转入数量</th>
+                        <th>最高转入数量</th>
+                        <th>预期年收益</th>
+                        <th>每日释放比例</th>
+                        <th>添加时间</th>
+                        <th>操作</th>
+                    </tr>
+                    {volist name="list" id="vo" empty="暂无数据"}
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.currency_name}</td>
+                            <td>
+                                {$types[$vo.type]}
+                            </td>
+                            <td>
+                                {if $vo.months > 0}
+                                {$vo.months}
+                                {else/}
+                                无限制
+                                {/if}
+                            </td>
+                            <td>{$vo.cn_title}</td>
+                            <td>{$vo.en_title}</td>
+                            <td><?=strlen($vo['cn_characteristic'])>5?mb_substr($vo['cn_characteristic'],0,5)."...":mb_substr($vo['cn_characteristic'],0,5);?></td>
+                            <td><?=strlen($vo['en_characteristic'])>5?mb_substr($vo['en_characteristic'],0,5)."...":mb_substr($vo['en_characteristic'],0,5);?></td>
+                            <td><?=strlen($vo['cn_details'])>5?mb_substr($vo['cn_details'],0,10)."...":mb_substr($vo['cn_details'],0,10);?></td>
+                            <td><?=strlen($vo['en_details'])>5?mb_substr($vo['en_details'],0,10)."...":mb_substr($vo['en_details'],0,10);?></td>
+                            <td>{$vo.min_num}</td>
+                            <td>{$vo.max_num}</td>
+                            <td>{$vo.rate}%</td>
+                            <td>{:floattostr($vo.day_rate)}%</td>
+                            <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                            <td>
+                            	<a href="{:url('add_setting',['id'=>$vo['id']])}">编辑</a>
+                            	<a href="javascript:;"  onclick="deleteConfirm({$vo.id})">删除</a>
+                            </td>
+                        </tr>
+                    {/volist}
+                </table>
+                <div class="page">
+                    <div>
+                        {$page}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+<script>
+function loading() {
+    layer.load(1, {
+        shade: [0.3, '#000'] //0.1透明度的白色背景
+    });
+}
+
+function deleteConfirm(id){
+    var r=confirm("是否要删除该配置?")
+    if(r==true){
+        var url = "{:url('del_setting')}";
+        loading();
+        $.post(url, { id : id }, function(datas) {
+            layer.closeAll();
+            if (datas.code == 1) {
+                layer.msg(datas.message);
+                window.location.reload();
+            } else {
+                layer.msg(datas.message);
+            }
+        });
+    }
+}
+</script>		
+</body>
+
+</html>

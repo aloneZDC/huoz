@@ -1,0 +1,90 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">首页</a> <a href="javascript:;">财务管理</a> <a><cite>自提区个人统计</cite></a>
+    </span>
+
+    <span class="fr">
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class=" layui-col-md12 we-search">
+            <div class="layui-inline">
+                <label for="phone"></label>
+                <input class="layui-input" placeholder="请输入手机号" name="phone" id="phone" value="{$Think.get.phone}" />
+            </div>
+
+            <div class="layui-inline">
+                <label for="member_id"></label>
+                <input class="layui-input" placeholder="请输入用户ID" name="member_id" id="member_id" value="{$Think.get.member_id}" />
+            </div>
+            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+<!--            <input type="hidden" name="daochu" id="dao" value="0">-->
+<!--            <button class="layui-btn" lay-submit="" lay-filter="export">-->
+<!--                <i class="iconfont icon-export"></i>导出数据-->
+<!--            </button>-->
+        </form>
+    </div>
+
+    <form class="layui-form" >
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>用户ID</th>
+                <th>累计伞下总人数</th>
+                <th>累计伞下申请配送额度</th>
+                <th>累计伞下成功提现</th>
+                <th>累计本人申请配送额度</th>
+                <th>今日伞下新增人数</th>
+                <th>今日伞下申请配送额度</th>
+                <th>今日伞下申请提现</th>
+                <th>今日本人申请配送额度</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="v"}
+            <tr data-id="{$v->member_id}">
+                <td><a href="javascript:void(0)" onclick="window.openUser({$v.member_id})">{$v.member_id}</a></td>
+                <td>{$v->total_num}</td>
+                <td>{$v->quota_num | round=6}</td>
+                <td>{$v->total_withdrawal | round=6}</td>
+                <td>{$v->personal_quota | round=6}</td>
+                <td>{$v->today_num}</td>
+                <td>{$v->today_quota | round=6}</td>
+                <td>{$v->today_withdrawal | round=6}</td>
+                <td>{$v->today_personal_quota | round=6}</td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','global','index', 'table'], function () {
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(sreach)', function(data){
+            $("#dao").val("0");
+            data.field.daochu = 1;
+        });
+        form.on('submit(export)', function(data){
+            $("#dao").val("1");
+            data.field.daochu = 1;
+        });
+    });
+</script>
+{include file="layout/footer"}

@@ -1,0 +1,79 @@
+{include file="../app/admin/view/public/left.html" /}
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">翻牌币种列表</span></div>
+    </div>
+    <div class="result-wrap">
+        <a href="javascript:;" class="layui-open layui-btn" data-url="{:url('flop_currency_add')}?" data-width="500px">添加</a>
+    </div>
+    <div class="result-wrap ">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>币种</th>
+                        <th>购买手续费</th>
+                        <th>出售手续费</th>
+                        <th>撤销手续费</th>
+                        <th>最低价</th>
+                        <th>最高价</th>
+                        <th>最低数量</th>
+                        <th>最高数量</th>
+                        <th>最低出售数量</th>
+                        <th>每日广告限制</th>
+                        <th>总有效广告限制</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>{$v.currency.currency_name}</td>
+                        <td>{$v.buy_fee}%</td>
+                        <td>{$v.sell_fee}%</td>
+                        <td>{$v.cancel_fee}%</td>
+                        <td>{$v.min_price}</td>
+                        <td>{$v.max_price}</td>
+                        <td>{$v.min_num}</td>
+                        <td>{$v.max_num}</td>
+                        <td>{$v.sell_min_num}</td>
+                        <td>{$v.day_total}</td>
+                        <td>{$v.orders_total}</td>
+                        <td>
+                            <a href="javascript:;" class="delete layui-btn" data-url="{:url('flop_currency_delete',['currency_id'=>$v['currency_id']])}" >删除</a>
+                            <a href="javascript:;" class="layui-open layui-btn" data-url="{:url('flop_currency_edit',['currency_id'=>$v['currency_id']])}" >编辑</a>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global'],function () {
+        layer = layui.layer,globals=layui.global;
+        $('.delete').click(function () {
+            var url = $(this).data('url');
+            var that = $(this);
+            globals.ajax(url,{},function (res) {
+                if(res.code==10000){
+                    layer.msg(res.message);
+                    location.reload();
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        });
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

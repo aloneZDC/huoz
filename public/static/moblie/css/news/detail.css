@@ -1,0 +1,94 @@
+body, html {
+    height: 100%;
+}
+
+/* 头部样式 */
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
+    line-height: 44px;
+    background: #fefefe;
+    display: flex;
+}
+
+.header .left_btn {
+    color: #333;
+    font-size: 20px;
+    width: 10%;
+    text-align: center;
+    background: url("../../images/phone_back.png") no-repeat center;
+}
+
+.header .title {
+    width: 80%;
+    color: #333;
+    text-align: center;
+    font-size: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.header .right_btn {
+    color: #333;
+    font-size: 20px;
+    width: 10%;
+    text-align: center;
+    background: url("../../images/shangc_zf_h_icon.png") no-repeat center;
+}
+
+/* 内容样式 */
+.content {
+    position: absolute;
+    top: 44px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 1.04166666667rem;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+}
+
+.content .title {
+    margin-top: 1.16666667rem;
+    color: #222;
+    font-size: 1.16666667rem;
+    font-weight: bold;
+}
+
+.content .date {
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    color: #999;
+    margin-bottom: 1.583333333rem;
+}
+
+.content .news_content {
+    padding-bottom: 1rem;
+    line-height: 1.5rem;
+    overflow: hidden;
+}
+
+.content .news_content img {
+    max-width: 100%;
+}
+.wrap {
+    position:fixed;
+    top:0;
+    left:0;
+    background:rgba(0,0,0,0.9);
+    z-index:2;
+    width:100%;
+    height:100%;
+    display:none;
+}
+.change_wrap {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}

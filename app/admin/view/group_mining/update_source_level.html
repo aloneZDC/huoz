@@ -1,0 +1,191 @@
+<style>
+    .layui-unselect.layui-form-select{width: 153px;}
+</style>
+<div class="result-wrap">
+    <form class="layui-form form">
+        <div class="config-items">
+            <div class="result-content">
+                <table width="100%" class="insert-tab">
+                    <tbody>
+                    <tr>
+                        <th>等级id：</th>
+                        <td>
+                            <input type="number"  value="{$data.level_id}" size="85" class="common-text" disabled="disabled">
+                            <input type="hidden"  value="{$data.level_id}" size="85" name="level_id" class="common-text">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>名称：</th>
+                        <td><input type="text"  value="{$data.level_name}" name="level_name" class="common-text">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>类型：</th>
+                        <td>
+                            <select name="type">
+                            {volist name="type" id="vo"}
+                            <option value="{$key}" {eq name="key" value="$data.type" } selected {/eq} >{$vo}</option>
+                            {/volist}
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>价格：</th>
+                        <td>
+                            <input type="number"  value="{$data.price}" size="85" name="price" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>价格币种：</th>
+                        <td>
+                            <select name="price_currency_id">
+                                {volist name="currency" id="vo"}
+                                <option value="{$vo.currency_id}" {eq name="$vo.currency_id" value="$data.price_currency_id" } selected {/eq} >{$vo.currency_name}</option>
+                                {/volist}
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>挖矿天数：</th>
+                        <td><input type="number"  value="{$data.days}" size="85" name="days" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>每日挖矿次数：</th>
+                        <td>
+                            <input type="number"  value="{$data.daily_num}" size="85" name="daily_num" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>中奖比例：</th>
+                        <td>
+                            <input type="number"  value="{$data.win_percent}" size="85" name="win_percent" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>奖励数量最小值：</th>
+                        <td>
+                            <input type="number"  value="{$data.reward_num_min}" size="85" name="reward_num_min" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>奖励数量最大值：</th>
+                        <td>
+                            <input type="number"  value="{$data.reward_num_max}" size="85" name="reward_num_max" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th><i class="require-red">*</i>释放比例最小值：</th>
+                        <td>
+                            <input type="number"  value="{$data.free_rate_min}" size="85" name="free_rate_min" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>释放比例最大值：</th>
+                        <td>
+                            <input type="number"  value="{$data.free_rate_max}" size="85" name="free_rate_max" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>关闭时释放比例：</th>
+                        <td>
+                            <input type="number"  value="{$data.close_free_rate}" size="85" name="close_free_rate" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>拼团券奖励比例：</th>
+                        <td>
+                            <input type="number"  value="{$data.free_rate_min}" size="85" name="free_rate_min" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>拼团券奖励比例：</th>
+                        <td>
+                            <input type="number"  value="{$data.tickets_reward_rate}" size="85" name="tickets_reward_rate" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>拼团券奖励代数：</th>
+                        <td>
+                            <input type="number"  value="{$data.tickets_reward_generation}" size="85" name="tickets_reward_generation" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>矿工费奖励比例：</th>
+                        <td>
+                            <input type="number"  value="{$data.fee_reward_rate}" size="85" name="fee_reward_rate" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>拼团金奖励比例：</th>
+                        <td>
+                            <input type="number"  value="{$data.gold_reward_rate}" size="85" name="gold_reward_rate" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>拼团金奖励代数：</th>
+                        <td>
+                            <input type="number"  value="{$data.gold_reward_generation}" size="85" name="gold_reward_generation" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>ABF空投奖励币种id：</th>
+                        <td>
+                            <input type="number"  value="{$data.airdrop_reward_currency_id}" size="85" name="airdrop_reward_currency_id" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="require-red">*</i>ABF空投奖励数量：</th>
+                        <td>
+                            <input type="number"  value="{$data.airdrop_reward_num}" size="85" name="airdrop_reward_num" class="common-text">&nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <td>
+                            <!--<input type="submit" value="提交" class="btn btn-primary btn6 mr10" onclick="tijiao()">-->
+                            <input type="submit" value="提交" class="btn btn-primary btn6 mr10" lay-filter="add" lay-submit="">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'admin', 'layer'], function () {
+        let form = layui.form;
+
+        form.on("submit(add)", data => {
+            $.post("{:url('update_source_level')}", data.field, data => {
+                if (Number(data.code) === 10000) {
+                    return layer.alert(data.message, {
+                        icon: 6
+                    }, function () {
+                        // 获得frame索引
+                        let index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        window.parent.location.reload();
+                    });
+                }
+                return layer.alert(data.message, {
+                    icon: 5
+                })
+            });
+            return false;
+        });
+    });
+</script>

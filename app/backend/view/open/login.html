@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员登录-后台管理系统</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="stylesheet" href="/static/admin/css/font.css">
+    <link rel="stylesheet" href="/static/admin/css/weadmin.css">
+    <script src="/static/admin/lib/layui/layui.js" charset="utf-8"></script>
+    <script src="/static/admin/js/jquery.min.js"></script>
+
+</head>
+<body class="login-bg">
+
+<div class="login">
+    <div class="message">后台管理登录</div>
+    <div id="darkbannerwrap"></div>
+
+    <form method="post" action="" class="layui-form" >
+        <input name="username" id="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
+        <hr class="hr15">
+        <input name="password" id="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+        <hr class="hr15">
+
+        <div class="layui-form-item">
+            <input name="email_code" id="email_code" lay-verify="required" style="display: inline;width: 70%" placeholder="邮箱验证码" type="text" class="layui-input" />
+            <a class="layui-btn sender" href="javascript:;" style="display: inline-block;">发送</a>
+            <hr class="hr15">
+        </div>
+
+        <input class="loginin layui-btn" value="登录" style="width:100%;">
+        <hr class="hr20" >
+    </form>
+</div>
+
+<script type="text/javascript">
+    layui.config({
+        base: '/static/admin/lib/extend/',
+    }).use(['global']);
+
+    layui.use(['form','global'], function(){
+        var gloabls = layui.global;
+
+        var senderInterval = null;
+        var senderTime = 60;
+        $('.sender').click(function () {
+            if (senderInterval != null) {
+                return;
+            }
+
+            var data = {
+                username : $("#username").val(),
+                password : $("#password").val(),
+                sender : 1,
+            };
+            loading = gloabls.loading();
+            gloabls.ajax("{:url('doLogin')}",data,function (res) {
+                layer.close(loading);
+                gloabls.msg(res.message);
+                if(res.code == 10000) {
+                    senderTime = 60;
+                    senderInterval = setInterval(function () {
+                        senderTime--;
+                        console.log(senderTime);
+                        if(senderTime<0) {
+                            clearInterval(senderInterval);
+                            senderInterval = null;
+                            $('.sender').html("发送")
+                        } else {
+                            $('.sender').html("发送("+senderTime+")")
+                        }
+                    },1000);
+                }
+            })
+        });
+
+        $('.loginin').click(function () {
+            var data = {
+                username : $("#username").val(),
+                password : $("#password").val(),
+                email_code : $("#email_code").val(),
+            };
+            if(data.email_code=="") {
+                layer.msg("验证码不能为空");
+                return;
+            }
+
+            loading = gloabls.loading();
+            gloabls.ajax("{:url('doLogin')}",data,function (res) {
+                layer.close(loading);
+                gloabls.msg(res.message);
+                if(res.code == 10000) {
+                    window.location.href = "{:url('index/index')}";
+                }
+            })
+        });
+    });
+</script>
+<!-- 底部结束 -->
+</body>
+</html>

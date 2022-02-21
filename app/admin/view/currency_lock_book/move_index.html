@@ -1,0 +1,115 @@
+{if condition="!$Think.get.layui"}
+    {include file="../app/admin/view/public/left.html" /}
+{else /}
+    <style>
+        .main-wrap {
+            margin-left: 10px;
+        }
+    </style>
+{/if}
+
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">太空计划支付记录</span></div>
+    </div>
+
+    <div class="result-wrap ">
+        <div>
+            {if condition="!$Think.get.layui"}
+
+            <div style="margin: 20px;line-height: 35px;">
+                今日入金:{$today_summary.pay_num} 今日杠杆后:{$today_summary.actual_num}<br>
+                昨日入金:{$yestoday_summary.pay_num} 昨日杠杆后:{$yestoday_summary.actual_num}<br>
+            </div>
+
+            <form class="layui-form we-search" method="GET" action="{:url('')}">
+                <input type="hidden" name="param" value="{$param|default=''}">
+
+                <div class="layui-input-inline">
+                    <input type="text"  name="user_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input" value="{$Think.get.user_id}" />
+                </div>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="user_phone" placeholder="请输入用户账户" autocomplete="off" class="layui-input" value="{$Think.get.user_phone}" />
+                </div>
+
+                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                    <i class="layui-icon layui-icon-search"></i>
+                </button>
+            </form>
+            {/if}
+        </div>
+
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>类型</th>
+                        <th>用户</th>
+                        <th>数量</th>
+                        <th>杠杆</th>
+                        <td>实际支付数量</td>
+                        <td>添加时间</td>
+                        <th>是否已奖励</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr>
+                        <td>
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('index')}?field=node_lock&third_id={$v.id}" data-title="{$v.id}推荐奖记录">{$v.id}</a>
+                        </td>
+                        <td>
+                            {if condition="$v.type eq 'master'"}
+                                主舱
+                            {else /}
+                                子舱
+                            {/if}
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="member_details({$v.user_id})">
+                                {if condition="$v.users.phone"}
+                                {$v.users.phone}
+                                {else /}
+                                {$v.users.email}
+                                {/if}
+                                ({$v.user_id})
+                            </a>
+                        </td>
+                        <td>{$v.actual_num} {$v.currency.currency_name}</td>
+                        <td>{$v.ratio}</td>
+                        <td>{$v.pay_num} {$v.paycurrency.currency_name}</td>
+                        <td>{:date('Y-m-d H:i:s',$v['create_time'])}</td>
+                        <td>
+                            {if condition="$v.is_deal eq 1"}
+                            是
+                            {else /}
+                            否
+                            {/if}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

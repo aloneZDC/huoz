@@ -1,0 +1,87 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/common/left.css">
+<!-- <link rel="stylesheet" href="__PUBLIC__/static/home/css/userindex/base.css" /> -->
+<style>
+    .sdmenu div p{padding-right:0px;}
+</style>
+<div id="my_menu" class="sdmenu left">
+    <div>
+        <p class="slide_li icon1">{:lang("lan_account_information")}<i class="iconfont fa fa-chevron-up fa_change" aria-hidden="true" >&#xe727;</i></p>
+        <ul class="slide_ul">
+            <li><a href='{:url("User/safe")}'  data_uc="/User/safe"><b class="ic-uc"></b>{:lang("lan_personal_information")}</a></li>
+            <li><a href='{:url("User/simple_verify")}'  data_uc="/User/simple_verify"><b class="ic-uc"></b>{:lang("lan_security_settings")}</a></li>
+            <li><a href='{:url("User/senior_verify")}'  data_uc="/User/senior_verify"><b class="ic-uc"></b>{:lang("lan_user_menu_authentication")}</a></li>
+            <li><a href='javascript:void(0)' onclick="onVerify()"  data_uc="/Bank/index"><b class="ic-uc"></b>{:lang("lan_payment_methods")}</a></li>
+            <li><a href='{:url("User/updatePassword")}'  data_uc="/User/updatePassword"><b class="ic-uc"></b>{:lang("lan_modify_password")}</a></li>
+        </ul>
+    </div>
+    <div>
+        <p class="slide_li icon2">{:lang("lan_invite_awards")}<i class="iconfont fa fa-chevron-up fa_change" aria-hidden="true" >&#xe727;</i></p>
+        <ul class="slide_ul">
+            <li><a href='{:url("User/invit")}'  data_uc="/User/invit"><b class="ic-uc"></b>{:lang("lan_invite_code")}</a></li>
+            <li><a href='{:url("User/gift_collection")}'  data_uc="/User/gift_collection"><b class="ic-uc"></b>{:lang("lan_gift_collection")}</a></li>
+            <li><a href='{:url("User/release")}'  data_uc="/User/release"><b class="ic-uc"></b>{:lang("lan_release_collection")}</a></li>
+            <li><a href='{:url("User/recommend")}'  data_uc="/User/recommend"><b class="ic-uc"></b>{:lang("lan_my_recommendation")}</a></li>
+
+
+        </ul>
+    </div>
+    <!-- <div>
+        <p class="slide_li icon3">賬戶資產<i class="iconfont fa fa-chevron-up fa_change" aria-hidden="true" >&#xe727;</i></p>
+        <ul class="slide_ul">
+            <li><a href='{:url("Asset/index")}'  data_uc="Home/textURL"><b class="ic-uc"></b>我的資產</a></li>
+            <li><a href='{:url("Asset/log")}'  data_uc="textURL"><b class="ic-uc"></b>財務日誌</a></li>
+            <li><a href='{:url("Asset/interest")}'  data_uc="textURL"><b class="ic-uc"></b>持幣生息</a></li>
+        </ul>
+    </div> -->
+    <div>
+        <p class="slide_li icon3">{:lang("lan_currency_trading2")}<i class="iconfont fa fa-chevron-up fa_change" aria-hidden="true" >&#xe727;</i></p>
+        <ul class="slide_ul">
+            <li><a href='{:url("User/myDeal")}'  data_uc="/User/myDeal"><b class="ic-uc"></b>{:lang('lan_user_Mydeal')}</a></li>
+            <li><a href='{:url("User/manage")}'  data_uc="/User/manage"><b class="ic-uc"></b>{:lang('lan_Entrust_management')}</a></li>
+            <li><a href='{:url("User/history")}'  data_uc="/User/history"><b class="ic-uc"></b>{:lang('lan_Entrust_history')}</a></li>
+        </ul>
+    </div>
+    <div>
+        <p class="slide_li icon4">OTC{:lang('lan_transact')}<i class="iconfont fa fa-chevron-up fa_change" aria-hidden="true" >&#xe727;</i></p>
+        <ul class="slide_ul">
+            <li><a href='{:url("OrdersOtc/my_order")}'  data_uc="/OrdersOtc/my_order"><b class="ic-uc"></b>{:lang('lan_my_ad')}</a></li>
+            <li><a href='{:url("OrdersOtc/myhistory_order")}'  data_uc="/OrdersOtc/myhistory_order"><b class="ic-uc"></b>{:lang('lan_my_history_ad')}</a></li>
+            <li><a href='{:url("TradeOtc/trade_list")}'  data_uc="/TradeOtc/trade_list"><b class="ic-uc"></b>{:lang('lan_trading_orders')}</a></li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+	$(".slide_li").each(function(i){
+		$(this).click(function(){
+			$(".slide_ul").eq(i).slideToggle();
+			$(".fa_change").eq(i).toggleClass("fa_changees");
+		});
+	})
+    // 左侧菜单高亮
+	$(".slide_ul li a").each(function(i){
+        if((location.href).indexOf($(".slide_ul li a").eq(i).attr("data_uc")) != -1){
+            $(".slide_ul li a").eq(i).addClass("uc-current");
+        }
+	})
+
+    function onVerify() {
+        var collection_url="{:url('Bank/index')}";
+        var verify_url="{:url('User/senior_verify')}";
+        $.ajax({
+            type:'post',
+            url:"{:url('User/idcard_verify')}",
+            success:function (d) {
+                if(d.status==1){
+                    window.location.href = collection_url;
+                }else{
+                    layer.msg("{:lang('lan_user_authentication_first')}");
+                    setTimeout(function(){
+                        window.location.href = verify_url;
+                    },1000);
+                }
+            }
+
+        })
+    }
+
+</script>

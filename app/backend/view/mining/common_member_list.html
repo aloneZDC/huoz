@@ -1,0 +1,68 @@
+{include file="layout/header"}
+<style>
+    .layui-table-cell {
+        height: auto;
+    }
+
+    .header-input {
+        height: 30px;
+        /*width: 150px*/
+    }
+</style>
+<div class="weadmin-nav">
+    <span class="layui-breadcrumb" style="visibility: visible;">
+        <a href="javascript:;">首页</a><a href="javascript:;">矿机管理</a>
+        <a href="javascript:;"><cite>汇总列表</cite></a>
+    </span>
+    <span class="fr">
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+<script type="text/html" id="header-toolbar">
+    <div class="layui-inline">
+        <div class="layui-input-inline"><input type="text" name="member_id" placeholder="请输入用户ID" autocomplete="off" class="layui-input header-input"></div>
+        <button class="layui-btn layui-btn-sm" lay-submit lay-filter="header-search"><i class="layui-icon">&#xe615;</i></button>
+    </div>
+</script>
+<div class="weadmin-body">
+    <table class="layui-hide" id="table-list" lay-filter="table-list"></table>
+</div>
+
+{include file="layout/footer"}
+<script type="text/javascript">
+    layui.use(['jquery','table', 'global', 'form'], () => {
+        let $ = layui.jquery,
+            table = layui.table,
+            form = layui.form;
+
+        table.render({
+            elem: '#table-list'
+            , toolbar: '#header-toolbar'
+            , url: '/backend/Mining/common_member_list?param=common_member'
+            , id: 'table-list'
+            , cols: [[
+                {field: 'id', width: 60, title: 'ID', sort: true}
+                , {field: 'member_info', title: '用户信息'}
+                , {field: 'team_total', title: '团队信息'}
+                , {field: 'product_info', title: '矿机信息'}
+                , {field: 'recommend', title: '推荐奖励'}
+                , {field: 'release', title: '产出释放'}
+            ]]
+            , page: true //是否显示分页
+            , limits: [10, 15, 20]
+            , limit: 10 //每页默认显示的数量
+        });
+
+        // 监听提交
+        form.on('submit(header-search)', function (data) {
+            table.reload('table-list', {
+                where: {member_id: data.field.member_id},
+                page: {curr: 1},//重新从第一页开始
+                done: function(res, curr, count){
+                    $("input[name=member_id]").val(data.field.member_id);
+                }
+            });
+            return false;
+        });
+    });
+</script>

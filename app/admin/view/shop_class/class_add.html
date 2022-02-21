@@ -1,0 +1,93 @@
+<include file="App/Admin/View/Public/left.html"/>
+<script>
+    function checkForm() {
+        var name = document.getElementById('cat_name').value;
+        var sort = document.getElementById('sort').value;
+        if (name != "") {
+            if (!isNaN(sort)) {
+                document.getElementById('myform').submit();
+            } else {
+                alert("排序请输入数字");
+            }
+        } else {
+            alert('请填写分类名称');
+        }
+    }
+</script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">分类管理</span></div>
+    </div>
+    <div class="result-wrap">
+        <div class="config-items">
+            <div class="config-title">
+                <h1><i class="icon-font">&#xe00a;</i>商品分类详细信息</h1>
+            </div>
+            <div class="result-content">
+                <form action="{:U('ShopClass/class_add')}" method="post" id="myform" name="myform"
+                      enctype="multipart/form-data">
+                    <table class="insert-tab" width="100%">
+                        <tbody>
+                        <tr>
+                            <th width="120">分类类型：</th>
+                            <td>
+                                <select name="parent_id" id="parent_id" class="required">
+                                    <option value="">默认增加一级分类</option>
+                                    <volist name="cat" id="vo">
+                                        <option value="{$vo.cat_id}"> {$vo.cat_name}</option>
+                                        <volist name="vo.children" id="voo">
+                                            <option value="{$voo.cat_id}">--{$voo.cat_name}</option>
+                                            <volist name="voo.childrens" id="vooo">
+                                                <option value="{$vooo.cat_id}">---{$vooo.cat_name}</option>
+                                            </volist>
+                                        </volist>
+                                    </volist>
+                                </select>
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>分类名称：</th>
+                            <td><input class="common-text required" id="cat_name" name="cat_name" size="50" value=""
+                                       type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>关键字：</th>
+                            <td><input class="common-text required" id="keywords" name="keywords" size="50" value=""
+                                       type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>分类描述：</th>
+                            <td><input class="common-text required" id="cat_desc" name="cat_desc" size="50" value=""
+                                       type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>排序(输入数字)：</th>
+                            <td><input class="common-text required" id="sort" name="sort" size="50" value=""
+                                       type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>上传图片：</th>
+                            <td><input type="file" name="image" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input class="btn btn-primary btn6 mr10" value="提交" type="button" onclick="checkForm()">
+                                <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

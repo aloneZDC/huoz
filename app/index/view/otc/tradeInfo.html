@@ -1,0 +1,780 @@
+<!--top end-->
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/font_awesome/css/font-awesome.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/otc/bootstrap-3.3.7-dist/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/home/css/otc/tradeInfo.css">
+<script src='__PUBLIC__/static/home/js/otc/jmessage-sdk-web.2.3.1.min.js'></script>
+
+<!-- <script src="__PUBLIC__/static/home/js/otc/order.js"></script> -->
+<div id="main">
+    <div class="main_box">
+        <div class="order_content">
+            <!--左边下单支付部分开始-->
+            <div class="order_content_left">
+                <!--左边下单支付部分顶部-->
+                    <div class="trade_stats">
+                        <div class="order_content_left_top">
+                            <div class="order_content_left_top_price">
+                                <p class="order_content_left_top_price_order">
+                                        {:lang('lan_order')}：<span>#{$tradeInfo.only_number}</span>  <!-- 订单 -->
+                                        <!--  -->
+                                      
+                                </p>
+                                <h1 class="order_content_left_top_price_number">
+                                        <!--您向  -->{:lang('lan_You')}{$tradeInfo.username}{switch name="tradeInfo.type"}{case value="buy"}{:lang('lan_buyes')}{/case}{case value="sell"}{:lang('lan_selles')}{/case}{default /}{/switch}
+                                    <span>{$tradeInfo.num} </span>
+                                    <span> {$tradeInfo.currency_name}</span>
+                                </h1>
+                                <div class="price">
+                                    <p class="order_price">
+                                            {:lang('lan_Unit_Price')} :
+                                        <span>{$tradeInfo.price} </span>
+                                        <span>CNY/{$tradeInfo.currency_name}</span>
+                                    </p>
+                                    <p class="order_total_price">
+                                            {:lang('lan_Total2')} :
+                                        <span>{$tradeInfo.money}</span>
+                                        <span>CNY</span>
+                                    </p>
+                                </div>
+                                <!-- 订单状态 -->
+
+                                <p class="pay_stats">{$tradeInfo.status_txt}</p>
+                            </div>
+                            <!--收款方式-->
+                            <div class="order_content_left_top_receivables">
+                                <h5> {:lang('lan_payment_methods')} </h5>
+                                {empty name='tradeInfo.money_type'}
+                                    <!--待付款-->
+                                    {notempty name='tradeInfo.bank_list'}
+                                        {volist name='tradeInfo.bank_list' id='vo'}
+                                            <div class="receivables">
+                                                {if condition="$tradeInfo['type'] eq 'buy'"}
+                                                    <span class="checkbox">
+                                                        <input type="radio" data-attr="{$vo.bankname}:{$vo.id}" name="cheack_type" value="1">
+                                                    </span>
+                                                {/if}
+                                                {switch name="vo.bankname"}
+                                                    {case value="alipay"}
+                                                        <span class="receivables_icon">
+                                                            <img src="__PUBLIC__/static/home/images/otc_alipay.png" alt="">
+                                                        </span>
+                                                        <span class="receivables_type">{:lang('lan_alipay')}</span>
+                                                    {/case}
+                                                    {case value="wechat"}
+                                                        <span class="receivables_icon">
+                                                            <img src="__PUBLIC__/static/home/images/otc_WeChat.png" alt="">
+                                                        </span>
+                                                        <span class="receivables_type">{:lang('lan_WeChat')}</span>
+                                                    {/case}
+                                                    {case value="bank"}
+                                                        <span class="receivables_icon">
+                                                            <img src="__PUBLIC__/static/home/images/otc_wallet.png" alt="">
+                                                        </span>
+                                                        <!-- <span class="receivables_type">{:lang('lan_bank_card')}</span> -->
+                                                        <span>{$vo.bname}</span>
+                                                        <span>{$vo.inname}</span>
+                                                    {/case}
+                                                    {default /}
+                                                {/switch}
+                                                <span class="user_name">{$vo.truename}</span>
+                                                <span class="user_phone">{$vo.cardnum}</span>
+                                                {notempty name="vo.img"}
+                                                    <span class="qr_code">
+                                                        <img src="{$vo.img}" >
+                                                        <span><img src="{$vo.img}" alt="" width="100%" height="100%"></span>
+                                                    </span>
+                                                {/notempty}
+                                            </div>
+                                        {/volist}
+                                    {/notempty}
+                                {/empty}
+                                {notempty name='tradeInfo.bank'}
+                                    <div class="order_appeales_number">
+                                        {switch name="tradeInfo['bank']['bankname']"}
+                                            {case value="alipay"}
+                                                <img src="__PUBLIC__/static/home/images/otc_alipay.png" alt="">
+                                                <span>{:lang('lan_alipay')}</span>
+                                            {/case}
+                                            {case value="wechat"}
+                                                <img src="__PUBLIC__/static/home/images/otc_WeChat.png" alt="">
+                                                <span>{:lang('lan_WeChat')}</span>
+                                            {/case}
+                                            {case value="bank"}
+                                                <img src="__PUBLIC__/static/home/images/otc_wallet.png" alt="">
+                                                <!-- <span>{:lang('lan_bank_card')}</span> -->
+                                                <span>{$tradeInfo.bank.bname}</span>
+                                                <span>{$tradeInfo.bank.inname}</span>
+                                            {/case}
+                                            {default /}
+                                        {/switch}
+
+                                        <span>{$tradeInfo.bank.truename}</span>
+                                        <span>{$tradeInfo.bank.cardnum}</span>
+                                        {notempty name="$tradeInfo.bank.img"}
+                                            <span><img src="{$tradeInfo.bank.img}" class="order_appeales_number_ewm"/></span>
+                                        {/notempty}
+                                    </div>
+                                {/notempty}
+                                <div class="order_content_left_top_receivables_explain">
+                                    {:lang('lan_prompt1')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 去支付 取消订单按钮 -->
+                        <!--0未付款 1待放行 2申诉中 3已完成 4已取消-->
+                        <div class="order_content_left_btn">
+                            {if condition="$tradeInfo['status']==0 and  $tradeInfo['type'] == 'buy'"}
+                                    <p class="count_down">
+                                        {:lang('lan_To_paid')}， {:lang('lan_Please')}<span class="count_down_count" data-time="{$tradeInfo.limit_time}"></span>
+                                        {:lang('lan_Inside_to')}{$tradeInfo.username} {:lang('lan_pay')} <span class="count_down_money_count">{$tradeInfo.money} CNY</span>
+                                        ,{:lang('lan_Payment_reference_number')} ：<span class="count_down_number">{$tradeInfo.pay_number}</span>
+                                    </p>
+                                    <div class="order_content_left_btn_t">
+                                        <p class="goto_pay clickable"> {:lang('lan_To_pay')}</p>
+                                        <p class="cancellation_order clickable2" data-id="{$tradeInfo.trade_id}" data-url="{:url('TradeOtc/cancel')}">{:lang('lan_cancel_order')}</p>
+                                    </div>
+                                    <div class="order_content_left_btn_fiv">{:lang('lan_click_payment_operation')}</div>
+                            {elseif condition="$tradeInfo['status']==0 and  $tradeInfo['type'] == 'sell'" /}
+                                    <!-- 对方未付款 -->
+                                    <p class="count_down">
+                                        {:lang('lan_waiting_for_each_pay')}，{$tradeInfo.username} {:lang('lan_will')}<span class="count_down_count" data-time="{$tradeInfo.limit_time}"></span>
+                                        {:lang('lan_pay_to_you')} <span class="count_down_money_count">{$tradeInfo.money} CNY</span>
+                                        ,{:lang('lan_Payment_reference_number')} ：<span class="count_down_number">{$tradeInfo.pay_number}</span>
+                                    </p>
+                                    <div class="order_content_left_btn_t">
+                                        <p class="disabled_btn">  {:lang('lan_waiting_for_each_pay')}…</p>
+                                    </div>
+                                    
+                                      <!-- 购买方已支付 等待对方放行 -->
+                            {elseif condition="$tradeInfo['status']==1 and  $tradeInfo['type'] == 'buy'" /}
+                                    <p class="count_down">
+                                      {:lang('lan_have_paid')}，{:lang('lan_wait')}{$tradeInfo.username}{:lang('lan_after_confirming_and_placing')}
+                                       <span class="count_down_money_count">{$tradeInfo.num}{$tradeInfo.currency_name},</span>
+                                       {:lang('lan_Payment_reference_number')} ：<span class="count_down_number">{$tradeInfo.pay_number}</span>
+                                    </p>
+                                    <div class="order_content_left_btn_t">
+                                        <p class="disabled_btn"> {:lang('lan_wait_for_the_coin')}…</p>
+                                        <p class="cancellation_order clickable2" data-id="{$tradeInfo.trade_id}" data-url="{:url('TradeOtc/cancel_payment')}">{:lang('lan_cancel_order')}</p>
+                                        <p class="appeal_btn clickable2">{:lang('lan_Go_to_appeal')}</p>
+                                    </div>
+                            {elseif condition="$tradeInfo['status']==1 and  $tradeInfo['type'] == 'sell'" /}
+                                    <!-- 对方已付款 确认放行 -->
+                                    <p class="count_down">
+                                         {:lang('lan_opposite_party_paid')}
+                                        <switch name="tradeInfo['bank']['bankname']">
+                                            <case value="alipay">
+                                                <span>{:lang('lan_alipay')}</span>
+                                            </case>
+                                            <case value="wechat">
+                                                <span>{:lang('lan_WeChat')}</span>
+                                            </case>
+                                            <case value="bank">
+                                                <span>{:lang('lan_bank_card')}</span>
+                                            </case>
+                                            <default />
+                                        </switch>
+                                        {:lang('lan_success_party_payment')} <span class="count_down_money_count">{$tradeInfo.money} CNY</span>
+                                        ,{:lang('lan_Payment_reference_number')} ：<span class="count_down_number">{$tradeInfo.pay_number}</span>
+                                    </p>
+                                    <div class="order_content_left_btn_t">
+                                        <p class="fangxing clickable"> {:lang('lan_confirm_receipt_and_release')}</p>
+                                        <p class="appeal_btn clickable2">{:lang('lan_Go_to_appeal')}</p>
+                                    </div>
+                            {elseif condition="$tradeInfo['status']==2 and  $tradeInfo['type'] == 'buy'" /}
+                                 <p class="allege">{:lang('lan_ombudsman_keep_contact')}...</p>
+                            {elseif condition="$tradeInfo['status']==2 and  $tradeInfo['type'] == 'sell'" /}
+                                 <p class="allege">{:lang('lan_ombudsman_keep_contact')}...</p>
+                            {elseif condition="$tradeInfo['status']==3" /}
+                                {if  condition="$tradeInfo['allege_status']==1  and  $tradeInfo['allege_id_status'] == 4"}
+                                    <p class="allege">{:lang('lan_appeals_successfully_property')}</p>
+                                {elseif  condition="$tradeInfo['allege_status']==0 and  $tradeInfo['allege_id_status'] == 4"/}
+                                    <p class="allege">{:lang('lan_assets_you_sell_released')}</p>
+                                {elseif  condition="$tradeInfo['allege_status']==1 and  $tradeInfo['allege_id_status'] == 3"/}
+                                    <p class="allege">{:lang('lan_assets_you_buy_been_released')}</p>
+                                {elseif  condition="$tradeInfo['allege_status']==0 and  $tradeInfo['allege_id_status'] == 3"/}
+                                     <p class="allege">{:lang('lan_assets_you_sell_released')}</p>
+                                {else/}
+                                    <p class="count_down">
+                                        {:lang('lan_trade_otc_status3')},{:lang('lan_Payment_reference_number')} ：<span class="count_down_number">{$tradeInfo.pay_number}</span>
+                                        <i class="fa fa-check-circle fa-3x" aria-hidden="true"></i>
+                                    </p>
+                                {/if}
+                            {elseif condition="$tradeInfo['status']==4 " /}
+                                {if  condition="$tradeInfo['allege_status']==1  and  $tradeInfo['allege_id_status'] == 4"}
+                                    <p class="allege">{:lang('lan_sell_the_property')}</p>
+                                {elseif  condition="$tradeInfo['allege_status']==0  and  $tradeInfo['allege_id_status'] == 4"/}
+                                    <p class="allege">{:lang('lan_seller_complaint_successfully_property')}</p>
+                                {elseif  condition="$tradeInfo['allege_status']==1 and  $tradeInfo['allege_id_status'] == 3"/}
+                                    <p class="allege">{:lang('lan_sell_the_property')}</p>
+                                {elseif  condition="$tradeInfo['allege_status']==0 and  $tradeInfo['allege_id_status'] == 3"/}
+                                    <p class="allege">{:lang('lan_seller_complaint_successfully_property')}</p>
+                                {else/}
+                                    <p class="count_down">
+                                        {:lang('lan_order')}{:lang('lan_has_been_cancelled')},{:lang('lan_Payment_reference_number')} ：<span class="count_down_number">{$tradeInfo.pay_number}</span>
+                                        <i class="fa fa-times-circle fa-3x" aria-hidden="true"></i>
+                                    </p>
+                                {/if}
+                            {/if}
+                        </div>
+                    </div>
+                    <!--放行按钮弹框开始-->
+                    <div class="cover_cont">
+                        <p class="cover_cont_title">
+                            <span>{:lang('lan_confirm_receipt')}</span>
+                            <span><img class="cover_close" src="__PUBLIC__/static/home/images/close_03.png" /></span>
+                        </p>
+                        <p class="cover_cont_main">{:lang('lan_be_sure_account_receipt')}</p>
+                        <p class="cover_cont_money">{:lang('lan_money_password')}</p>
+                        <input type="password" class="cover_cont_int" placeholder="{:lang('lan_reg_transaction_password2')}" maxlength="6" oninput="value=value.replace(/[^\d]/g,'')"/>
+                        <div class="cover_cont_line"></div>
+                        <div class="cover_cont_footer">
+                            <span class="cover_cont_footer_left">
+                                <input type="checkbox" class="cover_cont_cheack"/>
+                                <span class="cover_cont_footer_con">{:lang('lan_logged_into_the_collection')}</span>
+                            </span>
+                            <input type="button" value="{:lang('lan_confirm_release')}" class="cover_footer_button" id="submit_button"/>
+                        </div>
+                    </div>
+                    <div class="cover"></div>
+                    <!--放行按钮弹框结束-->
+                {if condition="$tradeInfo.status eq 1"}
+                    <!--申诉-->
+                    <div class="drap_order_appeal" id="appeal_box" style="display: none;">
+                        <p class="appeal_title">{:lang('lan_trade_otc_status7')}</p>
+                        <div class="appeal_line"></div>
+                        <div class="appeal_type">
+                            <span>{:lang('lan_Representation_type')}</span>
+                            <input type="button" data-id="1" name="" value="{:lang('lan_The_other_party_has_not_paid')}" class="type_active"/>
+                            <input type="button" data-id="2" name="" value="{:lang('lan_The_other_party_has_not_released')}" />
+                            <input type="button" data-id="3" name="" value="{:lang('lan_The_other_party_has_fraudulent_behavior')}" />
+                            <input type="button" data-id="4" name="" value="{:lang('lan_modifymember_others')}" />
+                        </div>
+                        <textarea name="" class="appeal_tarea" placeholder="{:lang('lan_Please_fill_in_your_reason_for_the_appeal')}（{:lang('lan_no_characters')}）" maxlength="100"></textarea>
+                        <div class="appeal_tarea_picture">
+                        	<span>{:lang('lan_user_upload_pictures')}</span>
+                        	<div class="tarea_picture_click">
+                        		<div>
+                        			<img src="__PUBLIC__/static/home/images/info_upload.png" alt="" />
+                        		</div>
+                        		<input type="file" accept="image/*" class="up_load_image"  title=" "/>
+                        	</div>
+                        </div>
+                        <div class="appeal_sure">
+                            <input type="button" name="" id="appeal_submit" value="{:lang('lan_Confirmation_of_appeal')}" />
+                            <input type="button" name="" id="appeal_cancel" value="{:lang('lan_cancel')}" />
+                            <div class="appeal_time">
+                            	<div class="appeal_time_change">
+                                <span class="appeal_time_wait">{:lang('lan_You_still_have_to_wait')}</span>
+                                <span class="time_waites" id="appeal_wait" data-time="{$tradeInfo.appeal_wait}"></span>
+                                </div>
+                                <p>{:lang('lan_Successful_payment')}{$tradeInfo.appeal_minute}{:lang('lan_Cant_initiate_an_appeal_after_a_minute')}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--申诉结束-->
+                {/if}
+
+                <!--左边下单支付部分底部-->
+                <div class="order_content_left_bottom">
+                    <p class="appeal_question_title">{:lang('lan_common_problem')}:</p>
+                    {if condition="$tradeInfo['type'] == 'buy'"}
+                        <div class="appeal_question_list">
+                            <div class="appeal_question_strip">
+                            <span class="question_list_f">
+                                <p class="question_list_y"></p>
+                            </span>
+                                <p class="question_list_w">{:lang('lan_Is_it_safe_to_pay_the_seller')}</p><br>
+                                <P style="padding-left:42px;color: #666">{:lang('lan_click_the_Paid_button3')}</P>
+                            </div>
+                            <div class="appeal_question_strip">
+                            <span class="question_list_f">
+                                <p class="question_list_y"></p>
+                            </span>
+                                <p class="question_list_w">{:lang('lan_When_can_I_receive_the_currency')}</p><br>
+                                <P style="padding-left:42px;color: #666">
+                                    {:lang('lan_If_you_have_completed_the_payment')}
+                                     <span style="color:#C7133D;">{:lang('lan_click_the_Paid_button')}</span>
+                                     {:lang('lan_click_the_Paid_button2')}
+                                </P>
+                            </div>
+                            <div class="appeal_question_strip">
+                            <span class="question_list_f">
+                                <p class="question_list_y"></p>
+                            </span>
+                                <p class="question_list_w list_w_color">{:lang('lan_Transfer_considerations')}</p>
+
+                                <div class="question_list_conts">
+                                    <p>1{:lang('lan_During_the_transfer_process')}<span>{:lang('lan_lan_trade_otc_status8')} </span>{:lang('lan_lan_trade_otc_status9')}</p>
+                                    <p>2、<span>{:lang('lan_lan_trade_otc_status10')}</span>{:lang('lan_lan_trade_otc_status11')}</p>
+                                    <p>3、{:lang('lan_lan_trade_otc_status12')}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {else/}
+                        <div class="appeal_question_list">
+                            <div class="appeal_question_strip">
+                            <span class="question_list_f">
+                                <p class="question_list_y"></p>
+                            </span>
+                                <p class="question_list_w">{:lang('lan_common_collection_risk')}</p><br>
+                                <P style="padding-left:42px;color: #666">{:lang('lan_repeatedly_confirm_receipt_losses')}</P>
+                            </div>
+                            <div class="appeal_question_strip">
+                            <span class="question_list_f">
+                                <p class="question_list_y"></p>
+                            </span>
+                                <p class="question_list_w">{:lang('lan_buyer_not_paid')}</p><br>
+                                <P style="padding-left:42px;color: #666">{:lang('lan_at_present_cancel_order')}</P>
+                            </div>
+                            <div class="appeal_question_strip">
+                            <span class="question_list_f">
+                                <p class="question_list_y"></p>
+                            </span>
+                                <p class="question_list_w list_w_color">{:lang('lan_impact_of_failure')}</p>
+
+                                <div class="question_list_conts">
+                                    <p>{:lang('lan_upon_receipt_of_payment')}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {/if}
+
+                </div>
+            </div>
+            <!--左边下单支付部分结束-->
+
+            <!--右侧聊天框开始-->
+            <div class="order_content_right">
+                <!--聊天框头部-->
+                <div class="order_content_right_top">
+                    <div class="order_content_right_top_img">
+                        <span> {:msubstr($tradeInfo['username'],0,1)} </span>
+                    </div>
+                    <div class="order_content_right_top_user_name">
+                        <p>{$tradeInfo.username}</p>
+                        <p>{:lang('lan_Latest_volume')}:<span>{$tradeInfo.trade_allnum}</span></p>
+                    </div>
+                </div>
+                <!--聊天框中间部分-->
+                <div class='order_content_right_content' id='dialog_box'>
+                </div>
+                <!--聊天框底部-->
+                <div class="order_content_right_bottom">
+                    <div class="ipt_box">
+                        <input type="text" id="send_val" placeholder="{:lang('lan_lan_trade_otc_status13')}...">
+                    </div>
+                    <!--聊天框发送图片按钮暂时取消-->
+                    <div class="order_content_right_bottom_icon btn-cont">
+                        <input  type="file" class="file " name="upload_img">
+                        <img src="__PUBLIC__/static/home/images/info_upload.png" alt="" style="width: 22px;height: 22px;">
+                    </div>
+                    <div class="order_content_right_bottom_btn" id="btn_send">
+                            {:lang('lan_lan_trade_otc_status14')}
+                    </div>
+                </div>
+            </div>
+            <!--右侧聊天框结束-->
+        </div>
+        <!--支付彈框開始-->
+        {if condition="$tradeInfo.status eq 0"}
+        <div class="modal-content">
+            <div class="pay_box">
+                <div class="pay_box_title">
+                    <span>{:lang('lan_confirm_payment')}</span>
+                    <span class="pay_box_title_item_icon">
+                    <img src="__PUBLIC__/static/home/images/time_icon.png" alt="">
+                </span>
+                    <span class="pay_box_title_time"></span>
+                    <span class="pay_box_off" data-dismiss="modal">
+                    <img src="__PUBLIC__/static/home/images/pay_box_off_icon.png" alt="">
+                </span>
+
+                </div>
+                <div class="pay_box_content">
+                    <div class="pay_box_content_left">
+                        <p>
+                            {:lang('lan_Payment_amount')}
+                        </p>
+                        <p>
+                            <span class="tradeInfo_money">{$tradeInfo.money}</span> CNY
+                        </p>
+                        <p class="tradeInfo_money_zh"></p>
+                        <p class="posite_wechat">
+                           
+                        </p>
+                        
+                        <p>
+                            <span class="Wechat_number"></span><br>
+                            <span class="bankinfo"></span>
+                        </p>
+                      
+                        <p class="sweep_the_hints"></p>
+                        <p>
+                                {:lang('lan_Payment_reference_number')}
+                        </p>
+                        <p class="pay_number">
+                        </p>
+                        <p>
+                            <span>   {:lang('lan_Please_pay_my_real_name')}</span> {:lang('lan_has_the_right_to_reject')}
+                        </p>
+                        <p style="color: #C7133D;">*{:lang('lan_made_transfer_to_seller')}</p>
+
+                    </div>
+                    <div class="pay_box_content_right">
+                        <img src="" alt="">
+                    </div>
+
+                </div>
+                <div class="pay_box_bottom">
+                    <p>
+                        <span class="pay_box_off2">{:lang('lan_trade_otc_status15')}</span>
+                        <span class="already_paid">{:lang('lan_trade_otc_status6')}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {/if}
+        <!--支付彈框結束-->
+        <div class="shade"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script>
+	var tip1 = "{:lang('lan_failed_to_get_file')}"; //获取文件失败
+	var tip2 = "{:lang('lan_sending_content_empty')}"; //发送内容不能为空
+	var tip3 = "{:lang('lan_network_busy_try_again')}"; //网络异常,请重试
+	var tip4 = "{:lang('lan_message_sending_failed')}"; //消息发送失败，网络异常
+    $(function () {
+        // $('#dialog_box').scrollTop($('#dialog_box')[0].scrollHeight);
+
+        window.__deel = {
+            across_user: "{$jim_config['user_id']}",
+            across_name: "{$jim_config['user_name']}",
+            across_head: "{$jim_config['user_head']}",
+            across_pass: "{$jim_config['user_pass']}",
+            across_appkey: "{$jim_config['appkey']}",
+            target_id: "{$jim_config['target_id']}",
+            target_name: "{$jim_config['target_name']}",
+            target_head: "{$jim_config['target_head']}",
+            password: "{$jim_config['target_pass']}",
+            access_key: "",
+            random_str: "{$jim_config['random_str']}",
+            timestamp: "{$jim_config['timestamp']}",
+            signature: "{$jim_config['signature']}",
+            order_id: "{$jim_config['send_id']}",
+            send_messages: "{:url('Jim/send_messages')}",
+            get_messages: "{:url('Jim/get_messages')}",
+            upload: "{:url('Jim/upload')}",
+            layer: "complex",
+            gid: 0
+        };
+    })
+</script>
+<script src="__PUBLIC__/static/home/js/otc/talking.js" type="application/javascript"></script>
+<script>
+    $(function(){
+        layui.use(['form', 'layedit', 'laydate'], function(){
+            var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+
+            var trade_id = "{$tradeInfo.trade_id}";
+            var time =$(".count_down_count").attr("data-time")-0;
+            if(time>0){
+                var timer= setInterval(function(){
+                    var minute = parseInt(time / 60 % 60)>=10?parseInt(time / 60 % 60) : "0"+parseInt(time / 60 % 60);
+                    var seconds = parseInt(time % 60)>=10?parseInt(time % 60) :"0"+parseInt(time % 60);
+                    $(".count_down_count").html(minute +"{:lang('lan_min')}"+seconds+"{:lang('lan_seconds')}");
+                    time--
+                    if(time<=0){
+                        clearInterval(timer);
+                        location.reload();
+                    }
+                },1000);
+            }
+
+            //申诉倒计时
+            var time_wait =  $("#appeal_wait").attr("data-time")-0;
+            if(time_wait>0) {
+                var timer_wait_interval= setInterval(function(){
+                    var minute = parseInt(time_wait / 60 % 60)>=10?parseInt(time_wait / 60 % 60) : "0"+parseInt(time_wait / 60 % 60);
+                    var seconds = parseInt(time_wait % 60)>=10?parseInt(time_wait % 60) :"0"+parseInt(time_wait % 60);
+                    $("#appeal_wait").html('<span class="time_wait_f">'+minute+'</span>{:lang("lan_min")}<span class="time_wait_f">'+seconds+'</span>{:lang("lan_seconds")}');
+                    time_wait--
+                    if(time_wait<0){
+                        clearInterval(timer_wait_interval);
+                        $(".appeal_time_change").css("visibility","hidden");
+//                      location.reload();
+                    }
+                },1000);
+            }else{
+                $(".appeal_time_wait").hide();
+            }
+            
+            $('.checkbox input:radio:first').attr('checked', 'checked');
+            $(".goto_pay").click(function(){
+                if(!$(".checkbox input[type='radio']:checked").val()){
+                    layer.alert("{:lang('lan_please_select_payment_method')}");
+                }else{
+                    var money_type=$(".checkbox input[type='radio']:checked").attr("data-attr");
+                    $.ajax({
+                        "url": '{:url("TradeOtc/choose_bank")}',
+                        "type": "POST",
+                        "data": {
+                            money_type:money_type,
+                            trade_id:trade_id,
+                        },
+                        success: function (data) {
+                            if(data.code==10000){
+                                console.log(data)
+                                $(".modal-content").css("display","block");
+                                $(".shade").show();
+                                $(".tradeInfo_money").html(data.result.money);
+                                $(".tradeInfo_money_zh").html(data.result.money_zn);
+                                $(".pay_number").html(data.result.pay_number);
+                                if(data.result.bank.bankname=="bank"){
+                                    $(".bankinfo").show();
+                                    $(".pay_box_content_right").show(); 
+                                    $(".posite_wechat").html('{:lang("lan_Payment_way4")}');
+                                    // $(".Wechat_number").html('{:lang("lan_Payment_way1")}'+"： "+data.result.bank.cardnum +data.result.bank.bname+data.result.bank.inname);
+                                    $(".Wechat_number").html(data.result.bank.truename+"&nbsp;&nbsp;"+data.result.bank.cardnum );
+                                    $(".bankinfo").html(data.result.bank.bname+"&nbsp;&nbsp;"+data.result.bank.inname)
+                                $(".bank_number").html(data.result.bank.bname)
+                                }else if(data.result.bank.bankname=="wechat"){
+                                    $(".bankinfo").hide();
+                                    $(".posite_wechat").html('{:lang("lan_Payment_way2")}');
+                                    $(".Wechat_number").html(data.result.bank.cardnum);
+                                    $(".sweep_the_hints").html('{:lang("lan_Payment_way_text")}');
+                                    $(".pay_box_content_right img").attr("src",data.result.bank.img)
+                                }else if(data.result.bank.bankname=="alipay"){
+                                    $(".bankinfo").hide();
+                                    $(".posite_wechat").html('{:lang("lan_Payment_way3")}');
+                                    $(".Wechat_number").html(data.result.bank.cardnum);
+                                    $(".sweep_the_hints").html('{:lang("lan_Payment_way_text1")}');
+                                    $(".pay_box_content_right img").attr("src",data.result.bank.img)
+                                }
+                            }else{
+                            	layer.msg(data.message)
+                            }
+                        
+                        }
+                    });
+                }
+            })
+
+
+            $(".shade,.pay_box_off,.pay_box_off2").click(function(){
+                $(".modal-content").hide();
+                $(".shade").hide();
+            })
+
+            function loading() {
+                layer.load(1, {
+                    shade: [0.3, '#000'] //0.1透明度的白色背景
+                });
+            }
+            //点击已付款
+            $(".already_paid").click(function(){
+                loading();
+                $.ajax({
+                    "url": '{:url("TradeOtc/pay")}',
+                    "type": "POST",
+                    "data": {
+                        trade_id:trade_id,
+                    },
+                    success: function (data) {
+                        layer.closeAll();
+                        if(data.code==10000){
+                            location.reload();
+                        } else if(data.code==0){
+                            layer.msg(data.message);
+                        }
+                    }
+                });
+            })
+            //取消订单
+            $(".cancellation_order").click(function(){
+            	var data_url = $(this).attr("data-url");
+                layer.open({
+                    content: "{:lang('lan_confirm_that_payment_funds')}",
+                    title: "{:lang('lan_modify_tips')}"
+                    ,btn: ["{:lang('lan_determine')}", "{:lang('lan_cancel')}"]
+                    ,yes: function(index, layero){
+                        $.ajax({
+                            "url": data_url,
+                            "type": "POST",
+                            "data": {
+                                trade_id:trade_id,
+                            },
+                            success: function (data) {
+                                if(data.code==10000){
+                                    location.reload()
+                                }else{
+                                    layer.msg(data.message)
+                                }
+                                layer.close(index);
+                            }
+                        });
+                    }
+                    ,btn2: function(index, layero){
+                        //按钮【按钮二】的回调
+                        
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                    ,cancel: function(){ 
+                        //右上角关闭回调
+                        
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                });
+                
+            });
+            //申述条件选择
+            $(".appeal_type input").click(function(){
+                $(this).addClass("type_active").siblings().removeClass("type_active");
+            })
+            
+            $(".appeal_btn").click(function(){
+                $('.trade_stats').hide();
+                $("#appeal_box").show();
+            });
+
+            $("#appeal_cancel").click(function(){
+                $('.trade_stats').show();
+                $("#appeal_box").hide();
+            });
+
+            //申诉提交
+            $("#appeal_submit").click(function(){
+                if(time_wait>0) {
+                    layer.msg('{:lang("lan_please_wait")}');
+                    return;
+                }
+
+                var type = $("#appeal_box .type_active").attr("data-id");
+                var content = $("#appeal_box textarea").val();
+                if(!content) {
+                    layer.msg('{:lang("lan_The_grounds_for_appeal_cannot_be_empty")}');
+                    return;
+                }
+
+                $.ajax({
+                    "url": '{:url("TradeOtc/appeal")}',
+                    "type": "POST",
+                    "data": {
+                        trade_id:trade_id,
+                        type:type,
+                        content:content,
+                        img:imageStr
+                    },
+                    success: function (data) {
+                        if(data.code==10000){
+                            layer.msg(data.message);
+                            setTimeout(function(){location.reload()},1000);
+                            
+                        } else {
+                            layer.msg(data.message);
+                        }
+                    }
+                });
+            });
+            
+            // 放行弹出框关闭
+            $(".cover_close").on("click",function(){
+                $(".cover_cont").hide();
+                $(".cover").hide();
+                $(".cover_cont_int").val("");
+            })
+            
+            
+            // 放行确定勾选
+            $(".cover_footer_button").attr("disabled",true).css("opacity",.5);
+            $(".cover_cont_cheack").on("change",function(){
+                if($(this).prop("checked")){
+                    $(".cover_footer_button").attr("disabled",false).css("opacity",1);
+                }else{
+                    $(".cover_footer_button").attr("disabled",true).css("opacity",.5);
+                    layer.msg("{:lang('lan_need_tick_release')}");
+                }
+            })
+            
+            //放行
+            $(".fangxing").click(function(){
+                $(".cover_cont").show();
+                $(".cover").show();
+            });
+            // 确认放行
+            $(".cover_footer_button").on("click",function(){
+                var data_cont = $(".cover_cont_int").val();
+                if(data_cont == ""){
+                    layer.msg("{:lang('lan_user_Transaction_password_empty')}");
+                }else{
+                    console.log(data_cont);
+                    $.ajax({
+                        "url": '{:url("TradeOtc/fangxing")}',
+                        "type": "POST",
+                        "data": {
+                            trade_id:trade_id,
+                            pwd: data_cont
+                        },
+                        success: function (data) {
+                            if(data.code==10000){
+                                layer.msg(data.message);
+                                setTimeout(function(){location.reload()},1000);
+                            } else {
+                                layer.msg(data.message);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    }) 
+</script>
+<script type="text/javascript">
+	var imageStr = '';
+//	$(".up_load_image").each(function() {
+		$(".up_load_image").on("change", function() {
+			if(this.files) {
+				var files = this.files;
+				var img = new Image();
+				var reader = new FileReader();
+				reader.readAsDataURL(files[0]);
+				reader.onload = function(e) {
+					var width, height;
+					var MAX_WH = 800;
+					var image = new Image();
+					img.src = this.result;
+					imageStr = this.result;
+					$(".tarea_picture_click div").html(img);
+					image.onload = function(e) {
+						if(image.height > MAX_WH) {
+							// 宽度等比例缩放 *= 
+							image.width *= MAX_WH / image.height;
+							image.height = MAX_WH;
+						}
+						if(image.width > MAX_WH) {
+							// 宽度等比例缩放 *= 
+							image.height *= MAX_WH / image.width;
+							image.width = MAX_WH;
+						}
+						var quality = 100;
+						var cvs = document.createElement('canvas');
+						cvs.width = width = image.width;
+						cvs.height = height = image.height;
+						var context = cvs.getContext("2d");
+						context.drawImage(image, 0, 0, image.width, image.height);
+						imageStr = cvs.toDataURL('image/jpeg', quality / 100);
+						//                  console.log(1, imageStr);
+					};
+					image.src = imageStr;
+				};
+			} else {
+				return;
+			}
+		});
+//	})
+</script>

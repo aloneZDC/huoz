@@ -1,0 +1,80 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">商品列表</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('index')}" method="get">
+                <table class="search-tab" style="margin-left: 15px;">
+                    <tr>
+                        <td>
+                            <a href="javascript:;" class="layui-open" data-url="{:url('Shop/add')}?param=index" data-title="添加商品">添加商品</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div class="result-content">
+            <form class="layui-form">
+                <table class="layui-table" id="memberList" lay-filter="table-list">
+                    <thead>
+                    <tr>
+                        <th lay-data="{align:'center',field:'currency_id', width:50}">专区币种</th>
+                        <th lay-data="{align:'center',field:'title', width:500}">标题</th>
+                        <th lay-data="{align:'center',field:'img', width:160}">图片</th>
+                        <th lay-data="{align:'center',field:'total_circulation', width:160}">总发行量</th>
+                        <th lay-data="{align:'center',field:'total_amount', width:160}">总库存</th>
+                        <th lay-data="{align:'center',field:'amount', width:180}">剩余库存</th>
+                        <th lay-data="{align:'center',field:'sort', width:80}">排序</th>
+                        <th lay-data="{align:'center',field:'status', width:80}">状态</th>
+                        <th lay-data="{align:'center',field:'add_time', width:80}">添加时间</th>
+                        <th lay-data="{align:'center',field:'tool'}">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="list" id="v"}
+                    <tr >
+                        <td>{$v.currency.currency_name}</td>
+                        <td>
+                            {$v.title}
+                        </td>
+                        <td>
+                            <img style="max-width: 70px;max-height: 70px;" src="{$v.img}" alt="">
+                        </td>
+                        <td>{$v.total_circulation}</td>
+                        <td>{$v.total_amount}</td>
+                        <td>{$v.amount}</td>
+                        <td>{$v.sort}</td>
+                        <td>
+                            <input type="checkbox" lay-skin="switch" lay-text="ON|OFF" value="1" lay-filter="layui-switch-field" data-field="is_open" data-url="{:url('quick_switch',['currency_id'=>$v['currency_id']])}"  {if condition="$v.status eq 1"}checked=""{/if} />
+                        </td>
+                        <td>{:date("Y-m-d H:i:s", $v.add_time)}</td>
+                        <td>
+                            <a href="javascript:;" class="layui-open layui-btn layui-btn-normal layui-btn-sm" data-url="{:url('edit')}?param=index&currency_id={$v.currency_id}" data-title="编辑{$v.currency_id}"><i class="layui-icon layui-icon-edit"></i></a>
+                        </td>
+                    </tr>
+                    {/volist}
+
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'global'], function () {
+        layer = layui.layer,globals=layui.global;
+    });
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

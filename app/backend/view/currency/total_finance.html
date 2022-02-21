@@ -1,0 +1,84 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+    <span class="layui-breadcrumb" style="visibility: visible;">
+        <a href="javascript:;">首页</a><a href="javascript:;">财务管理</a>
+        <a href="javascript:;"><cite>总财务</cite></a>
+    </span>
+    <span class="fr">
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+<div class="weadmin-body">
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>今日充值U</th>
+            <th>累计充值U</th>
+            <th>钱包账户可用U</th>
+            <th>可用U（特殊账号）</th>
+            <th>可提币的U (＞ 50 U)</th>
+            <th>可提币的U (特殊账号)</th>
+            <th>未清算的 U (火箭计划）</th>
+            <th>未清算的 U (特殊账号）</th>
+            <th>已提币的 U </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{$currency_result['usdt']['today_num']} {$currency_result['usdt']['currency_name']}</td>
+            <td>{$currency_result['usdt']['total_num']} {$currency_result['usdt']['currency_name']}</td>
+            <td>{$currency_result['usdt']['num']} {$currency_result['usdt']['currency_name']}</td>
+            <td>{$currency_result['usdt']['special_num']} {$currency_result['usdt']['currency_name']}</td>
+            <td>{$currency_result['usdt']['can_num']} {$currency_result['usdt']['currency_name']}</td>
+            <td>{$currency_result['usdt']['special_can_num']} {$currency_result['usdt']['currency_name']}</td>
+            <td>{$currency_result['usdt']['not_num']} {$currency_result['usdt']['currency_name']}</td>
+            <td>{$currency_result['usdt']['special_not_num']} {$currency_result['usdt']['currency_name']}</td>
+            <td>{$currency_result['usdt']['alr_num']} {$currency_result['usdt']['currency_name']}</td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>今日充值MTK</th>
+            <th>累计充值MTK</th>
+            <th>钱包账户可用MTK</th>
+            <th>已燃烧的MTK (火箭计划）</th>
+            <th>总流通MTK</th>
+            <th>已提币的 MTK</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{$currency_result['mtk']['today_num']} {$currency_result['mtk']['currency_name']}</td>
+            <td>{$currency_result['mtk']['total_num']} {$currency_result['mtk']['currency_name']}</td>
+            <td>{$currency_result['mtk']['num']} {$currency_result['mtk']['currency_name']}</td>
+            <td>{$currency_result['mtk']['can_num']} {$currency_result['mtk']['currency_name']}</td>
+            <td>{$currency_result['mtk']['not_num']} {$currency_result['mtk']['currency_name']}</td>
+            <td>{$currency_result['mtk']['alr_num']} {$currency_result['mtk']['currency_name']}</td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>累计金米</th>
+            <th>剩余金米</th>
+            <th>累计赠与收益</th>
+            <th>剩余赠与收益</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{$currency_result['jm']['total_num']} </td>
+            <td>{$currency_result['jm']['surplus_num']} </td>
+            <td>{$currency_result['jm']['total_reward']} </td>
+            <td>{$currency_result['jm']['surplus_reward']} </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+{include file="layout/footer"}

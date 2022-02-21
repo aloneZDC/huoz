@@ -1,0 +1,129 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">增加/修改设置</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:url('trade/kline_add_update')}" method="post" id="myform" name="myform" enctype="multipart/form-data">
+            <input type="hidden"  name="id" value="{$list.id}">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>币币交易刷单设置</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>左边币种名称：</th>
+                            <td>
+                                <select name="currency_id">
+                                    {volist name="curr" id='vo'}
+                                    {eq name="vo.currency_id" value="$list.currency_id"}
+                                    <option value="{$vo.currency_id}" selected>{$vo.currency_name}</option>
+                                    {else/}
+                                    <option value="{$vo.currency_id}">{$vo.currency_name}</option>
+                                    {/eq}
+                                    {/volist}
+                                </select>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>右边币种名称：</th>
+                            <td>
+                                <select name="trade_currency_id">
+                                    {volist name="curr" id='vo'}
+                                    {eq name="vo.currency_id" value="$list.trade_currency_id"}
+                                    <option value="{$vo.currency_id}" selected>{$vo.currency_name}</option>
+                                    {else/}
+                                    <option value="{$vo.currency_id}">{$vo.currency_name}</option>
+                                    {/eq}
+                                    {/volist}
+                                </select>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>是否开启自动交易</th>
+                            <td>
+                                开启：<input type="radio" name="is_autotrade" value="1"
+                                          {eq name="list.is_autotrade" value="1"}checked="checked"{/eq}
+                                />
+                                关闭：<input type="radio" name="is_autotrade" value="0"
+                                          {eq name="list.is_autotrade" value="0"}checked="checked"{/eq}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>初始价格</th>
+                            <td><input type="text" id="" value="{$list.price}" size="85"
+                                       name="price" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>交易价格浮动百分比</th>
+                            <td><input type="text" id="" value="{$list.price_limits}" size="85"
+                                       name="price_limits" class="common-text">%</td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>自动交易数量</th>
+                            <td><input type="text" id="" value="{$list.num}" size="85"
+                                       name="num" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>交易数量浮动百分比</th>
+                            <td><input type="text" id="" value="{$list.num_limits}" size="85"
+                                       name="num_limits" class="common-text">%
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>交易最后价格</th>
+                            <td><input type="text" id="" value="{$list.last_price}" size="85"
+                                       name="last_price" class="common-text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>价格变动方向</th>
+                            <td>
+                                随机：<input type="radio" name="price_direction" value=""
+                                          {eq name="list.price_direction" value=""}checked="checked"{/eq} />
+                                只增：<input type="radio" name="price_direction" value="1"
+                                          {eq name="list.price_direction" value="1"}checked="checked"{/eq} />
+                            只减：<input type="radio" name="price_direction" value="2"
+                                      {eq name="list.price_direction" value="2"}checked="checked"{/eq} />
+                            </td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>数量变动方向</th>
+                            <td>
+                                随机：<input type="radio" name="num_direction" value=""
+                                          {eq name="list.num_direction" value=""}checked="checked"{/eq} />
+                                只增：<input type="radio" name="num_direction" value="1"
+                                          {eq name="list.num_direction" value="1"}checked="checked"{/eq} />
+                                只减：<input type="radio" name="num_direction" value="2"
+                                          {eq name="list.num_direction" value="2"}checked="checked"{/eq} />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:url('trade/kline_list')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+

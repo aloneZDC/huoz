@@ -1,0 +1,71 @@
+<include file="App/Admin/View/Public/left.html"/>
+<meta name="referrer" content="never">
+<style>
+    .yydb-up th {
+        text-align: center;
+    }
+
+    .yydb-down td {
+        text-align: center;
+    }
+</style>
+
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">群组管理</span></div>
+    </div>
+    <!-- <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('Shop/index')}" method="post">
+                <table class="search-tab">
+                    <tr>
+                        <th width="70">群组名称:</th>
+                        <td><input class="common-text" placeholder="群组名称" name="goods_id" type="text"></td>
+                        <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div> -->
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <a href="{:U('district/addGroup')}" style="color:#8A2BE2;"><i class="icon-font"></i>添加群组 </a>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr class="yydb-up">
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>LOGO</th>
+                    <th>操作</th>
+                </tr>
+                <volist name="group" id="vo">
+                    <tr class="yydb-down">
+                        <td>{$vo.id}</td>
+                        <td>{$vo.name}</td>
+                        <td><img src="{$vo.logo}" width="80" height="80" /></td>
+                        <td>
+                            <a class="link-update" href="{:U('district/editGroup'," id=$vo[id]")}"
+                               style="margin-left:10px;">修改</a>
+                            &nbsp;&nbsp;
+                            <a class="link-del" href="{:U('district/delGroup'," id=$vo[id]")}"
+                               onclick="return confirm('确认删除吗？')">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

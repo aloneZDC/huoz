@@ -1,0 +1,65 @@
+{include file="../app/admin/view/public/left.html" /}
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span
+                class="crumb-step">&gt;</span><span
+                class="crumb-name">兑换配置</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+                <a href="{:url('config_create')}"><i class="icon-font"></i>新增配置</a>
+            </div>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>币种</th>
+                    <th>兑换币种</th>
+                    <th>目标币种</th>
+                    <th>兑换类型</th>
+                    <th>单次最少兑换限制(枚)</th>
+                    <th>每日兑换限制(枚)</th>
+                    <th>手续费</th>
+                    <th>状态</th>
+                    <th>排序</th>
+                    <th>操作</th>
+                </tr>
+                {volist name="list" id="v"}
+                <tr>
+                    <td>{$v.cc_id}</td>
+                    <td>{$v.type_currency_name}</td>
+                    <td>{$v.dh_currency_name}</td>
+                    <td>{$v.to_currency_name}</td>
+                    <td>{$v.cc_type}</td>
+                    <td>{$v.min} 枚</td>
+                    <td>{$v.max} 枚</td>
+                    <td>{:floattostr($v.fee)}</td>
+                    <td>{$v.status}</td>
+                    <td>{$v.sort}</td>
+                    <td>
+                        <a class="link-update" href="{:url('config_create', ['cc_id' => $v['cc_id']])}">修改</a>
+                        <a class="link-del" href="{:url('config_delete', ['cc_id' => $v['cc_id']])}" onclick="return confirm('确认要删除吗？')">删除</a>
+                    </td>
+                </tr>
+                {/volist}
+
+            </table>
+        </div>
+        <div class="page">
+            {$page}
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

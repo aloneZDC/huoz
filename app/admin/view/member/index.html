@@ -1,0 +1,155 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/admin/show.css" />
+<script>
+    window._deel = {
+        req_member_details_url: "{:url('member/member_details')}",
+    }
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">会员管理</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('Member/index')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <td width="70">会员帐号:</td>
+                        <td><input class="common-text" placeholder="会员帐号" name="ename" type="text"></td>
+                        <td width="70">会员邮箱:</td>
+                        <td><input class="common-text" placeholder="会员邮箱" name="email" type="text"></td>
+                        <td width="70">会员姓名:</td>
+                        <td><input class="common-text" placeholder="会员姓名" name="name" type="text"></td>
+                        <td width="70">会员电话:</td>
+                        <td><input class="common-text" placeholder="会员电话" name="phone" type="text"></td>
+                        <td width="70">会员ID:</td>
+                        <td><input class="common-text" placeholder="ID" name="member_id" type="text"></td>
+                        <td width="70">推荐人ID:</td>
+                        <td><input class="common-text" placeholder="ID" name="pid" type="text"></td>
+                        <td width="70">邀约码:</td>
+                        <td><input class="common-text" placeholder="邀约码" name="invit_code" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td width="70">钱包地址:</td>
+                        <td><input class="common-text" placeholder="钱包地址" name="chongzhi_url" type="text"></td>
+                        <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </div>
+    <div class="result-wrap">
+        <div>
+            总注册:{$total}<br>
+            总激活:{$active_total}
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr>
+                    <th>ID</th>
+                    <th>会员帐号</th>
+                    <th>会员邮箱</th>
+                    <th>邀约码</th>
+                    <th>推荐人</th>
+                    <th>会员姓名</th>
+                    <th>手机号</th>
+                    <th>备注</th>
+                    <th>注册时间</th>
+                    <th>资料状态</th>
+                    <th>认证状态</th>
+                    <th>激活状态</th>
+                    <th>角色</th>
+                    <th>操作</th>
+                </tr>
+                {volist name='list' id='vo'}
+                    <tr>
+                        <td style="width:60px"><a href="javascript:member_details({$vo.member_id});"
+                                                  class="shenhe_button">{$vo['member_id']}</a></td>
+                        <td style="width:110px">{$vo['ename']}</td>
+                        <td style="width:150px">{$vo['email']}</td>
+                        <td style="width:50px">{$vo['invit_code']}</td>
+                        <td style="width:60px">
+                            <a href="javascript:;" class="layui-open"  data-url="{:url('MemberBind/parents',['member_id'=>$vo['member_id']])}?" data-title="{$vo.member_id}上级列表">{$vo.pid}</a>
+                        </td>
+                        <td style="width:60px">{$vo['name']}</td>
+                        <td style="width:110px">{$vo['phone']}</td>
+                        <td>{$vo.remarks}</td>
+                        <td style="width:150px">{$vo['reg_time']|date='Y-m-d H:i:s',###}</td>
+                        <td style="width:60px">
+                            {if condition="$vo['status'] eq 1"}
+                                正常
+                            {/if}
+                            {if condition="$vo['status'] eq 2"}
+                                禁用
+                            {/if}
+                            {if condition="$vo['status'] eq 0"}
+                                未填写个人信息(<a href="{:url('Member/saveModify',array('member_id'=>$vo['member_id']))}">填写</a>)
+                            {/if}
+                        </td>
+                        <td style="width:60px">
+                            {empty name="vo.active_status"}
+                                未激活
+                                {else/}
+                                已激活
+                            {/empty}
+                        </td>
+                        <td style="width:60px">
+                            {empty name="vo.name"}
+                            未认证
+                            {else/}
+                            认证通过
+                            {/empty}
+                        </td>
+                        <td style="width:60px">
+                            {if condition="$vo['role'] eq 1"}
+                                发起人
+                            {/if}
+                            {if condition="$vo['role'] eq 2"}
+                                合伙人
+                                {/if}
+                            {if condition="$vo['role'] eq 3"}
+                                普通会员
+                                {/if}
+                        </td>
+
+                        <td>
+<!--                            <a class="link-del"-->
+<!--                               href="{:url('Pay/index',array('member_id'=>$vo['member_id']))}">查看财务日志| </a>-->
+
+<!--                            <a class="link-del"-->
+<!--                               href="{:url('Member/show_my_invit',array('member_id'=>$vo['member_id']))}">查看邀请人员| </a>-->
+                            <a class="link-update"
+                               href="{:url('Member/saveMember',array('member_id'=>$vo['member_id']))}">修改|</a>
+
+                            <a class="link-update" href="{:url('Member/show',array('member_id'=>$vo['member_id']))}">查看会员账户|</a>
+                            <?php if($vo['status']==0||$vo['status']==1):?>
+                            <a class="link-update" onclick="return confirm('是否要禁用该用户？')" href="{:url('Member/disableSwitch',array('member_id'=>$vo['member_id'],'status'=>2))}">禁用</a>
+                            <?php elseif($vo['status']==2):?>
+                            <a class="link-update" onclick="return confirm('是否要启用该用户？')" href="{:url('Member/disableSwitch',array('member_id'=>$vo['member_id'],'status'=>1))}">启用</a>
+                            <?php endif;?>
+                        </td>
+
+                    </tr>
+                {/volist}
+
+            </table>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>
+<script>
+
+</script>

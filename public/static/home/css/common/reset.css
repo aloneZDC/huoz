@@ -1,0 +1,19 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,header,section,article{margin:0;padding:0}fieldset,img,abbr,acronym{border:none}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:400}em{font-style:normal}a,input:focus{outline:none}input{border:none;background:none;}button{border:none;vertical-align:middle;cursor:pointer}label{cursor:pointer}table{border-collapse:collapse;border-spacing:0;}address,caption,cite,code,dfn,em,strong,th,var{font-weight:normal;font-style:normal;}ol,ul{list-style:none;}
+input,textarea,button{outline:none;}
+.com_tsk{
+    line-height: 2.6rem;
+	border-radius: 4px;
+	background: black;
+	color: white;
+	opacity: 0.9;	
+	position: fixed;
+	margin: auto;
+	top: 0;
+	left: 0;
+	right: 0;	
+	bottom: 0rem;	
+	height: 2.6rem;
+	font-size: 1.2rem;
+	text-align: center; 
+    z-index: 99999;
+}

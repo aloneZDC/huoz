@@ -1,0 +1,25 @@
+#发送邮件验证码 测试+正式 每分钟
+*/1 * * * * cd /www/ruibo && /usr/bin/php EmailTask.php start -d
+*/1 * * * * cd /www/test-ruibo && /usr/bin/php EmailTask.php start -d
+
+#发送手机验证码 测试+正式 每分钟
+*/1 * * * * cd /www/ruibo && /usr/bin/php PhoneTask.php start -d
+*/1 * * * * cd /www/test-ruibo && /usr/bin/php PhoneTask.php start -d
+
+#更新用户层级关系 测试 每分钟
+*/1 * * * * cd /www/test-ruibo && /usr/bin/php MemberBindTask.php start -d
+
+#更新用户等级 测试 每分钟
+*/1 * * * * cd /www/test-ruibo && /usr/bin/php MemberLeveTask.php start -d
+
+#OTC定时撤销 测试 每分钟
+*/1 * * * * cd /www/test-ruibo && /usr/bin/php OtcTask.php start -d
+
+#充币自动到账 测试 每分钟
+*/1 * * * * cd /www/test-ruibo && /usr/bin/php think Recharge
+
+#赠送释放 测试 每天02:01
+1 2 * * * cd /www/test-ruibo && /usr/bin/php think AwardRelease
+
+#持币生息 测试 每天00:01
+1 0 * * * cd /www/test-ruibo && /usr/bin/php think MoneyInterestCli

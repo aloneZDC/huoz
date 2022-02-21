@@ -1,0 +1,84 @@
+<include file="App/Admin/View/Public/left.html"/>
+<style>
+    .yydb-up th {
+        text-align: center;
+    }
+
+    .yydb-down td {
+        text-align: center;
+    }
+</style>
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">一元夺宝</span></div>
+    </div>
+    <!-- <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:U('Art/index')}" method="post">
+                <table class="search-tab">
+                    <tr>
+                        <th width="120">选择分类:</th>
+                        <td>
+                            <select name="category" id="category">
+                              <option value="">全部</option>
+                              <volist name="cat" id="vo">
+                                <option value="{$vo.id}"  <eq name="vo.id" value="$inquire.category">selected="selected"</eq>>{$vo.name}</option>
+                              </volist>
+                            </select>
+                        </td>
+                        <th width="70">关键字:</th>
+                        <td><input class="common-text" placeholder="关键字" name="keywords" value="{$inquire.title}" id="keywords" type="text"></td>
+                        <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div> -->
+    <div class="result-wrap">
+        <div class="result-title">
+            <div class="result-list">
+                <a href="{:U('Shopclassfiy/class_add')}" style="color:#f05;"><i class="icon-font"></i>添加商品分类</a>
+            </div>
+        </div>
+        <div class="result-content">
+            <table class="result-tab" width="100%">
+                <tr class="yydb-up">
+                    <th>编号</th>
+                    <th>分类名称</th>
+                    <th>上级ID</th>
+                    <th>关键字</th>
+                    <th>分类描述</th>
+                    <th>商品数量</th>
+                    <th>操作</th>
+                </tr>
+                <volist name="list" id="vo" empty="$empty">
+                    <tr class="yydb-down">
+                        <td>{$vo.cat_id}</td>
+                        <td>{$vo.cat_name}</td>
+                        <td>{$vo.parent_id}</td>
+                        <td>{$vo.keywords}</td>
+                        <td>{$vo.cat_desc}</td>
+                        <td>{$vo.cat_num}</td>
+                        <td>
+                            <a class="link-update" href="{:U('Shopclassfiy/class_update'," id=$vo[cat_id]")}">编辑</a>
+                            &nbsp;&nbsp;
+                            <a class="link-del" href="{:U('Shopclassfiy/class_del'," id=$vo[cat_id]")}"
+                               onclick="return confirm('确认移除吗？')">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="list-page">
+                <ul>{$page}</ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

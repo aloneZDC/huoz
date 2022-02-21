@@ -1,0 +1,152 @@
+{include file="../app/admin/view/public/left.html" /}
+<script type="text/javascript">
+window._deel = {
+    req_member_details_url: "{:U('member/member_details')}",
+}
+</script>
+<script src="__PUBLIC__/static/admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">锁仓记录</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:url('')}" method="get" id="form">
+                        <table class="search-tab">
+                            <tr>
+                                <th  width="60px">用户ID:</th>
+                                <td><input class="common-text" placeholder="用户ID" name="member_id" value="{$member_id}"  type="text"></td>
+                                <th width="70px">币种:</th>
+                                <td>
+                                    <select name="currency_id" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="currencyList" id="vo"}
+                                            {if $key == $currency_id}
+                                                <option value="{$key}" selected>{$vo}</option>
+                                            {else/}
+                                                <option value="{$key}">{$vo}</option>
+                                            {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">类型:</th>
+                                <td>
+                                    <select name="type" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="typeList" id="vo"}
+                                            {if $key == $type}
+                                                <option value="{$key}" selected>{$vo}</option>
+                                            {else/}
+                                                <option value="{$key}">{$vo}</option>
+                                            {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                                <td>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>ID</th>
+                        <th>用户ID</th>
+                        <th>类型</th>
+                        <th>金额</th>
+                        <th>手续费</th>
+                        <th>时间</th>
+                    </tr>
+                    {volist name="list" id="vo" empty="$empty"}
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo.member_id}</a></td>
+                            <td>{$typeList[$vo.type]}</td>
+                            <td>{$vo.num}  {$vo.currency.currency_name}</td>
+                            <td>{$vo.fee}</td>
+                            <td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
+                        </tr>
+                    {/volist}
+                </table>
+                <div class="page">
+                    <div>
+                        {$page}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+<script>
+    $("#submitDaochu").click(function () {
+        $("#daochu").val(2);
+        $("#form").submit();
+        $("#daochu").val(1);
+    })
+$('.layer-open').click(function(){
+    var title = $(this).attr('data-title');
+    var url = $(this).attr('data-url');
+    if(!url) return;
+
+    //弹出即全屏
+    var index = layer.open({
+        type: 2,
+        title:title,
+        content: url,
+        area: ['820px', '495px'],
+        maxmin: true,
+        scrollbar: false, //屏蔽浏览器滚动条
+    });
+    layer.full(index);
+});
+
+function disband(id) {
+    var conf=confirm("确认解散房间？确认解散后所有用户都将推出房间，已上桌用户将退还上桌费用。");
+    if(conf==true){
+        $.post("{:U('disband')}",{"room_id":id},function (d) {
+                if(d.code==10000){
+                    layer.alert(d.message, {icon: 1});
+                    setTimeout(function () {
+                        window.parent.location.reload();
+                        parent.layer.close(mylay);
+                    },2000);
+                }else {
+                    layer.alert(d.message, {icon: 5});
+                }
+        },"json");
+    }
+}
+
+function lottery(id) {
+    var conf=confirm("确认给房间开奖？确认后房间将进行开奖，并发放所有用户奖励。");
+    if(conf==true){
+        $.post("{:U('lottery')}",{"room_id":id},function (d) {
+            if(d.code==10000){
+                layer.alert(d.message, {icon: 1});
+                setTimeout(function () {
+                    window.parent.location.reload();
+                    parent.layer.close(mylay);
+                },2000);
+            }else {
+                layer.alert(d.message, {icon: 5});
+            }
+        },"json");
+    }
+}
+</script>
+</body>
+
+</html>

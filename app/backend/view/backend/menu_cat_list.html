@@ -1,0 +1,54 @@
+{include file="layout/header"}
+<div class="weadmin-nav layui-clear">
+    <span class="layui-breadcrumb">
+        <a href="javascript:;">首页</a> <a href="javascript:;">后台管理</a><a><cite>菜单分类管理</cite></a>
+    </span>
+    <span class="fr">
+        <a class="layui-btn layui-btn-sm layui-open" data-url="{:url('add',['param'=>'menu_cat'])}" data-title="添加" data-width="800px"  href="javascript:;">添加</a>
+        <a class="layui-btn layui-btn-sm " href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon layui-icon-refresh"></i></a>
+    </span>
+</div>
+
+<div class="weadmin-body">
+    <form class="layui-form">
+        <table class="layui-table" id="memberList">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>名称</th>
+                <th>icon</th>
+                <th>状态</th>
+                <th>排序</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="v"}
+            <tr data-id="{$v->id}">
+                <td>{$v->id}</td>
+                <td>{$v->name}</td>
+                <td><i class="layui-icon {$v->icon}"></i></td>
+                <td><input type="checkbox" data-url="{:url('menu_cat_switch',['param'=>'menu_cat','id'=>$v->id])}" data-field="status" lay-filter="layui-switch-field" lay-skin="switch" lay-text="ON|OFF" value="1" {if condition="$v.status eq 1" }checked="" {/if} /></td>
+                <td>{$v->sort_id}</td>
+                <td class="td-manage">
+                    <a class="layui-btn layui-btn-sm layui-open" data-url="{:url('menu_cat_edit',['param'=>'menu_cat','id'=>$v->id])}" data-title="编辑"  href="javascript:;"><i class="layui-icon layui-icon-edit"></i></a>
+                    <a class="layui-btn layui-btn-sm layui-ajax" data-url="{:url('menu_cat_del',['param'=>'menu_cat','id'=>$v->id])}" data-title="删除"  href="javascript:;"><i class="layui-icon layui-icon-delete"></i></a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="weadmin-block">
+        <span class="fr" style="line-height:40px">共有数据：{$count|default=0} 条</span>
+    </div>
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'global','index']);
+</script>
+{include file="layout/footer"}

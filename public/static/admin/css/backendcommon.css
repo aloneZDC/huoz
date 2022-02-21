@@ -1,0 +1,31 @@
+.weadmin-block{
+    background: #fff;
+}
+
+.weadmin-nav{
+    line-height: 50px;
+    height: 40px;
+}
+
+.menu-title{
+    color: #009688;
+    display: inline-block;
+    padding: 0px 10px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.layui-form-label{
+    width: 120px !important;
+}
+
+.layui-input-block{
+    margin-left: 150px !important;
+}
+
+.layui-form-label-line {
+    color: #FF5722;
+    margin-left: 150px !important;
+    height: 35px;
+    line-height: 35px;
+}

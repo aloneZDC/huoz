@@ -1,0 +1,179 @@
+{include file="layout/header"}
+<div class="weadmin-nav">
+	<span class="layui-breadcrumb">
+		<a href="javascript:;">首页</a> <a href="javascript:;">钱包管理</a>
+		<a href="javascript:;"> <cite>提币审核</cite></a>
+	</span>
+    <a class="layui-btn layui-btn-sm" style="margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);"
+       title="刷新">
+        <i class="layui-icon layui-icon-refresh"></i>
+    </a>
+</div>
+
+<div class="weadmin-body">
+    <div class="layui-row" style="margin-bottom: 10px;">
+        <form class="" action="{:url('Wallet/tibi_index',['param'=>'tibi_index'])}" method="get" id="form">
+            数据搜索：
+            <div class="layui-inline">
+                <label for="member_id"></label>
+                <input type="text" class="layui-input" placeholder="请输入用户ID" name="member_id" id="member_id" value="{$Think.get.member_id}"/>
+            </div>
+
+            <div class="layui-inline">
+                <label for="currency_id">币种: </label>
+                <select style="display: inline; width: 100px;" class="layui-select" name="cuid" id="currency_id">
+                    <option value="">全部</option>
+                    {volist name="curr" id='vo'}
+                    {eq name="vo.currency_id" value="$temp.cuid"}
+                    <option value="{$vo.currency_id}" selected>{$vo.currency_name} - {$vo.currency_mark}</option>
+                    {else/}
+                    <option value="{$vo.currency_id}">{$vo.currency_name} - {$vo.currency_mark}</option>
+                    {/eq}
+                    {/volist}
+                </select>
+            </div>
+            <input type="hidden" name="daochu" id="daochu">
+            <button class="layui-btn" type="submit" lay-submit="" lay-filter="sreach">
+                <i class="layui-icon layui-icon-search"></i>搜索
+            </button>
+            <button class="layui-btn" id="submitDaochu" type="button">
+                <i class="layui-icon layui-icon-file"></i>导出excel
+            </button>
+        </form>
+        <div class="layui-form-item" style="margin-top: 15px;margin-bottom: 0;">
+            <label class="layui-form-label" style="padding-left: 0;width: auto;">昨日提币:</label>
+            <div class="layui-form-mid layui-word-aux">
+                {volist name="tibi_total" id="vo"}
+                {$curr[$vo['currency_id']]['currency_name']} - 总数量 ：{$vo.num} 实际到账：{$vo.actual}
+                {/volist}
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-bottom: 0;">
+            <label class="layui-form-label" style="padding-left: 0px;width: auto;">昨日审核成功:</label>
+            <div class="layui-form-mid layui-word-aux">
+                {volist name="audit_total" id="vo"}
+                {$curr[$vo['currency_id']]['currency_name']} - 总数量 ：{$vo.num} 实际到账：{$vo.actual}
+                {/volist}
+            </div>
+        </div>
+
+        <div class="layui-form-item" style="margin-bottom: 0;">
+            <label class="layui-form-label" style="padding-left: 0px;width: auto;">今日提币:</label>
+            <div class="layui-form-mid layui-word-aux">
+                {volist name="tibi_total_today" id="vo"}
+                {$curr[$vo['currency_id']]['currency_name']} - 总数量 ：{$vo.num} 实际到账：{$vo.actual}
+                {/volist}
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-bottom: 0;">
+            <label class="layui-form-label" style="padding-left: 0px;width: auto;">充币未到账:</label>
+            <div class="layui-form-mid layui-word-aux">
+                {volist name="xrp_currency_fail" id="vo"}
+                {$vo.ato1}:{$vo.amount}
+                {/volist}
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-bottom: 0;">
+            <label class="layui-form-label" style="padding-left: 0px;width: auto;">充币总量:</label>
+            <div class="layui-form-mid layui-word-aux">
+                {volist name="xrp_currency_success" id="vo"}
+                {$vo.ato1}：{$vo.amount}
+                {/volist}
+            </div>
+        </div>
+    </div>
+
+    <table class="layui-table" id="memberList" lay-filter="table-list">
+        <thead>
+        <tr>
+            <th lay-data="{field:'id',width:80}">ID</th>
+            <th lay-data="{field:'member_id',width:100}">会员ID</th>
+            <th lay-data="{field:'phone',width:150}">手机/邮箱</th>
+            <th lay-data="{field:'currency_name',width:100}">币种名称</th>
+            <th lay-data="{field:'from_url',width:200}">转账地址</th>
+            <th lay-data="{field:'currency_type',width:300}">转账编号</th>
+            <th lay-data="{field:'num',width:150}">转出数量</th>
+            <th lay-data="{field:'actual',width:150}">到账数量</th>
+            <th lay-data="{field:'check_time',width:200}">审核时间</th>
+            <th lay-data="{field:'status',width:150}">状态</th>
+            <th lay-data="{field:'add_time',width:200}">申请时间</th>
+            <th lay-data="{field:'to_url',width:300}">接收钱包</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="vo"}
+        <tr data-id="{$vo['id']}">
+            <td>{$vo.id}</td>
+            <td><a href="javascript:void(0)" onclick="window.openUser({$vo.member_id})">{$vo.member_id}</a></td>
+            <td>
+                <?php if(!empty($vo['phone'])):?>
+                {$vo.phone}
+                <?php else: ?>
+                {$vo.email}
+                <?php endif;?>
+            </td>
+            <td>{$vo['currency_name']}</td>
+            <td>{$vo['from_url']}</td>
+            <td>
+                <?php if($vo['currency_type']=='eth' || $vo['currency_type']=='eth_token'):?>
+                <a target="_blank" href="https://cn.etherscan.com/tx/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                <?php elseif($vo['currency_type']=='xrp'):?>
+                <a target="_blank" href="https://bithomp.com/explorer/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                <?php elseif($vo['currency_type']=='btc'):?>
+                <a target="_blank" href="https://btc.com/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                <?php elseif($vo['currency_type']=='usdt'):?>
+                <a target="_blank" href="https://omniexplorer.info/search/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                <?php elseif($vo['currency_type']=='eos'):?>
+                <a target="_blank" href="https://eospark.com/tx/{$vo['ti_id']}">{$vo['ti_id']}</a>
+                <?php else: ?>
+                {$vo['ti_id']}
+                <?php endif;?>
+            </td>
+            <td>{$vo['num']}</td>
+            <td>{$vo['actual']}</td>
+            <td><?php if(!empty($vo['check_time'])):?>
+                {$vo['check_time']|date='Y-m-d H:i:s',###}
+                <?php endif;?>
+            </td>
+            <td>
+                {if condition="$vo['status'] eq 0"}
+                等待确认中
+                {/if}
+                {if condition="$vo['status'] eq 1"}
+                已完成
+                {/if}
+                {if condition="$vo['status'] eq -1"}
+                审核中
+                {/if}
+                {if condition="$vo['status'] eq -2"}
+                已撤销
+                {/if}
+            </td>
+            <td>{$vo['add_time']|date='Y-m-d H:i:s',###}</td>
+            <td>{$vo['to_url']}</td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+
+    <div class="page">
+        <div>
+            {$page}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    layui.use(['form', 'global', 'index', 'table'], () => {
+        var table = layui.table;
+    });
+
+    $("#submitDaochu").click(function () {
+        $("#daochu").val(2);
+        $("#form").submit();
+        $("#daochu").val(1);
+    })
+
+</script>
+{include file="layout/footer"}

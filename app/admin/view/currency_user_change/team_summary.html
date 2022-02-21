@@ -1,0 +1,65 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">汇总记录</span></div>
+    </div>
+
+
+    <div class="result-wrap ">
+
+        <div style="line-height: 25px;margin: 10px 0;">
+            {if condition="!empty($team_user_total)"}
+                {volist name="team_user_total" id="vo"}
+                    用户ID：{$vo.member_id} 团队充币：{$vo.chongbi_total} 团队提币:{$vo.tibi_audit_total}<br />
+                {/volist}
+            {/if}
+        </div>
+
+    </div>
+    <div class="result-wrap ">
+        <div class="result-content"  style="margin-top: 20px;">
+            <form class="layui-form" >
+                <table class="layui-table" id="memberList">
+                    <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>团队充币</th>
+                        <th>团队提币</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name='list' id='vo'}
+                    <tr>
+                        <td>{$vo.today}</td>
+                        <td>
+                            {volist name='vo.data' id='v'}
+                                {$v.member_id} 团队充币：{$v.chongbi_total}<br />
+                            {/volist}
+                        </td>
+                        <td>
+                            {volist name='vo.data' id='v'}
+                                {$v.member_id} 团队提币:{$v.tibi_audit_total}<br />
+                            {/volist}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </form>
+            <div class="page">
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form','global']);
+</script>
+<!--/main-->
+</div>
+</body>
+</html>

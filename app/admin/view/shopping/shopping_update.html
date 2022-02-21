@@ -1,0 +1,276 @@
+<include file="App/Admin/View/Public/left.html"/>
+<link rel="stylesheet" href="/Public/Admin/duotu/kindeditor/themes/default/default.css"/>
+<script charset="utf-8" src="/Public/Admin/duotu/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="/Public/Admin/duotu/kindeditor/lang/zh_CN.js"></script>
+<script src="/Public/Admin/duotu/js/tipswindown.js"></script>
+<link type="text/css" rel="stylesheet" href="/Public/Admin/duotu/css/tipswindown.css">
+<link type="text/css" rel="stylesheet" href="/Public/Admin/duotu/css/duotu.css">
+<script type="text/javascript">
+    //多图上传
+    KindEditor.ready(function (K) {
+        var editor = K.editor({
+            allowFileManager: true
+        });
+        K('#duotu_upload').click(function () {
+            editor.loadPlugin('multiimage', function () {
+                editor.plugin.multiImageDialog({
+                    clickFn: function (urlList) {
+                        var div = K('#duotu_view');
+                        div.html('');
+                        K.each(urlList, function (i, data) {
+                            div.append('<input name="duotu_url[]" type="hidden" value="' + data.url + '">');
+                        });
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });
+    });
+    $(function () {
+        $("#duotu_del").click(function () {
+            $("#overdiv").show();
+            $("#showdiv").show().draggable();
+        })
+    })
+    function closediv() {
+        $("#overdiv").hide();
+        $("#showdiv").hide();
+    }
+    function del_pic(pic_id) {
+        if (pic_id == '') {
+            alert("加载错误，请刷新页面重试！")
+        } else {
+            $.post("{:U('Shopping/duotu_del')}", {id: pic_id, type: "one"}, function (data) {
+                if (data == "yes") {
+                    $("#msg").text("删除成功!").show('fast').delay(3000).hide("fast");
+                    $("#pic_list_" + pic_id).remove();//删除的图片移除掉
+                }
+                if (data == "no") {
+                    $("#msg").text("删除失败!").show('fast').delay(3000).hide("fast");
+                }
+            })
+        }
+    }
+    $(function () {
+        $("#select_all").click(function () {
+            $('input[name="pic_list"]').attr("checked", this.checked);
+        })
+        $("#duotu_del_all").click(function () {
+            var aa = "";
+            var i = 1;
+            $("input[name='pic_list']:checkbox:checked").each(function () {
+                if (i == 1) {
+                    aa += $(this).val();
+                } else {
+                    aa += "," + $(this).val();
+                }
+                i++;
+            })
+            $.post("{:U('Shopping/duotu_del')}", {id: aa, type: "all"}, function (data) {
+                if (data == "yes") {
+                    $("#msg").text("删除成功!").show('fast').delay(3000).hide("fast");
+                }
+            })
+        })
+    })
+    function edit_pic_title(id) {
+        var pic_title = $("#pic_title_" + id).val();//获取要更新的值
+        if (pic_title) {
+            $.post("{:U('Shopping/duotu_edit_title')}", {id: id, title: pic_title}, function (data) {
+                if (data == "yes") {
+                    $("#msg").text("标题修改成功!").show('fast').delay(3000).hide("fast");
+                }
+            })
+        } else {
+            $("#msg").text("标题不能为空!").show('fast').delay(3000).hide("fast");
+        }
+    }
+    function edit_pic_paixu(id) {
+        var pic_pai = $("#paixu_input_" + id).val();//获取要更新的值
+        if (pic_pai) {
+            $.post("{:U('Shopping/duotu_edit_paixu')}", {id: id, paixu: pic_pai}, function (data) {
+                if (data == "yes") {
+                    $("#msg").text("排序修改成功!").show('fast').delay(3000).hide("fast");
+                }
+            })
+        } else {
+            $("#msg").text("排序号不能为空!").show('fast').delay(3000).hide("fast");
+        }
+    }
+    function xuan_fengmian(id, product_id) {
+        if (id && product_id) {
+            $.post("{:U('Shopping/duotu_xuan_fengmian')}", {id: id, product_id: product_id}, function (data) {
+                if (data == "yes") {
+                    $("#msg").text("选择封面成功!").show('fast').delay(3000).hide("fast");
+                }
+            })
+        } else {
+            $("#msg").text("请求参数不正确!").show('fast').delay(3000).hide("fast");
+        }
+    }
+</script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">一元抢购</span></div>
+    </div>
+    <div class="result-wrap">
+        <form action="{:U('Shopping/shopping_update')}" method="post" id="myform" name="myform"
+              enctype="multipart/form-data">
+            <div class="config-items">
+                <div class="config-title">
+                    <h1><i class="icon-font">&#xe00a;</i>修改商品信息</h1>
+                </div>
+                <div class="result-content">
+                    <table width="100%" class="insert-tab">
+                        <tbody>
+                        <tr>
+                            <th><i class="require-red">*</i>商品分类：</th>
+                            <td><select name="cat_id">
+                                <option value="0">请选择</option>
+                                <volist name="catId" id="vc">
+                                    <option value="{$vc.cat_id}"
+                                    <eq name="vc.cat_id" value="$list.cat_id">selected</eq>
+                                    >{$vc.cat_name}</option>
+                                </volist>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>商品图片：</th>
+                            <td>
+                                <div style="margin:10px 0 10px 10px;"><img src="{$list.goods_img}" width="200"/></div>
+                                <input type="hidden" value="{$list.goods_id}" name="id"></td>
+                        </tr>
+                        <eq name="list.goods_thumb" value="">
+                            <tr>
+                                <th><i class="require-red">*</i>添加商品缩略图：</th>
+                                <td>否：<input type="radio" name="thumb" value="0"/>
+                                    是：<input type="radio" name="thumb" value="1"/>
+
+                                </td>
+                            </tr>
+                        </eq>
+                        <tr>
+                            <th><i class="require-red">*</i>上传图片：</th>
+                            <td><input type="file" name="Filedata" class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>多图上传：</th>
+                            <td><input type="button" id="duotu_upload" class="pc_touch1" value="选择图片"/></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>多图管理：</th>
+                            <td><input type="button" id="duotu_del" class="pc_touch2" value="多图管理"/></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red"></i>商品名称：</th>
+                            <td><input type="text" size="85" name="goods_name" value="{$list.goods_name}"
+                                       class="common-text"></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red"></i>关键字：</th>
+                            <td><input type="text" size="85" name="keywords" value="{$list.keywords}"
+                                       class="common-text"><i class="require-red">商品关键字，放在商品页的关键字中，为搜索</i></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>一元购商品</th>
+                            <td>否：<input type="radio" name="oneopen" value="0"
+                                <eq name="list.oneopen" value="0">checked="checked"</eq>
+                                />
+                                是：<input type="radio" name="oneopen" value="1"
+                                <eq name="list.oneopen" value="1">checked="checked"</eq>
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red">*</i>上架</th>
+                            <td>下架：<input type="radio" name="oneupdown" value="0"
+                                <eq name="list.oneupdown" value="0">checked="checked"</eq>
+                                />
+                                上架：<input type="radio" name="oneupdown" value="1"
+                                <eq name="list.oneupdown" value="1">checked="checked"</eq>
+                                />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red"></i>活动时间：</th>
+                            <td><input type="text" size="85" name="acttime"
+                                       value="{$list.acttime|date='Y-m-d H:i:s',###}" class="common-text"><i
+                                    class="require-red">时间格式：2016/07/15 19:15:30</i></td>
+                        </tr>
+                        <tr>
+                            <th><i class="require-red"></i>商品详细介绍：</th>
+                            <td><textarea id="content3" name="goods_desc" cols="30" style="width:800px;height:350px;"
+                                          rows="10">{$list.goods_desc}</textarea>
+                                <script>
+                                    KindEditor.ready(function (K) {
+                                        window.editor1 = K.create('#content3',{
+                                            uploadJson : '{:U("Art/oss_file_upload")}',
+                                            fileManagerJson : '{:U("Art/oss_file_upload")}',
+                                        });
+                                    });
+                                </script>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input type="submit" value="提交" class="btn btn-primary btn6 mr10">
+                                <a href="{:U('Shopping/index')}"><input type="button" value="返回" class="btn btn6"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="duotu_view"></div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+<!--多图管理-->
+<div id="overdiv"></div>
+<div id="showdiv" style="margin-top: -250px; width: 800px; margin-left: -400px;">
+    <div id="closediv" style="height: 35px; line-height: 35px; border-bottom: 1px solid #cccccc"><span>多图管理</span> <span
+            id="msg" style="margin-left: 100px; color: #FFF"></span> <a onClick="closediv()" title="关闭"></a></div>
+    <div style="width: 735px; margin: 0 auto;">
+        <div style="height: 6px;"></div>
+        <ul id="duotu_list">
+            <!--遍历-->
+            <volist name="pic" id="vo" empty="$empty">
+                <li id="pic_list_{$vo.pic_id}">
+                    <img src="{$vo.pic}" width="214" height="138" style="margin-bottom:20px;"/>
+                    <p align="center">
+                        <input title="编辑可以修改标题！" class="pic_title" id="pic_title_{$vo.pic_id}"
+                               onChange="edit_pic_title({$vo.pic_id})"
+                               type="text" value="<eq name='vo.title' value=''>无标题哦<else />{$vo.title}</eq>">
+                        <input title="编辑可以修改排序！" type="text" id="paixu_input_{$vo.pic_id}"
+                               onChange="edit_pic_paixu({$vo.pic_id})" class="paixu_input" value="{$vo.sort_id}">
+                    </p>
+                    <p align="right">
+                        <input name="fengmian" id="fengmian_{$vo.pic_id}"
+                               onClick="xuan_fengmian({$vo.pic_id},{$list.goods_id})" type="radio" value="1"
+                        <eq name="vo.fengmian" value="1">checked</eq>
+                        > 封面
+                        <input type="checkbox" style="margin-top:10px; margin-left:10px;" name="pic_list"
+                               value="{$vo.pic_id}" title="删除">
+                        <a id="pic_del" title="删除此图" onClick="del_pic({$vo.pic_id})"></a></p>
+                </li>
+            </volist>
+            <!--遍历-->
+            <div style="clear: both;"></div>
+        </ul>
+        <div>
+            <input type="checkbox" id="select_all" title="全选" style="margin-right: 6px;">
+            <input name="提交" type="submit" id="duotu_del_all" value="删除">
+        </div>
+        <div style="height: 6px;"></div>
+    </div>
+</div>
+<!--多图管理End-->
+</div>
+</body>
+</html>

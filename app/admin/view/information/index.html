@@ -1,0 +1,88 @@
+{include file="../app/admin/view/public/left.html" /}
+<div class="main-wrap">
+
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:url('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">资讯管理</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="{:url('index')}" method="get">
+                <table class="search-tab">
+                    <tr>
+                        <th width="120">选择分类:</th>
+                        <td>
+                            <label for="category_id"></label><select name="category_id" id="category_id">
+                                <option value="">全部</option>
+                                {volist name="categories" id="category"}
+                                <option value="{$category.id}" {if $category.id == $Think.get.category_id}selected{/if}>{$category.name}</option>
+                                {/volist}
+                            </select>
+                        </td>
+                        <th width="70">关键字:</th>
+                        <td><input class="common-text" placeholder="关键字" name="keywords" value="{$Think.get.keywords}"
+                                   id="keywords" type="text"></td>
+                        <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="result-wrap">
+
+        <div class="result-title">
+            <div class="result-list">
+                <a href="{:url('add')}"><i class="icon-font"></i>新增文章</a>
+            </div>
+        </div>
+        <form id="delete" action="{:url('delete')}" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>ID</th>
+                        <th>标题</th>
+                        <th>分类</th>
+                        <th>内容</th>
+                        <th>封面图片</th>
+                        <th>状态</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    {volist name='list' id='vo'}
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.title}</td>
+                        <td>{$vo.category.name}</td>
+                        <td>{$vo.content}</td>
+                        <td>
+                            <img src="{$vo.pic}" alt="pic" width="300" height="100" />
+                        </td>
+                        <td>
+                            {if $vo.status == 1}
+                                正常
+                            {else/}
+                                禁用
+                            {/if}
+                        </td>
+                        <td>{$vo.create_time|date='Y-m-d H:i:s',###}</td>
+                        <td>
+                            <a class="link-update" href="{:url('edit', ['id' => $vo['id']])}">修改</a>
+                            &nbsp;&nbsp;
+                            <a class="link-del" href="{:url('delete', array('id'=>$vo['id']))}"
+                               onclick="return confirm('确认删除吗？')">删除</a>
+                        </td>
+                    </tr>
+                    {/volist}
+
+                </table>
+                <div class="page">
+                    {$page}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+</body>
+</html>

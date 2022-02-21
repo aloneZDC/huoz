@@ -1,0 +1,180 @@
+{include file="../app/admin/view/public/left.html" /}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/show.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.min.js"></script>
+<link href="__PUBLIC__/Admin/js/timejs/css/datePicker.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/timejs/js/jquery.date_input.pack.js"></script>
+<script type="text/javascript">
+$(function() {
+    $('#datePicker').date_input();
+    $('#datePicker2').date_input();
+});
+
+window._deel = {
+    req_member_details_url: "{:U('member/member_details')}",
+}
+</script>
+<script src="__PUBLIC__/Admin/js/member_details.js"></script>
+<!--/sidebar-->
+<div class="main-wrap">
+    <div class="crumb-wrap">
+        <div class="crumb-list"><i class="icon-font"></i><a href="{:U('Index/index')}">首页</a><span class="crumb-step">&gt;</span><span
+                class="crumb-name">持币生息记录</span></div>
+    </div>
+    <div class="search-wrap">
+        <div class="search-content">
+            <div class="search-wrap">
+                <div class="search-content">
+                    <form action="{:url('')}" method="get" id="form">
+                        <table class="search-tab">
+                            <tr>
+                                <th  width="60px">账户:</th>
+                                <td><input class="common-text" placeholder="手机号码/Email" name="phone" value="{$phone}"  type="text"></td>
+                                <th  width="60px">用户ID:</th>
+                                <td><input class="common-text" placeholder="用户ID" name="member_id" value="{$member_id}"  type="text"></td>
+                                <th width="70px">积分类型:</th>
+                                <td>
+                                    <select name="currency_id" id="">
+                                        <option value="0">全部</option>
+                                        {volist name="currency" id="vo"}
+                                            {if $vo.currency_id == $currency_id}
+                                                <option value="{$vo.currency_id}" selected>{$vo.currency_name}</option>
+                                            {else/}
+                                                <option value="{$vo.currency_id}">{$vo.currency_name}</option>
+                                            {/if}
+                                        {/volist}
+                                    </select>
+                                </td>
+                                <th width="70px">状态:</th>
+                                <td>
+                                    <select name="status" id="">
+                                        <option value="">全部</option>
+                                        <option value="0" <?php if($status===0)echo 'selected';?> >生息中</option>
+                                        <option value="1" <?php if($status==1)echo 'selected';?>>已生息</option>
+                                    </select>
+                                </td>
+                                <input type="hidden" name="daochu" id="daochu">
+                                <td><input class="btn btn-primary btn2" value="查询" type="submit"></td>
+                                <td><input class="btn btn-primary btn2" value="导出" id="submitDaochu" type="button"></td>
+                                <th></th>
+                                <td>
+                                    <!--<a class="layer-open" href="javascript:;" data-title="生息记录" data-url="{:U('MoneyInterest/interest')}">生息记录</a>-->
+                                    <!--<a class="layer-open" href="javascript:;" data-title="分红记录" data-url="{:U('MoneyInterest/dividend')}">分红记录</a>-->
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="result-wrap">
+        <form name="myform" id="myform" method="post">
+            <div class="result-content">
+                <table class="result-tab" width="100%">
+                    <tr>
+                        <th>记录ID</th>
+                        <th>会员ID</th>
+                        <th>姓名</th>
+                        <th>账户</th>
+                        <th>币种</th>
+                        <th>月份</th>
+                        <th>数量</th>
+                        <th>年收益率</th>
+                        <th>每日生息量</th>
+                        <th>添加时间</th>
+                        <th>到期时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    {volist name="list" id="vo" empty="$empty"}
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td><a href="javascript:member_details({$vo.member_id});" class="shenhe_button">{$vo.member_id}</a></td>
+                            <td>{$vo['name']}</td>
+                            <td>
+                                {if $vo.phone}
+                                    {$vo.phone}
+                                {else/}
+                                    {$vo.email}
+                                {/if}
+                            </td>
+                            <td>{$vo.currency_name}</td>
+                            <td>{$vo.months}</td>
+                            <td>{$vo.num}</td>
+                            <td>{$vo.rate}%</td>
+                            <td>{$vo.day_num}</td>
+                            <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                            <td>{$vo.end_time|date="Y-m-d H:i:s",###}</td>
+                            <td>
+                                {if $vo.status == 0}生息中
+                                {elseif $vo.status==1 /}已生息
+                                {elseif $vo.status==2 /}已取消
+                                {else/}
+                                未知
+                                {/if}
+
+                            </td>
+                            <td>
+                                {if $vo.status == 0}
+                                    <a class="layer-open" href="javascript:;" onclick="cancel({$vo['id']})" data-title="取消生息">取消生息</a>
+                                {/if}
+                                <!--<a class="layer-open" href="javascript:;" data-title="生息记录" data-url="{:U('MoneyInterest/interest',['interest_id'=>$vo['id']])}">生息记录</a>-->
+                                <!--<a class="layer-open" href="javascript:;" data-title="分红记录" data-url="{:U('MoneyInterest/dividend',['interest_id'=>$vo['id']])}">分红记录</a>-->
+                            </td>
+                        </tr>
+                    {/volist}
+                </table>
+                <div class="page">
+                    <div>
+                        {$page}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/main-->
+</div>
+<script>
+    $("#submitDaochu").click(function () {
+        $("#daochu").val(2);
+        $("#form").submit();
+        $("#daochu").val(1);
+    })
+$('.layer-open').click(function(){
+    var title = $(this).attr('data-title');
+    var url = $(this).attr('data-url');
+    if(!url) return;
+
+    //弹出即全屏
+    var index = layer.open({
+        type: 2,
+        title:title,
+        content: url,
+        area: ['820px', '495px'],
+        maxmin: true,
+        scrollbar: false, //屏蔽浏览器滚动条
+    });
+    layer.full(index);
+});
+
+function cancel(id) {
+    var conf=confirm("确认取消该用户的持币生息？确认取消后资产返回用户资产中，不产生利息。");
+    if(conf==true){
+        $.post("{:U('cancel')}",{"id":id},function (d) {
+                if(d.code==10000){
+                    layer.alert(d.message, {icon: 1});
+                    setTimeout(function () {
+                        window.parent.location.reload();
+                        parent.layer.close(mylay);
+                    },2000);
+                }else {
+                    layer.alert(d.message, {icon: 5});
+                }
+        },"json");
+    }
+}
+</script>
+</body>
+
+</html>
